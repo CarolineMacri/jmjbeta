@@ -17,7 +17,7 @@ function shutDownOnUncaughtException() {
     console.log('UNCAUGHT EXCEPTIONG! 🔥 Shutting down......');
     console.log(err.name, ' ', err.message);
     logger.log('UNCAUGHT EXCEPTIONG! 🔥 Shutting down......');
-    logger.log(err.name, ' ', err.message);
+    logger.log(err.name, ' ', err.message); 
   });
 }
 
