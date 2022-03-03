@@ -1,0 +1,16 @@
+extends base
+ 
+block content
+  // LOGIN
+  section.container.section-login.page__content
+    form.login__form
+      input#email.login__input(autocomplete='email' placeholder='email' required='' type='email')
+      | email
+      input#password.login__input(autocomplete='password' placeholder='password' required='' type='password')
+      | password
+      .login__button-group
+        input.login__button(type='submit' value='Login')
+        .login__link.login__forgot-password Forgot Password
+
+
+        

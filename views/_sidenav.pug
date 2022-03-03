@@ -1,0 +1,38 @@
+nav.side-nav
+  .side-nav__section
+    h3.side-nav__heading User
+    a.side-nav__item(href='/myProfile') My Profile
+    a.side-nav__item(href='/updatePassword') Update Password
+
+  - var isAdmin = user.roles.includes('admin')
+  - var isParent = user.roles.includes('parent')
+  - var isTeacher = user.roles.includes('teacher')
+  
+  if isParent
+    .side-nav__section
+      h3.side-nav__heading Family
+      a.side-nav__item(href=selectedYear?`/family/${user.id}/${selectedYear}`:`/family/${user.id}`) Overview
+      a.side-nav__item(href=selectedYear?`/children/${user.id}/${selectedYear}`:`/children/${user.id}`) Add/Edit Children
+      a.side-nav__item(href='#') Class Schedule
+      a.side-nav__item(href='#') Enrollment
+      a.side-nav__item(href='#') Invoice
+      a.side-nav__item(href='#') Payments
+  if isTeacher
+    .side-nav__section
+      h3.side-nav__heading Teacher
+      a.side-nav__item(href='#') Profile
+      a.side-nav__item(href='#') Courses
+      a.side-nav__item(href='#') Class Schedules
+      a.side-nav__item(href='#') Payments
+  if isAdmin  
+    .side-nav__section
+      h3.side-nav__heading Administration
+      a.side-nav__item(href='/users') Users
+      a.side-nav__item(href='/families') Families
+      a.side-nav__item(href='/courses') Courses
+      a.side-nav__item(href='/registrations') Registrations 
+      a.side-nav__item(href='/teachers') Teachers
+      a.side-nav__item(href='#') Create class schedule
+    .side-nav__section
+      h3.side-nav__heading Reports
+      a.side-nav__item(href='/reportChildrenByGrade') Children by Grade

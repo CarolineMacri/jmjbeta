@@ -1,0 +1,11 @@
+.year-selector
+  select#year-select(name='school year' value= selectedYear)
+    for year in years 
+      -var isSelected = (year.year == selectedYear)
+      if isSelected   
+        option(value=selectedYear selected)= selectedYear
+      else  
+        option(value=year.year)= year.year  
+
+          
+        

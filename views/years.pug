@@ -1,0 +1,23 @@
+extends base
+
+block content   
+  section.years.page__content 
+    for year in years
+      .card.card__outline-box
+        .card__header-background.family-card__header-image
+        .card__header-text= year.year
+        .card__item= year.current  
+      h3= stuff
+  
+  section.year-picker.page__content
+    for year in years
+      if year.current
+        select#year-select(name='school year')
+          for year in years
+            option(value=year.year)= year.year 
+  
+          
+        
+          
+        
+    

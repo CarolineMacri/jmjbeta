@@ -1,0 +1,10 @@
+/node_modules/.bin/mime
+/node_modules
+*.env
+/.cache/
+/mongodb/data
+/mongodb/accessData
+/dump
+/jstestfiles
+stderr.log
+stdout.log

@@ -1,0 +1,34 @@
+extends base
+
+block content   
+  section.page__content
+
+    h1.family__title  JMJ Families
+    include _yearSelector
+    -var isAdmin = user.roles.includes('admin')
+    .families
+      for family in families
+        .card.card__outline-box
+          .card__column
+            .card__header-background.family-card__header-image
+            .card__header-text= family.parent.lastName
+           
+            .card__column.card__outline-box--bottom
+              .card__item= family.parent.firstName + " " + family.parent.lastName
+              .card__item= family.parent.email
+              .card__item= family.parent.cellPhone
+              if isAdmin  
+                a(href=`/users/${selectedYear}`) Edit User
+              
+           
+            
+            -var id = family._id
+        
+          .card__column.family-card__children
+            for child in family.children
+              .card__item= child.firstName + " - " + child.grade
+            if isAdmin  
+              a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
+              
+
+    

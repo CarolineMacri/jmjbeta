@@ -1,0 +1,15 @@
+header.container.header
+  svg.header__icon
+    use(xlink:href='/img/JMJ-sprite.svg#icon-open-book')
+  h1.header__h1 JMJ Co-op
+  .header__subheadings
+    h3.header__h3 Foundation of Faith
+    h3.header__h3 Future of Hope
+
+  if user  
+    h3.header__user.dropdown.drop= user.lastName + ' \u25BC'
+      .dropdown__content
+        .dropdown__item
+          a.dropdown__item--logout(href='/') logout
+        
+  

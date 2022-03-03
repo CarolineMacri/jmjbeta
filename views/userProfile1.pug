@@ -1,0 +1,29 @@
+extends base
+
+block content 
+  section.user-profile.page__content
+    form.form.form__outline-box.user-profile__form
+      .form__row
+        .form__header-text= user.lastName
+        .form__header-background.family-form__header-image
+      .form__row
+        .form__outline-box--bottom.form__row
+          .form__item.form__column
+            label.form__label(for='firstName') First Name *
+            input#firstName.form__input(type='text' name='firstName' size='15' placeholder='Mary' required='' value=user.firstName)
+          .form__item.form__column
+            label.form__label(for='lastName') Last Name *
+            input#lastName.form__input(type='text' name='lastName' size='15' placeholder='Polanecky' required='' value=user.lastName)
+     
+      .form__outline-box--bottom
+        .form__item
+          label.form__label(for='email') Email *
+          input#email.form__input(type='email' name='email' size='30' placeholder='someone@company.com' required='' value=user.email)
+      div
+        .form__item
+          label.form__label(for='cellPhone') Cell Phone *
+          - var splitCell =  user.cellPhone.match(/^(\d{3})(\d{3})(\d{4})$/)
+          - var formattedCell = splitCell[1] + '-' + splitCell[2] + '-' + splitCell[3]
+          input#cellPhone.form__input(type='tel' pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}' name='cellPhone' size='12' placeholder='555-555-5555' required='' value=formattedCell)
+        .form__item--center
+          input.form__button.user-profile__button(type='submit' value='Submit')

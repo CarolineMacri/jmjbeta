@@ -1,0 +1,89 @@
+extends base
+
+block content   
+
+  .page__content.family
+    div
+      
+      section 
+        include _familyTitle
+        include _yearSelector
+ 
+      table.children   
+        tr
+          th First Name
+          th Sex
+          th Grade
+          
+        for child in children
+          tr(id= child.id)
+            td= child.firstName
+            td= child.sex
+            td= child.grade
+            td.button
+             .edit &#9998
+            td.button
+             .delete &#10006
+
+        tr#new
+          td.button 
+            .new &#10010
+
+      section.child-profile.form-modal__window
+        form.form.form__outline-box.child-profile__form.form-modal__content
+          .form__row
+            .form__header-text Child
+            .form__header-background.family-form__header-image
+          .form__row
+          .form__outline-box--bottom.form__row
+            .form__item
+              label.form__label(for='firstName') First Name
+              .form__row
+                input#firstName.form__input(type='text' name='firstName' size='15' value='Mary' required)                
+          .form__outline-box--bottom
+            .form__row.form__item.form__label Sex
+            .form__row.form__item
+              .form__radio-group
+                .form__radio-item
+                  input#male(type='radio' name='sex' value='M' required)
+                  label.form__label-radio(for='sex') Male
+                .form__radio-item
+                  input#female(type='radio' name='sex' value='F' )
+                  label.form__label-radio(for='sex') Female
+          div
+            .form__row
+              .form__label.form__item Grade
+            .form__row.form__item
+              .form__radio-column.form-item
+                -var grades = ['Infant', 'Toddler', 'PreK 3', 'PreK 4', 'K']
+                for grade in grades
+                  -var gradeValue = grade.replace(' ', '')
+                  .form__radio-item   
+                    input(id=gradeValue type='radio' name='grade' value=gradeValue required)
+                    label.form__label-radio(for='grade')= grade
+              .form__radio-column.form__item
+                -var grades = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']
+                  for grade in grades
+                    .form__radio-item   
+                      input(id=grade type='radio' name='grade' value=grade)
+                      label.form__label-radio(for='grade')= grade
+              .form__radio-column.form__item
+                -var grades = ['9th', '10th', '11th', '12th', 'Adult']
+                  for grade in grades
+                    .form__radio-item   
+                      input(id=grade type='radio' name='grade' value=grade)
+                      label.form__label-radio(for='grade')= grade
+
+            .form__row
+              input#update.form__button.form__item--center(type='submit' value="Update") 
+              button#cancel.form__button.form__cancel  cancel      
+            
+
+      section.child-delete.page__content-row
+        .delete-modal__window
+          .delete-modal__content.child-delete__modal
+            p.child-delete__warning &#9888
+            p Are you sure you want to delete
+            p name sex grade
+            button#deleteChild.button OK
+            button#cancelDelete.button-cancel cancel

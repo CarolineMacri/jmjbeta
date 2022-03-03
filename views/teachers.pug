@@ -1,0 +1,41 @@
+extends base
+
+block content   
+  section.page__content
+
+    h1.family__title  JMJ Teachers
+    include _yearSelector
+    -var isAdmin = user.roles.includes('admin')
+    .teachers
+      for teacher in teachers
+        .card.teacher-card.card__outline-box
+          .card__column
+            .card__header-background.teacher-card__header-image
+            .card__header-text= teacher.lastName
+           
+            .card__row.teacher-card__bio.card__outline-box--bottom
+              -var isNoBio = (typeof teacher.bio === "undefined")
+              -var bio = (isNoBio? '' : teacher.bio.slice(0,120)+"...")
+              .card__item= bio
+    
+              if isAdmin  
+                //- a(href=`/users/${selectedYear}`) Edit Teacher
+                a(href=`#`) Edit Teacher
+              
+           
+            
+            -var id = teacher._id
+        
+          .card__row.teacher-card__courses
+              - isCoursesDefined = !(typeof teacher.courses === 'undefined')
+              if isCoursesDefined
+                for course in teacher.courses
+                  - var isLongName = course.name.length > 50
+                  - var name = (isLongName? course.name.slice(0,45)+"...":course.name)
+                  .card__item= name
+                if isAdmin  
+                  //- a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
+                  a(href=`#`) Edit Courses
+              
+
+    
