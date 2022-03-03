@@ -41,7 +41,7 @@
     "pluralize": "^8.0.0",
     "pug": "^3.0.1",
     "regenerator-runtime": "^0.13.7",
-    "validator": "^13.6.0",
+    "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
