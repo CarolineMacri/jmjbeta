@@ -4,7 +4,7 @@
 /.cache/
 /mongodb/data
 /mongodb/accessData
+/mongodb/playgrounds
 /dump
-/jstestfiles
 stderr.log
 stdout.log
