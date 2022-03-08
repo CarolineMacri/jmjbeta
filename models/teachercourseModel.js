@@ -8,13 +8,14 @@ const Course = require('./courseModel');
 const teacherCourseSchema = new mongoose.Schema(
   {
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: User },
-    courses: [{ type: mongoose.Schema.Types.ObjectId, ref: Course }],
+    course: { type: mongoose.Schema.Types.ObjectId, ref: Course },
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
+
 
 // teacherCourseSchema.pre(/^find/, function (next) {
 //   this.populate([
