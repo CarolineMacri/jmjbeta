@@ -66,6 +66,12 @@ const courseSchema = new mongoose.Schema(
   }
 );
 
+courseSchema.virtual('classes', {
+  ref: 'Class',
+  localField: '_id',
+  foreignField: 'course',
+});
+
 Object.assign(courseSchema.statics, {
   Grades,
 })
