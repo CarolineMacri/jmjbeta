@@ -6,52 +6,71 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  lastName: {
-    type: String,
-    required: [true, 'A last name is required'],
-    validate: [validator.isAlpha, 'Last name must be a string'],
-  },
-  firstName: {
-    type: String,
-    required: [true, 'A first name is required'],
-    validate: [validator.isAlpha, 'Last name must be a string'],
-  },
-  email: {
-    type: String,
-    required: [true, 'Email is required.'],
-    validate: [validator.isEmail, 'Must be a valid email'],
-    unique:[true, "That email is already in use"]
-  },
-  cellPhone: {
-    type: String,
-    validate: [validator.isMobilePhone, 'Must be a valid phone number'],
-  },
-  roles: [{ type: String, enum: ['parent', 'teacher', 'admin'] }],
-  registrationYears: [{ type: String }],
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: 8, 
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    validate: {
-      validator: function (el) {
-        return el === this.password;
+//const Teacher = require('./teacherModel');
+
+const userSchema = new mongoose.Schema(
+  {
+    lastName: {
+      type: String,
+      required: [true, 'A last name is required'],
+      validate: [validator.isAlpha, 'Last name must be a string'],
+    },
+    firstName: {
+      type: String,
+      required: [true, 'A first name is required'],
+      validate: [validator.isAlpha, 'Last name must be a string'],
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required.'],
+      validate: [validator.isEmail, 'Must be a valid email'],
+      unique: [true, 'That email is already in use'],
+    },
+    cellPhone: {
+      type: String,
+      validate: [validator.isMobilePhone, 'Must be a valid phone number'],
+    },
+    roles: [{ type: String, enum: ['parent', 'teacher', 'admin'] }],
+    registrationYears: [{ type: String }],
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      minlength: 8,
+      select: false,
+    },
+    passwordConfirm: {
+      type: String,
+      validate: {
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: 'Passwords do not match',
       },
-      message: 'Passwords do not match',
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
     },
   },
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+userSchema.virtual('teacher', {
+  ref: 'Teacher',
+  localField: '_id',
+  foreignField: 'teacher',
+});
+userSchema.virtual('teachercourses', {
+  ref: 'TeacherCourse',
+  localField: '_id',
+  foreignField: 'teacher',
 });
 
 userSchema.index({ userName: 1 }, { unique: true });
@@ -89,7 +108,7 @@ userSchema.methods.createPasswordResetToken = async function () {
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
-  console.log("IN CREATER PASSWORD RESET TOKEN " + this.passwordResetToken);
+  console.log('IN CREATER PASSWORD RESET TOKEN ' + this.passwordResetToken);
 
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
