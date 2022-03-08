@@ -24,19 +24,8 @@ classSchema.virtual('hour').get(function () {
     hour = (hour < 12) ? `${hour}AM` : `${hour % 12}PM`;
   return hour;
 
- });
-
-classSchema.pre(/^find/, function (next) {
-  this.populate({ path: 'course', select: 'name -_id', justOne:true });
-  next();
-})
-
-// classSchema.virtual('courses', {
-//   ref: 'Course',
-//   localField: 'course',
-//   foreignField: '_id'
-// })
-
+});
+ 
 const Class = mongoose.model('Class', classSchema);
 
 module.exports = Class;

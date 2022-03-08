@@ -25,6 +25,7 @@ exports.getFamily = catchAsync(async (req, res, next) => {
         path: 'class',
         select: 'time hour location course -_id',
         justOne: true,
+        populate:{ path: 'course', select: 'name -_id', justOne:true }
       },
     });
 
