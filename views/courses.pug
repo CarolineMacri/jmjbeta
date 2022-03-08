@@ -17,8 +17,8 @@ block content
             .card__outline-box--bottom
               .course_card__grades.card__outline-box--bottom
                 .card__item Grades: 
-                .card__item=course.grade.min
-                .card__item=course.grade.max
+                .card__item= `${course.grade.min} - ${course.grade.max}`
+
             .card__outline-box--bottom
               .course_card__semesters
                 .card__item Semester 1:

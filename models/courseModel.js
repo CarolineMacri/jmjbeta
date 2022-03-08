@@ -72,6 +72,18 @@ courseSchema.virtual('classes', {
   foreignField: 'course',
 });
 
+courseSchema.virtual('grades').get(function () {
+
+  let gradesArray = Object.values(Grades);
+  
+  const minGradeIndex = gradesArray.indexOf(this.grade.min);
+  const maxGradeIndex = gradesArray.indexOf(this.grade.max);
+  
+  gradesArray =gradesArray.slice(minGradeIndex, maxGradeIndex+1)
+  
+  return gradesArray;
+});
+
 Object.assign(courseSchema.statics, {
   Grades,
 })
