@@ -13,7 +13,13 @@ exports.getCourses = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const courses = await Course.find({ year: selectedYear }).sort({name: 1});
+  const courses = await Course
+    .find({ year: selectedYear })
+    .sort({ name: 1 })
+    .populate({
+      path: 'classes',
+      match: {year: selectedYear}
+    });
 
   res.status(200).render('courses', {
     title: `Courses ${selectedYear}`,

@@ -22,13 +22,17 @@ block content
             .card__outline-box--bottom
               .course_card__semesters
                 .card__item Semester 1:
-                .card__item= "Sessions: " + course.firstSemester.numSessions
+                
                 .card__item= "Materials: $" + course.firstSemester.materialFee
               .course_card__semesters
                 .card__item Semester 2:
-                .card__item= "Sessions: " + course.secondSemester.numSessions
+                
                 .card__item= "Materials: $" + course.secondSemester.materialFee
             .course_card__semesters
               .card__item Fee per session:
               .card__item= "$" + course.classFee
+
+            for c in course.classes
+              .card__item= c.location + " - " + c.hour
+
       

@@ -18,7 +18,7 @@ const AppError = require('../utils/appError');
 exports.getTest = catchAsync(async (req, res, next) => {
   const docs = await models
     .get('User')
-    .find({ registrationYears: '2020-2021', roles: 'teacher' })
+    .find({ registrationYears: '2022-2023', roles: 'teacher' })
     .select('_id lastName')
     .populate({
       path: 'teacher',
@@ -35,11 +35,18 @@ exports.getTest = catchAsync(async (req, res, next) => {
         populate: {
           path: 'classes',
           select: 'time _id',
+          match: { year: '2022-2023' },
         },
       },
     });
 
-  const docs2 = await models.get('Course').find().populate('classes');
+  const docs2 = await models
+    .get('Course')
+    .find({ year: '2022-2023' })
+    .populate({
+      path: 'classes',
+      match: { year: '2022-2023' },
+    });
 
   const data = {};
   data['test'] = docs2;
