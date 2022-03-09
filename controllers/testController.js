@@ -16,61 +16,49 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
 exports.getTest = catchAsync(async (req, res, next) => {
-  // const docs = await models
-  //   .get('User')
-  //   .find({ registrationYears: '2022-2023', roles: 'teacher' })
-  //   .select('_id lastName')
-  //   .populate({
-  //     path: 'teacher',
-  //     justOne: true,
-  //     select: 'bio',
-  //   })
-  //   .populate({
-  //     path: 'teachercourses',
+  
+  const courses = await models
+    .get('Course')
+    .find({ year: '2020-2021' })
+    .sort('name')
+    .populate('classes');
 
-  //     populate: {
-  //       path: 'course',
-  //       select: 'name _id',
-
-  //       populate: {
-  //         path: 'classes',
-  //         select: 'time _id',
-  //         match: { year: '2022-2023' },
-  //       },
-  //     },
-  //   });
-
-  // const docs2 = await models
-  //   .get('Course')
-  //   .find({ year: '2022-2023' })
-
-  //   .populate({
-  //     path: 'classes',
-  //     match: { year: '2022-2023' },
-  //   });
-
-  const courses = await models.get('Course').find({ year: '2020-2021' });
-
-  const gradeCourseMap = new Map();
+  const gradeTimeCourseMap = new Map();
 
   Object.values(models.get('Course').Grades).forEach((grade) => {
-    gradeCourseMap.set(grade, []);
+     let timeCourseMap = new Map();
+     gradeTimeCourseMap.set(grade, timeCourseMap);
   });
 
+  let i = 0;
   courses.forEach((course) => {
+  
     course.grades.forEach((grade) => {
-      gradeCourseMap.get(grade).push(course.name);
-    });
-  });
-  console.log(gradeCourseMap);
-
+      
+      let timeCourseMap = gradeTimeCourseMap.get(grade);
+      
+      course.classes.forEach((c) => {
+        if (!timeCourseMap.has(c.hour)) {
+          timeCourseMap.set(c.hour, []);
+        }
+        timeCourseMap.get(c.hour).push(course.name);
+        i += 1;
+      })
+    })
+  })
+  console.log(gradeTimeCourseMap);
+  console.log(i);
+  console.log(gradeTimeCourseMap.get('K').get('9AM'));
+  
+  let  gradeCourseMap = await models.get('Course').getGradeCourseMap('2020-2021');
+ 
   const docs3 = await models
     .get('Child')
     .find({ year: '2020-2021' })
     .select('firstName sex grade');
 
   docs3.forEach((child) => {
-    child.courses = gradeCourseMap.get(child.grade);   
+    child.courses = gradeCourseMap.get(child.grade);
   });
 
   const data = {};

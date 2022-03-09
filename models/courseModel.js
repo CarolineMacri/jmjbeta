@@ -86,7 +86,7 @@ Object.assign(courseSchema.statics, {
 });
 
 courseSchema.statics.getGradeCourseMap = async function (selectedYear) {
-  console.log('hi from getGradeCourseMap: ' + selectedYear);
+  
   const gradeCourseMap = new Map();
 
   Object.values(Grades).forEach((grade) => {
@@ -100,8 +100,8 @@ courseSchema.statics.getGradeCourseMap = async function (selectedYear) {
       gradeCourseMap.get(grade).push(course.name);
     });
   });
-  console.log(gradeCourseMap);
-  return gradeCourseMap;
+
+  return Object.assign(gradeCourseMap);
 };
 
 const Course = mongoose.model('Course', courseSchema);
