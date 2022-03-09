@@ -6,7 +6,7 @@ const Grades = Object.freeze({
   Toddler: 'Toddler',
   PreK3: 'PreK3',
   PreK4: 'PreK4',
-  K:'K', 
+  K: 'K',
   First: '1st',
   Second: '2nd',
   Third: '3rd',
@@ -30,11 +30,11 @@ const courseSchema = new mongoose.Schema(
       type: new mongoose.Schema({
         min: {
           type: String,
-          enum: Object.values(Grades)
+          enum: Object.values(Grades),
         },
         max: {
           type: String,
-          enum: Object.values(Grades)
+          enum: Object.values(Grades),
         },
       }),
     },
@@ -73,20 +73,18 @@ courseSchema.virtual('classes', {
 });
 
 courseSchema.virtual('grades').get(function () {
-
-  let gradesArray = Object.values(Grades);
   
+  let gradesArray = Object.values(Grades);
   const minGradeIndex = gradesArray.indexOf(this.grade.min);
   const maxGradeIndex = gradesArray.indexOf(this.grade.max);
-  
-  gradesArray =gradesArray.slice(minGradeIndex, maxGradeIndex+1)
-  
+  gradesArray = gradesArray.slice(minGradeIndex, maxGradeIndex + 1);
+
   return gradesArray;
 });
 
 Object.assign(courseSchema.statics, {
   Grades,
-})
+});
 
 const Course = mongoose.model('Course', courseSchema);
 

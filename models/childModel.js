@@ -40,18 +40,6 @@ childSchema.virtual('enrollments', {
   localField: '_id',
   foreignField: 'child',
 });
-
-// childSchema.pre(/^find/, function (next) {
-//   this.populate([
-//     {
-//       path: 'enrollments',
-//       select: 'class -child -_id',
-//     },
-//   ]);
-
-//   next();
-// });
-
 childSchema.index({ family: 1, year: 1, firstName: 1 }, { unique: true });
 
 const Child = mongoose.model('Child', childSchema);
