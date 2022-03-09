@@ -73,7 +73,6 @@ courseSchema.virtual('classes', {
 });
 
 courseSchema.virtual('grades').get(function () {
-  
   let gradesArray = Object.values(Grades);
   const minGradeIndex = gradesArray.indexOf(this.grade.min);
   const maxGradeIndex = gradesArray.indexOf(this.grade.max);
@@ -85,6 +84,25 @@ courseSchema.virtual('grades').get(function () {
 Object.assign(courseSchema.statics, {
   Grades,
 });
+
+courseSchema.statics.getGradeCourseMap = async function (selectedYear) {
+  console.log('hi from getGradeCourseMap: ' + selectedYear);
+  const gradeCourseMap = new Map();
+
+  Object.values(Grades).forEach((grade) => {
+    gradeCourseMap.set(grade, [])
+  });
+  
+  const courses = await this.find({ year: selectedYear });
+
+  courses.forEach((course) => {
+    course.grades.forEach((grade) => {
+      gradeCourseMap.get(grade).push(course.name);
+    });
+  });
+  console.log(gradeCourseMap);
+  return gradeCourseMap;
+};
 
 const Course = mongoose.model('Course', courseSchema);
 
