@@ -1,6 +1,6 @@
 const catchAsync = require('../../utils/catchAsync');
 
-exports.getCourses = catchAsync(async (req, res, next) => {
+exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const Course = require('../../models/courseModel');
 
@@ -21,10 +21,30 @@ exports.getCourses = catchAsync(async (req, res, next) => {
       match: {year: selectedYear}
     });
 
-  res.status(200).render('courses', {
+  res.status(200).render('courses/course_table', {
     title: `Courses ${selectedYear}`,
     courses,
     years,
     selectedYear,
   });
 });
+
+exports.getCourseProfile = catchAsync(async (req, res, next) => {
+  const Year = require('../../models/yearModel');
+  const Course = require('../../models/courseModel');
+
+  let {courseId} = req.params;
+
+  const course = await Course
+    .findOne({ _id: courseId });
+  
+  console.log(course);
+    
+
+  res.status(200).render('courses/course_profile', {
+    title: `${course.name}`,
+    course,
+   
+  });
+});
+

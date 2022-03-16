@@ -13,7 +13,8 @@ router.use(authController.isLoggedIn);
 router.get('/families/:selectedYear?',  authController.protect, authController.restrictTo('admin'),viewsController.getFamilies);
 router.get('/family/:parentId/:selectedYear?', authController.protect, viewsController.getFamily);
 router.get('/children/:parentId/:selectedYear?', authController.protect, viewsController.getChildren);
-router.get('/courses/:selectedYear?', authController.protect, viewsController.getCourses);
+router.get('/courses_table/:selectedYear?', authController.protect, viewsController.getCoursesTable);
+router.get('/course_profile/:courseId?', authController.protect, viewsController.getCourseProfile);
 router.get('/teachers/:selectedYear?', authController.protect, viewsController.getTeachers);
 router.get('/registrations/:selectedYear?', authController.protect, viewsController.getRegistrations);
 

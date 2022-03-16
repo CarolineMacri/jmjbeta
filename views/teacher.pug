@@ -1,0 +1,157 @@
+extends base
+
+block content   
+    .page__content
+    section.courses.page__content
+        .page__content-row
+        h1.family__title Mary Goodteacher
+        .year-selector
+            select#yearSelector(name='year-selector')
+            option(value='2021-2022') 2021-2022
+            option(value='2020-2021') 2020-2021
+            option(value='2019-2020') 2019-2020
+            option(value='2018-2019') 2018-2019
+        .page__content-row
+            table
+            tr
+                th Biography
+            tr
+                td this teacher is the best in the world
+                td.button
+                .edit &amp;#9998
+        table
+        tr
+            th Course
+            th Grades
+            th Fee
+        tr
+            td Reading
+            td 1st - 3rd
+            td $5.00
+            td.button
+            .edit &amp;#9998
+            td.button
+            .delete &amp;#10006
+        tr
+            td Writing
+            td 4th - 8th
+            td $5.00
+            td.button
+            .edit &amp;#9998
+            td.button
+            .delete &amp;#10006
+        tr
+            td Arithmetic
+            td 9th - 12th
+            td $7.50
+            td.button
+            .edit &amp;#9998
+            td.button
+            .delete &amp;#10006
+        tr
+            td.button
+            .new &amp;#10010
+    section.course-profile.page__content-row
+        .form-modal__window
+        .form.form__outline-box.course-profile__form.form-modal__content
+            .form__row
+            .form__header-text Course
+            .form__header-background.family-form__header-image
+            .form__outline-box--bottom.form__row
+            .form__item
+                label.form__label(for='name') Name *
+                input#name.form__input(type='text', name='name', size='30', required='')
+            .form__outline-box--bottom.form__row
+            .form__column
+                .form__item
+                label.form__label(for='classFee') Class Fee *  $
+                select#classFee(name='classFee')
+                    option(value='500') 5.00
+                    option(value='750') 7.50
+                    option(value='0') 0.00
+            .form__column
+                .form__row
+                div
+                    label.form__label(for='firstSemesterMaterials') Semester 1 Materials *  $
+                div
+                    input#firstSemesterMaterials.form__input.form__input--inline(type='text', name='firstSemesterMaterials', size='5', pattern='[0-9]{1,2}.[0-9]{2}', value='0.00')
+                .form__row
+                    div
+                    label.form__label(for='secondSemesterMaterials') Semester 2 Materials *  $
+                    div
+                    input#secondSemesterMaterials.form__input.form__input--inline(type='text', name='secondSemesterMaterials', size='5', pattern='[0-9]{2}.[0-9]{2}', value='0.00')
+            .form__outline-box--bottom.form__row
+            .form__column
+                .form__dropdown-group
+                .form__item
+                    label.form__label(for='gradeMin') Grade Min *
+                    select#gradeMin(name='gradeMin')
+                    option(value='Infant') Infant
+                    option(value='Toddler') Toddler
+                    option(value='PreK3') PreK3
+                    option(value='PreK4') PreK4
+                    option(value='K', selected='') K
+                    option(value='1st') 1st
+                    option(value='2nd') 2nd
+                    option(value='3rd') 3rd
+                    option(value='4th') 4th
+                    option(value='5th') 5th
+                    option(value='6th') 6th
+                    option(value='7th') 7th
+                    option(value='8th') 8th
+                    option(value='9th') 9th
+                    option(value='10th') 10th
+                    option(value='11th') 11th
+                    option(value='12th') 12th
+                    option(value='Adult') Adult
+                .form__item
+                    label.form__label(for='gradeMax') Grade Max *
+                    select#gradeMax(name='gradeMax')
+                    option(value='Infant') Infant
+                    option(value='Toddler') Toddler
+                    option(value='PreK3') PreK3
+                    option(value='PreK4') PreK4
+                    option(value='K') K
+                    option(value='1st') 1st
+                    option(value='2nd') 2nd
+                    option(value='3rd') 3rd
+                    option(value='4th') 4th
+                    option(value='5th') 5th
+                    option(value='6th') 6th
+                    option(value='7th') 7th
+                    option(value='8th') 8th
+                    option(value='9th') 9th
+                    option(value='10th') 10th
+                    option(value='11th') 11th
+                    option(value='12th', selected='') 12th
+                    option(value='Adult') Adult
+            .form__column
+                .form__dropdown-group
+                .form__item
+                    label.form__label(for='classSizeMin') Class Size Min * 
+                    select#classSizeMin(name='classSizeMin')
+                    option(value='4') 4
+                    option(value='5') 5
+                    option(value='6') 6
+                .form__item
+                    label.form__label(for='classSizeMax') Class Size Max * 
+                    select#classSizeMax(name='classSizeMax')
+                    option(value='12') 12
+                    option(value='10') 10
+                    option(value='8') 8
+                    option(value='6') 6
+            div
+            .form__row
+                .form__item
+                label.form__label(for='description') Description *
+                textarea#description.form__input(name='description', rows='3', cols='70', required='')
+            .form__row
+                .form__item
+                label.form__label(for='materials') Required Materials:
+                textarea#materials.form__input(name='materials', rows='2', cols='30')
+                .form__item
+                label.form__label(for='texts') Required texts:
+                textarea#texts.form__input(name='texts', rows='2', cols='30')
+            .form__row
+                input.form__button.form__item--center(type='submit')
+                button#cancel.form__button.form__cancel X
