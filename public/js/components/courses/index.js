@@ -58,23 +58,57 @@ function index(a) {
     const courseProfileForm = document.querySelector('.course-profile__form');
     courseProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const fN = document.getElementById('courseName');
-      const name = fN.value; 
+
       const id = courseProfileForm.id;
-      const classFee = document.getElementsByName('classFee').value;
-      const formData = new FormData(courseProfileForm);
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-      }
+      const name = document.getElementById('courseName').value;
+      const classFee = document.getElementById('classFee').value;
+      const firstSemester = {
+        materialFee: document.getElementById('firstSemesterMaterialFee')
+          .value,
+      };
+      const secondSemester = {
+        materialFee: document.getElementById('secondSemesterMaterialFee').value,
+      };
+      const grade = {
+        min: document.getElementById('gradeMin').value,
+        max: document.getElementById('gradeMax').value,
+      };
+      const classSize = {
+        min: document.getElementById('classSizeMin').value,
+        max: document.getElementById('classSizeMax').value,
+      };
+      const description = document.getElementById('description').value;
+      const materials = document.getElementById('texts').value;
+      const texts = document.getElementById('texts').value;
 
       const data = {
         name,
         classFee,
+        firstSemester,
+        secondSemester,
+        grade,
+        classSize,
+        description,
+        materials,
+        texts
       };
-
       updateCourse(id, data);
     });
   }
+}
+function createObject(k, v) {
+  let obj = {};
+
+  let putInto = obj;
+  let tokens = k.split('.');
+  for (let i = 0; i < tokens.length; i++) {
+    let name = tokens[i];
+    let value = i === tokens.length - 1 ? v : {};
+    putInto[name] = putInto[name] || value;
+    putInto = putInto[name];
+  }
+
+  return obj;
 }
 
 export { index };
