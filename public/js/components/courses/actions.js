@@ -41,7 +41,7 @@ export const updateCourse = (id, data) => {
   alert(`course ${id} - ${data.name} will be updated when implemented`);
 };
 
-export const deleteCourseModal = async (row) => {
+export const deleteCourseModal = async (row) => { 
   const courseId = row.id;
 
   const [courseName, courseGrades, courseFee, x, y] = [...row.children].map(

@@ -44,34 +44,33 @@ function index(a) {
       fillCoursesForm(addNewRow);
     });
 
-
     const cancelDelete = document.getElementById('cancelDelete');
-  
+
     cancelDelete.addEventListener('click', (e) => {
       e.preventDefault();
       document
         .querySelector('.delete-modal__window')
         .classList.toggle('delete-modal__show');
     });
-
   }
 
   if (courseProfile) {
-    
     const courseProfileForm = document.querySelector('.course-profile__form');
     courseProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const fN = document.getElementById('name');
-      const name = fN.value;
+      const fN = document.getElementById('courseName');
+      const name = fN.value; 
       const id = courseProfileForm.id;
       const classFee = document.getElementsByName('classFee').value;
-      
+      const formData = new FormData(courseProfileForm);
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
 
-       const data = {
-         name,
-         classFee,
-       
-       };
+      const data = {
+        name,
+        classFee,
+      };
 
       updateCourse(id, data);
     });

@@ -11,8 +11,8 @@ block content
                 .form__row    
                 .form__outline-box--bottom.form__row
                     .form__item
-                        label.form__label(for='name') Name *
-                        input#name.form__input.form__input--inline(type='text', name='name', size='30', value= `${course.name}` required='')
+                        label.form__label(for='course.name') Name *
+                        input#courseName.form__input.form__input--inline(type='text', name='course.name', size='30', value= `${course.name}` required='')
                 .form__outline-box--bottom
                 -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                 
