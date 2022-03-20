@@ -11,8 +11,8 @@ block content
                 .form__row    
                 .form__outline-box--bottom.form__row
                     .form__item
-                        label.form__label(for='course.name') Name *
-                        input#courseName.form__input.form__input--inline(type='text', name='course.name', size='30', value= `${course.name}` required='')
+                        label.form__label(for='courseName') Name *
+                        input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
                 .form__outline-box--bottom
                 -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                 
@@ -20,26 +20,25 @@ block content
                         .form__item
                             label.form__label(for='classFee') Class Fee *  $
                             select#classFee(name='classFee')
-                                -var classFees = ['5.00',"7.50","0.00"]
-                                -var nonStandardFee = !(classFees.includes(course.classFee))
+                                -var classFees = ['5.00','7.50','0.00']
+                                -var nonStandardFee = !(classFees.includes(formatter.format(course.classFee)))
                                 
                                 for classFee in classFees
                                     if (classFee==course.classFee)
-                                        option(value=classFee selected)=classFee
+                                        option( selected)=classFee
                                     else
-                                        option(value=classFee)=classFee
+                                        option()=classFee
                                 if nonStandardFee 
-                                    option(value=course.classFee selected)=formatter.format(course.classFee)
+                                    option()=formatter.format(course.classFee)
                                    
                     .form__row
                         .form__item.form__label Materials
                         
-         
-                            label.form__label(for='firstSemester.materialFee') Semester 1*  $
-                            input#firstSemester.materialFee.form__input.form__input--inline(type='text', name='firstSemester.materialFee', size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.firstSemester.materialFee)}`)
+                            label.form__label(for='firstSemesterMaterialFee') Semester 1*  $
+                            input#firstSemesterMaterialFee.form__input.form__input--inline(type='text', name='firstSemesterMaterialFee', size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.firstSemester.materialFee)}`)
 
-                            label.form__label(for='secondSemester.materialFee') Semester 2*  $
-                            input#secondSemesterMaterialFee.form__input.form__input--inline(type='text', name='secondSemester.materialFee', size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.secondSemester.materialFee)}`)
+                            label.form__label(for='secondSemesterMaterialFee') Semester 2*  $
+                            input#secondSemesterMaterialFee.form__input.form__input--inline(type='text', name='secondSemesterMaterialFee', size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.secondSemester.materialFee)}`)
 
                 .form__outline-box--bottom.form__row
                     .form__column
@@ -47,42 +46,42 @@ block content
                             .form__item
                                 
                                 -var grades = ['Infant','Toddler','PreK3','PreK4','K','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th','Adult']
-                                label.form__label(for='grade.min') Grade Min *
-                                select#gradeMin(name='grade.min') 
+                                label.form__label(for='gradeMin') Grade Min *
+                                select#gradeMin(name='gradeMin') 
                                     for grade in grades
                                         if (grade==course.grade.min)
-                                            option(value=grade selected)=grade
+                                            option( selected)=grade
                                         else     
-                                            option(value=grade)=grade 
+                                            option()=grade 
                             .form__item
-                                label.form__label(for='grade.max') Grade Max *
-                                select#gradeMax(name='grade.max')
+                                label.form__label(for='gradeMax') Grade Max *
+                                select#gradeMax(name='gradeMax')
                                     for grade in grades 
                                         if (grade==course.grade.max)
-                                            option(value=grade selected)=grade
+                                            option(selected)=grade
                                         else     
-                                            option(value=grade)=grade 
+                                            option()=grade 
                                     
                     .form__column
                         .form__dropdown-group
                             .form__item
                                 -var classSize = ['4','5','6']
-                                label.form__label(for='classSize.min') Class Size Min * 
-                                select#classSizeMin(name='classSize.min')
+                                label.form__label(for='classSizeMin') Class Size Min * 
+                                select#classSizeMin(name='classSizeMin')
                                     for size in classSize 
                                         if (course.classSize.min == size)
-                                            option(value=size selected)=size
+                                            option(selected)=size
                                         else    
-                                            option(value=size)=size
+                                            option()=size
                             .form__item
                                 -var classSize = ['12','10','8', '6']
-                                label.form__label(for='classSize.max') Class Size Max * 
-                                    select#classSizeMax(name='classSize.max')
+                                label.form__label(for='classSizeMax') Class Size Max * 
+                                    select#classSizeMax(name='classSizeMax')
                                         for size in classSize 
                                             if (course.classSize.max == size)
-                                                option(value=size selected)=size
+                                                option(selected)=size
                                             else    
-                                                option(value=size)=size
+                                                option()=size
                 div
                     .form__row
                         .form__item
