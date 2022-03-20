@@ -2,6 +2,7 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
+
 import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
 
 function index(a) {

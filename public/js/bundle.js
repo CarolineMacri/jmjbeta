@@ -16009,6 +16009,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.deleteCourseModal = exports.updateCourse = exports.changeCoursesYear = void 0;
 
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -16045,43 +16051,67 @@ var changeCoursesYear = function changeCoursesYear(year) {
 //     toggleModal();
 //   }
 // };
-//export const updateCourse = async (teacherId, data) => {
 
 
 exports.changeCoursesYear = changeCoursesYear;
 
-var updateCourse = function updateCourse(id, data) {
-  // try {
-  // const url = `/api/v1/courses${
-  //   teacherId == 'new' ? '' : '/' + parentId
-  // }`;
-  // const method = parentId == 'new' ? 'POST' : 'PATCH';
-  // const res = await axios({
-  //   method,
-  //   url,
-  //   data,
-  // });
-  // if (res.data.status == 'success') {
-  //   showAlert('success', `Child ${parentId == 'new' ? 'added' : 'updated'} successfully`);
-  //   window.setTimeout(() => {
-  //     location.reload();
-  //   }, 500);
-  // }
-  // } catch (err) {
-  //   showAlert('error', err.response.data.message);
-  // }
-  alert("course ".concat(id, " - ").concat(data.name, " will be updated when implemented"));
-};
+var updateCourse = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, data) {
+    var url, method, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            url = "/api/v1/courses".concat(courseId == 'new' ? '' : '/' + courseId);
+            method = courseId == 'new' ? 'POST' : 'PATCH';
+            _context.next = 5;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: data
+            });
+
+          case 5:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "Course ".concat(courseId == 'new' ? 'added' : 'updated', " successfully"));
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context.next = 12;
+            break;
+
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](0);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 12:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 9]]);
+  }));
+
+  return function updateCourse(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 exports.updateCourse = updateCourse;
 
 var deleteCourseModal = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(row) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
     var courseId, _map, _map2, courseName, courseGrades, courseFee, x, y, deleteModal, paragraphs, deleteCourseButton;
 
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             courseId = row.id;
             _map = _toConsumableArray(row.children).map(function (e) {
@@ -16098,39 +16128,66 @@ var deleteCourseModal = /*#__PURE__*/function () {
 
           case 8:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
       }
-    }, _callee);
+    }, _callee2);
   }));
 
-  return function deleteCourseModal(_x) {
-    return _ref.apply(this, arguments);
+  return function deleteCourseModal(_x3) {
+    return _ref2.apply(this, arguments);
   };
-}(); //const deleteCourse = async (courseId, courseName) => {
-
+}();
 
 exports.deleteCourseModal = deleteCourseModal;
 
-var deleteCourse = function deleteCourse(courseId, courseName) {
-  // try {
-  //   // const url = `/api/v1/children/${childId}`;
-  //   // const res = await axios({
-  //   //   method:'DELETE',
-  //   //   url
-  //   // });
-  //   // if (res.status == 204) {
-  //   //   showAlert('success', `${childFirstName} deleted`);
-  //   //   window.setTimeout(() => {
-  //   //     location.reload();
-  //   //   }, 500);
-  //   showAlert('success', `${courseName} would be deleted if this worked`);
-  // } catch (err) {
-  //   showAlert('error', err.response.data.message);
-  // }
-  alert("".concat(courseName, " will be deleted upon implementation"));
-};
-},{}],"components/courses/index.js":[function(require,module,exports) {
+var deleteCourse = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(courseId, courseName) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            url = "/api/v1/courses/".concat(courseId);
+            _context3.next = 4;
+            return (0, _axios.default)({
+              method: 'DELETE',
+              url: url
+            });
+
+          case 4:
+            res = _context3.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)('success', "".concat(courseName, " deleted"));
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+              (0, _alerts.showAlert)('success', "".concat(courseName, " successfully deleted"));
+            }
+
+            _context3.next = 11;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](0);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 8]]);
+  }));
+
+  return function deleteCourse(_x4, _x5) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/courses/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
