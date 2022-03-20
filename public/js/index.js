@@ -1,6 +1,7 @@
 /* eslint-disable */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+
 import { login, logout } from './login';
 import { forgotMyPassword } from './forgotMyPassword';
 import { updateUserSettings } from './updateUserSettings';
@@ -8,7 +9,10 @@ import { resetPassword } from './resetPassword';
 import { changeFamilyYear, addFamily } from './family';
 import { changeFamiliesYear } from './families';
 import { changeRegistrationsYear } from './registrations';
-import { changeCoursesYear } from './courses';
+
+import { index as courses } from './components/courses/index';
+courses();
+
 import { changeTeachersYear } from './teachers';
 import { changeReportChildrenByGradeYear } from './reports';
 import {
@@ -44,7 +48,7 @@ const momProfileForm = document.querySelector('.mom-profile__form');
 const children = document.querySelector('.children');
 const childProfileForm = document.querySelector('.child-profile__form');
 
-const courses = document.querySelector('.courses');
+//const courses = document.querySelector('.courses');
 const teachers = document.querySelector('.teachers');
 const registrations = document.querySelector('.registrations');
 
@@ -190,15 +194,15 @@ if (families) {
   }
 }
 
-if (courses) {
-  const yearSelect = document.getElementById('year-select');
+// if (courses) {
+//   const yearSelect = document.getElementById('year-select');
 
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
 
-    changeCoursesYear(newYear);
-  });
-}
+//     changeCoursesYear(newYear);
+//   });
+// }
 
 if (teachers) {
   const yearSelect = document.getElementById('year-select');

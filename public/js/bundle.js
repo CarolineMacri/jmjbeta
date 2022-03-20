@@ -16001,20 +16001,207 @@ var changeRegistrationsYear = function changeRegistrationsYear(year) {
 };
 
 exports.changeRegistrationsYear = changeRegistrationsYear;
-},{}],"courses.js":[function(require,module,exports) {
+},{}],"components/courses/actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeCoursesYear = void 0;
+exports.deleteCourseModal = exports.updateCourse = exports.changeCoursesYear = void 0;
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var changeCoursesYear = function changeCoursesYear(year) {
-  location.assign("/courses/".concat(year));
-};
+  location.assign("/courses_table/".concat(year));
+}; // export const toggleModal = () => {
+//   document
+//     .querySelector('.form-modal__window')
+//     .classList.toggle('form-modal__show');
+// };
+// export const modalOnClick = (event) => {
+//   if ((event.target = document.querySelector('.form-modal__window'))) {
+//     toggleModal();
+//   }
+// };
+//export const updateCourse = async (teacherId, data) => {
+
 
 exports.changeCoursesYear = changeCoursesYear;
-},{}],"teachers.js":[function(require,module,exports) {
+
+var updateCourse = function updateCourse(id, data) {
+  // try {
+  // const url = `/api/v1/courses${
+  //   teacherId == 'new' ? '' : '/' + parentId
+  // }`;
+  // const method = parentId == 'new' ? 'POST' : 'PATCH';
+  // const res = await axios({
+  //   method,
+  //   url,
+  //   data,
+  // });
+  // if (res.data.status == 'success') {
+  //   showAlert('success', `Child ${parentId == 'new' ? 'added' : 'updated'} successfully`);
+  //   window.setTimeout(() => {
+  //     location.reload();
+  //   }, 500);
+  // }
+  // } catch (err) {
+  //   showAlert('error', err.response.data.message);
+  // }
+  alert("course ".concat(id, " - ").concat(data.name, " will be updated when implemented"));
+};
+
+exports.updateCourse = updateCourse;
+
+var deleteCourseModal = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(row) {
+    var courseId, _map, _map2, courseName, courseGrades, courseFee, x, y, deleteModal, paragraphs, deleteCourseButton;
+
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            courseId = row.id;
+            _map = _toConsumableArray(row.children).map(function (e) {
+              return e.innerHTML;
+            }), _map2 = _slicedToArray(_map, 5), courseName = _map2[0], courseGrades = _map2[1], courseFee = _map2[2], x = _map2[3], y = _map2[4];
+            deleteModal = document.querySelector('.delete-modal__window');
+            paragraphs = deleteModal.getElementsByTagName('p');
+            paragraphs.item(2).innerHTML = courseName.toUpperCase() + '   ' + courseGrades;
+            deleteCourseButton = document.getElementById('deleteCourse');
+            deleteCourseButton.addEventListener('click', function () {
+              deleteCourse(courseId, courseName);
+            });
+            deleteModal.classList.toggle('delete-modal__show');
+
+          case 8:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function deleteCourseModal(_x) {
+    return _ref.apply(this, arguments);
+  };
+}(); //const deleteCourse = async (courseId, courseName) => {
+
+
+exports.deleteCourseModal = deleteCourseModal;
+
+var deleteCourse = function deleteCourse(courseId, courseName) {
+  // try {
+  //   // const url = `/api/v1/children/${childId}`;
+  //   // const res = await axios({
+  //   //   method:'DELETE',
+  //   //   url
+  //   // });
+  //   // if (res.status == 204) {
+  //   //   showAlert('success', `${childFirstName} deleted`);
+  //   //   window.setTimeout(() => {
+  //   //     location.reload();
+  //   //   }, 500);
+  //   showAlert('success', `${courseName} would be deleted if this worked`);
+  // } catch (err) {
+  //   showAlert('error', err.response.data.message);
+  // }
+  alert("".concat(courseName, " will be deleted upon implementation"));
+};
+},{}],"components/courses/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _actions = require("./actions");
+
+/* eslint-disable */
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime';
+function index(a) {
+  // DOM elements
+  var courses = document.querySelector('.courses');
+  var courseProfile = document.querySelector('.course-profile');
+
+  if (courses) {
+    var yearSelect = document.getElementById('year-select');
+    yearSelect.addEventListener('change', function (e) {
+      var newYear = yearSelect.value;
+      (0, _actions.changeCoursesYear)(newYear);
+    }); // add event listners for each course
+
+    var coursesRows = document.querySelector('.courses').getElementsByTagName('tr');
+    var numRows = coursesRows.length;
+
+    var _loop = function _loop() {
+      var dataRow = coursesRows[i];
+      var dataCells = dataRow.getElementsByTagName('td');
+      var numCells = dataCells.length;
+      var deleteButton = dataCells.item(numCells - 1);
+      deleteButton.addEventListener('click', function () {
+        (0, _actions.deleteCourseModal)(dataRow);
+      });
+    };
+
+    for (var i = 1; i <= numRows - 2; i++) {
+      _loop();
+    }
+
+    var addNewRow = coursesRows[numRows - 1];
+    var addNewCells = addNewRow.getElementsByTagName('td');
+    var addNewButton = addNewCells.item(0);
+    addNewButton.addEventListener('click', function () {
+      fillCoursesForm(addNewRow);
+    });
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    });
+  }
+
+  if (courseProfile) {
+    var courseProfileForm = document.querySelector('.course-profile__form');
+    courseProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fN = document.getElementById('name');
+      var name = fN.value;
+      var id = courseProfileForm.id;
+      var classFee = document.getElementsByName('classFee').value;
+      var data = {
+        name: name,
+        classFee: classFee
+      };
+      (0, _actions.updateCourse)(id, data);
+    });
+  }
+}
+},{"./actions":"components/courses/actions.js"}],"teachers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -124570,7 +124757,7 @@ var _families = require("./families");
 
 var _registrations = require("./registrations");
 
-var _courses = require("./courses");
+var _index = require("./components/courses/index");
 
 var _teachers = require("./teachers");
 
@@ -124592,6 +124779,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+(0, _index.index)();
 //import { fill } from 'core-js/core/array';
 // DOM elements
 var loginForm = document.querySelector('.login__form');
@@ -124604,8 +124792,8 @@ var family = document.querySelector('.family');
 var families = document.querySelector('.families');
 var momProfileForm = document.querySelector('.mom-profile__form');
 var children = document.querySelector('.children');
-var childProfileForm = document.querySelector('.child-profile__form');
-var courses = document.querySelector('.courses');
+var childProfileForm = document.querySelector('.child-profile__form'); //const courses = document.querySelector('.courses');
+
 var teachers = document.querySelector('.teachers');
 var registrations = document.querySelector('.registrations');
 var users = document.querySelector('.users');
@@ -124842,50 +125030,48 @@ if (families) {
       });
     });
   }
-}
+} // if (courses) {
+//   const yearSelect = document.getElementById('year-select');
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
+//     changeCoursesYear(newYear);
+//   });
+// }
 
-if (courses) {
+
+if (teachers) {
   var _yearSelect2 = document.getElementById('year-select');
 
   _yearSelect2.addEventListener('change', function (e) {
     var newYear = _yearSelect2.value;
-    (0, _courses.changeCoursesYear)(newYear);
-  });
-}
-
-if (teachers) {
-  var _yearSelect3 = document.getElementById('year-select');
-
-  _yearSelect3.addEventListener('change', function (e) {
-    var newYear = _yearSelect3.value;
     (0, _teachers.changeTeachersYear)(newYear);
   });
 }
 
 if (registrations) {
-  var _yearSelect4 = document.getElementById('year-select');
+  var _yearSelect3 = document.getElementById('year-select');
 
-  _yearSelect4.addEventListener('change', function (e) {
-    var newYear = _yearSelect4.value;
+  _yearSelect3.addEventListener('change', function (e) {
+    var newYear = _yearSelect3.value;
     (0, _registrations.changeRegistrationsYear)(newYear);
   });
 }
 
 if (reportChildrenByGrade) {
-  var _yearSelect5 = document.getElementById('year-select');
+  var _yearSelect4 = document.getElementById('year-select');
 
-  _yearSelect5.addEventListener('change', function (e) {
-    var newYear = _yearSelect5.value;
+  _yearSelect4.addEventListener('change', function (e) {
+    var newYear = _yearSelect4.value;
     (0, _reports.changeReportChildrenByGradeYear)(newYear);
   });
 }
 
 if (children) {
   // year  selector
-  var _yearSelect6 = document.getElementById('year-select');
+  var _yearSelect5 = document.getElementById('year-select');
 
-  _yearSelect6.addEventListener('change', function (e) {
-    var newYear = _yearSelect6.value;
+  _yearSelect5.addEventListener('change', function (e) {
+    var newYear = _yearSelect5.value;
     var id = window.location.pathname.split('/')[2];
     (0, _children.changeChildrenYear)(id, newYear);
   }); // add event listners for each child
@@ -124978,7 +125164,7 @@ if (children) {
     }
 
     var family = document.querySelector('.family__title').id;
-    var year = _yearSelect6.value;
+    var year = _yearSelect5.value;
     var data = {
       firstName: firstName,
       grade: grade,
@@ -124992,10 +125178,10 @@ if (children) {
 
 if (users) {
   // year  selector
-  var _yearSelect7 = document.getElementById('year-select');
+  var _yearSelect6 = document.getElementById('year-select');
 
-  _yearSelect7.addEventListener('change', function (e) {
-    var newYear = _yearSelect7.value;
+  _yearSelect6.addEventListener('change', function (e) {
+    var newYear = _yearSelect6.value;
     var id = window.location.pathname.split('/')[2];
     (0, _users.changeUsersYear)(newYear);
   }); // add event listners for each child
@@ -125087,7 +125273,7 @@ if (users) {
     };
 
     if (id == 'new') {
-      data.registrationYears = [_yearSelect7.value];
+      data.registrationYears = [_yearSelect6.value];
     }
 
     (0, _users.updateUser)(id, data).then(function (newId) {
@@ -125098,7 +125284,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./login":"login.js","./forgotMyPassword":"forgotMyPassword.js","./updateUserSettings":"updateUserSettings.js","./resetPassword":"resetPassword.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./courses":"courses.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./login":"login.js","./forgotMyPassword":"forgotMyPassword.js","./updateUserSettings":"updateUserSettings.js","./resetPassword":"resetPassword.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

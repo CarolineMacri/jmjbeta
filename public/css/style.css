@@ -321,7 +321,8 @@ option {
   transform: scale(1);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s; }
 
-.button {
+.button,
+.button-ok {
   background-color: #2f4885;
   color: white;
   font-size: 1.5rem;
@@ -330,7 +331,9 @@ option {
   border: 0.5px solid #2f4885;
   border-radius: 5px;
   margin-bottom: 2rem; }
-  .button:hover, .button:active {
+  .button:hover, .button:active,
+  .button-ok:hover,
+  .button-ok:active {
     border-color: #cfd1e2;
     outline: none;
     background-color: #cfd1e2;
