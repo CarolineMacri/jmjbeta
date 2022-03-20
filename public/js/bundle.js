@@ -16224,21 +16224,6 @@ function index(a) {
     });
   }
 }
-
-function createObject(k, v) {
-  var obj = {};
-  var putInto = obj;
-  var tokens = k.split('.');
-
-  for (var i = 0; i < tokens.length; i++) {
-    var name = tokens[i];
-    var value = i === tokens.length - 1 ? v : {};
-    putInto[name] = putInto[name] || value;
-    putInto = putInto[name];
-  }
-
-  return obj;
-}
 },{"./actions":"components/courses/actions.js"}],"teachers.js":[function(require,module,exports) {
 "use strict";
 
