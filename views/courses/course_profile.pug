@@ -13,6 +13,22 @@ block content
                     .form__item
                         label.form__label(for='courseName') Name *
                         input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
+                .form__outline-box--bottom.form__row
+                    .form__item
+                        -var owner = course.teachercourse[0].teacher
+                        label.form__label(for='owner') Owner *
+                        input#owner.form__input.form__input--inline(type='text', name='owner', size='30', value= `${owner.lastName}, ${owner.firstName}` required='')
+
+                        .form__dropdown-group
+                            .form__item
+                                
+                                label.form__label(for='ownerDrop') Test Owner Dropdown * 
+                                select#ownerDrop(name='ownerDrop')
+                                    for teacher in teachers 
+                                        if (teacher.id ==  owner.id)
+                                            option(selected)=teacher.lastName
+                                        else    
+                                            option()=teacher.lastName
                 .form__outline-box--bottom
                 -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                 
