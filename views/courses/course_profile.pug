@@ -29,11 +29,11 @@ block content
                     for year in years 
                         .form__column
                             .form__item
-                                if (course.years.includes(year.year))
-                                    input(type="checkbox" name='years' value=year checked)
+                                if (course.year.includes(year.year))
+                                    input(id=year.id type="checkbox" name='years' value=year.year checked)
                                 else
-                                    input(type="checkbox" name='years' value=year)
-                                label.form__label(for=year)=year.year
+                                    input(id=year.id type="checkbox" name='years' value=year.year)
+                                label.form__label(for=year.id)=year.year
                         
                 .form__outline-box--bottom
                 -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});

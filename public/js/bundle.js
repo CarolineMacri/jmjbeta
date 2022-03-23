@@ -16249,7 +16249,7 @@ function index(a) {
     var courseProfileForm = document.querySelector('.course-profile__form');
     courseProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      var id = courseProfileForm.id;
+      var courseId = courseProfileForm.id;
       var name = document.getElementById('courseName').value;
       var classFee = document.getElementById('classFee').value;
       var firstSemester = {
@@ -16269,10 +16269,11 @@ function index(a) {
       var description = document.getElementById('description').value;
       var materials = document.getElementById('texts').value;
       var texts = document.getElementById('texts').value;
-      var teacher = document.getElementById('owner').value;
-      console.log(owner);
+      var teacherId = document.getElementById('owner').value;
+      var courseYears = getChecked('years');
       var data = {
         name: name,
+        year: courseYears,
         classFee: classFee,
         firstSemester: firstSemester,
         secondSemester: secondSemester,
@@ -16282,9 +16283,17 @@ function index(a) {
         materials: materials,
         texts: texts
       };
-      (0, _actions.updateCourse)(id, data);
     });
   }
+}
+
+function getChecked(name) {
+  var items = document.getElementsByName(name);
+  var selectedItems = [];
+  items.forEach(function (item) {
+    if (item.type == "checkbox" && item.checked == true) selectedItems.push(item.value);
+  });
+  return selectedItems;
 }
 },{"./actions":"components/courses/actions.js"}],"teachers.js":[function(require,module,exports) {
 "use strict";

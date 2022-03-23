@@ -13,12 +13,7 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const courses = await Course.find({ year: selectedYear })
-    .sort({ name: 1 })
-    .populate({
-      path: 'classes',
-      match: { year: selectedYear },
-    });
+  const courses = await Course.find({ year: selectedYear }).sort({ name: 1 });
 
   res.status(200).render('courses/course_table', {
     title: `Courses ${selectedYear}`,
@@ -39,8 +34,9 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
 
   if (courseId == 'new') {
     course = {
+      id: 'new',
       name: '',
-      years: [selectedYear],
+      year: [selectedYear],
       classFee: 0,
       firstSemester: {
         materialFee: 0,
@@ -50,7 +46,7 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
       },
       grade: {
         min: 'K',
-        max: '12th'
+        max: '12th',
       },
       classSize: {
         min: 4,
@@ -67,7 +63,6 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
         },
       ],
     };
-    console.log(course);
   } else {
     course = await Course.findOne({ _id: courseId }).populate({
       path: 'teachercourse',
@@ -86,8 +81,6 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
   }).sort('lastName');
 
   const years = await Year.find();
-
-  console.log(course);
 
   res.status(200).render('courses/course_profile', {
     title: `${course.name}`,

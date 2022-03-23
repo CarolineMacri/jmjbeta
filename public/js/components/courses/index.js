@@ -61,7 +61,7 @@ function index(a) {
     courseProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const id = courseProfileForm.id;
+      const courseId = courseProfileForm.id;
       const name = document.getElementById('courseName').value;
       const classFee = document.getElementById('classFee').value;
       const firstSemester = {
@@ -83,11 +83,13 @@ function index(a) {
       const materials = document.getElementById('texts').value;
       const texts = document.getElementById('texts').value;
 
-      const teacher = document.getElementById('owner').value
-      console.log(owner);
+      const teacherId = document.getElementById('owner').value
+      
+      const courseYears = getChecked('years');
 
       const data = {
         name,
+        year:courseYears,
         classFee,
         firstSemester,
         secondSemester,
@@ -97,11 +99,24 @@ function index(a) {
         materials,
         texts
       };
-      updateCourse(id, data);
+     
     });
 
   
   }
+}
+
+function getChecked(name) {
+  var items = document.getElementsByName(name);
+
+  var selectedItems = []
+  
+  items.forEach((item) => {
+    if (item.type == "checkbox" && item.checked == true)
+      selectedItems.push(item.value);
+  });
+
+  return selectedItems;
 }
 
 export { index };
