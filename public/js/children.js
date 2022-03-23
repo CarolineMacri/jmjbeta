@@ -64,7 +64,7 @@ export const updateChild = async (parentId, data) => {
     });
 
     if (res.data.status == 'success') {
-      showAlert('success', `Child ${parentId == 'new' ? 'added' : 'updated'} successfully`);
+      showAlert('success', `Child ${res.data.data.child.firstName} ${parentId == 'new' ? 'added' : 'updated'} successfully`);
       window.setTimeout(() => {
         location.reload();
       }, 500);

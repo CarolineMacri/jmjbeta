@@ -16422,7 +16422,7 @@ var updateChild = /*#__PURE__*/function () {
             res = _context.sent;
 
             if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "Child ".concat(parentId == 'new' ? 'added' : 'updated', " successfully"));
+              (0, _alerts.showAlert)('success', "Child ".concat(res.data.data.child.firstName, " ").concat(parentId == 'new' ? 'added' : 'updated', " successfully"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
