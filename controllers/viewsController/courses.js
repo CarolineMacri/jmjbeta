@@ -34,7 +34,7 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
   const Course = require('../../models/courseModel');
   const User = require('../../models/userModel');
 
-  let { courseId } = req.params;
+  let { courseId, selectedYear } = req.params;
 
   const course = await Course.findOne({ _id: courseId }).populate({
     path: 'teachercourse',
@@ -58,6 +58,7 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
   res.status(200).render('courses/course_profile', {
     title: `${course.name}`,
     course,
+    selectedYear,
     teachers,
     years,
   });

@@ -19,7 +19,7 @@ block content
                         -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                         td= `$${formatter.format(course.classFee)}`
                         td.button
-                            a.edit(href=`/course_profile/${course.id}`) &#9998
+                            a.edit(href=`/course_profile/${course.id}/${selectedYear}`) &#9998
                         td.button
                             .delete &#10006
                 
