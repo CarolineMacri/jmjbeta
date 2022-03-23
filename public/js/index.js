@@ -43,12 +43,9 @@ const updatePasswordForm = document.querySelector('.update-password__form');
 const family = document.querySelector('.family');
 const families = document.querySelector('.families');
 
-const momProfileForm = document.querySelector('.mom-profile__form');
-
 const children = document.querySelector('.children');
 const childProfileForm = document.querySelector('.child-profile__form');
 
-//const courses = document.querySelector('.courses');
 const teachers = document.querySelector('.teachers');
 const registrations = document.querySelector('.registrations');
 
@@ -140,25 +137,6 @@ if (myProfileForm) {
     await updateUserSettings('profile', data);
   });
 }
-if (momProfileForm) {
-  momProfileForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const cellPhone = document.getElementById('cellPhone').value;
-
-    const data = {
-      firstName,
-      lastName,
-      email,
-      cellphone: cellPhone.replaceAll('-', ''),
-    };
-
-    const momId = window.location.pathname.split('/')[2];
-    await updateUser(momId, data);
-  });
-}
 
 if (family) {
   const yearSelect = document.getElementById('year-select');
@@ -193,16 +171,6 @@ if (families) {
     });
   }
 }
-
-// if (courses) {
-//   const yearSelect = document.getElementById('year-select');
-
-//   yearSelect.addEventListener('change', (e) => {
-//     const newYear = yearSelect.value;
-
-//     changeCoursesYear(newYear);
-//   });
-// }
 
 if (teachers) {
   const yearSelect = document.getElementById('year-select');

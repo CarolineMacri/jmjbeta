@@ -124872,10 +124872,8 @@ var myProfileForm = document.querySelector('.my-profile__form');
 var updatePasswordForm = document.querySelector('.update-password__form');
 var family = document.querySelector('.family');
 var families = document.querySelector('.families');
-var momProfileForm = document.querySelector('.mom-profile__form');
 var children = document.querySelector('.children');
-var childProfileForm = document.querySelector('.child-profile__form'); //const courses = document.querySelector('.courses');
-
+var childProfileForm = document.querySelector('.child-profile__form');
 var teachers = document.querySelector('.teachers');
 var registrations = document.querySelector('.registrations');
 var users = document.querySelector('.users');
@@ -125047,43 +125045,6 @@ if (myProfileForm) {
   }());
 }
 
-if (momProfileForm) {
-  momProfileForm.addEventListener('submit', /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(e) {
-      var firstName, lastName, email, cellPhone, data, momId;
-      return regeneratorRuntime.wrap(function _callee6$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              e.preventDefault();
-              firstName = document.getElementById('firstName').value;
-              lastName = document.getElementById('lastName').value;
-              email = document.getElementById('email').value;
-              cellPhone = document.getElementById('cellPhone').value;
-              data = {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                cellphone: cellPhone.replaceAll('-', '')
-              };
-              momId = window.location.pathname.split('/')[2];
-              _context6.next = 9;
-              return (0, _users.updateUser)(momId, data);
-
-            case 9:
-            case "end":
-              return _context6.stop();
-          }
-        }
-      }, _callee6);
-    }));
-
-    return function (_x6) {
-      return _ref6.apply(this, arguments);
-    };
-  }());
-}
-
 if (family) {
   var yearSelect = document.getElementById('year-select');
   yearSelect.addEventListener('change', function (e) {
@@ -125112,14 +125073,7 @@ if (families) {
       });
     });
   }
-} // if (courses) {
-//   const yearSelect = document.getElementById('year-select');
-//   yearSelect.addEventListener('change', (e) => {
-//     const newYear = yearSelect.value;
-//     changeCoursesYear(newYear);
-//   });
-// }
-
+}
 
 if (teachers) {
   var _yearSelect2 = document.getElementById('year-select');
