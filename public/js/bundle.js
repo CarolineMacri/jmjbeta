@@ -16266,6 +16266,8 @@ function index(a) {
       var description = document.getElementById('description').value;
       var materials = document.getElementById('texts').value;
       var texts = document.getElementById('texts').value;
+      var teacher = document.getElementById('owner').value;
+      console.log(owner);
       var data = {
         name: name,
         classFee: classFee,

@@ -82,6 +82,9 @@ function index(a) {
       const materials = document.getElementById('texts').value;
       const texts = document.getElementById('texts').value;
 
+      const teacher = document.getElementById('owner').value
+      console.log(owner);
+
       const data = {
         name,
         classFee,
@@ -95,6 +98,8 @@ function index(a) {
       };
       updateCourse(id, data);
     });
+
+  
   }
 }
 

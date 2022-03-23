@@ -3,8 +3,8 @@ const catchAsync = require('../../utils/catchAsync');
 exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const Course = require('../../models/courseModel');
-  
 
+  
   let { selectedYear } = req.params;
 
   const years = await Year.find();
@@ -38,24 +38,27 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
 
   const course = await Course.findOne({ _id: courseId }).populate({
     path: 'teachercourse',
-    justOne:true,
+    justOne: true,
     populate: {
       path: 'teacher',
       select: 'firstName lastName _id',
-      justOne:true,
+      justOne: true,
     },
   });
 
-  const teachers = await User
-    .find({ roles: 'teacher', registrationYears:'2022-2023' })
-    .sort('lastName');
-  console.log(teachers.length )
+  const teachers = await User.find({
+    roles: 'teacher',
+    registrationYears: '2022-2023',
+  }).sort('lastName');
 
-  console.log(course.teachercourse[0].teacher.firstName);
+  const years = await Year.find();
+
+  console.log(course);
 
   res.status(200).render('courses/course_profile', {
     title: `${course.name}`,
     course,
-    teachers
+    teachers,
+    years,
   });
 });

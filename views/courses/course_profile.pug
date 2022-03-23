@@ -15,20 +15,34 @@ block content
                         input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
                 .form__outline-box--bottom.form__row
                     .form__item
-                        -var owner = course.teachercourse[0].teacher
-                        label.form__label(for='owner') Owner *
-                        input#owner.form__input.form__input--inline(type='text', name='owner', size='30', value= `${owner.lastName}, ${owner.firstName}` required='')
+                        
+                        -var teachercourseExists = course.teachercourse
+                        -var owner = teachercourseExists ? course.teachercourse[0].teacher: {id:'',lastName:'none', firstName:'none'}
+                        //-var courseId = teachercourseExists ? course.teachercourse[0].course: 'new'
 
                         .form__dropdown-group
                             .form__item
-                                
-                                label.form__label(for='ownerDrop') Test Owner Dropdown * 
-                                select#ownerDrop(name='ownerDrop')
+       
+                                label.form__label(for='owner') Owner * 
+                                select#owner(name='owner')
                                     for teacher in teachers 
                                         if (teacher.id ==  owner.id)
-                                            option(selected)=teacher.lastName
+                                            option(selected value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
                                         else    
-                                            option()=teacher.lastName
+                                            option(value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+                        
+                .form__row
+                    .form__label Years
+                
+                    for year in years 
+                        .form__column
+                            .form__item
+                                if (course.years.includes(year.year))
+                                    input(type="checkbox" name='years' value=year checked)
+                                else
+                                    input(type="checkbox" name='years' value=year)
+                                label.form__label(for=year)=year.year
+                        
                 .form__outline-box--bottom
                 -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                 

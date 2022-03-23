@@ -59,6 +59,7 @@ const courseSchema = new mongoose.Schema(
     },
     quarantinePolicy: String,
     year: String,
+    years: [String],
   },
   {
     toJSON: { virtuals: true },
