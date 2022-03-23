@@ -3,7 +3,7 @@
 // import 'regenerator-runtime/runtime';
 
 
-import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
+import { changeCoursesYear, updateCourse, deleteCourseModal, fillNewCourseForm } from './actions';
 
 function index(a) {
   // DOM elements
@@ -37,13 +37,14 @@ function index(a) {
       });
     }
 
-    const addNewRow = coursesRows[numRows - 1];
-    const addNewCells = addNewRow.getElementsByTagName('td');
-    const addNewButton = addNewCells.item(0);
+    // add event listener for new course
+    // const addNewRow = coursesRows[numRows - 1];
+    // const addNewCells = addNewRow.getElementsByTagName('td');
+    // const addNewButton = addNewCells.item(0);
 
-    addNewButton.addEventListener('click', function () {
-      fillCoursesForm(addNewRow);
-    });
+    // addNewButton.addEventListener('click', function () {
+    //   fillNewCourseForm();
+    // });
 
     const cancelDelete = document.getElementById('cancelDelete');
 

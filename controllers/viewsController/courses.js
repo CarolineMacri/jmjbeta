@@ -4,7 +4,6 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const Course = require('../../models/courseModel');
 
-  
   let { selectedYear } = req.params;
 
   const years = await Year.find();
@@ -36,15 +35,50 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
 
   let { courseId, selectedYear } = req.params;
 
-  const course = await Course.findOne({ _id: courseId }).populate({
-    path: 'teachercourse',
-    justOne: true,
-    populate: {
-      path: 'teacher',
-      select: 'firstName lastName _id',
+  var course = {};
+
+  if (courseId == 'new') {
+    course = {
+      name: '',
+      years: [selectedYear],
+      classFee: 0,
+      firstSemester: {
+        materialFee: 0,
+      },
+      secondSemester: {
+        materialFee: 0,
+      },
+      grade: {
+        min: 'K',
+        max: '12th'
+      },
+      classSize: {
+        min: 4,
+        max: 12,
+      },
+      teachercourse: [
+        {
+          _id: '',
+          teacher: {
+            _id: '',
+            firstName: '',
+            lastName: '',
+          },
+        },
+      ],
+    };
+    console.log(course);
+  } else {
+    course = await Course.findOne({ _id: courseId }).populate({
+      path: 'teachercourse',
       justOne: true,
-    },
-  });
+      populate: {
+        path: 'teacher',
+        select: 'firstName lastName _id',
+        justOne: true,
+      },
+    });
+  }
 
   const teachers = await User.find({
     roles: 'teacher',

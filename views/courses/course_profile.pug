@@ -15,7 +15,7 @@ block content
                         input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
                 .form__outline-box--bottom.form__row
                     .form__item
-                        -var owner = course.teachercourse ? course.teachercourse[0].teacher: {id:'',lastName:'none', firstName:'none'}
+                        -var owner = course.teachercourse[0].teacher
                         .form__dropdown-group
                             .form__item
                                 label.form__label(for='owner') Owner * 

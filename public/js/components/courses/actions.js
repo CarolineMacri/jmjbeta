@@ -66,7 +66,7 @@ export const deleteCourseModal = async (row) => {
   deleteModal.classList.toggle('delete-modal__show');
 };
 
-const deleteCourse = async (courseId, courseName) => {
+export const deleteCourse = async (courseId, courseName) => {
   //const deleteCourse = (courseId, courseName) => {
   try {
     const url = `/api/v1/courses/${courseId}`;

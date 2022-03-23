@@ -16007,7 +16007,7 @@ exports.changeRegistrationsYear = changeRegistrationsYear;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteCourseModal = exports.updateCourse = exports.changeCoursesYear = void 0;
+exports.deleteCourse = exports.deleteCourseModal = exports.updateCourse = exports.changeCoursesYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -16187,6 +16187,8 @@ var deleteCourse = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
+
+exports.deleteCourse = deleteCourse;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/courses/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -16227,14 +16229,15 @@ function index(a) {
 
     for (var i = 1; i <= numRows - 2; i++) {
       _loop();
-    }
+    } // add event listener for new course
+    // const addNewRow = coursesRows[numRows - 1];
+    // const addNewCells = addNewRow.getElementsByTagName('td');
+    // const addNewButton = addNewCells.item(0);
+    // addNewButton.addEventListener('click', function () {
+    //   fillNewCourseForm();
+    // });
 
-    var addNewRow = coursesRows[numRows - 1];
-    var addNewCells = addNewRow.getElementsByTagName('td');
-    var addNewButton = addNewCells.item(0);
-    addNewButton.addEventListener('click', function () {
-      fillCoursesForm(addNewRow);
-    });
+
     var cancelDelete = document.getElementById('cancelDelete');
     cancelDelete.addEventListener('click', function (e) {
       e.preventDefault();
