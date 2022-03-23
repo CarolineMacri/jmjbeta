@@ -83,8 +83,6 @@ function index(a) {
       const materials = document.getElementById('texts').value;
       const texts = document.getElementById('texts').value;
 
-      const teacherId = document.getElementById('owner').value
-      
       const courseYears = getChecked('years');
 
       const data = {
@@ -100,9 +98,9 @@ function index(a) {
         texts
       };
      
+      updateCourse(courseId, data);
     });
 
-  
   }
 }
 

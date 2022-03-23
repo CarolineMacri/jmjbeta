@@ -16269,7 +16269,6 @@ function index(a) {
       var description = document.getElementById('description').value;
       var materials = document.getElementById('texts').value;
       var texts = document.getElementById('texts').value;
-      var teacherId = document.getElementById('owner').value;
       var courseYears = getChecked('years');
       var data = {
         name: name,
@@ -16283,6 +16282,7 @@ function index(a) {
         materials: materials,
         texts: texts
       };
+      (0, _actions.updateCourse)(courseId, data);
     });
   }
 }

@@ -38,6 +38,7 @@ export const updateCourse = async (courseId, data) => {
       window.setTimeout(() => {
         location.reload();
       }, 500);
+      
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
