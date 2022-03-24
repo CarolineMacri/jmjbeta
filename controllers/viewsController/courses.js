@@ -54,7 +54,7 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
       },
       teachercourse: [
         {
-          _id: '',
+          _id: 'new',
           teacher: {
             _id: '',
             firstName: '',

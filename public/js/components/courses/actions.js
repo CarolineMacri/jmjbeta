@@ -17,28 +17,62 @@ export const changeCoursesYear = (year) => {
 //   }
 // };
 
-export const updateCourse = async (courseId, data) => {
+export const updateCourse = async (
+  courseId,
+  course,
+  teachercourseId,
+  teachercourse
+) => {
   //export const updateCourse = (courseId, data) => {
+  const isNewCourse = courseId == 'new';
+  const method = isNewCourse == 'new' ? 'POST' : 'PATCH';
   try {
-    const url = `/api/v1/courses${courseId == 'new' ? '' : '/' + courseId}`;
-
-    const method = courseId == 'new' ? 'POST' : 'PATCH';
+    var url = `/api/v1/courses${isNewCourse ? '' : '/' + courseId}`;
 
     const res = await axios({
       method,
       url,
-      data,
+      data: course,
     });
 
     if (res.data.status == 'success') {
+      courseId = res.data.data.course.id;
       showAlert(
         'success',
-        `Course ${courseId == 'new' ? 'added' : 'updated'} successfully`
+        `Course ${courseId == 'new' ? courseId : 'updated'} successfully`
+      );
+      // window.setTimeout(() => {
+      //   location.replace('/course_profile/' + res.data.data.course._id);
+      // }, 500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+
+  try {
+    
+    var url = `/api/v1/teachercourses${
+      isNewCourse ? '' : '/' + teachercourseId
+    }`;
+    teachercourse.course = courseId;
+
+    alert(teachercourse.course);
+
+    const res = await axios({
+      method,
+      url,
+      data: teachercourse,
+    });
+
+    if (res.data.status == 'success') {
+      teachercourseId = res.data.data.teachercourse.id;
+      showAlert(
+        'success',
+        `Teachercourse ${teachercourseId == 'new' ? 'added' : 'updated'} successfully`
       );
       window.setTimeout(() => {
-        location.reload();
-      }, 500);
-      
+        location.replace('/course_profile/' + courseId);
+       }, 500);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);

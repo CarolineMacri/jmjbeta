@@ -85,7 +85,10 @@ function index(a) {
 
       const courseYears = getChecked('years');
 
-      const data = {
+      const teacherId = document.getElementById('owner').value;
+      const teachercourseId = document.getElementById('owner').dataset.teachercourseId;
+
+      const course = {
         name,
         year:courseYears,
         classFee,
@@ -97,8 +100,13 @@ function index(a) {
         materials,
         texts
       };
+      const teachercourse = {
+        teacher: teacherId,
+        course: courseId
+      }
      
-      updateCourse(courseId, data);
+      updateCourse(courseId, course, teachercourseId, teachercourse);
+      
     });
 
   }

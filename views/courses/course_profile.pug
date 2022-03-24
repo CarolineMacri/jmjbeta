@@ -19,7 +19,7 @@ block content
                         .form__dropdown-group
                             .form__item
                                 label.form__label(for='owner') Owner * 
-                                select#owner(name='owner')
+                                select#owner(name='owner' data-teachercourse-id=course.teachercourse[0]._id)
                                     for teacher in teachers 
                                         option(selected=(teacher.id==owner.id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
                                            
