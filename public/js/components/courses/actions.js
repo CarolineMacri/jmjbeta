@@ -25,7 +25,9 @@ export const updateCourse = async (
 ) => {
   //export const updateCourse = (courseId, data) => {
   const isNewCourse = courseId == 'new';
-  const method = isNewCourse == 'new' ? 'POST' : 'PATCH';
+  alert('new course ' + isNewCourse);
+  const method = isNewCourse  ? 'POST' : 'PATCH';
+  let newUpdatedCourseId = '';
   try {
     var url = `/api/v1/courses${isNewCourse ? '' : '/' + courseId}`;
 
@@ -36,7 +38,7 @@ export const updateCourse = async (
     });
 
     if (res.data.status == 'success') {
-      courseId = res.data.data.course.id;
+      newUpdatedCourseId = res.data.data.course.id;
       showAlert(
         'success',
         `Course ${courseId == 'new' ? courseId : 'updated'} successfully`
@@ -49,14 +51,14 @@ export const updateCourse = async (
     showAlert('error', err.response.data.message);
   }
 
+  alert(newUpdatedCourseId);
   try {
     
     var url = `/api/v1/teachercourses${
       isNewCourse ? '' : '/' + teachercourseId
     }`;
-    teachercourse.course = courseId;
+    teachercourse.course = newUpdatedCourseId;
 
-    alert(teachercourse.course);
 
     const res = await axios({
       method,

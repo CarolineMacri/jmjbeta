@@ -16057,7 +16057,7 @@ exports.changeCoursesYear = changeCoursesYear;
 
 var updateCourse = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, teachercourseId, teachercourse) {
-    var isNewCourse, method, url, res, _res;
+    var isNewCourse, method, newUpdatedCourseId, url, res, _res;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -16065,47 +16065,49 @@ var updateCourse = /*#__PURE__*/function () {
           case 0:
             //export const updateCourse = (courseId, data) => {
             isNewCourse = courseId == 'new';
-            method = isNewCourse == 'new' ? 'POST' : 'PATCH';
-            _context.prev = 2;
+            alert('new course ' + isNewCourse);
+            method = isNewCourse ? 'POST' : 'PATCH';
+            newUpdatedCourseId = '';
+            _context.prev = 4;
             url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + courseId);
-            _context.next = 6;
+            _context.next = 8;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: course
             });
 
-          case 6:
+          case 8:
             res = _context.sent;
 
             if (res.data.status == 'success') {
-              courseId = res.data.data.course.id;
+              newUpdatedCourseId = res.data.data.course.id;
               (0, _alerts.showAlert)('success', "Course ".concat(courseId == 'new' ? courseId : 'updated', " successfully")); // window.setTimeout(() => {
               //   location.replace('/course_profile/' + res.data.data.course._id);
               // }, 500);
             }
 
-            _context.next = 13;
+            _context.next = 15;
             break;
 
-          case 10:
-            _context.prev = 10;
-            _context.t0 = _context["catch"](2);
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](4);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 13:
-            _context.prev = 13;
+          case 15:
+            alert(newUpdatedCourseId);
+            _context.prev = 16;
             url = "/api/v1/teachercourses".concat(isNewCourse ? '' : '/' + teachercourseId);
-            teachercourse.course = courseId;
-            alert(teachercourse.course);
-            _context.next = 19;
+            teachercourse.course = newUpdatedCourseId;
+            _context.next = 21;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: teachercourse
             });
 
-          case 19:
+          case 21:
             _res = _context.sent;
 
             if (_res.data.status == 'success') {
@@ -16116,20 +16118,20 @@ var updateCourse = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context.next = 26;
+            _context.next = 28;
             break;
 
-          case 23:
-            _context.prev = 23;
-            _context.t1 = _context["catch"](13);
+          case 25:
+            _context.prev = 25;
+            _context.t1 = _context["catch"](16);
             (0, _alerts.showAlert)('error', _context.t1.response.data.message);
 
-          case 26:
+          case 28:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[2, 10], [13, 23]]);
+    }, _callee, null, [[4, 12], [16, 25]]);
   }));
 
   return function updateCourse(_x, _x2, _x3, _x4) {
