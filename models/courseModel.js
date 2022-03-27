@@ -25,7 +25,13 @@ const Grades = Object.freeze({
 const courseSchema = new mongoose.Schema(
   {
     name: String,
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'User',
+      required: [true, 'required and must be the ObjectId of a user'],
+    },
     description: String,
+    notes: String,
     grade: {
       type: new mongoose.Schema({
         min: {

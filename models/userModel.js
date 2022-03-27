@@ -72,8 +72,13 @@ userSchema.virtual('teachercourses', {
   localField: '_id',
   foreignField: 'teacher',
 });
+userSchema.virtual('courses', {
+  ref: 'Course',
+  localField: '_id',
+  foreignField: 'owner',
+});
 
-userSchema.index({ userName: 1 }, { unique: true });
+userSchema.index({ email: 1 }, { unique: true });
 
 userSchema.methods.correctPassword = async function (
   candidatePassword,

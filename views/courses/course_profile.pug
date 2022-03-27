@@ -15,13 +15,13 @@ block content
                         input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
                 .form__outline-box--bottom.form__row
                     .form__item
-                        -var owner = course.teachercourse[0].teacher
+                        -var ownerId = course.owner
                         .form__dropdown-group
                             .form__item
                                 label.form__label(for='owner') Owner * 
-                                select#owner(name='owner' data-teachercourse-id=course.teachercourse[0]._id)
+                                select#owner(name='owner' data-teachercourse-id=ownerId)
                                     for teacher in teachers 
-                                        option(selected=(teacher.id==owner.id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+                                        option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
                                            
                 .form__row
                     .form__label Years
@@ -66,7 +66,6 @@ block content
                     .form__column
                         .form__dropdown-group
                             .form__item
-                                
                                 -var grades = ['Infant','Toddler','PreK3','PreK4','K','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th','Adult']
                                 label.form__label(for='gradeMin') Grade Min *
                                 select#gradeMin(name='gradeMin') 
@@ -108,7 +107,11 @@ block content
                     .form__row
                         .form__item
                             label.form__label(for='description') Description *
-                            textarea#description.form__input(name='description', rows='3', cols='70',  required='')=course.description
+                            textarea#description.form__input(name='description', rows='3',  cols='70' required='')=course.description
+                    .form__row
+                        .form__item
+                            label.form__label(for='notes') Notes 
+                            input#notes.form__input(name='notes', type='text' size='42' value=course.notes)
                     .form__row
                         .form__item
                             label.form__label(for='materials') Required Materials:

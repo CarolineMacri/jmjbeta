@@ -16041,100 +16041,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var changeCoursesYear = function changeCoursesYear(year) {
   location.assign("/courses_table/".concat(year));
-}; // export const toggleModal = () => {
-//   document
-//     .querySelector('.form-modal__window')
-//     .classList.toggle('form-modal__show');
-// };
-// export const modalOnClick = (event) => {
-//   if ((event.target = document.querySelector('.form-modal__window'))) {
-//     toggleModal();
-//   }
-// };
-
+};
 
 exports.changeCoursesYear = changeCoursesYear;
 
 var updateCourse = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, teachercourseId, teachercourse) {
-    var isNewCourse, method, newUpdatedCourseId, url, res, _res;
-
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course) {
+    var isNewCourse, method, url, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            //export const updateCourse = (courseId, data) => {
             isNewCourse = courseId == 'new';
-            alert('new course ' + isNewCourse);
+            console.log(course.name);
             method = isNewCourse ? 'POST' : 'PATCH';
-            newUpdatedCourseId = '';
-            _context.prev = 4;
+            _context.prev = 3;
             url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + courseId);
-            _context.next = 8;
+            _context.next = 7;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: course
             });
 
-          case 8:
+          case 7:
             res = _context.sent;
 
             if (res.data.status == 'success') {
-              newUpdatedCourseId = res.data.data.course.id;
-              (0, _alerts.showAlert)('success', "Course ".concat(courseId == 'new' ? courseId : 'updated', " successfully")); // window.setTimeout(() => {
-              //   location.replace('/course_profile/' + res.data.data.course._id);
-              // }, 500);
-            }
-
-            _context.next = 15;
-            break;
-
-          case 12:
-            _context.prev = 12;
-            _context.t0 = _context["catch"](4);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
-
-          case 15:
-            alert(newUpdatedCourseId);
-            _context.prev = 16;
-            url = "/api/v1/teachercourses".concat(isNewCourse ? '' : '/' + teachercourseId);
-            teachercourse.course = newUpdatedCourseId;
-            _context.next = 21;
-            return (0, _axios.default)({
-              method: method,
-              url: url,
-              data: teachercourse
-            });
-
-          case 21:
-            _res = _context.sent;
-
-            if (_res.data.status == 'success') {
-              teachercourseId = _res.data.data.teachercourse.id;
-              (0, _alerts.showAlert)('success', "Teachercourse ".concat(teachercourseId == 'new' ? 'added' : 'updated', " successfully"));
+              (0, _alerts.showAlert)('success', "".concat(course.name, " ").concat(courseId == 'new' ? ' added ' : ' updated ', " successfully"));
               window.setTimeout(function () {
-                location.replace('/course_profile/' + courseId);
+                location.replace('/course_profile/' + res.data.data.course.id);
               }, 500);
             }
 
-            _context.next = 28;
+            _context.next = 14;
             break;
 
-          case 25:
-            _context.prev = 25;
-            _context.t1 = _context["catch"](16);
-            (0, _alerts.showAlert)('error', _context.t1.response.data.message);
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context["catch"](3);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 28:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[4, 12], [16, 25]]);
+    }, _callee, null, [[3, 11]]);
   }));
 
-  return function updateCourse(_x, _x2, _x3, _x4) {
+  return function updateCourse(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -16170,7 +16126,7 @@ var deleteCourseModal = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function deleteCourseModal(_x5) {
+  return function deleteCourseModal(_x3) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -16219,7 +16175,7 @@ var deleteCourse = /*#__PURE__*/function () {
     }, _callee3, null, [[0, 8]]);
   }));
 
-  return function deleteCourse(_x6, _x7) {
+  return function deleteCourse(_x4, _x5) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -16265,14 +16221,7 @@ function index(a) {
 
     for (var i = 1; i <= numRows - 2; i++) {
       _loop();
-    } // add event listener for new course
-    // const addNewRow = coursesRows[numRows - 1];
-    // const addNewCells = addNewRow.getElementsByTagName('td');
-    // const addNewButton = addNewCells.item(0);
-    // addNewButton.addEventListener('click', function () {
-    //   fillNewCourseForm();
-    // });
-
+    }
 
     var cancelDelete = document.getElementById('cancelDelete');
     cancelDelete.addEventListener('click', function (e) {
@@ -16303,13 +16252,14 @@ function index(a) {
         max: document.getElementById('classSizeMax').value
       };
       var description = document.getElementById('description').value;
+      var notes = document.getElementById('notes').value;
       var materials = document.getElementById('texts').value;
       var texts = document.getElementById('texts').value;
       var courseYears = getChecked('years');
-      var teacherId = document.getElementById('owner').value;
-      var teachercourseId = document.getElementById('owner').dataset.teachercourseId;
+      var owner = document.getElementById('owner').value;
       var course = {
         name: name,
+        owner: owner,
         year: courseYears,
         classFee: classFee,
         firstSemester: firstSemester,
@@ -16317,14 +16267,13 @@ function index(a) {
         grade: grade,
         classSize: classSize,
         description: description,
+        notes: notes,
         materials: materials,
         texts: texts
       };
-      var teachercourse = {
-        teacher: teacherId,
-        course: courseId
-      };
-      (0, _actions.updateCourse)(courseId, course, teachercourseId, teachercourse);
+      console.log(course);
+      alert(course);
+      (0, _actions.updateCourse)(courseId, course);
     });
   }
 }
@@ -16333,7 +16282,7 @@ function getChecked(name) {
   var items = document.getElementsByName(name);
   var selectedItems = [];
   items.forEach(function (item) {
-    if (item.type == "checkbox" && item.checked == true) selectedItems.push(item.value);
+    if (item.type == 'checkbox' && item.checked == true) selectedItems.push(item.value);
   });
   return selectedItems;
 }
@@ -16359,7 +16308,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.changeReportChildrenByGradeYear = void 0;
 
 var changeReportChildrenByGradeYear = function changeReportChildrenByGradeYear(year) {
-  location.assign("/reportChildrenByGrade/".concat(year));
+  location.assign("/reports/childrenByGrade/".concat(year));
 };
 
 exports.changeReportChildrenByGradeYear = changeReportChildrenByGradeYear;

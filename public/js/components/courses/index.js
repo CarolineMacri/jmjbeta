@@ -2,8 +2,12 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
-
-import { changeCoursesYear, updateCourse, deleteCourseModal, fillNewCourseForm } from './actions';
+import {
+  changeCoursesYear,
+  updateCourse,
+  deleteCourseModal,
+  fillNewCourseForm,
+} from './actions';
 
 function index(a) {
   // DOM elements
@@ -37,15 +41,6 @@ function index(a) {
       });
     }
 
-    // add event listener for new course
-    // const addNewRow = coursesRows[numRows - 1];
-    // const addNewCells = addNewRow.getElementsByTagName('td');
-    // const addNewButton = addNewCells.item(0);
-
-    // addNewButton.addEventListener('click', function () {
-    //   fillNewCourseForm();
-    // });
-
     const cancelDelete = document.getElementById('cancelDelete');
 
     cancelDelete.addEventListener('click', (e) => {
@@ -65,8 +60,7 @@ function index(a) {
       const name = document.getElementById('courseName').value;
       const classFee = document.getElementById('classFee').value;
       const firstSemester = {
-        materialFee: document.getElementById('firstSemesterMaterialFee')
-          .value,
+        materialFee: document.getElementById('firstSemesterMaterialFee').value,
       };
       const secondSemester = {
         materialFee: document.getElementById('secondSemesterMaterialFee').value,
@@ -80,45 +74,43 @@ function index(a) {
         max: document.getElementById('classSizeMax').value,
       };
       const description = document.getElementById('description').value;
+      const notes = document.getElementById('notes').value;
       const materials = document.getElementById('texts').value;
       const texts = document.getElementById('texts').value;
 
       const courseYears = getChecked('years');
 
-      const teacherId = document.getElementById('owner').value;
-      const teachercourseId = document.getElementById('owner').dataset.teachercourseId;
+      const owner = document.getElementById('owner').value;
 
       const course = {
         name,
-        year:courseYears,
+        owner,
+        year: courseYears,
         classFee,
         firstSemester,
         secondSemester,
         grade,
         classSize,
         description,
+        notes,
         materials,
-        texts
+        texts,
       };
-      const teachercourse = {
-        teacher: teacherId,
-        course: courseId
-      }
-     
-      updateCourse(courseId, course, teachercourseId, teachercourse);
-      
-    });
+      console.log(course);
+      alert(course);
 
+      updateCourse(courseId, course);
+    });
   }
 }
 
 function getChecked(name) {
   var items = document.getElementsByName(name);
 
-  var selectedItems = []
-  
+  var selectedItems = [];
+
   items.forEach((item) => {
-    if (item.type == "checkbox" && item.checked == true)
+    if (item.type == 'checkbox' && item.checked == true)
       selectedItems.push(item.value);
   });
 

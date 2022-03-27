@@ -5,29 +5,12 @@ export const changeCoursesYear = (year) => {
   location.assign(`/courses_table/${year}`);
 };
 
-// export const toggleModal = () => {
-//   document
-//     .querySelector('.form-modal__window')
-//     .classList.toggle('form-modal__show');
-// };
-
-// export const modalOnClick = (event) => {
-//   if ((event.target = document.querySelector('.form-modal__window'))) {
-//     toggleModal();
-//   }
-// };
-
-export const updateCourse = async (
-  courseId,
-  course,
-  teachercourseId,
-  teachercourse
-) => {
-  //export const updateCourse = (courseId, data) => {
+export const updateCourse = async (courseId, course) => {
   const isNewCourse = courseId == 'new';
-  alert('new course ' + isNewCourse);
-  const method = isNewCourse  ? 'POST' : 'PATCH';
-  let newUpdatedCourseId = '';
+  console.log(course.name);
+
+  const method = isNewCourse ? 'POST' : 'PATCH';
+ 
   try {
     var url = `/api/v1/courses${isNewCourse ? '' : '/' + courseId}`;
 
@@ -38,43 +21,13 @@ export const updateCourse = async (
     });
 
     if (res.data.status == 'success') {
-      newUpdatedCourseId = res.data.data.course.id;
       showAlert(
         'success',
-        `Course ${courseId == 'new' ? courseId : 'updated'} successfully`
-      );
-      // window.setTimeout(() => {
-      //   location.replace('/course_profile/' + res.data.data.course._id);
-      // }, 500);
-    }
-  } catch (err) {
-    showAlert('error', err.response.data.message);
-  }
-
-  alert(newUpdatedCourseId);
-  try {
-    
-    var url = `/api/v1/teachercourses${
-      isNewCourse ? '' : '/' + teachercourseId
-    }`;
-    teachercourse.course = newUpdatedCourseId;
-
-
-    const res = await axios({
-      method,
-      url,
-      data: teachercourse,
-    });
-
-    if (res.data.status == 'success') {
-      teachercourseId = res.data.data.teachercourse.id;
-      showAlert(
-        'success',
-        `Teachercourse ${teachercourseId == 'new' ? 'added' : 'updated'} successfully`
+      `${course.name} ${courseId == 'new' ? ' added ' : ' updated '} successfully`
       );
       window.setTimeout(() => {
-        location.replace('/course_profile/' + courseId);
-       }, 500);
+        location.replace('/course_profile/' + res.data.data.course.id);
+      }, 500);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
@@ -104,7 +57,7 @@ export const deleteCourseModal = async (row) => {
 };
 
 export const deleteCourse = async (courseId, courseName) => {
-  //const deleteCourse = (courseId, courseName) => {
+  
   try {
     const url = `/api/v1/courses/${courseId}`;
 

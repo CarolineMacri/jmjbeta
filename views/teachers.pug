@@ -14,8 +14,10 @@ block content
             .card__header-text= teacher.lastName
            
             .card__row.teacher-card__bio.card__outline-box--bottom
-              -var isNoBio = (typeof teacher.bio === "undefined")
-              -var bio = (isNoBio? '' : teacher.bio.slice(0,120)+"...")
+              -var isNoBio = (teacher.teacher.length == 0)
+              //-var bio = (isNoBio? '' : teacher.teacher.bio.slice(0,120)+"...")
+              -var bio = (isNoBio?'':teacher.teacher[0].bio)
+
               .card__item= bio
     
               if isAdmin  

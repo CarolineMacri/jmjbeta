@@ -13,7 +13,17 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const teachers = await User.aggregate()
+  const teachers = await User.find({
+    roles: 'parent',
+    year: selectedYear,
+  })
+    .sort('lastName')
+    .populate({ path: 'courses', match: {year:selectedYear}})
+    .populate({ path: 'teacher', justOne: true, select: 'bio' });
+  
+  console.log(teachers);
+
+  teachers = await User.aggregate()
     .match({ registrationYears: selectedYear, roles: 'teacher' })
     .sort('lastName')
     .project('firstName lastName')
@@ -33,8 +43,8 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
         },
         {
           $match: {
-            'courses.year': selectedYear
-          }
+            'courses.year': selectedYear,
+          },
         },
       ],
     })
@@ -68,39 +78,49 @@ exports.getTeachers = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const teachers = await User.aggregate()
-    .match({ registrationYears: selectedYear, roles: 'teacher' })
+  var teachers = await User.find({
+    roles: 'teacher',
+    registrationYears: selectedYear,
+  })
     .sort('lastName')
-    .project('firstName lastName')
-    .lookup({
-      from: 'teachercourses',
-      localField: '_id',
-      foreignField: 'teacher',
-      as: 'courses',
-      pipeline: [
-        {
-          $lookup: {
-            from: 'courses',
-            localField: 'courses',
-            foreignField: '_id',
-            as: 'courses',
-          },
-        },
-        {
-          $match: {
-            'courses.year': selectedYear
-          }
-        },
-      ],
-    })
-    .addFields({ courses: { $arrayElemAt: ['$courses.courses', 0] } })
-    .lookup({
-      from: 'teachers',
-      localField: '_id',
-      foreignField: 'teacher',
-      as: 'bio',
-    })
-    .addFields({ bio: { $arrayElemAt: ['$bio.bio', 0] } });
+    .populate({ path: 'courses', match: {year:selectedYear}})
+    .populate({ path: 'teacher', justOne: true });
+  
+  console.log(teachers);
+
+  // teachers = await User.aggregate()
+  //   .match({ registrationYears: selectedYear, roles: 'teacher' })
+  //   .sort('lastName')
+  //   .project('firstName lastName')
+  //   .lookup({
+  //     from: 'teachercourses',
+  //     localField: '_id',
+  //     foreignField: 'teacher',
+  //     as: 'courses',
+  //     pipeline: [
+  //       {
+  //         $lookup: {
+  //           from: 'courses',
+  //           localField: 'courses',
+  //           foreignField: '_id',
+  //           as: 'courses',
+  //         },
+  //       },
+  //       {
+  //         $match: {
+  //           'courses.year': selectedYear,
+  //         },
+  //       },
+  //     ],
+  //   })
+  //   .addFields({ courses: { $arrayElemAt: ['$courses.courses', 0] } })
+  //   .lookup({
+  //     from: 'teachers',
+  //     localField: '_id',
+  //     foreignField: 'teacher',
+  //     as: 'bio',
+  //   })
+  //   .addFields({ bio: { $arrayElemAt: ['$bio.bio', 0] } });
 
   res.status(200).render('teachers', {
     title: `Teachers ${selectedYear}`,

@@ -16,24 +16,6 @@ const teacherCourseSchema = new mongoose.Schema(
   }
 );
 
-
-
-// teacherCourseSchema.pre(/^find/, function (next) {
-//   this.populate([
-//     {
-//       path: 'teacher',
-//       select: 'firstName lastName',
-//     },
-//   ]);
-//   this.populate([
-//     {
-//       path: 'courses',
-//       select: 'name description classes',
-//     },
-//   ]);
-//   next();
-// });
-
 const TeacherCourse = mongoose.model('TeacherCourse', teacherCourseSchema);
 
 module.exports = TeacherCourse;
