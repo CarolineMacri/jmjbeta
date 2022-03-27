@@ -33,7 +33,7 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
      list.sort();
    })
 
-  res.status(200).render('reportChildrenByGrade', {
+  res.status(200).render('reports/childrenByGrade', {
     title: 'Children By Grade',
     gradeLists,
     years,

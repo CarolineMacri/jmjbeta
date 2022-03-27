@@ -1,4 +1,5 @@
 
 export const changeReportChildrenByGradeYear = (year) => {
-  location.assign(`/reportChildrenByGrade/${year}`);
+  
+  location.assign(`/reports/childrenByGrade/${year}`);
 };
