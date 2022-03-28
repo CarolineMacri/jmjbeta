@@ -19,8 +19,10 @@ export const userModalOnClick = (event) => {
 };
 
 export const fillUserForm = (row) => {
-  document.querySelector('.user-profile__form').id = row.id;
- 
+  const userForm = document.querySelector('.user-profile__form');
+  userForm.id = row.id;
+  userForm.dataset.registration = row.dataset.registration;
+  userForm.dataset.registrationIndex = row.dataset.registrationIndex;
 
   var [userLastName, userFirstName, userEmail, userCellPhone, userRoles, x, y] = [...row.children].map(
     (e) => e.innerHTML

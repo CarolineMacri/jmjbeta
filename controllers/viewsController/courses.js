@@ -44,6 +44,16 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
       secondSemester: {
         materialFee: 0,
       },
+      materialsFee: [
+        {
+          semester: 1,
+          amount: 0
+        },
+        {
+          semester: 2,
+          amount: 0
+        }
+      ],
       grade: {
         min: 'K',
         max: '12th',
@@ -76,8 +86,8 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
   }
 
   const teachers = await User.find({
-    roles: 'teacher',
-    registrationYears: '2022-2023',
+    'registration.roles': 'teacher',
+    'registration.year': selectedYear,
   }).sort('lastName');
 
   const years = await Year.find();

@@ -27,7 +27,7 @@ const courseSchema = new mongoose.Schema(
     name: String,
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:'User',
+      ref: 'User',
       required: [true, 'required and must be the ObjectId of a user'],
     },
     description: String,
@@ -56,6 +56,15 @@ const courseSchema = new mongoose.Schema(
         materialFee: Number,
       }),
     },
+    materialsFee: [
+      {
+        semester: {
+          type: Number,
+          enum: [1, 2],
+        },
+        amount: Number,
+      },
+    ],
     classFee: Number,
     classSize: {
       type: new mongoose.Schema({
@@ -63,6 +72,8 @@ const courseSchema = new mongoose.Schema(
         max: Number,
       }),
     },
+    texts: String,
+    materials: String,
     quarantinePolicy: String,
     year: [String],
   },
@@ -98,13 +109,12 @@ Object.assign(courseSchema.statics, {
 });
 
 courseSchema.statics.getGradeCourseMap = async function (selectedYear) {
-  
   const gradeCourseMap = new Map();
 
   Object.values(Grades).forEach((grade) => {
-    gradeCourseMap.set(grade, [])
+    gradeCourseMap.set(grade, []);
   });
-  
+
   const courses = await this.find({ year: selectedYear });
 
   courses.forEach((course) => {

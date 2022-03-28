@@ -378,12 +378,18 @@ if (users) {
       }
     }
 
+    var registration = JSON.parse(userProfileForm.dataset.registration);
+    var registrationIndex = userProfileForm.dataset.registrationIndex;
+    registration[registrationIndex].roles = roles;
+    alert(registration[registrationIndex].year);
+
     const data = {
       lastName,
       firstName,
       email,
       cellPhone,
       roles,
+      registration
     };
 
     if (id == 'new') {

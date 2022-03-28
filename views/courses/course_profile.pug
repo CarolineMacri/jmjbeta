@@ -56,6 +56,15 @@ block content
                     .form__row
                         .form__item.form__label Materials
                         
+                            for materialsFee in course.materialsFee
+                                -var semester = materialsFee.semester 
+                                -var amount = materialsFee.amount
+                                -var matId = `materialsFeeAmount${semester}`
+
+                                .form__item
+                                    label.form__label(for=`${matId}`)= `Semester ${semester}*`
+                                    input.form__input.form__input--inline(id=`${matId}` type='text', name=`${matId}`, size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(amount)}`)
+                        
                             label.form__label(for='firstSemesterMaterialFee') Semester 1*  $
                             input#firstSemesterMaterialFee.form__input.form__input--inline(type='text', name='firstSemesterMaterialFee', size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.firstSemester.materialFee)}`)
 

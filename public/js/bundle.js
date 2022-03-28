@@ -16253,7 +16253,7 @@ function index(a) {
       };
       var description = document.getElementById('description').value;
       var notes = document.getElementById('notes').value;
-      var materials = document.getElementById('texts').value;
+      var materials = document.getElementById('materials').value;
       var texts = document.getElementById('texts').value;
       var courseYears = getChecked('years');
       var owner = document.getElementById('owner').value;
@@ -16592,7 +16592,10 @@ var userModalOnClick = function userModalOnClick(event) {
 exports.userModalOnClick = userModalOnClick;
 
 var fillUserForm = function fillUserForm(row) {
-  document.querySelector('.user-profile__form').id = row.id;
+  var userForm = document.querySelector('.user-profile__form');
+  userForm.id = row.id;
+  userForm.dataset.registration = row.dataset.registration;
+  userForm.dataset.registrationIndex = row.dataset.registrationIndex;
 
   var _map = _toConsumableArray(row.children).map(function (e) {
     return e.innerHTML;
@@ -125303,12 +125306,17 @@ if (users) {
       _iterator3.f();
     }
 
+    var registration = JSON.parse(userProfileForm.dataset.registration);
+    var registrationIndex = userProfileForm.dataset.registrationIndex;
+    registration[registrationIndex].roles = roles;
+    alert(registration[registrationIndex].year);
     var data = {
       lastName: lastName,
       firstName: firstName,
       email: email,
       cellPhone: cellPhone,
-      roles: roles
+      roles: roles,
+      registration: registration
     };
 
     if (id == 'new') {

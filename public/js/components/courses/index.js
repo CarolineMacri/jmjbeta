@@ -75,7 +75,7 @@ function index(a) {
       };
       const description = document.getElementById('description').value;
       const notes = document.getElementById('notes').value;
-      const materials = document.getElementById('texts').value;
+      const materials = document.getElementById('materials').value;
       const texts = document.getElementById('texts').value;
 
       const courseYears = getChecked('years');

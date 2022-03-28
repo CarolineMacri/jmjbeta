@@ -16,13 +16,22 @@ block content
           th Cell Phone
           th Roles
 
+        -var roles= []
+        -var registrationIndex=0
         for user in users  
-          tr(id= user._id)
+          for registration, index in user.registration 
+            if (registration.year === selectedYear)
+              -roles= registration.roles
+              -registrationIndex= index
+        
+          
+          tr(id=user._id data-registration=user.registration data-registration-index=registrationIndex)
             td= user.lastName
             td= user.firstName 
             td= user.email
             td= user.cellPhone
-            td= user.roles
+            td= roles
+            
 
             td.button
               .edit &#9998
@@ -61,7 +70,7 @@ block content
                   input#admin(type='checkbox' name='roles' value='admin')
                   label.form__label-radio(for='roles') admin
                 .form__radio-item
-                  input#mother(type='checkbox' name='roles' value='parent')
+                  input#parent(type='checkbox' name='roles' value='parent')
                   label.form__label-radio(for='roles') parent
                 .form__radio-item
                   input#teacher(type='checkbox' name='roles' value='teacher')

@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema(
     },
     roles: [{ type: String, enum: ['parent', 'teacher', 'admin'] }],
     registrationYears: [{ type: String }],
+    registration: [
+      {
+        year: String,
+        roles:[{ type: String, enum: ['parent', 'teacher', 'admin'] }]
+      }
+    ],
     password: {
       type: String,
       required: [true, 'Password is required'],

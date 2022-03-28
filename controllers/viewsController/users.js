@@ -19,7 +19,7 @@ exports.getUsers = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const users = await User.find({ registrationYears: selectedYear }).sort(
+  const users = await User.find({ "registration.year": selectedYear }).sort(
     'lastName'
   );
 
