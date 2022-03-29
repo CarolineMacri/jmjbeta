@@ -68,12 +68,6 @@ courseSchema.virtual('classes', {
   foreignField: 'course',
 });
 
-courseSchema.virtual('teachercourse', {
-  ref: 'TeacherCourse',
-  localField: '_id',
-  foreignField: 'course',
-});
-
 courseSchema.virtual('grades').get(function () {
   let gradesArray = Object.values(Grades);
   const minGradeIndex = gradesArray.indexOf(this.grade.min);
@@ -94,7 +88,7 @@ courseSchema.statics.getGradeCourseMap = async function (selectedYear) {
     gradeCourseMap.set(grade, []);
   });
 
-  const courses = await this.find({ year: selectedYear });
+  const courses = await this.find({ years: selectedYear });
 
   courses.forEach((course) => {
     course.grades.forEach((grade) => {
