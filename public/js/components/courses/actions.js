@@ -5,14 +5,14 @@ export const changeCoursesYear = (year) => {
   location.assign(`/courses_table/${year}`);
 };
 
-export const updateCourse = async (courseId, course) => {
-  const isNewCourse = courseId == 'new';
-  console.log(course.name);
-
+export const updateCourse = async (courseId, course, selectedYear) => {
+ 
+  const isNewCourse = (course.isNew==true);
+  
   const method = isNewCourse ? 'POST' : 'PATCH';
  
   try {
-    var url = `/api/v1/courses${isNewCourse ? '' : '/' + courseId}`;
+    var url = `/api/v1/courses${isNewCourse ? '' : '/' + course.id}`;
 
     const res = await axios({
       method,
@@ -26,7 +26,7 @@ export const updateCourse = async (courseId, course) => {
       `${course.name} ${courseId == 'new' ? ' added ' : ' updated '} successfully`
       );
       window.setTimeout(() => {
-        location.replace('/course_profile/' + res.data.data.course.id);
+        location.replace('/course_profile/' + res.data.data.course.id + '/' + selectedYear);
       }, 500);
     }
   } catch (err) {

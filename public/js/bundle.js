@@ -16046,51 +16046,50 @@ var changeCoursesYear = function changeCoursesYear(year) {
 exports.changeCoursesYear = changeCoursesYear;
 
 var updateCourse = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, selectedYear) {
     var isNewCourse, method, url, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            isNewCourse = courseId == 'new';
-            console.log(course.name);
+            isNewCourse = course.isNew == true;
             method = isNewCourse ? 'POST' : 'PATCH';
-            _context.prev = 3;
-            url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + courseId);
-            _context.next = 7;
+            _context.prev = 2;
+            url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id);
+            _context.next = 6;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: course
             });
 
-          case 7:
+          case 6:
             res = _context.sent;
 
             if (res.data.status == 'success') {
               (0, _alerts.showAlert)('success', "".concat(course.name, " ").concat(courseId == 'new' ? ' added ' : ' updated ', " successfully"));
               window.setTimeout(function () {
-                location.replace('/course_profile/' + res.data.data.course.id);
+                location.replace('/course_profile/' + res.data.data.course.id + '/' + selectedYear);
               }, 500);
             }
 
-            _context.next = 14;
+            _context.next = 13;
             break;
 
-          case 11:
-            _context.prev = 11;
-            _context.t0 = _context["catch"](3);
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](2);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 14:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[3, 11]]);
+    }, _callee, null, [[2, 10]]);
   }));
 
-  return function updateCourse(_x, _x2) {
+  return function updateCourse(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -16126,7 +16125,7 @@ var deleteCourseModal = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function deleteCourseModal(_x3) {
+  return function deleteCourseModal(_x4) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -16175,7 +16174,7 @@ var deleteCourse = /*#__PURE__*/function () {
     }, _callee3, null, [[0, 8]]);
   }));
 
-  return function deleteCourse(_x4, _x5) {
+  return function deleteCourse(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -16234,15 +16233,21 @@ function index(a) {
     var courseProfileForm = document.querySelector('.course-profile__form');
     courseProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
+      var selectedYear = courseProfile.dataset.selectedYear;
+      var isNew = courseProfile.dataset.isNew == 'new';
+      alert(isNew);
       var courseId = courseProfileForm.id;
       var name = document.getElementById('courseName').value;
+      var owner = document.getElementById('owner').value;
+      var courseYears = getChecked('years');
       var classFee = document.getElementById('classFee').value;
-      var firstSemester = {
-        materialFee: document.getElementById('firstSemesterMaterialFee').value
-      };
-      var secondSemester = {
-        materialFee: document.getElementById('secondSemesterMaterialFee').value
-      };
+      var materialsFee = [{
+        semester: 1,
+        amount: document.getElementById('materialsFeeAmount1').value
+      }, {
+        semester: 2,
+        amount: document.getElementById('materialsFeeAmount2').value
+      }];
       var grade = {
         min: document.getElementById('gradeMin').value,
         max: document.getElementById('gradeMax').value
@@ -16255,25 +16260,23 @@ function index(a) {
       var notes = document.getElementById('notes').value;
       var materials = document.getElementById('materials').value;
       var texts = document.getElementById('texts').value;
-      var courseYears = getChecked('years');
-      var owner = document.getElementById('owner').value;
       var course = {
+        id: courseId,
         name: name,
         owner: owner,
-        year: courseYears,
+        years: courseYears,
         classFee: classFee,
-        firstSemester: firstSemester,
-        secondSemester: secondSemester,
         grade: grade,
         classSize: classSize,
         description: description,
         notes: notes,
         materials: materials,
-        texts: texts
+        texts: texts,
+        materialsFee: materialsFee,
+        isNew: isNew
       };
       console.log(course);
-      alert(course);
-      (0, _actions.updateCourse)(courseId, course);
+      (0, _actions.updateCourse)(courseId, course, selectedYear);
     });
   }
 }

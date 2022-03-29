@@ -6,7 +6,6 @@ import {
   changeCoursesYear,
   updateCourse,
   deleteCourseModal,
-  fillNewCourseForm,
 } from './actions';
 
 function index(a) {
@@ -16,10 +15,8 @@ function index(a) {
 
   if (courses) {
     const yearSelect = document.getElementById('year-select');
-
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
-
       changeCoursesYear(newYear);
     });
 
@@ -42,7 +39,6 @@ function index(a) {
     }
 
     const cancelDelete = document.getElementById('cancelDelete');
-
     cancelDelete.addEventListener('click', (e) => {
       e.preventDefault();
       document
@@ -56,15 +52,24 @@ function index(a) {
     courseProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
+      const selectedYear = courseProfile.dataset.selectedYear;
+      const isNew = courseProfile.dataset.isNew == 'new';
+      alert(isNew);
       const courseId = courseProfileForm.id;
       const name = document.getElementById('courseName').value;
+      const owner = document.getElementById('owner').value;
+      const courseYears = getChecked('years');
       const classFee = document.getElementById('classFee').value;
-      const firstSemester = {
-        materialFee: document.getElementById('firstSemesterMaterialFee').value,
-      };
-      const secondSemester = {
-        materialFee: document.getElementById('secondSemesterMaterialFee').value,
-      };
+      const materialsFee = [
+        {
+          semester: 1,
+          amount: document.getElementById('materialsFeeAmount1').value,
+        },
+        {
+          semester: 2,
+          amount: document.getElementById('materialsFeeAmount2').value,
+        },
+      ];
       const grade = {
         min: document.getElementById('gradeMin').value,
         max: document.getElementById('gradeMax').value,
@@ -77,29 +82,25 @@ function index(a) {
       const notes = document.getElementById('notes').value;
       const materials = document.getElementById('materials').value;
       const texts = document.getElementById('texts').value;
-
-      const courseYears = getChecked('years');
-
-      const owner = document.getElementById('owner').value;
-
+      
       const course = {
+        id:courseId,
         name,
         owner,
-        year: courseYears,
+        years: courseYears,
         classFee,
-        firstSemester,
-        secondSemester,
         grade,
         classSize,
         description,
         notes,
         materials,
         texts,
+        materialsFee,
+        isNew
       };
       console.log(course);
-      alert(course);
 
-      updateCourse(courseId, course);
+      updateCourse(courseId, course, selectedYear);
     });
   }
 }

@@ -24,58 +24,37 @@ const Grades = Object.freeze({
 
 const courseSchema = new mongoose.Schema(
   {
-    name: String,
+    name: { type: String, default: 'new' },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: [true, 'required and must be the ObjectId of a user'],
     },
-    description: String,
+    description: { type: String, default: 'New Course' },
     notes: String,
     grade: {
-      type: new mongoose.Schema({
-        min: {
-          type: String,
-          enum: Object.values(Grades),
-        },
-        max: {
-          type: String,
-          enum: Object.values(Grades),
-        },
-      }),
+      min: { type: String, enum: Object.values(Grades), default: 'K' },
+      max: { type: String, enum: Object.values(Grades), default: '12th' },
     },
-    firstSemester: {
-      type: new mongoose.Schema({
-        numSessions: Number,
-        materialFee: Number,
-      }),
-    },
-    secondSemester: {
-      type: new mongoose.Schema({
-        numSessions: Number,
-        materialFee: Number,
-      }),
-    },
-    materialsFee: [
-      {
-        semester: {
-          type: Number,
-          enum: [1, 2],
-        },
-        amount: Number,
+    materialsFee: {
+      type: Array,
+      of: {
+        semester: { type: Number, enum: [1, 2], default: 1 },
+        amount: { type: Number, default: 0 },
       },
-    ],
+      default: [
+        { semester: 1, amount: 0 },
+        { semester: 2, amount: 0 },
+      ],
+    },
     classFee: Number,
     classSize: {
-      type: new mongoose.Schema({
-        min: Number,
-        max: Number,
-      }),
+      min: { type: Number, default: 4 },
+      max: { type: Number, default: 12 },
     },
     texts: String,
     materials: String,
-    quarantinePolicy: String,
-    year: [String],
+    years: [String],
   },
   {
     toJSON: { virtuals: true },
