@@ -73,11 +73,7 @@ userSchema.virtual('teacher', {
   localField: '_id',
   foreignField: 'teacher',
 });
-userSchema.virtual('teachercourses', {
-  ref: 'TeacherCourse',
-  localField: '_id',
-  foreignField: 'teacher',
-});
+
 userSchema.virtual('courses', {
   ref: 'Course',
   localField: '_id',
