@@ -16626,7 +16626,7 @@ var fillUserForm = function fillUserForm(row) {
   document.getElementById('firstName').value = userFirstName;
   document.getElementById('email').value = userEmail;
   document.getElementById('cellPhone').value = userCellPhone;
-  document.getElementById('update').value = newUser ? 'Add' : "Update";
+  document.getElementById('update').value = newUser ? 'Add' : 'Update';
   var roleCheckBoxes = document.getElementsByName('roles');
   setChecked(roleCheckBoxes, userRoles);
   document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
@@ -16709,12 +16709,10 @@ var deleteUserModal = /*#__PURE__*/function () {
             userId = row.id;
             _map3 = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
-            }), _map4 = _slicedToArray(_map3, 7), userLastName = _map4[0], userFirstName = _map4[1], userEmail = _map4[2], userCellPhone = _map4[3], userRoles = _map4[4], x = _map4[5], y = _map4[6]; //alert(userId + userLastName);
-
+            }), _map4 = _slicedToArray(_map3, 7), userLastName = _map4[0], userFirstName = _map4[1], userEmail = _map4[2], userCellPhone = _map4[3], userRoles = _map4[4], x = _map4[5], y = _map4[6];
             deleteModal = document.querySelector('.delete-modal__window');
             paragraphs = deleteModal.getElementsByTagName('p');
-            paragraphs.item(2).innerHTML = userFirstName.toUpperCase() + '   ' + userLastName.toUpperCase(); //alert(deleteModal.getElementsByTagName('p').item(2));
-
+            paragraphs.item(2).innerHTML = userFirstName.toUpperCase() + '   ' + userLastName.toUpperCase();
             deleteUserButton = document.getElementById('deleteUser');
             deleteUserButton.addEventListener('click', function () {
               deleteUser(userId, userFirstName);

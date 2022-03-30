@@ -1,12 +1,7 @@
-/* eslint-disable */
-// import 'core-js/stable';
+/* eslint-disable */// import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
-import {
-  changeCoursesYear,
-  updateCourse,
-  deleteCourseModal,
-} from './actions';
+import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
 
 function index(a) {
   // DOM elements
@@ -82,9 +77,9 @@ function index(a) {
       const notes = document.getElementById('notes').value;
       const materials = document.getElementById('materials').value;
       const texts = document.getElementById('texts').value;
-      
+
       const course = {
-        id:courseId,
+        id: courseId,
         name,
         owner,
         years: courseYears,
@@ -96,7 +91,7 @@ function index(a) {
         materials,
         texts,
         materialsFee,
-        isNew
+        isNew,
       };
       console.log(course);
 

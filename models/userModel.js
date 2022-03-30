@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema(
         roles:[{ type: String, enum: ['parent', 'teacher', 'admin'] }]
       }
     ],
+    yearRolesMap: {type: Map, of: [{type: String, enum: ['parent','teacher','admin']}]},
     password: {
       type: String,
       required: [true, 'Password is required'],
