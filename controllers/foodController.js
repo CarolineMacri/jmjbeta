@@ -1,4 +1,5 @@
-const catchAsync = require('../utils/catchAsync');const Food = require('../models/foodModel');
+const catchAsync = require('../utils/catchAsync');
+const Food = require('../models/foodModel');
 const factory = require('./controllerFactory');
 
 exports.getFood = factory.getOne(Food);
@@ -8,43 +9,20 @@ exports.deleteFood = factory.deleteOne(Food);
 exports.createFood = factory.createOne(Food);
 
 exports.updateFood = catchAsync(async (req, res, next) => {
-  // remove and save the map to be updated later with setters
-  //const kind = req.body.kind;
-  //delete req.body.kind;
-
-  var doc = await Food.findByIdAndUpdate(req.params.id, req.body, {
+  
+  const { dataWithoutMaps, dataMapsOnly } = splitDataWithMaps(Food, req.body);
+  
+  var doc = await Food.findByIdAndUpdate(req.params.id, dataWithoutMaps, {
     new: true,
     runValidators: true,
   });
 
-  // get all the map schmematypes
-    var maps = getMaps(Food);
-    console.log(maps);
-    const keys = Object.keys(req.body);
-    console.log(keys);
-    maps = [...maps.filter(e => keys.includes(e))];
-    console.log(maps);
-
-  // set the map entries
-    
-    maps.forEach(map => {
-        const m = req.body[map];
-        delete req.body[map];
-        if (m) {
-            console.log(map.toString().toUpperCase() + '---------------------------');
-            Object.entries(m).forEach(([k, v]) => {
-                console.log(`setting ${k} :  ${v}`);
-                doc[map].set(k, v);
-            });
-            
-        }
-    });
-
-  doc = await doc.save();
-  console.log(doc.kind.get('2021-2022'));
-
+  if (doc) {
+    doc = setMapData(doc, dataMapsOnly);
+    doc = await doc.save();
+  }
   
-
+  
   const modelName = Food.modelName.toLowerCase();
 
   if (!doc) {
@@ -60,13 +38,48 @@ exports.updateFood = catchAsync(async (req, res, next) => {
   });
 });
 
-getMaps = (Model) => {
-    var maps = [];
-    Object.entries(Model.schema.obj).forEach(([k, v])=> {
-        if (Model.schema.path(k).instance == 'Map') {
-            maps.push(k)
-        }
-        
-    });
-    return maps;
+getModelMapKeys = (Model) => {
+  var modelMapKeys = [];
+  var modelSchemaDefinition = Model.schema.obj;
+  var schemaType = '';
+  Object.entries(modelSchemaDefinition).forEach(([k, v]) => {
+    schemaType = Model.schema.path(k).instance;
+    if (schemaType == 'Map') {
+      modelMapKeys.push(k);
+    }
+  });
+  return modelMapKeys;
 };
+
+getIntersection = (arr1, arr2) => {
+  return arr1.filter((e) => arr2.includes(e));
+};
+
+splitDataWithMaps = ((Model, data) => {
+  const dataMapsOnly = {};
+  const dataWithoutMaps = { ...data };  //not a deep clone
+
+  const modelMapKeys = getModelMapKeys(Model);
+  const dataKeys = Object.keys(data);
+  const mapKeysInData = getIntersection(modelMapKeys, dataKeys);
+
+  var mapDataValue = '';
+ 
+  mapKeysInData.forEach(mapKey => {
+    mapDataValue = data[mapKey];
+    if (mapDataValue) {
+      dataMapsOnly[mapKey] = mapDataValue
+    }
+    delete dataWithoutMaps[mapKey]
+  }) 
+  return { dataWithoutMaps, dataMapsOnly } 
+ });
+
+setMapData = ((doc, dataMapsOnly) => {
+  Object.entries(dataMapsOnly).forEach(([mapKey, mapData])=> {
+    Object.entries(mapData).forEach(([k, v])=> {
+      doc[mapKey].set(k, v);
+    })
+  })
+  return doc;
+ })
