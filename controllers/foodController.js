@@ -9,24 +9,41 @@ exports.createFood = factory.createOne(Food);
 
 exports.updateFood = catchAsync(async (req, res, next) => {
   // remove and save the map to be updated later with setters
-  const kind = req.body.kind;
-  delete req.body.kind;
+  //const kind = req.body.kind;
+  //delete req.body.kind;
 
   var doc = await Food.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
 
+  // get all the map schmematypes
+    var maps = getMaps(Food);
+    console.log(maps);
+    const keys = Object.keys(req.body);
+    console.log(keys);
+    maps = [...maps.filter(e => keys.includes(e))];
+    console.log(maps);
+
   // set the map entries
-  Object.entries(kind).forEach(([k, v]) => {
-    console.log(`setting ${k} :  ${v}`);
-    doc.kind.set(k, v);
-  });
+    
+    maps.forEach(map => {
+        const m = req.body[map];
+        delete req.body[map];
+        if (m) {
+            console.log(map.toString().toUpperCase() + '---------------------------');
+            Object.entries(m).forEach(([k, v]) => {
+                console.log(`setting ${k} :  ${v}`);
+                doc[map].set(k, v);
+            });
+            
+        }
+    });
 
   doc = await doc.save();
-  //console.log(doc);
+  console.log(doc.kind.get('2021-2022'));
 
-  console.log(getMaps(Food));
+  
 
   const modelName = Food.modelName.toLowerCase();
 

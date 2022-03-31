@@ -8,6 +8,10 @@ const foodSchema = new mongoose.Schema(
       type: Map,
       of: [String]
     },
+    year: {
+      type: Map,
+      of: [String]
+    },
     girl: String
   },
   {
