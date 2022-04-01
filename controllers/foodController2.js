@@ -1,4 +1,5 @@
-const catchAsync = require('../utils/catchAsync');const Food = require('../models/foodModel');
+const catchAsync = require('../utils/catchAsync');
+const Food = require('../models/foodModel');
 const factory = require('./controllerFactory');
 
 exports.getModel = factory.getOne(Food);
