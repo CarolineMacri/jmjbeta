@@ -125287,6 +125287,7 @@ if (users) {
     var cellPhone = cf.value;
     var id = userProfileForm.id;
     var role = document.getElementsByName('roles');
+    var selectedYear = document.getElementById('selectedYear').innerHTML;
     var r;
     var roles = [];
 
@@ -125311,13 +125312,16 @@ if (users) {
     var registrationIndex = userProfileForm.dataset.registrationIndex;
     registration[registrationIndex].roles = roles;
     alert(registration[registrationIndex].year);
+    var yearRoles = {};
+    yearRoles[selectedYear] = roles;
     var data = {
       lastName: lastName,
       firstName: firstName,
       email: email,
       cellPhone: cellPhone,
       roles: roles,
-      registration: registration
+      registration: registration,
+      yearRoles: yearRoles
     };
 
     if (id == 'new') {

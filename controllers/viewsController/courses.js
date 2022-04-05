@@ -1,5 +1,4 @@
 const catchAsync = require('../../utils/catchAsync');
-
 exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const Course = require('../../models/courseModel');
@@ -29,22 +28,21 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
   const User = require('../../models/userModel');
 
   let { courseId, selectedYear } = req.params;
-  
+
   var course = {};
 
   if (courseId == 'new') {
     course = new Course();
     course.years.push(selectedYear);
   } else {
-    course = await Course.findOne({ _id: courseId })
+    course = await Course.findOne({ _id: courseId });
   }
 
-  const teachers = await User.find({
-    'registration.roles': 'teacher',
-    'registration.year': selectedYear,
-  }).sort('lastName');
-
-  const years = await Year.find();
+  const teachers = await User.find()
+    .where(`yearRoles.${selectedYear}`)
+    .equals('teacher')
+    .sort('lastName');
+  console.log(teachers);
 
   res.status(200).render('courses/course_profile', {
     title: `${course.name}`,

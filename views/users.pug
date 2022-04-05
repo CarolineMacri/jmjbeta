@@ -23,6 +23,8 @@ block content
             if (registration.year === selectedYear)
               -roles= registration.roles
               -registrationIndex= index
+            //-roles = user.yearRoles[selectedYear]
+
         
           
           tr(id=user._id data-registration=user.registration data-registration-index=registrationIndex)
@@ -30,7 +32,7 @@ block content
             td= user.firstName 
             td= user.email
             td= user.cellPhone
-            td= roles
+            td= user.roles
             
 
             td.button
@@ -45,7 +47,7 @@ block content
     section.user-profile.form-modal__window
         form.form.form__outline-box.user-profile__form.form-modal__content
           .form__row
-            .form__header-text User
+            .form__header-text#selectedYear= selectedYear
             .form__header-background.family-form__header-image
           .form__outline-box--bottom.form__row
             .form__item

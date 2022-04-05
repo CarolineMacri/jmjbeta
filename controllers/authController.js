@@ -181,6 +181,24 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
+  // check to see if user is registered for this school year
+  var isCurrentlyRegistered = await currentUser.isCurrentlyRegistered();
+  if(!isCurrentlyRegistered){
+    return next(
+      new AppError('User is not currently registered for this school year', 401)
+    );
+  }
+  currentUser.currentlyRegistered = true;
+
+  // get the users roles for this year
+  var currentRoles = await currentUser.getCurrentRoles();  
+  if (!currentRoles){
+    return next(
+      new AppError('User is has no roles set for this school year', 401)
+    );
+  }
+  currentUser.currentRoles = currentRoles
+
   req.user = currentUser;
   res.locals.user = currentUser;
   next();
@@ -188,7 +206,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.restrictTo = (...restrictedRoles) => {
   return (req, res, next) => {
-    const okRoles = req.user.roles.filter((userRole) =>
+   
+    const okRoles = req.user.currentRoles.filter((userRole) =>
       restrictedRoles.includes(userRole)
     );
     if (okRoles.length === 0) {

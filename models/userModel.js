@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-//const Teacher = require('./teacherModel');
+const Year = require('./yearModel');
 
 const userSchema = new mongoose.Schema(
   {
@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
     },
     cellPhone: {
       type: String,
+      required: [true, 'Cell phone number is required.'],
       validate: [validator.isMobilePhone, 'Must be a valid phone number'],
     },
     roles: [{ type: String, enum: ['parent', 'teacher', 'admin'] }],
@@ -38,7 +39,9 @@ const userSchema = new mongoose.Schema(
         roles:[{ type: String, enum: ['parent', 'teacher', 'admin'] }]
       }
     ],
-    yearRolesMap: {type: Map, of: [{type: String, enum: ['parent','teacher','admin']}]},
+    yearRoles: { type: Map, of: [{ type: String, enum: ['parent', 'teacher', 'admin'] }] },
+    currentlyRegistered: Boolean,
+    currentRoles: [String],
     password: {
       type: String,
       required: [true, 'Password is required'],
@@ -81,6 +84,15 @@ userSchema.virtual('courses', {
   foreignField: 'owner',
 });
 
+userSchema.methods.isCurrentlyRegistered = async function () {
+  const currentYear = await Year.findOne({ current: true });
+  return this.registrationYears.includes(currentYear.year);
+};
+userSchema.methods.getCurrentRoles = async function () {
+  const currentYear = await Year.findOne({ current: true });
+  return this.yearRoles.get(currentYear.year);
+};
+
 userSchema.index({ email: 1 }, { unique: true });
 
 userSchema.methods.correctPassword = async function (
@@ -89,6 +101,8 @@ userSchema.methods.correctPassword = async function (
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
+
 
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {

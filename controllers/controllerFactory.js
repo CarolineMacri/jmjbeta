@@ -26,36 +26,39 @@ exports.createOne = (Model) =>
   });
 
 exports.getOne = (Model, popOptions) =>
- 
-catchAsync(async (req, res, next) =>
-{
-  let query = Model.findById(req.params.id);
-  if (popOptions) query = query.populate(popOptions);
-  const doc = await query;
+  catchAsync(async (req, res, next) => {
+    let query = Model.findById(req.params.id);
+    if (popOptions) query = query.populate(popOptions);
+    const doc = await query;
 
-  const modelName = Model.modelName.toLowerCase();
+    const modelName = Model.modelName.toLowerCase();
 
-  if (!doc) {
-    return next(new AppError(`No ${modelName} found with that ID`, 404));
-  }
+    if (!doc) {
+      return next(new AppError(`No ${modelName} found with that ID`, 404));
+    }
 
-  const data = {};
-  data[modelName] = doc;
+    const data = {};
+    data[modelName] = doc;
 
-  res.status(200).json({
-    status: 'success',
-    data,
+    res.status(200).json({
+      status: 'success',
+      data,
+    });
   });
-});
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const { dataWithoutMaps, dataMapsOnly } = splitDataWithMaps(Model,req.body);
-
+    const { dataWithoutMaps, dataMapsOnly } = splitDataWithMaps(
+      Model,
+      req.body
+    );
+    
     var doc = await Model.findById(req.params.id);
-    if (doc) await doc.updateOne(dataWithoutMaps);
-
-    doc = setUndefinedMapKeys(dataMapsOnly, doc);
+    if (doc) {
+      await doc.updateOne(dataWithoutMaps);
+    }
+   
+    doc = setUndefinedMapKeys(doc, dataMapsOnly);
     doc = await doc.save();
 
     if (doc) {

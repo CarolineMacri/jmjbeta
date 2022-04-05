@@ -370,6 +370,7 @@ if (users) {
     const cellPhone = cf.value;
     const id = userProfileForm.id;
     const role = document.getElementsByName('roles');
+    const selectedYear = document.getElementById('selectedYear').innerHTML;
     var r;
     var roles = [];
     for (r of role) {
@@ -382,6 +383,8 @@ if (users) {
     var registrationIndex = userProfileForm.dataset.registrationIndex;
     registration[registrationIndex].roles = roles;
     alert(registration[registrationIndex].year);
+    var yearRoles = {};
+    yearRoles[selectedYear]= roles;
 
     const data = {
       lastName,
@@ -389,7 +392,8 @@ if (users) {
       email,
       cellPhone,
       roles,
-      registration
+      registration,
+      yearRoles
     };
 
     if (id == 'new') {
