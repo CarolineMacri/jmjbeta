@@ -46,7 +46,7 @@ export const logout = async () => {
 export const resetPassword = async (token, newPassword, newPasswordConfirm) => {
   try {
     const url = `/api/v1/users/resetPassword/${token}`;
-    alert(`In reset password ${url}`);
+    //alert(`In reset password ${url}`);
 
     const res = await axios({
       method: 'PATCH',
@@ -60,7 +60,7 @@ export const resetPassword = async (token, newPassword, newPasswordConfirm) => {
     if (res.data.status === 'success') {
       showAlert('success', `Password reset successfully`);
       window.setTimeout(() => {
-        location.assign('login/login');
+        location.assign('/login');
       }, 1000);
     }
   } catch (err) {

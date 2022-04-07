@@ -16092,9 +16092,9 @@ var resetPassword = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            _url = "/api/v1/users/resetPassword/".concat(token);
-            alert("In reset password ".concat(_url));
-            _context3.next = 5;
+            _url = "/api/v1/users/resetPassword/".concat(token); //alert(`In reset password ${url}`);
+
+            _context3.next = 4;
             return (0, _axios.default)({
               method: 'PATCH',
               url: _url,
@@ -16104,31 +16104,31 @@ var resetPassword = /*#__PURE__*/function () {
               }
             });
 
-          case 5:
+          case 4:
             res = _context3.sent;
 
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', "Password reset successfully");
               window.setTimeout(function () {
-                location.assign('login/login');
+                location.assign('/login');
               }, 1000);
             }
 
-            _context3.next = 13;
+            _context3.next = 12;
             break;
 
-          case 9:
-            _context3.prev = 9;
+          case 8:
+            _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
             console.log(_context3.t0.response);
             (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
-          case 13:
+          case 12:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 9]]);
+    }, _callee3, null, [[0, 8]]);
   }));
 
   return function resetPassword(_x3, _x4, _x5) {
@@ -16372,7 +16372,7 @@ function index(a) {
                 currentUrlParts = window.location.href.split('/');
                 resetPasswordIndex = currentUrlParts.indexOf('resetPassword');
                 token = currentUrlParts[resetPasswordIndex + 1];
-                resetPassword(token, newPassword, newPasswordConfirm);
+                (0, _actions.resetPassword)(token, newPassword, newPasswordConfirm);
                 document.querySelector('.reset-password__button').innerHTML = 'Resetting.....';
 
               case 8:

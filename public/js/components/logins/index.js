@@ -1,4 +1,4 @@
-import { login, logout, forgotMyPassword, updateUserSettings } from './actions';
+import { login, logout, forgotMyPassword, resetPassword, updateUserSettings } from './actions';
 
 function index(a) {
   const loginForm = document.querySelector('.login__form');
