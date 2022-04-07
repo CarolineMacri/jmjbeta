@@ -14106,13 +14106,13 @@ var showAlert = function showAlert(type, msg) {
 };
 
 exports.showAlert = showAlert;
-},{}],"login.js":[function(require,module,exports) {
+},{}],"family.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logout = exports.login = void 0;
+exports.addFamily = exports.changeFamilyYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -14124,36 +14124,40 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var login = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
-    var res, id, familyUrl;
+var changeFamilyYear = function changeFamilyYear(id, year) {
+  location.assign("/family/".concat(id, "/").concat(year));
+};
+
+exports.changeFamilyYear = changeFamilyYear;
+
+var addFamily = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(parentId) {
+    var url, method, data, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            console.log('in login');
-            _context.next = 4;
+            url = "/api/v1/families";
+            method = 'POST';
+            data = {
+              parent: parentId
+            };
+            _context.next = 6;
             return (0, _axios.default)({
-              method: 'POST',
-              url: '/api/v1/users/login',
-              data: {
-                email: email,
-                password: password
-              }
+              method: method,
+              url: url,
+              data: data
             });
 
-          case 4:
+          case 6:
             res = _context.sent;
-            id = res.data.data.user._id; //ODO : pick default page based on  admin views)
 
-            familyUrl = "/family/".concat(id);
-
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', 'Logged in successfully');
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "Family added successfully");
               window.setTimeout(function () {
-                location.assign(familyUrl);
-              }, 3000);
+                location.reload();
+              }, 500);
             }
 
             _context.next = 13;
@@ -14172,57 +14176,327 @@ var login = /*#__PURE__*/function () {
     }, _callee, null, [[0, 10]]);
   }));
 
-  return function login(_x, _x2) {
+  return function addFamily(_x) {
     return _ref.apply(this, arguments);
   };
 }();
 
-exports.login = login;
+exports.addFamily = addFamily;
+},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"families.js":[function(require,module,exports) {
+"use strict";
 
-var logout = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    var res;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.changeFamiliesYear = void 0;
+
+var changeFamiliesYear = function changeFamiliesYear(year) {
+  location.assign("/families/".concat(year));
+};
+
+exports.changeFamiliesYear = changeFamiliesYear;
+},{}],"registrations.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.changeRegistrationsYear = void 0;
+
+var changeRegistrationsYear = function changeRegistrationsYear(year) {
+  location.assign("/registrations/".concat(year));
+};
+
+exports.changeRegistrationsYear = changeRegistrationsYear;
+},{}],"components/courses/actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deleteCourse = exports.deleteCourseModal = exports.updateCourse = exports.changeCoursesYear = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var changeCoursesYear = function changeCoursesYear(year) {
+  location.assign("/courses_table/".concat(year));
+};
+
+exports.changeCoursesYear = changeCoursesYear;
+
+var updateCourse = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, selectedYear) {
+    var isNewCourse, method, url, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            isNewCourse = course.isNew == true;
+            method = isNewCourse ? 'POST' : 'PATCH';
+            _context.prev = 2;
+            url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id);
+            _context.next = 6;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: course
+            });
+
+          case 6:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "".concat(course.name, " ").concat(courseId == 'new' ? ' added ' : ' updated ', " successfully"));
+              window.setTimeout(function () {
+                location.replace('/course_profile/' + res.data.data.course.id + '/' + selectedYear);
+              }, 500);
+            }
+
+            _context.next = 13;
+            break;
+
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](2);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 13:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[2, 10]]);
+  }));
+
+  return function updateCourse(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.updateCourse = updateCourse;
+
+var deleteCourseModal = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
+    var courseId, _map, _map2, courseName, courseGrades, courseFee, x, y, deleteModal, paragraphs, deleteCourseButton;
+
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return (0, _axios.default)({
-              method: 'GET',
-              url: '/api/v1/users/logout'
+            courseId = row.id;
+            _map = _toConsumableArray(row.children).map(function (e) {
+              return e.innerHTML;
+            }), _map2 = _slicedToArray(_map, 5), courseName = _map2[0], courseGrades = _map2[1], courseFee = _map2[2], x = _map2[3], y = _map2[4];
+            deleteModal = document.querySelector('.delete-modal__window');
+            paragraphs = deleteModal.getElementsByTagName('p');
+            paragraphs.item(2).innerHTML = courseName.toUpperCase() + '   ' + courseGrades;
+            deleteCourseButton = document.getElementById('deleteCourse');
+            deleteCourseButton.addEventListener('click', function () {
+              deleteCourse(courseId, courseName);
             });
+            deleteModal.classList.toggle('delete-modal__show');
 
-          case 3:
-            res = _context2.sent;
-
-            if (res.data.status == 'success') {
-              location.replace('/');
-            }
-
-            _context2.next = 10;
-            break;
-
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
-            (0, _alerts.showAlert)('error', 'Error logging out! Try again.');
-
-          case 10:
+          case 8:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2);
   }));
 
-  return function logout() {
+  return function deleteCourseModal(_x4) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-exports.logout = logout;
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"../../node_modules/node-libs-browser/node_modules/punycode/punycode.js":[function(require,module,exports) {
+exports.deleteCourseModal = deleteCourseModal;
+
+var deleteCourse = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(courseId, courseName) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            url = "/api/v1/courses/".concat(courseId);
+            _context3.next = 4;
+            return (0, _axios.default)({
+              method: 'DELETE',
+              url: url
+            });
+
+          case 4:
+            res = _context3.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)('success', "".concat(courseName, " deleted"));
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+              (0, _alerts.showAlert)('success', "".concat(courseName, " successfully deleted"));
+            }
+
+            _context3.next = 11;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](0);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 8]]);
+  }));
+
+  return function deleteCourse(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.deleteCourse = deleteCourse;
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/courses/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _actions = require("./actions");
+
+/* eslint-disable */
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime';
+function index(a) {
+  // DOM elements
+  var courses = document.querySelector('.courses');
+  var courseProfile = document.querySelector('.course-profile');
+
+  if (courses) {
+    var yearSelect = document.getElementById('year-select');
+    yearSelect.addEventListener('change', function (e) {
+      var newYear = yearSelect.value;
+      (0, _actions.changeCoursesYear)(newYear);
+    }); // add event listners for each course
+
+    var coursesRows = document.querySelector('.courses').getElementsByTagName('tr');
+    var numRows = coursesRows.length;
+
+    var _loop = function _loop() {
+      var dataRow = coursesRows[i];
+      var dataCells = dataRow.getElementsByTagName('td');
+      var numCells = dataCells.length;
+      var deleteButton = dataCells.item(numCells - 1);
+      deleteButton.addEventListener('click', function () {
+        (0, _actions.deleteCourseModal)(dataRow);
+      });
+    };
+
+    for (var i = 1; i <= numRows - 2; i++) {
+      _loop();
+    }
+
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    });
+  }
+
+  if (courseProfile) {
+    var courseProfileForm = document.querySelector('.course-profile__form');
+    courseProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var selectedYear = courseProfile.dataset.selectedYear;
+      var isNew = courseProfile.dataset.isNew == 'new';
+      alert(isNew);
+      var courseId = courseProfileForm.id;
+      var name = document.getElementById('courseName').value;
+      var owner = document.getElementById('owner').value;
+      var courseYears = getChecked('years');
+      var classFee = document.getElementById('classFee').value;
+      var materialsFee = [{
+        semester: 1,
+        amount: document.getElementById('materialsFeeAmount1').value
+      }, {
+        semester: 2,
+        amount: document.getElementById('materialsFeeAmount2').value
+      }];
+      var grade = {
+        min: document.getElementById('gradeMin').value,
+        max: document.getElementById('gradeMax').value
+      };
+      var classSize = {
+        min: document.getElementById('classSizeMin').value,
+        max: document.getElementById('classSizeMax').value
+      };
+      var description = document.getElementById('description').value;
+      var notes = document.getElementById('notes').value;
+      var materials = document.getElementById('materials').value;
+      var texts = document.getElementById('texts').value;
+      var course = {
+        id: courseId,
+        name: name,
+        owner: owner,
+        years: courseYears,
+        classFee: classFee,
+        grade: grade,
+        classSize: classSize,
+        description: description,
+        notes: notes,
+        materials: materials,
+        texts: texts,
+        materialsFee: materialsFee,
+        isNew: isNew
+      };
+      console.log(course);
+      (0, _actions.updateCourse)(courseId, course, selectedYear);
+    });
+  }
+}
+
+function getChecked(name) {
+  var items = document.getElementsByName(name);
+  var selectedItems = [];
+  items.forEach(function (item) {
+    if (item.type == 'checkbox' && item.checked == true) selectedItems.push(item.value);
+  });
+  return selectedItems;
+}
+},{"./actions":"components/courses/actions.js"}],"../../node_modules/node-libs-browser/node_modules/punycode/punycode.js":[function(require,module,exports) {
 var global = arguments[3];
 var define;
 /*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -15691,19 +15965,19 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"punycode":"../../node_modules/node-libs-browser/node_modules/punycode/punycode.js","./util":"../../node_modules/url/util.js","querystring":"../../node_modules/querystring-es3/index.js"}],"forgotMyPassword.js":[function(require,module,exports) {
+},{"punycode":"../../node_modules/node-libs-browser/node_modules/punycode/punycode.js","./util":"../../node_modules/url/util.js","querystring":"../../node_modules/querystring-es3/index.js"}],"components/logins/actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.forgotMyPassword = void 0;
+exports.forgotMyPassword = exports.updateUserSettings = exports.resetPassword = exports.logout = exports.login = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _url = _interopRequireDefault(require("url"));
+var _url3 = _interopRequireDefault(require("url"));
 
-var _alerts = require("./alerts");
+var _alerts = require("../../alerts");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15711,16 +15985,220 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var forgotMyPassword = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email) {
-    var res;
+var login = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
+    var res, id, familyUrl;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return (0, _axios.default)({
+              method: 'POST',
+              url: '/api/v1/users/login',
+              data: {
+                email: email,
+                password: password
+              }
+            });
+
+          case 3:
+            res = _context.sent;
+            id = res.data.data.user._id; //ODO : pick default page based on  admin views)
+
+            familyUrl = "/family/".concat(id);
+
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', 'Logged in successfully');
+              window.setTimeout(function () {
+                location.assign(familyUrl);
+              }, 3000);
+            }
+
+            _context.next = 12;
+            break;
+
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](0);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 12:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 9]]);
+  }));
+
+  return function login(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.login = login;
+
+var logout = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    var res;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return (0, _axios.default)({
+              method: 'GET',
+              url: '/api/v1/users/logout'
+            });
+
+          case 3:
+            res = _context2.sent;
+
+            if (res.data.status == 'success') {
+              location.replace('/');
+            }
+
+            _context2.next = 10;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            (0, _alerts.showAlert)('error', 'Error logging out! Try again.');
+
+          case 10:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 7]]);
+  }));
+
+  return function logout() {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.logout = logout;
+
+var resetPassword = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(token, newPassword, newPasswordConfirm) {
+    var _url, res;
+
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _url = "/api/v1/users/resetPassword/".concat(token);
+            alert("In reset password ".concat(_url));
+            _context3.next = 5;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: _url,
+              data: {
+                password: newPassword,
+                passwordConfirm: newPasswordConfirm
+              }
+            });
+
+          case 5:
+            res = _context3.sent;
+
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', "Password reset successfully");
+              window.setTimeout(function () {
+                location.assign('login/login');
+              }, 1000);
+            }
+
+            _context3.next = 13;
+            break;
+
+          case 9:
+            _context3.prev = 9;
+            _context3.t0 = _context3["catch"](0);
+            console.log(_context3.t0.response);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+
+          case 13:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 9]]);
+  }));
+
+  return function resetPassword(_x3, _x4, _x5) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.resetPassword = resetPassword;
+
+var updateUserSettings = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(type, data) {
+    var _url2, res;
+
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _url2 = type == 'password' ? "/api/v1/users/updateMyPassword" : "/api/v1/users/updateMe";
+            _context4.next = 4;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: _url2,
+              data: data
+            });
+
+          case 4:
+            res = _context4.sent;
+
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully"));
+              window.setTimeout(function () {
+                location.assign(type == 'profile' ? '/myProfile' : '/updatePassword');
+              }, 1000);
+            }
+
+            _context4.next = 12;
+            break;
+
+          case 8:
+            _context4.prev = 8;
+            _context4.t0 = _context4["catch"](0);
+            console.log(_context4.t0.response);
+            (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
+
+          case 12:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[0, 8]]);
+  }));
+
+  return function updateUserSettings(_x6, _x7) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.updateUserSettings = updateUserSettings;
+
+var forgotMyPassword = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(email) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
             alert(email);
-            _context.prev = 1;
-            _context.next = 4;
+            _context5.prev = 1;
+            _context5.next = 4;
             return (0, _axios.default)({
               method: 'POST',
               url: '/api/v1/users/forgotPassword',
@@ -15730,7 +16208,7 @@ var forgotMyPassword = /*#__PURE__*/function () {
             });
 
           case 4:
-            res = _context.sent;
+            res = _context5.sent;
 
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', 'Password reset email sent'); // window.setTimeout(() => {
@@ -15738,450 +16216,29 @@ var forgotMyPassword = /*#__PURE__*/function () {
               // }, 3000);
             }
 
-            _context.next = 11;
+            _context5.next = 11;
             break;
 
           case 8:
-            _context.prev = 8;
-            _context.t0 = _context["catch"](1);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            _context5.prev = 8;
+            _context5.t0 = _context5["catch"](1);
+            (0, _alerts.showAlert)('error', _context5.t0.response.data.message);
 
           case 11:
           case "end":
-            return _context.stop();
+            return _context5.stop();
         }
       }
-    }, _callee, null, [[1, 8]]);
+    }, _callee5, null, [[1, 8]]);
   }));
 
-  return function forgotMyPassword(_x) {
-    return _ref.apply(this, arguments);
+  return function forgotMyPassword(_x8) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.forgotMyPassword = forgotMyPassword;
-},{"axios":"../../node_modules/axios/index.js","url":"../../node_modules/url/url.js","./alerts":"alerts.js"}],"updateUserSettings.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.updateUserSettings = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _alerts = require("./alerts");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-// type = profile or password
-var updateUserSettings = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(type, data) {
-    var url, res;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            url = type == 'password' ? "/api/v1/users/updateMyPassword" : "/api/v1/users/updateMe";
-            _context.next = 4;
-            return (0, _axios.default)({
-              method: 'PATCH',
-              url: url,
-              data: data
-            });
-
-          case 4:
-            res = _context.sent;
-
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully"));
-              window.setTimeout(function () {
-                location.assign(type == 'profile' ? '/myProfile' : '/updatePassword');
-              }, 1000);
-            }
-
-            _context.next = 12;
-            break;
-
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context["catch"](0);
-            console.log(_context.t0.response);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
-
-          case 12:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[0, 8]]);
-  }));
-
-  return function updateUserSettings(_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-exports.updateUserSettings = updateUserSettings;
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"resetPassword.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.resetPassword = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _alerts = require("./alerts");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-// type = profile or password
-var resetPassword = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(token, newPassword, newPasswordConfirm) {
-    var url, res;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            url = "/api/v1/users/resetPassword/".concat(token);
-            alert("In reset password ".concat(url));
-            _context.next = 5;
-            return (0, _axios.default)({
-              method: 'PATCH',
-              url: url,
-              data: {
-                password: newPassword,
-                passwordConfirm: newPasswordConfirm
-              }
-            });
-
-          case 5:
-            res = _context.sent;
-
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', "Password reset successfully");
-              window.setTimeout(function () {
-                location.assign('login/login');
-              }, 1000);
-            }
-
-            _context.next = 13;
-            break;
-
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](0);
-            console.log(_context.t0.response);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
-
-          case 13:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[0, 9]]);
-  }));
-
-  return function resetPassword(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-exports.resetPassword = resetPassword;
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"family.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.addFamily = exports.changeFamilyYear = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _alerts = require("./alerts");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var changeFamilyYear = function changeFamilyYear(id, year) {
-  location.assign("/family/".concat(id, "/").concat(year));
-};
-
-exports.changeFamilyYear = changeFamilyYear;
-
-var addFamily = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(parentId) {
-    var url, method, data, res;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            url = "/api/v1/families";
-            method = 'POST';
-            data = {
-              parent: parentId
-            };
-            _context.next = 6;
-            return (0, _axios.default)({
-              method: method,
-              url: url,
-              data: data
-            });
-
-          case 6:
-            res = _context.sent;
-
-            if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "Family added successfully");
-              window.setTimeout(function () {
-                location.reload();
-              }, 500);
-            }
-
-            _context.next = 13;
-            break;
-
-          case 10:
-            _context.prev = 10;
-            _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
-
-          case 13:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[0, 10]]);
-  }));
-
-  return function addFamily(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-exports.addFamily = addFamily;
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"families.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.changeFamiliesYear = void 0;
-
-var changeFamiliesYear = function changeFamiliesYear(year) {
-  location.assign("/families/".concat(year));
-};
-
-exports.changeFamiliesYear = changeFamiliesYear;
-},{}],"registrations.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.changeRegistrationsYear = void 0;
-
-var changeRegistrationsYear = function changeRegistrationsYear(year) {
-  location.assign("/registrations/".concat(year));
-};
-
-exports.changeRegistrationsYear = changeRegistrationsYear;
-},{}],"components/courses/actions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.deleteCourse = exports.deleteCourseModal = exports.updateCourse = exports.changeCoursesYear = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _alerts = require("../../alerts");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var changeCoursesYear = function changeCoursesYear(year) {
-  location.assign("/courses_table/".concat(year));
-};
-
-exports.changeCoursesYear = changeCoursesYear;
-
-var updateCourse = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, selectedYear) {
-    var isNewCourse, method, url, res;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            isNewCourse = course.isNew == true;
-            method = isNewCourse ? 'POST' : 'PATCH';
-            _context.prev = 2;
-            url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id);
-            _context.next = 6;
-            return (0, _axios.default)({
-              method: method,
-              url: url,
-              data: course
-            });
-
-          case 6:
-            res = _context.sent;
-
-            if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "".concat(course.name, " ").concat(courseId == 'new' ? ' added ' : ' updated ', " successfully"));
-              window.setTimeout(function () {
-                location.replace('/course_profile/' + res.data.data.course.id + '/' + selectedYear);
-              }, 500);
-            }
-
-            _context.next = 13;
-            break;
-
-          case 10:
-            _context.prev = 10;
-            _context.t0 = _context["catch"](2);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
-
-          case 13:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[2, 10]]);
-  }));
-
-  return function updateCourse(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-exports.updateCourse = updateCourse;
-
-var deleteCourseModal = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
-    var courseId, _map, _map2, courseName, courseGrades, courseFee, x, y, deleteModal, paragraphs, deleteCourseButton;
-
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            courseId = row.id;
-            _map = _toConsumableArray(row.children).map(function (e) {
-              return e.innerHTML;
-            }), _map2 = _slicedToArray(_map, 5), courseName = _map2[0], courseGrades = _map2[1], courseFee = _map2[2], x = _map2[3], y = _map2[4];
-            deleteModal = document.querySelector('.delete-modal__window');
-            paragraphs = deleteModal.getElementsByTagName('p');
-            paragraphs.item(2).innerHTML = courseName.toUpperCase() + '   ' + courseGrades;
-            deleteCourseButton = document.getElementById('deleteCourse');
-            deleteCourseButton.addEventListener('click', function () {
-              deleteCourse(courseId, courseName);
-            });
-            deleteModal.classList.toggle('delete-modal__show');
-
-          case 8:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function deleteCourseModal(_x4) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-exports.deleteCourseModal = deleteCourseModal;
-
-var deleteCourse = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(courseId, courseName) {
-    var url, res;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.prev = 0;
-            url = "/api/v1/courses/".concat(courseId);
-            _context3.next = 4;
-            return (0, _axios.default)({
-              method: 'DELETE',
-              url: url
-            });
-
-          case 4:
-            res = _context3.sent;
-
-            if (res.status == 204) {
-              (0, _alerts.showAlert)('success', "".concat(courseName, " deleted"));
-              window.setTimeout(function () {
-                location.reload();
-              }, 500);
-              (0, _alerts.showAlert)('success', "".concat(courseName, " successfully deleted"));
-            }
-
-            _context3.next = 11;
-            break;
-
-          case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
-
-          case 11:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3, null, [[0, 8]]);
-  }));
-
-  return function deleteCourse(_x5, _x6) {
-    return _ref3.apply(this, arguments);
-  };
-}();
-
-exports.deleteCourse = deleteCourse;
-},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/courses/index.js":[function(require,module,exports) {
+},{"axios":"../../node_modules/axios/index.js","url":"../../node_modules/url/url.js","../../alerts":"alerts.js"}],"components/logins/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16191,106 +16248,184 @@ exports.index = index;
 
 var _actions = require("./actions");
 
-/* eslint-disable */
-// import 'core-js/stable';
-// import 'regenerator-runtime/runtime';
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function index(a) {
-  // DOM elements
-  var courses = document.querySelector('.courses');
-  var courseProfile = document.querySelector('.course-profile');
+  var loginForm = document.querySelector('.login__form');
+  var logoutItem = document.querySelector('.dropdown__item--logout');
+  var forgotPasswordLink = document.querySelector('.login__forgot-password');
+  var resetPasswordForm = document.querySelector('.reset-password__form');
+  var myProfileForm = document.querySelector('.my-profile__form');
+  var updatePasswordForm = document.querySelector('.update-password__form');
 
-  if (courses) {
-    var yearSelect = document.getElementById('year-select');
-    yearSelect.addEventListener('change', function (e) {
-      var newYear = yearSelect.value;
-      (0, _actions.changeCoursesYear)(newYear);
-    }); // add event listners for each course
+  if (loginForm) {
+    loginForm.addEventListener('submit', /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+        var email, password;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                e.preventDefault();
+                email = document.getElementById('email').value;
+                password = document.getElementById('password').value;
+                _context.next = 5;
+                return (0, _actions.login)(email, password);
 
-    var coursesRows = document.querySelector('.courses').getElementsByTagName('tr');
-    var numRows = coursesRows.length;
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
 
-    var _loop = function _loop() {
-      var dataRow = coursesRows[i];
-      var dataCells = dataRow.getElementsByTagName('td');
-      var numCells = dataCells.length;
-      var deleteButton = dataCells.item(numCells - 1);
-      deleteButton.addEventListener('click', function () {
-        (0, _actions.deleteCourseModal)(dataRow);
-      });
-    };
-
-    for (var i = 1; i <= numRows - 2; i++) {
-      _loop();
-    }
-
-    var cancelDelete = document.getElementById('cancelDelete');
-    cancelDelete.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
-    });
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
   }
 
-  if (courseProfile) {
-    var courseProfileForm = document.querySelector('.course-profile__form');
-    courseProfileForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var selectedYear = courseProfile.dataset.selectedYear;
-      var isNew = courseProfile.dataset.isNew == 'new';
-      alert(isNew);
-      var courseId = courseProfileForm.id;
-      var name = document.getElementById('courseName').value;
-      var owner = document.getElementById('owner').value;
-      var courseYears = getChecked('years');
-      var classFee = document.getElementById('classFee').value;
-      var materialsFee = [{
-        semester: 1,
-        amount: document.getElementById('materialsFeeAmount1').value
-      }, {
-        semester: 2,
-        amount: document.getElementById('materialsFeeAmount2').value
-      }];
-      var grade = {
-        min: document.getElementById('gradeMin').value,
-        max: document.getElementById('gradeMax').value
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener('click', /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
+        var email;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                e.preventDefault();
+                email = document.getElementById('email').value;
+                alert(email.toUpperCase());
+                _context2.next = 5;
+                return (0, _actions.forgotMyPassword)(email);
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
       };
-      var classSize = {
-        min: document.getElementById('classSizeMin').value,
-        max: document.getElementById('classSizeMax').value
+    }());
+  }
+
+  if (logoutItem) {
+    logoutItem.addEventListener('click', _actions.logout);
+  }
+
+  if (updatePasswordForm) {
+    updatePasswordForm.addEventListener('submit', /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
+        var data;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                e.preventDefault();
+                document.querySelector('.update-password__button').innerHTML = 'Updating.....';
+                data = {
+                  password: document.getElementById('password').value,
+                  newPassword: document.getElementById('newPassword').value,
+                  newPasswordConfirm: document.getElementById('newPasswordConfirm').value
+                };
+                _context3.next = 5;
+                return (0, _actions.updateUserSettings)('password', data);
+
+              case 5:
+                document.getElementById('password').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('newPasswordConfirm').value = '';
+                document.querySelector('.update-password__button').innerHTML = 'Submit';
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function (_x3) {
+        return _ref3.apply(this, arguments);
       };
-      var description = document.getElementById('description').value;
-      var notes = document.getElementById('notes').value;
-      var materials = document.getElementById('materials').value;
-      var texts = document.getElementById('texts').value;
-      var course = {
-        id: courseId,
-        name: name,
-        owner: owner,
-        years: courseYears,
-        classFee: classFee,
-        grade: grade,
-        classSize: classSize,
-        description: description,
-        notes: notes,
-        materials: materials,
-        texts: texts,
-        materialsFee: materialsFee,
-        isNew: isNew
+    }());
+  }
+
+  if (resetPasswordForm) {
+    resetPasswordForm.addEventListener('submit', /*#__PURE__*/function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(e) {
+        var newPassword, newPasswordConfirm, currentUrlParts, resetPasswordIndex, token;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                e.preventDefault();
+                newPassword = document.getElementById('newPassword').value;
+                newPasswordConfirm = document.getElementById('newPasswordConfirm').value;
+                currentUrlParts = window.location.href.split('/');
+                resetPasswordIndex = currentUrlParts.indexOf('resetPassword');
+                token = currentUrlParts[resetPasswordIndex + 1];
+                resetPassword(token, newPassword, newPasswordConfirm);
+                document.querySelector('.reset-password__button').innerHTML = 'Resetting.....';
+
+              case 8:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      return function (_x4) {
+        return _ref4.apply(this, arguments);
       };
-      console.log(course);
-      (0, _actions.updateCourse)(courseId, course, selectedYear);
-    });
+    }());
+  }
+
+  if (myProfileForm) {
+    myProfileForm.addEventListener('submit', /*#__PURE__*/function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(e) {
+        var firstName, lastName, email, cellPhone, data;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                e.preventDefault();
+                firstName = document.getElementById('firstName').value;
+                lastName = document.getElementById('lastName').value;
+                email = document.getElementById('email').value;
+                cellPhone = document.getElementById('cellPhone').value;
+                data = {
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                  cellPhone: cellPhone.replaceAll('-', '')
+                };
+                _context5.next = 8;
+                return (0, _actions.updateUserSettings)('profile', data);
+
+              case 8:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      return function (_x5) {
+        return _ref5.apply(this, arguments);
+      };
+    }());
   }
 }
-
-function getChecked(name) {
-  var items = document.getElementsByName(name);
-  var selectedItems = [];
-  items.forEach(function (item) {
-    if (item.type == 'checkbox' && item.checked == true) selectedItems.push(item.value);
-  });
-  return selectedItems;
-}
-},{"./actions":"components/courses/actions.js"}],"teachers.js":[function(require,module,exports) {
+},{"./actions":"components/logins/actions.js"}],"teachers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -124833,14 +124968,6 @@ require("core-js/stable");
 
 require("regenerator-runtime/runtime");
 
-var _login = require("./login");
-
-var _forgotMyPassword = require("./forgotMyPassword");
-
-var _updateUserSettings = require("./updateUserSettings");
-
-var _resetPassword = require("./resetPassword");
-
 var _family = require("./family");
 
 var _families = require("./families");
@@ -124848,6 +124975,8 @@ var _families = require("./families");
 var _registrations = require("./registrations");
 
 var _index = require("./components/courses/index");
+
+var _index2 = require("./components/logins/index");
 
 var _teachers = require("./teachers");
 
@@ -124865,19 +124994,16 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 (0, _index.index)();
+(0, _index2.index)();
 //import { fill } from 'core-js/core/array';
 // DOM elements
-var loginForm = document.querySelector('.login__form');
-var logoutItem = document.querySelector('.dropdown__item--logout');
-var forgotPasswordLink = document.querySelector('.login__forgot-password');
-var resetPasswordForm = document.querySelector('.reset-password__form');
-var myProfileForm = document.querySelector('.my-profile__form');
-var updatePasswordForm = document.querySelector('.update-password__form');
+//const loginForm = document.querySelector('.login__form');
+//const logoutItem = document.querySelector('.dropdown__item--logout');
+//const forgotPasswordLink = document.querySelector('.login__forgot-password');
+//const resetPasswordForm = document.querySelector('.reset-password__form');
+//const myProfileForm = document.querySelector('.my-profile__form');
+//const updatePasswordForm = document.querySelector('.update-password__form');
 var family = document.querySelector('.family');
 var families = document.querySelector('.families');
 var children = document.querySelector('.children');
@@ -124887,171 +125013,72 @@ var registrations = document.querySelector('.registrations');
 var users = document.querySelector('.users');
 var userProfileForm = document.querySelector('.user-profile__form');
 var reportChildrenByGrade = document.querySelector('.reportChildrenByGrade'); //values
-
-if (loginForm) {
-  loginForm.addEventListener('submit', /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-      var email, password;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              e.preventDefault();
-              email = document.getElementById('email').value;
-              password = document.getElementById('password').value;
-              _context.next = 5;
-              return (0, _login.login)(email, password);
-
-            case 5:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-
-    return function (_x) {
-      return _ref.apply(this, arguments);
-    };
-  }());
-}
-
-if (forgotPasswordLink) {
-  forgotPasswordLink.addEventListener('click', /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
-      var email;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              e.preventDefault();
-              email = document.getElementById('email').value;
-              alert(email.toUpperCase());
-              _context2.next = 5;
-              return (0, _forgotMyPassword.forgotMyPassword)(email);
-
-            case 5:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
-    }));
-
-    return function (_x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }());
-}
-
-if (logoutItem) {
-  logoutItem.addEventListener('click', _login.logout);
-}
-
-if (updatePasswordForm) {
-  updatePasswordForm.addEventListener('submit', /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
-      var data;
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              e.preventDefault();
-              document.querySelector('.update-password__button').innerHTML = 'Updating.....';
-              data = {
-                password: document.getElementById('password').value,
-                newPassword: document.getElementById('newPassword').value,
-                newPasswordConfirm: document.getElementById('newPasswordConfirm').value
-              };
-              _context3.next = 5;
-              return (0, _updateUserSettings.updateUserSettings)('password', data);
-
-            case 5:
-              document.getElementById('password').value = '';
-              document.getElementById('newPassword').value = '';
-              document.getElementById('newPasswordConfirm').value = '';
-              document.querySelector('.update-password__button').innerHTML = 'Submit';
-
-            case 9:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, _callee3);
-    }));
-
-    return function (_x3) {
-      return _ref3.apply(this, arguments);
-    };
-  }());
-}
-
-if (resetPasswordForm) {
-  resetPasswordForm.addEventListener('submit', /*#__PURE__*/function () {
-    var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(e) {
-      var newPassword, newPasswordConfirm, currentUrlParts, resetPasswordIndex, token;
-      return regeneratorRuntime.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              e.preventDefault();
-              newPassword = document.getElementById('newPassword').value;
-              newPasswordConfirm = document.getElementById('newPasswordConfirm').value;
-              currentUrlParts = window.location.href.split('/');
-              resetPasswordIndex = currentUrlParts.indexOf('resetPassword');
-              token = currentUrlParts[resetPasswordIndex + 1];
-              (0, _resetPassword.resetPassword)(token, newPassword, newPasswordConfirm);
-              document.querySelector('.reset-password__button').innerHTML = 'Resetting.....';
-
-            case 8:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, _callee4);
-    }));
-
-    return function (_x4) {
-      return _ref4.apply(this, arguments);
-    };
-  }());
-}
-
-if (myProfileForm) {
-  myProfileForm.addEventListener('submit', /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(e) {
-      var firstName, lastName, email, cellPhone, data;
-      return regeneratorRuntime.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              e.preventDefault();
-              firstName = document.getElementById('firstName').value;
-              lastName = document.getElementById('lastName').value;
-              email = document.getElementById('email').value;
-              cellPhone = document.getElementById('cellPhone').value;
-              data = {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                cellPhone: cellPhone.replaceAll('-', '')
-              };
-              _context5.next = 8;
-              return (0, _updateUserSettings.updateUserSettings)('profile', data);
-
-            case 8:
-            case "end":
-              return _context5.stop();
-          }
-        }
-      }, _callee5);
-    }));
-
-    return function (_x5) {
-      return _ref5.apply(this, arguments);
-    };
-  }());
-}
+// if (loginForm) {
+//   loginForm.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     const email = document.getElementById('email').value;
+//     const password = document.getElementById('password').value;
+//     await login(email, password);
+//   });
+// }
+// if (forgotPasswordLink) {
+//   forgotPasswordLink.addEventListener('click', async (e) => {
+//     e.preventDefault();
+//     const email = document.getElementById('email').value;
+//     alert(email.toUpperCase());
+//     await forgotMyPassword(email);
+//   });
+// }
+// if (logoutItem) {
+//   logoutItem.addEventListener('click', logout);
+// }
+// if (updatePasswordForm) {
+//   updatePasswordForm.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     document.querySelector('.update-password__button').innerHTML =
+//       'Updating.....';
+//     const data = {
+//       password: document.getElementById('password').value,
+//       newPassword: document.getElementById('newPassword').value,
+//       newPasswordConfirm: document.getElementById('newPasswordConfirm').value,
+//     };
+//     await updateUserSettings('password', data);
+//     document.getElementById('password').value = '';
+//     document.getElementById('newPassword').value = '';
+//     document.getElementById('newPasswordConfirm').value = '';
+//     document.querySelector('.update-password__button').innerHTML = 'Submit';
+//   });
+// }
+// if (resetPasswordForm) {
+//   resetPasswordForm.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     const newPassword = document.getElementById('newPassword').value;
+//     const newPasswordConfirm =
+//       document.getElementById('newPasswordConfirm').value;
+//     const currentUrlParts = window.location.href.split('/');
+//     const resetPasswordIndex = currentUrlParts.indexOf('resetPassword');
+//     const token = currentUrlParts[resetPasswordIndex + 1];
+//     resetPassword(token, newPassword, newPasswordConfirm);
+//     document.querySelector('.reset-password__button').innerHTML =
+//       'Resetting.....';
+//   });
+// }
+// if (myProfileForm) {
+//   myProfileForm.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     const firstName = document.getElementById('firstName').value;
+//     const lastName = document.getElementById('lastName').value;
+//     const email = document.getElementById('email').value;
+//     const cellPhone = document.getElementById('cellPhone').value;
+//     const data = {
+//       firstName,
+//       lastName,
+//       email,
+//       cellPhone: cellPhone.replaceAll('-', ''),
+//     };
+//     await updateUserSettings('profile', data);
+//   });
+// }
 
 if (family) {
   var yearSelect = document.getElementById('year-select');
@@ -125337,7 +125364,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./login":"login.js","./forgotMyPassword":"forgotMyPassword.js","./updateUserSettings":"updateUserSettings.js","./resetPassword":"resetPassword.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

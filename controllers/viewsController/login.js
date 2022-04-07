@@ -21,9 +21,9 @@ exports.getLogin = catchAsync(async (req, res, next) => {
   
   exports.getHome = catchAsync(async (req, res, next) => {
     if (3 === 2) {
-      res.status(308).redirect('login/login');
+      res.status(308).redirect('login');
     } else {
-      res.status(308).redirect('login/login');
+      res.status(308).redirect('login');
     }
   });
 
