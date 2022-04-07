@@ -14442,7 +14442,6 @@ function index(a) {
       e.preventDefault();
       var selectedYear = courseProfile.dataset.selectedYear;
       var isNew = courseProfile.dataset.isNew == 'new';
-      alert(isNew);
       var courseId = courseProfileForm.id;
       var name = document.getElementById('courseName').value;
       var owner = document.getElementById('owner').value;
@@ -16196,9 +16195,8 @@ var forgotMyPassword = /*#__PURE__*/function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            alert(email);
-            _context5.prev = 1;
-            _context5.next = 4;
+            _context5.prev = 0;
+            _context5.next = 3;
             return (0, _axios.default)({
               method: 'POST',
               url: '/api/v1/users/forgotPassword',
@@ -16207,7 +16205,7 @@ var forgotMyPassword = /*#__PURE__*/function () {
               }
             });
 
-          case 4:
+          case 3:
             res = _context5.sent;
 
             if (res.data.status === 'success') {
@@ -16216,20 +16214,20 @@ var forgotMyPassword = /*#__PURE__*/function () {
               // }, 3000);
             }
 
-            _context5.next = 11;
+            _context5.next = 10;
             break;
 
-          case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](1);
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
             (0, _alerts.showAlert)('error', _context5.t0.response.data.message);
 
-          case 11:
+          case 10:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[1, 8]]);
+    }, _callee5, null, [[0, 7]]);
   }));
 
   return function forgotMyPassword(_x8) {
@@ -16298,11 +16296,10 @@ function index(a) {
               case 0:
                 e.preventDefault();
                 email = document.getElementById('email').value;
-                alert(email.toUpperCase());
-                _context2.next = 5;
+                _context2.next = 4;
                 return (0, _actions.forgotMyPassword)(email);
 
-              case 5:
+              case 4:
               case "end":
                 return _context2.stop();
             }

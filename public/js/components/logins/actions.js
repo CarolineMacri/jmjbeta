@@ -95,7 +95,7 @@ export const updateUserSettings = async (type, data) => {
 };
 
 export const forgotMyPassword = async (email) => {
-  alert(email);
+  
   try {
     const res = await axios({
       method: 'POST',

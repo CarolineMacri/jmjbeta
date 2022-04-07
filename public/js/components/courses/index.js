@@ -49,7 +49,6 @@ function index(a) {
 
       const selectedYear = courseProfile.dataset.selectedYear;
       const isNew = courseProfile.dataset.isNew == 'new';
-      alert(isNew);
       const courseId = courseProfileForm.id;
       const name = document.getElementById('courseName').value;
       const owner = document.getElementById('owner').value;
