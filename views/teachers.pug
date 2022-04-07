@@ -5,7 +5,7 @@ block content
 
     h1.family__title  JMJ Teachers
     include _yearSelector
-    -var isAdmin = user.roles.includes('admin')
+    -var isAdmin = user.currentRoles.includes('admin')
     .teachers
       for teacher in teachers
         .card.teacher-card.card__outline-box

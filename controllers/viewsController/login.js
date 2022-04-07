@@ -2,34 +2,34 @@ const catchAsync = require('../../utils/catchAsync');
 const User = require('../../models/userModel');
 
 exports.getLogin = catchAsync(async (req, res, next) => {
-    res.status(200).render('login', {
+    res.status(200).render('login/login', {
       title: 'Login',
     });
   });
   
   exports.getResetPassword = catchAsync(async (req, res, next) => {
-    res.status(200).render('resetPassword', {
+    res.status(200).render('login/resetPassword', {
       title: 'resetPassword',
     });
   });
 
   exports.updatePassword = catchAsync(async (req, res) => {
-    res.status(200).render('updatePassword', {
+    res.status(200).render('login/updatePassword', {
       title: 'Update Password',
     });
   });
   
   exports.getHome = catchAsync(async (req, res, next) => {
     if (3 === 2) {
-      res.status(308).redirect('/login');
+      res.status(308).redirect('login/login');
     } else {
-      res.status(308).redirect('/login');
+      res.status(308).redirect('login/login');
     }
   });
 
   exports.setAllUserPasswords = catchAsync(async (req, res, next) => {
     const response = User.setAllUserPasswords('pass1234');
-    res.status(200).render('pw', {
+    res.status(200).render('login/pw', {
       title: 'SET ALL PASSWORD',
     });
   });

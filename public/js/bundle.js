@@ -15799,9 +15799,10 @@ var updateUserSettings = /*#__PURE__*/function () {
             res = _context.sent;
 
             if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully")); // window.setTimeout(() => {
-              //   location.assign('/userProfile');
-              // }, 1000);
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully"));
+              window.setTimeout(function () {
+                location.assign(type == 'profile' ? '/myProfile' : '/updatePassword');
+              }, 1000);
             }
 
             _context.next = 12;
@@ -15872,7 +15873,7 @@ var resetPassword = /*#__PURE__*/function () {
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', "Password reset successfully");
               window.setTimeout(function () {
-                location.assign('/login');
+                location.assign('login/login');
               }, 1000);
             }
 
@@ -125033,7 +125034,7 @@ if (myProfileForm) {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                cellphone: cellPhone.replaceAll('-', '')
+                cellPhone: cellPhone.replaceAll('-', '')
               };
               _context5.next = 8;
               return (0, _updateUserSettings.updateUserSettings)('profile', data);

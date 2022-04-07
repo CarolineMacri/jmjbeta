@@ -17,10 +17,11 @@ export const updateUserSettings = async (type, data) => {
   
 
     if (res.data.status === 'success') {
+      
       showAlert('success', `${type} updated successfully`);
-      // window.setTimeout(() => {
-      //   location.assign('/userProfile');
-      // }, 1000);
+      window.setTimeout(() => {
+        location.assign( (type == 'profile')?'/myProfile':'/updatePassword');
+      }, 1000);
     }
   } catch (err) {
     console.log(err.response);

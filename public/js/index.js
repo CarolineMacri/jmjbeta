@@ -132,7 +132,7 @@ if (myProfileForm) {
       firstName,
       lastName,
       email,
-      cellphone: cellPhone.replaceAll('-', ''),
+      cellPhone: cellPhone.replaceAll('-', ''),
     };
     await updateUserSettings('profile', data);
   });

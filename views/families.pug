@@ -5,7 +5,7 @@ block content
 
     h1.family__title  JMJ Families
     include _yearSelector
-    -var isAdmin = user.roles.includes('admin')
+    -var isAdmin = user.currentRoles.includes('admin')
     .families
       for family in families
         .card.card__outline-box

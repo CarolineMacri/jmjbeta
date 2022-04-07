@@ -4,9 +4,9 @@ nav.side-nav
     a.side-nav__item(href='/myProfile') My Profile
     a.side-nav__item(href='/updatePassword') Update Password
 
-  - var isAdmin = user.roles.includes('admin')
-  - var isParent = user.roles.includes('parent')
-  - var isTeacher = user.roles.includes('teacher')
+  - var isAdmin = user.currentRoles.includes('admin')
+  - var isParent = user.currentRoles.includes('parent')
+  - var isTeacher = user.currentRoles.includes('teacher')
   
   if isParent
     .side-nav__section
