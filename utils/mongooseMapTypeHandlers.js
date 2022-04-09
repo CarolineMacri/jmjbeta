@@ -50,13 +50,18 @@ exports.setUndefinedMapKeys = (doc, dataMapsOnly) => {
 };
 
 getModelMapKeys = (Model) => {
+
   var modelMapKeys = [];
   var modelSchemaDefinition = Model.schema.obj;
   var schemaType = '';
   Object.entries(modelSchemaDefinition).forEach(([k, v]) => {
-    schemaType = Model.schema.path(k).instance;
-    if (schemaType == 'Map') {
-      modelMapKeys.push(k);
+    console.log(`---------------------------${Model.schema.path(k)}: ${k}`);
+    if (Model.schema.path(k)){
+
+      schemaType = Model.schema.path(k).instance;
+      if (schemaType == 'Map') {
+        modelMapKeys.push(k);
+      }
     }
   });
   return modelMapKeys;

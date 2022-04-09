@@ -1,7 +1,8 @@
 extends base
 
 block content   
-
+ 
+ 
   .page__content.family
     div
       section
@@ -18,8 +19,8 @@ block content
 
         -var roles= []
         -var registrationIndex=0
-        for user in users  
-          for registration, index in user.registration 
+        for u in users  
+          for registration, index in u.registration 
             if (registration.year === selectedYear)
               -roles= registration.roles
               -registrationIndex= index
@@ -27,12 +28,12 @@ block content
 
         
           
-          tr(id=user._id data-registration=user.registration data-registration-index=registrationIndex)
-            td= user.lastName
-            td= user.firstName 
-            td= user.email
-            td= user.cellPhone
-            td= user.roles
+          tr(id=u._id data-registration=u.registration data-registration-index=registrationIndex)
+            td= u.lastName
+            td= u.firstName 
+            td= u.email
+            td= u.cellPhone
+            td= u.roles
             
 
             td.button

@@ -14263,14 +14263,15 @@ var updateCourse = /*#__PURE__*/function () {
             method = isNewCourse ? 'POST' : 'PATCH';
             _context.prev = 2;
             url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id);
-            _context.next = 6;
+            console.log("updating  ".concat(course.name, " name"));
+            _context.next = 7;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: course
             });
 
-          case 6:
+          case 7:
             res = _context.sent;
 
             if (res.data.status == 'success') {
@@ -14280,20 +14281,20 @@ var updateCourse = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context.next = 13;
+            _context.next = 14;
             break;
 
-          case 10:
-            _context.prev = 10;
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](2);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 13:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[2, 10]]);
+    }, _callee, null, [[2, 11]]);
   }));
 
   return function updateCourse(_x, _x2, _x3) {
@@ -14470,7 +14471,7 @@ function index(a) {
         id: courseId,
         name: name,
         owner: owner,
-        years: courseYears,
+        //years: courseYears,
         classFee: classFee,
         grade: grade,
         classSize: classSize,
@@ -124994,13 +124995,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index.index)();
 (0, _index2.index)();
 //import { fill } from 'core-js/core/array';
-// DOM elements
-//const loginForm = document.querySelector('.login__form');
-//const logoutItem = document.querySelector('.dropdown__item--logout');
-//const forgotPasswordLink = document.querySelector('.login__forgot-password');
-//const resetPasswordForm = document.querySelector('.reset-password__form');
-//const myProfileForm = document.querySelector('.my-profile__form');
-//const updatePasswordForm = document.querySelector('.update-password__form');
 var family = document.querySelector('.family');
 var families = document.querySelector('.families');
 var children = document.querySelector('.children');
@@ -125010,72 +125004,6 @@ var registrations = document.querySelector('.registrations');
 var users = document.querySelector('.users');
 var userProfileForm = document.querySelector('.user-profile__form');
 var reportChildrenByGrade = document.querySelector('.reportChildrenByGrade'); //values
-// if (loginForm) {
-//   loginForm.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//     const email = document.getElementById('email').value;
-//     const password = document.getElementById('password').value;
-//     await login(email, password);
-//   });
-// }
-// if (forgotPasswordLink) {
-//   forgotPasswordLink.addEventListener('click', async (e) => {
-//     e.preventDefault();
-//     const email = document.getElementById('email').value;
-//     alert(email.toUpperCase());
-//     await forgotMyPassword(email);
-//   });
-// }
-// if (logoutItem) {
-//   logoutItem.addEventListener('click', logout);
-// }
-// if (updatePasswordForm) {
-//   updatePasswordForm.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//     document.querySelector('.update-password__button').innerHTML =
-//       'Updating.....';
-//     const data = {
-//       password: document.getElementById('password').value,
-//       newPassword: document.getElementById('newPassword').value,
-//       newPasswordConfirm: document.getElementById('newPasswordConfirm').value,
-//     };
-//     await updateUserSettings('password', data);
-//     document.getElementById('password').value = '';
-//     document.getElementById('newPassword').value = '';
-//     document.getElementById('newPasswordConfirm').value = '';
-//     document.querySelector('.update-password__button').innerHTML = 'Submit';
-//   });
-// }
-// if (resetPasswordForm) {
-//   resetPasswordForm.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//     const newPassword = document.getElementById('newPassword').value;
-//     const newPasswordConfirm =
-//       document.getElementById('newPasswordConfirm').value;
-//     const currentUrlParts = window.location.href.split('/');
-//     const resetPasswordIndex = currentUrlParts.indexOf('resetPassword');
-//     const token = currentUrlParts[resetPasswordIndex + 1];
-//     resetPassword(token, newPassword, newPasswordConfirm);
-//     document.querySelector('.reset-password__button').innerHTML =
-//       'Resetting.....';
-//   });
-// }
-// if (myProfileForm) {
-//   myProfileForm.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//     const firstName = document.getElementById('firstName').value;
-//     const lastName = document.getElementById('lastName').value;
-//     const email = document.getElementById('email').value;
-//     const cellPhone = document.getElementById('cellPhone').value;
-//     const data = {
-//       firstName,
-//       lastName,
-//       email,
-//       cellPhone: cellPhone.replaceAll('-', ''),
-//     };
-//     await updateUserSettings('profile', data);
-//   });
-// }
 
 if (family) {
   var yearSelect = document.getElementById('year-select');

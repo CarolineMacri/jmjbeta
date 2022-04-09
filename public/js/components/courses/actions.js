@@ -13,7 +13,7 @@ export const updateCourse = async (courseId, course, selectedYear) => {
  
   try {
     var url = `/api/v1/courses${isNewCourse ? '' : '/' + course.id}`;
-
+    console.log(`updating  ${course.name} name`);
     const res = await axios({
       method,
       url,

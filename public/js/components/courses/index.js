@@ -81,7 +81,7 @@ function index(a) {
         id: courseId,
         name,
         owner,
-        years: courseYears,
+        //years: courseYears,
         classFee,
         grade,
         classSize,

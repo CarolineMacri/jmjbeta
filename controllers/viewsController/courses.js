@@ -42,13 +42,15 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
     .where(`yearRoles.${selectedYear}`)
     .equals('teacher')
     .sort('lastName');
-  console.log(teachers);
+ 
 
+  const years = await Year.find();
+  
   res.status(200).render('courses/course_profile', {
     title: `${course.name}`,
     course,
     selectedYear,
     teachers,
-    years,
+    years
   });
 });

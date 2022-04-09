@@ -8,37 +8,38 @@ block content
                 .form__row
                     .form__header-text Course
                     .form__header-background.family-form__header-image
-                .form__row    
-                .form__outline-box--bottom.form__row
+                //- .form__row    
+                //- .form__outline-box--bottom.form__row
+                .form__column.form__item
+                    label.form__label(for='courseName') Name *
+                    input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
+                //- .form__outline-box--bottom.form__row
+                //- .form__item
+                -var ownerId = course.owner
+                .form__column.form__dropdown-group
                     .form__item
-                        label.form__label(for='courseName') Name *
-                        input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
-                .form__outline-box--bottom.form__row
-                    .form__item
-                        -var ownerId = course.owner
-                        .form__dropdown-group
-                            .form__item
-                                label.form__label(for='owner') Owner * 
-                                select#owner(name='owner' data-teachercourse-id=ownerId)
-                                    for teacher in teachers 
-                                        option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+                        label.form__label(for='owner') Owner * 
+                        select#owner(name='owner' data-teachercourse-id=ownerId)
+                            for teacher in teachers 
+                                option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
                                            
                 .form__row
-                    .form__label Years
-                
-                    for year in years 
-                        .form__column
-                            .form__item
-                                if (course.years.includes(year.year))
-                                    input(id=year.id type="checkbox" name='years' value=year.year checked)
-                                else
-                                    input(id=year.id type="checkbox" name='years' value=year.year)
-                                label.form__label(for=year.id)=year.year
+                    .form__column.form__outline-box
+                        .form__label Years
                         
-                .form__outline-box--bottom
-                -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
+                            for year in years 
+                                .form__column
+                                    .form__item
+                                        if (course.years.includes(year.year))
+                                            input(id=year.id type="checkbox" name='years' value=year.year checked)
+                                        else
+                                            input(id=year.id type="checkbox" name='years' value=year.year)
+                                        
+                                        label.form__label(for=year.id)=year.year
+   
+                            -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                 
-                    .form__row
+                    .form__column
                         .form__item.form__column.form__outline-box
                             label.form__label(for='classFee') Class Fee *  $
                             select#classFee(name='classFee')
