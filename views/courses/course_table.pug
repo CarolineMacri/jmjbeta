@@ -32,7 +32,11 @@ block content
                 tr#new
                     td.button
                         .new
-                            a(href=`/course_profile/new/${selectedYear}`) &#10010
+                            if hasOwner
+                                a(href=`/course_profile/new/${selectedYear}/${owner.id}`) &#10010
+                            else
+                                a(href=`/course_profile/new/${selectedYear}`) &#10010
+
 
             section.course-delete.page__content-row
                 .delete-modal__window

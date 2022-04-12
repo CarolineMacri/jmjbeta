@@ -21,7 +21,7 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
     .populate({ path: 'courses', match: {year:selectedYear}})
     .populate({ path: 'teacher', justOne: true, select: 'bio' });
   
-  console.log(teachers);
+  //(teachers);
 
   teachers = await User.aggregate()
     .match({ registrationYears: selectedYear, roles: 'teacher' })
@@ -87,7 +87,7 @@ exports.getTeachers = catchAsync(async (req, res, next) => {
     .populate({ path: 'courses', match: {years:selectedYear}})
     .populate({ path: 'teacher', justOne: true });
   
-  console.log(teachers);
+  //(teachers);
 
   // teachers = await User.aggregate()
   //   .match({ registrationYears: selectedYear, roles: 'teacher' })

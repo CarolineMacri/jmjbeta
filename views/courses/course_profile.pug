@@ -2,8 +2,7 @@ extends ../base
 
 block content   
     .page__content.course-profile(data-selected-year=selectedYear data-is-new=(course.isNew?'new':'old') data-has-owner=(hasOwner?'true':'false') )
-        h1= hasOwner
-        h1= ownerId
+        
         section
             form.form.form__outline-box.course-profile__form(id=course.id) 
                 .form__row
@@ -16,7 +15,8 @@ block content
                     input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
                 //- .form__outline-box--bottom.form__row
                 //- .form__item
-                -var ownerId = course.owner
+                if (hasOwner=='false')
+                    ownerId = course.owner
                 .form__column.form__dropdown-group
                     .form__item
                         label.form__label(for='owner') Owner * 
@@ -128,6 +128,6 @@ block content
                 .form__row
                     input.form__button.form__item--center(type='submit')
                     if hasOwner
-                        a.form__button.form__cancel(href=`/courses_table/${selectedYear}/${course.owner}`) X
+                        a.form__button.form__cancel(href=`/courses_table/${selectedYear}/${ownerId}`) X
                     else
                         a.form__button.form__cancel(href=`/courses_table/${selectedYear}`) X

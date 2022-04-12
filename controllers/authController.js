@@ -220,7 +220,7 @@ exports.restrictTo = (...restrictedRoles) => {
 };
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-  console.log("/n/n/n ----------------------------------- /n" + req.body.email);
+  //console.log("/n/n/n ----------------------------------- /n" + req.body.email);
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
@@ -231,7 +231,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   const newUser = await User.findOne({ email: req.body.email });
-  console.log("/n/n/n ----------------------------------- /n" + newUser.email + "   " + newUser.passwordResetToken);
+  //("/n/n/n ----------------------------------- /n" + newUser.email + "   " + newUser.passwordResetToken);
   const resetUrl = `${req.protocol}://${req.get(
     'host'
   )}/resetPassword/${resetToken}`;

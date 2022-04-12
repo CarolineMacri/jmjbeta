@@ -20,9 +20,10 @@ block content
 
               .card__item= bio
     
-              if isAdmin  
-                //- a(href=`/users/${selectedYear}`) Edit Teacher
-                a(href=`#`) Edit Teacher
+                if isAdmin  
+                  .card__row    
+                    //- a(href=`/users/${selectedYear}`) Edit Teacher
+                    a.card__button.card__item(href=`#`) Edit Teacher
               
            
             
@@ -36,8 +37,9 @@ block content
                   - var name = (isLongName? course.name.slice(0,45)+"...":course.name)
                   .card__item= name
                 if isAdmin  
-                  //- a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
-                  a(href=`/courses_table/${selectedYear}/${id}`) Edit Courses
+                  .card__row
+                    //- a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
+                    a.card__button(href=`/courses_table/${selectedYear}/${id}`) Edit Courses
               
 
     

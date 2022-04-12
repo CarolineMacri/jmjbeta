@@ -66,9 +66,9 @@ if (families) {
   });
 
   if (editFamilyButtons) {
-    console.log(editFamilyButtons);
+    //console.log(editFamilyButtons);
     editFamilyButtons.forEach((btn) => {
-      console.log(btn.id);
+      //console.log(btn.id);
       btn.addEventListener('click', () => {
         alert(`${btn.id}`);
       });

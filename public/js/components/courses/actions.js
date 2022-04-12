@@ -1,4 +1,5 @@
-import axios from 'axios';import { showAlert } from '../../alerts';
+import axios from 'axios';
+import { showAlert } from '../../alerts';
 
 export const changeCoursesYear = (year) => {
   location.assign(`/courses_table/${year}`);
@@ -10,14 +11,13 @@ export const updateCourse = async (
   selectedYear,
   hasOwner
 ) => {
-  alert(hasOwner, 'hasowenr');
   const isNewCourse = course.isNew == true;
 
   const method = isNewCourse ? 'POST' : 'PATCH';
 
   try {
     var url = `/api/v1/courses${isNewCourse ? '' : '/' + course.id}`;
-    console.log(`updating  ${course.name} name`);
+    //console.log(`updating  ${course.name} name`);
     const res = await axios({
       method,
       url,
@@ -31,11 +31,13 @@ export const updateCourse = async (
           courseId == 'new' ? ' added ' : ' updated '
         } successfully`
       );
+      course = res.data.data.course;
       window.setTimeout(() => {
         if (hasOwner)
-          location.replace(`/course_profile/${course.id}/${selectedYear}/${course.id}`);
-        else
-          location.replace(`/course_profile/${course.id}/${selectedYear}`);
+          location.replace(
+            `/course_profile/${course.id}/${selectedYear}/${course.owner}`
+          );
+        else location.replace(`/course_profile/${course.id}/${selectedYear}`);
       }, 500);
     }
   } catch (err) {

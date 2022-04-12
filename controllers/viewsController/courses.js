@@ -6,7 +6,7 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Teacher = require('../../models/teacherModel');
 
   let { selectedYear, ownerId } = req.params;
-  console.log(selectedYear, ownerId);
+  //console.log(selectedYear, ownerId);
 
   const years = await Year.find();
 
@@ -33,7 +33,7 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
     });
     // get owner
     owner = await User.findOne({ _id: ownerId });
-    console.log(owner);
+    //console.log(owner);
   }
   
   res.status(200).render('courses/course_table', {
@@ -52,7 +52,7 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
   const User = require('../../models/userModel');
 
   let { courseId, selectedYear, ownerId } = req.params;
-  console.log(courseId, selectedYear, ownerId);
+  //console.log(courseId, selectedYear, ownerId);
 
   const hasOwner = typeof ownerId != 'undefined';
 

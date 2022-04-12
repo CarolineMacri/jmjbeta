@@ -14259,43 +14259,43 @@ var updateCourse = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            alert(hasOwner, 'hasowenr');
             isNewCourse = course.isNew == true;
             method = isNewCourse ? 'POST' : 'PATCH';
-            _context.prev = 3;
-            url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id);
-            console.log("updating  ".concat(course.name, " name"));
-            _context.next = 8;
+            _context.prev = 2;
+            url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id); //console.log(`updating  ${course.name} name`);
+
+            _context.next = 6;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: course
             });
 
-          case 8:
+          case 6:
             res = _context.sent;
 
             if (res.data.status == 'success') {
               (0, _alerts.showAlert)('success', "".concat(course.name, " ").concat(courseId == 'new' ? ' added ' : ' updated ', " successfully"));
+              course = res.data.data.course;
               window.setTimeout(function () {
-                if (hasOwner) location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear, "/").concat(course.id));else location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear));
+                if (hasOwner) location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear, "/").concat(course.owner));else location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear));
               }, 500);
             }
 
-            _context.next = 15;
+            _context.next = 13;
             break;
 
-          case 12:
-            _context.prev = 12;
-            _context.t0 = _context["catch"](3);
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](2);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 15:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[3, 12]]);
+    }, _callee, null, [[2, 10]]);
   }));
 
   return function updateCourse(_x, _x2, _x3, _x4) {
@@ -125027,9 +125027,9 @@ if (families) {
   });
 
   if (editFamilyButtons) {
-    console.log(editFamilyButtons);
+    //console.log(editFamilyButtons);
     editFamilyButtons.forEach(function (btn) {
-      console.log(btn.id);
+      //console.log(btn.id);
       btn.addEventListener('click', function () {
         alert("".concat(btn.id));
       });
