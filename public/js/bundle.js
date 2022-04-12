@@ -14253,51 +14253,52 @@ var changeCoursesYear = function changeCoursesYear(year) {
 exports.changeCoursesYear = changeCoursesYear;
 
 var updateCourse = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, selectedYear) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, selectedYear, hasOwner) {
     var isNewCourse, method, url, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            alert(hasOwner, 'hasowenr');
             isNewCourse = course.isNew == true;
             method = isNewCourse ? 'POST' : 'PATCH';
-            _context.prev = 2;
+            _context.prev = 3;
             url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id);
             console.log("updating  ".concat(course.name, " name"));
-            _context.next = 7;
+            _context.next = 8;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: course
             });
 
-          case 7:
+          case 8:
             res = _context.sent;
 
             if (res.data.status == 'success') {
               (0, _alerts.showAlert)('success', "".concat(course.name, " ").concat(courseId == 'new' ? ' added ' : ' updated ', " successfully"));
               window.setTimeout(function () {
-                location.replace('/course_profile/' + res.data.data.course.id + '/' + selectedYear);
+                if (hasOwner) location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear, "/").concat(course.id));else location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear));
               }, 500);
             }
 
-            _context.next = 14;
+            _context.next = 15;
             break;
 
-          case 11:
-            _context.prev = 11;
-            _context.t0 = _context["catch"](2);
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](3);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 14:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[2, 11]]);
+    }, _callee, null, [[3, 12]]);
   }));
 
-  return function updateCourse(_x, _x2, _x3) {
+  return function updateCourse(_x, _x2, _x3, _x4) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -14333,7 +14334,7 @@ var deleteCourseModal = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function deleteCourseModal(_x4) {
+  return function deleteCourseModal(_x5) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -14382,7 +14383,7 @@ var deleteCourse = /*#__PURE__*/function () {
     }, _callee3, null, [[0, 8]]);
   }));
 
-  return function deleteCourse(_x5, _x6) {
+  return function deleteCourse(_x6, _x7) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -14443,6 +14444,7 @@ function index(a) {
       e.preventDefault();
       var selectedYear = courseProfile.dataset.selectedYear;
       var isNew = courseProfile.dataset.isNew == 'new';
+      var hasOwner = courseProfile.dataset.hasOwner == 'true';
       var courseId = courseProfileForm.id;
       var name = document.getElementById('courseName').value;
       var owner = document.getElementById('owner').value;
@@ -14471,7 +14473,7 @@ function index(a) {
         id: courseId,
         name: name,
         owner: owner,
-        //years: courseYears,
+        years: courseYears,
         classFee: classFee,
         grade: grade,
         classSize: classSize,
@@ -14483,7 +14485,7 @@ function index(a) {
         isNew: isNew
       };
       console.log(course);
-      (0, _actions.updateCourse)(courseId, course, selectedYear);
+      (0, _actions.updateCourse)(courseId, course, selectedYear, hasOwner);
     });
   }
 }

@@ -11,7 +11,7 @@ block content
         .card.teacher-card.card__outline-box
           .card__column
             .card__header-background.teacher-card__header-image
-            .card__header-text= teacher.lastName
+            .card__header-text= `${teacher.lastName}, ${teacher.firstName}` 
            
             .card__row.teacher-card__bio.card__outline-box--bottom
               -var isNoBio = (teacher.teacher.length == 0)
@@ -37,7 +37,7 @@ block content
                   .card__item= name
                 if isAdmin  
                   //- a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
-                  a(href=`#`) Edit Courses
+                  a(href=`/courses_table/${selectedYear}/${id}`) Edit Courses
               
 
     

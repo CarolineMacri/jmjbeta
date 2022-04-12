@@ -2,8 +2,11 @@ const catchAsync = require('../../utils/catchAsync');
 exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const Course = require('../../models/courseModel');
+  const User = require('../../models/userModel');
+  const Teacher = require('../../models/teacherModel');
 
-  let { selectedYear } = req.params;
+  let { selectedYear, ownerId } = req.params;
+  console.log(selectedYear, ownerId);
 
   const years = await Year.find();
 
@@ -12,13 +15,34 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const courses = await Course.find({ years: selectedYear }).sort({ name: 1 });
-
+  const hasOwner = ownerId != ' ' && typeof ownerId != 'undefined';
+  
+  var courses = {};
+  var owner = {};
+  if (!hasOwner) {
+    courses = await Course.find({ years: selectedYear }).sort({ name: 1 });
+  }
+  else {
+    // get courses
+    courses = await Course.find({
+      years: selectedYear,
+      owner: ownerId,
+    }).populate({
+      path: 'owner',
+      justOne: true,
+    });
+    // get owner
+    owner = await User.findOne({ _id: ownerId });
+    console.log(owner);
+  }
+  
   res.status(200).render('courses/course_table', {
     title: `Courses ${selectedYear}`,
     courses,
     years,
     selectedYear,
+    owner,
+    hasOwner
   });
 });
 
@@ -27,7 +51,10 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
   const Course = require('../../models/courseModel');
   const User = require('../../models/userModel');
 
-  let { courseId, selectedYear } = req.params;
+  let { courseId, selectedYear, ownerId } = req.params;
+  console.log(courseId, selectedYear, ownerId);
+
+  const hasOwner = typeof ownerId != 'undefined';
 
   var course = {};
 
@@ -42,15 +69,16 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
     .where(`yearRoles.${selectedYear}`)
     .equals('teacher')
     .sort('lastName');
- 
 
   const years = await Year.find();
-  
+
   res.status(200).render('courses/course_profile', {
     title: `${course.name}`,
     course,
     selectedYear,
     teachers,
-    years
+    years,
+    hasOwner,
+    ownerId
   });
 });

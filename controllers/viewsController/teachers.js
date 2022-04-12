@@ -67,6 +67,7 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
 
 exports.getTeachers = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
+  //const Year = require('../../models/yearModel');
   const User = require('../../models/userModel');
 
   let { selectedYear } = req.params;
@@ -83,7 +84,7 @@ exports.getTeachers = catchAsync(async (req, res, next) => {
     registrationYears: selectedYear,
   })
     .sort('lastName')
-    .populate({ path: 'courses', match: {year:selectedYear}})
+    .populate({ path: 'courses', match: {years:selectedYear}})
     .populate({ path: 'teacher', justOne: true });
   
   console.log(teachers);

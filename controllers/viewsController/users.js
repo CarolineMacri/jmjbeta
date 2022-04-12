@@ -21,9 +21,7 @@ exports.getUsers = catchAsync(async (req, res, next) => {
 
   const fieldName = `yearRoles.${selectedYear}`;
   console.log(fieldName);
-  // const users = await User.find({ "registration.year": selectedYear }).sort(
-  //   'lastName'
-  // );
+  
    var users = await User.find().exists(fieldName, true).sort(
     'lastName'
   );

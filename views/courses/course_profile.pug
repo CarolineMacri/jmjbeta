@@ -1,8 +1,9 @@
 extends ../base
 
 block content   
-    .page__content.course-profile(data-selected-year=selectedYear data-is-new=(course.isNew?'new':'old'))
-   
+    .page__content.course-profile(data-selected-year=selectedYear data-is-new=(course.isNew?'new':'old') data-has-owner=(hasOwner?'true':'false') )
+        h1= hasOwner
+        h1= ownerId
         section
             form.form.form__outline-box.course-profile__form(id=course.id) 
                 .form__row
@@ -19,7 +20,7 @@ block content
                 .form__column.form__dropdown-group
                     .form__item
                         label.form__label(for='owner') Owner * 
-                        select#owner(name='owner' data-teachercourse-id=ownerId)
+                        select#owner(name='owner' data-teacher-id=ownerId)
                             for teacher in teachers 
                                 option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
                                            
@@ -126,4 +127,7 @@ block content
                             textarea#texts.form__input(name='texts', rows='2', cols='30')=course.texts
                 .form__row
                     input.form__button.form__item--center(type='submit')
-                    a.form__button.form__cancel(href=`/courses_table/${selectedYear}`) X
+                    if hasOwner
+                        a.form__button.form__cancel(href=`/courses_table/${selectedYear}/${course.owner}`) X
+                    else
+                        a.form__button.form__cancel(href=`/courses_table/${selectedYear}`) X

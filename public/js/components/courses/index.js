@@ -49,6 +49,7 @@ function index(a) {
 
       const selectedYear = courseProfile.dataset.selectedYear;
       const isNew = courseProfile.dataset.isNew == 'new';
+      const hasOwner = courseProfile.dataset.hasOwner == 'true';
       const courseId = courseProfileForm.id;
       const name = document.getElementById('courseName').value;
       const owner = document.getElementById('owner').value;
@@ -81,7 +82,7 @@ function index(a) {
         id: courseId,
         name,
         owner,
-        //years: courseYears,
+        years: courseYears,
         classFee,
         grade,
         classSize,
@@ -94,7 +95,7 @@ function index(a) {
       };
       console.log(course);
 
-      updateCourse(courseId, course, selectedYear);
+      updateCourse(courseId, course, selectedYear, hasOwner);
     });
   }
 }

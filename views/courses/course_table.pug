@@ -1,10 +1,13 @@
 extends ../base
 
 block content   
-    .page__content.courses
+    .page__content
         div
             section
-                h1.courses__title Courses
+                if hasOwner 
+                    h1.courses__title= `${owner.firstName}  ${owner.lastName} Courses`
+                else    
+                    h1.courses__title  Courses
                 include ../_yearSelector
         
             table.courses
@@ -19,7 +22,10 @@ block content
                         -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                         td= `$${formatter.format(course.classFee)}`
                         td.button
-                            a.edit(href=`/course_profile/${course.id}/${selectedYear}`) &#9998
+                            if hasOwner
+                                a.edit(href=`/course_profile/${course.id}/${selectedYear}/${owner.id}`) &#9998
+                            else
+                                a.edit(href=`/course_profile/${course.id}/${selectedYear}`) &#9998
                         td.button
                             .delete &#10006
                 
