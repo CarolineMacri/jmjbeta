@@ -2,7 +2,13 @@ extends ../base
 
 block content   
     .page__content.course-profile(data-selected-year=selectedYear data-is-new=(course.isNew?'new':'old') data-has-owner=(hasOwner?'true':'false') )
-        
+        section
+            if (!hasOwner)
+                -var ownerId = course.owner
+               
+            else 
+                -var ownerId = ownerId
+                
         section
             form.form.form__outline-box.course-profile__form(id=course.id) 
                 .form__row
@@ -15,13 +21,12 @@ block content
                     input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
                 //- .form__outline-box--bottom.form__row
                 //- .form__item
-                if (hasOwner=='false')
-                    ownerId = course.owner
+                
                 .form__column.form__dropdown-group
                     .form__item
                         label.form__label(for='owner') Owner * 
                         select#owner(name='owner' data-teacher-id=ownerId)
-                            for teacher in teachers 
+                            for teacher in teachers
                                 option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
                                            
                 .form__row
