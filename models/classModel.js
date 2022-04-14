@@ -42,7 +42,7 @@ const classSchema = new mongoose.Schema(
       required: true,
     },
     semester: { type: String, enum: ['1', '2'], default: '1', required: true },
-    location: { type: String, enum: Object.values(Locations), required: true },
+    location: { type: String, enum: Object.values(Locations), required: true, default:Object.values(Locations)[0] },
     time: { type: Number, min: 9, max: 15 },
     year: { type: String, required: true },
   },

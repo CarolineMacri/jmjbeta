@@ -1,4 +1,4 @@
-/* eslint-disable */// import 'core-js/stable';
+/* eslint-disable */ // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
 import { changeClassesYear, updateClass, deleteClassModal } from './actions';
@@ -7,7 +7,7 @@ function index(a) {
   // DOM elements
 
   const classes = document.querySelector('.classes');
-  
+
   const classProfile = document.querySelector('.class-profile');
 
   if (classes) {
@@ -53,14 +53,14 @@ function index(a) {
 
       const selectedYear = classProfile.dataset.selectedYear;
       const isNew = classProfile.dataset.isNew == 'new';
-      
+
       const classId = classProfileForm.id;
       const course = document.getElementById('course').value;
       const teacher = document.getElementById('teacher').value;
-      const location = document.getElementById('location').value
+      const location = document.getElementById('location').value;
       const semester = document.getElementById('semester').value;
       const time = document.getElementById('time').value;
-      
+
       const cl = {
         id: classId,
         course,
@@ -68,7 +68,8 @@ function index(a) {
         location,
         semester,
         time,
-        isNew
+        year: selectedYear,
+        isNew,
       };
       console.log(cl);
 

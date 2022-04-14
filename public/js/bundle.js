@@ -16431,7 +16431,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteCourse = exports.deleteClassModal = exports.updateClass = exports.changeClassesYear = void 0;
+exports.deleteClass = exports.deleteClassModal = exports.updateClass = exports.changeClassesYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -16527,7 +16527,7 @@ exports.updateClass = updateClass;
 
 var deleteClassModal = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
-    var classId, _map, _map2, className, classTime, classLocation, classGrades, x, y, deleteModal, paragraphs, deleteCourseButton;
+    var classId, _map, _map2, className, classTime, classLocation, classGrades, x, y, deleteModal, paragraphs, deleteCourseButton, classMsg;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -16537,16 +16537,18 @@ var deleteClassModal = /*#__PURE__*/function () {
             _map = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 6), className = _map2[0], classTime = _map2[1], classLocation = _map2[2], classGrades = _map2[3], x = _map2[4], y = _map2[5];
+            alert('indeleteclassmodal');
             deleteModal = document.querySelector('.delete-modal__window');
             paragraphs = deleteModal.getElementsByTagName('p');
             paragraphs.item(2).innerHTML = className.toUpperCase() + '   ' + classTime + ' ' + classLocation;
             deleteCourseButton = document.getElementById('deleteClass');
+            classMsg = "<p>".concat(className, "</p> <p>in ").concat(classLocation, "</p> <p>at ").concat(classTime, "</p>");
             deleteCourseButton.addEventListener('click', function () {
-              deleteCourse(classId, className);
+              deleteClass(classId, classMsg);
             });
             deleteModal.classList.toggle('delete-modal__show');
 
-          case 8:
+          case 10:
           case "end":
             return _context2.stop();
         }
@@ -16561,15 +16563,15 @@ var deleteClassModal = /*#__PURE__*/function () {
 
 exports.deleteClassModal = deleteClassModal;
 
-var deleteCourse = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(courseId, courseName) {
+var deleteClass = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(classId, className) {
     var url, res;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            url = "/api/v1/courses/".concat(courseId);
+            url = "/api/v1/classes/".concat(classId);
             _context3.next = 4;
             return (0, _axios.default)({
               method: 'DELETE',
@@ -16580,11 +16582,11 @@ var deleteCourse = /*#__PURE__*/function () {
             res = _context3.sent;
 
             if (res.status == 204) {
-              (0, _alerts.showAlert)('success', "".concat(courseName, " deleted"));
+              (0, _alerts.showAlert)('success', "".concat(className, " unscheduled"));
               window.setTimeout(function () {
                 location.reload();
-              }, 500);
-              (0, _alerts.showAlert)('success', "".concat(courseName, " successfully deleted"));
+              }, 1000);
+              (0, _alerts.showAlert)('success', "".concat(className, " successfully unscheduled"));
             }
 
             _context3.next = 11;
@@ -16603,12 +16605,12 @@ var deleteCourse = /*#__PURE__*/function () {
     }, _callee3, null, [[0, 8]]);
   }));
 
-  return function deleteCourse(_x5, _x6) {
+  return function deleteClass(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }();
 
-exports.deleteCourse = deleteCourse;
+exports.deleteClass = deleteClass;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/classes/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -16679,6 +16681,7 @@ function index(a) {
         location: location,
         semester: semester,
         time: time,
+        year: selectedYear,
         isNew: isNew
       };
       console.log(cl);

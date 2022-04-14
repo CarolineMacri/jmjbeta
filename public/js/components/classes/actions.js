@@ -42,6 +42,7 @@ export const deleteClassModal = async (row) => {
   const [className, classTime, classLocation, classGrades, x, y] = [
     ...row.children,
   ].map((e) => e.innerHTML);
+  alert('indeleteclassmodal');
 
   const deleteModal = document.querySelector('.delete-modal__window');
 
@@ -50,17 +51,19 @@ export const deleteClassModal = async (row) => {
     className.toUpperCase() + '   ' + classTime + ' ' + classLocation;
 
   const deleteCourseButton = document.getElementById('deleteClass');
+  const classMsg = `<p>${className}</p> <p>in ${classLocation}</p> <p>at ${classTime}</p>`
 
   deleteCourseButton.addEventListener('click', function () {
-    deleteCourse(classId, className);
+    deleteClass(classId, classMsg);
   });
 
   deleteModal.classList.toggle('delete-modal__show');
 };
 
-export const deleteCourse = async (courseId, courseName) => {
+
+export const deleteClass = async (classId, className) => {
   try {
-    const url = `/api/v1/courses/${courseId}`;
+    const url = `/api/v1/classes/${classId}`;
 
     const res = await axios({
       method: 'DELETE',
@@ -68,12 +71,12 @@ export const deleteCourse = async (courseId, courseName) => {
     });
 
     if (res.status == 204) {
-      showAlert('success', `${courseName} deleted`);
+      showAlert('success', `${className} unscheduled`);
       window.setTimeout(() => {
         location.reload();
-      }, 500);
+      }, 1000);
 
-      showAlert('success', `${courseName} successfully deleted`);
+      showAlert('success', `${className} successfully unscheduled`);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);

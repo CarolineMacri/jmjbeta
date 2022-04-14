@@ -1,7 +1,7 @@
 extends ../base
 
 block content   
-    .page__content.class-profile(data-selected-year=selectedYear)                
+    .page__content.class-profile(data-selected-year=selectedYear data-is-new=(cl.isNew?'new':'old'))                
         section
             form.form.form__outline-box.class-profile__form(id=cl.id) 
                 .form__row
