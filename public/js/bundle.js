@@ -16425,7 +16425,268 @@ function index(a) {
     }());
   }
 }
-},{"./actions":"components/logins/actions.js"}],"teachers.js":[function(require,module,exports) {
+},{"./actions":"components/logins/actions.js"}],"components/classes/actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deleteCourse = exports.deleteClassModal = exports.updateClass = exports.changeClassesYear = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var changeClassesYear = function changeClassesYear(year) {
+  location.assign("/classes_table/".concat(year));
+};
+
+exports.changeClassesYear = changeClassesYear;
+
+var updateClass = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(classId, cl, selectedYear) {
+    var isNewClass, method, url, res, _cl;
+
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            isNewClass = cl.isNew == true;
+            method = isNewClass ? 'POST' : 'PATCH';
+            _context.prev = 2;
+            url = "/api/v1/classes".concat(isNewClass ? '' : '/' + classId);
+            _context.next = 6;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: cl
+            });
+
+          case 6:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              _cl = res.data.data.class;
+              (0, _alerts.showAlert)('success', "".concat(_cl.location, " - ").concat(_cl.hour, " class ").concat(classId == 'new' ? ' added ' : ' updated ', " successfully"));
+              _cl = (_readOnlyError("cl"), res.data.data.class);
+              window.setTimeout(function () {
+                location.replace("/class_profile/".concat(_cl.id, "/").concat(selectedYear));
+              }, 500);
+            }
+
+            _context.next = 13;
+            break;
+
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](2);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 13:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[2, 10]]);
+  }));
+
+  return function updateClass(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.updateClass = updateClass;
+
+var deleteClassModal = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
+    var classId, _map, _map2, className, classTime, classLocation, classGrades, x, y, deleteModal, paragraphs, deleteCourseButton;
+
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            classId = row.id;
+            _map = _toConsumableArray(row.children).map(function (e) {
+              return e.innerHTML;
+            }), _map2 = _slicedToArray(_map, 6), className = _map2[0], classTime = _map2[1], classLocation = _map2[2], classGrades = _map2[3], x = _map2[4], y = _map2[5];
+            deleteModal = document.querySelector('.delete-modal__window');
+            paragraphs = deleteModal.getElementsByTagName('p');
+            paragraphs.item(2).innerHTML = className.toUpperCase() + '   ' + classTime + ' ' + classLocation;
+            deleteCourseButton = document.getElementById('deleteClass');
+            deleteCourseButton.addEventListener('click', function () {
+              deleteCourse(classId, className);
+            });
+            deleteModal.classList.toggle('delete-modal__show');
+
+          case 8:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function deleteClassModal(_x4) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.deleteClassModal = deleteClassModal;
+
+var deleteCourse = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(courseId, courseName) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            url = "/api/v1/courses/".concat(courseId);
+            _context3.next = 4;
+            return (0, _axios.default)({
+              method: 'DELETE',
+              url: url
+            });
+
+          case 4:
+            res = _context3.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)('success', "".concat(courseName, " deleted"));
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+              (0, _alerts.showAlert)('success', "".concat(courseName, " successfully deleted"));
+            }
+
+            _context3.next = 11;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](0);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 8]]);
+  }));
+
+  return function deleteCourse(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.deleteCourse = deleteCourse;
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/classes/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _actions = require("./actions");
+
+/* eslint-disable */
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime';
+function index(a) {
+  // DOM elements
+  var classes = document.querySelector('.classes');
+  var classProfile = document.querySelector('.class-profile');
+
+  if (classes) {
+    //alert('before year select');
+    var yearSelect = document.getElementById('year-select'); //alert (`${yearSelect.value} is yearselect`)
+
+    yearSelect.addEventListener('change', function (e) {
+      var newYear = yearSelect.value;
+      (0, _actions.changeClassesYear)(newYear);
+    }); // add event listners for each course
+
+    var classRows = document.querySelector('.classes').getElementsByTagName('tr');
+    var numRows = classRows.length;
+
+    var _loop = function _loop() {
+      var dataRow = classRows[i];
+      var dataCells = dataRow.getElementsByTagName('td');
+      var numCells = dataCells.length;
+      var deleteButton = dataCells.item(numCells - 1);
+      deleteButton.addEventListener('click', function () {
+        (0, _actions.deleteClassModal)(dataRow);
+      });
+    };
+
+    for (var i = 1; i <= numRows - 2; i++) {
+      _loop();
+    }
+
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    });
+  }
+
+  if (classProfile) {
+    var classProfileForm = document.querySelector('.class-profile__form');
+    classProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var selectedYear = classProfile.dataset.selectedYear;
+      var isNew = classProfile.dataset.isNew == 'new';
+      var classId = classProfileForm.id;
+      var course = document.getElementById('course').value;
+      var teacher = document.getElementById('teacher').value;
+      var location = document.getElementById('location').value;
+      var semester = document.getElementById('semester').value;
+      var time = document.getElementById('time').value;
+      var cl = {
+        id: classId,
+        course: course,
+        teacher: teacher,
+        location: location,
+        semester: semester,
+        time: time,
+        isNew: isNew
+      };
+      console.log(cl);
+      (0, _actions.updateClass)(classId, cl, selectedYear);
+    });
+  }
+}
+},{"./actions":"components/classes/actions.js"}],"teachers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -124978,6 +125239,8 @@ var _index = require("./components/courses/index");
 
 var _index2 = require("./components/logins/index");
 
+var _index3 = require("./components/classes/index");
+
 var _teachers = require("./teachers");
 
 var _reports = require("./reports");
@@ -124996,6 +125259,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 (0, _index.index)();
 (0, _index2.index)();
+(0, _index3.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');
 var families = document.querySelector('.families');
@@ -125291,7 +125555,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

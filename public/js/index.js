@@ -8,6 +8,9 @@ import { index as courses } from './components/courses/index';
 courses();
 import { index as logins } from './components/logins/index';
 logins();
+import { index as sessions } from './components/classes/index';
+sessions();
+
 
 import { changeTeachersYear } from './teachers';
 import { changeReportChildrenByGradeYear } from './reports';

@@ -1,0 +1,54 @@
+extends ../base
+
+block content   
+    .page__content
+        div
+            section
+                h1.classes__title  Classes
+                include ../_yearSelector
+        
+            table.classes
+                tr
+                    th Class
+                    th Time
+                    th Location
+                    th Grades
+                for cl in classes    
+                    tr(id=cl.id)
+                        td= cl.course.name
+                        td= cl.hour
+                        td= cl.location
+                        td= `${cl.course.grade.min} - ${cl.course.grade.max}`
+                        
+                        td.button
+                            a.edit(href=`/class_profile/${cl.id}/${selectedYear}`) &#9998
+                        td.button
+                            .delete &#10006
+                
+                tr#new
+                    td.button
+                        .new
+                            a(href=`/class_profile/new/${selectedYear}`) &#10010
+
+
+            section.class-delete.page__content-row
+                .delete-modal__window
+                    .delete-modal__content.course-delete__modal
+                        p.course-delete__warning &#9888
+                        p Are you sure you want to delete
+                        p class?
+                        button#deleteCourse.button-ok OK
+                        button#cancelDelete.button-cancel cancel
+            
+        
+            
+               
+                
+                   
+
+                
+                            
+                   
+               
+                   
+            

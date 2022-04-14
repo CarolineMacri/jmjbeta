@@ -1,6 +1,7 @@
 Object.assign(
   module.exports,
   require('./courses'),
+  require('./classes'),
   require('./children'),
   require('./registrations'),
   require('./families'),
