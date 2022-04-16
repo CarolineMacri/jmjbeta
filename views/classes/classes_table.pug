@@ -9,13 +9,17 @@ block content
         
             table.classes
                 tr
-                    th Class
+                    th Course
+                    th Instructor
+                    th Semester
                     th Time
                     th Location
                     th Grades
                 for cl in classes    
                     tr(id=cl.id)
                         td= cl.course.name
+                        td= cl.teacher.lastName
+                        td= cl.semester
                         td= cl.hour
                         td= cl.location
                         td= `${cl.course.grade.min} - ${cl.course.grade.max}`

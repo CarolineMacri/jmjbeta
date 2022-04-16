@@ -16671,6 +16671,7 @@ function index(a) {
       var classId = classProfileForm.id;
       var course = document.getElementById('course').value;
       var teacher = document.getElementById('teacher').value;
+      var sessions = document.getElementById('sessions').value;
       var location = document.getElementById('location').value;
       var semester = document.getElementById('semester').value;
       var time = document.getElementById('time').value;
@@ -16678,6 +16679,7 @@ function index(a) {
         id: classId,
         course: course,
         teacher: teacher,
+        sessions: sessions,
         location: location,
         semester: semester,
         time: time,

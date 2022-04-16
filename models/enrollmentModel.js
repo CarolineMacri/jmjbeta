@@ -13,12 +13,13 @@ const enrollmentSchema = new mongoose.Schema(
         reason: String,
       }),
     },
+    class: { type: mongoose.Schema.Types.ObjectId, ref: Class },
     child: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: Child,
-      }],
-    class: [{ type: mongoose.Schema.Types.ObjectId, ref: Class }],
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

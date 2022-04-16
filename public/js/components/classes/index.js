@@ -57,6 +57,7 @@ function index(a) {
       const classId = classProfileForm.id;
       const course = document.getElementById('course').value;
       const teacher = document.getElementById('teacher').value;
+      const sessions = document.getElementById('sessions').value;
       const location = document.getElementById('location').value;
       const semester = document.getElementById('semester').value;
       const time = document.getElementById('time').value;
@@ -65,6 +66,7 @@ function index(a) {
         id: classId,
         course,
         teacher,
+        sessions,
         location,
         semester,
         time,

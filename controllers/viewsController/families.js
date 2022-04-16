@@ -17,10 +17,10 @@ exports.getFamily = catchAsync(async (req, res, next) => {
   const family = await Family.findOne({ parent: parentId });
 
   let children = await Child.find({ family: family.id, year: selectedYear })
-    .select('firstName sex grade')
+    .select('firstName sex grade _id')
     .populate({
       path: 'enrollments',
-      select: 'class -child',
+      select: 'class course -child',
       populate: {
         path: 'class',
         select: 'time hour location course -_id',

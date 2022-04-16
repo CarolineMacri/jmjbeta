@@ -16,14 +16,21 @@ block content
                             for course in courses
                                 option(selected=(course.id==cl.course.id) value=course.id)=course.name
 
-
-                .form__column.form__dropdown-group
-                    .form__item
-                        label.form__label(for='teacher') Teacher * 
-                        select#teacher(name='teacher')
-                            for teacher in teachers
-                                option(selected=(teacher.id==cl.teacher.id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
-                                                      
+                .form__row
+                    .form__column.form__dropdown-group
+                        .form__item
+                            label.form__label(for='teacher') Teacher * 
+                            select#teacher(name='teacher')
+                                for teacher in teachers
+                                    option(selected=(teacher.id==cl.teacher.id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+                    
+                    .form__column.form__dropdown-group
+                        .form__item
+                            label.form__label(for='sessions') Sessions *
+                            select#sessions(name='sessions')
+                                for sessions in [1,2,3,4,5,6,7,8]
+                                    option(selected=(sessions==cl.sessions) value=sessions)=sessions
+                                                            
                 .form__column.form__dropdown-group
                     .form__item
                         -var semesters = [1,2]
@@ -32,25 +39,21 @@ block content
                             for semester in semesters
                                 option(selected=(cl.semester==semester) value=semester)=semester
 
-                .form__column.form__dropdown-group
-                    .form__item
-                        
-                        label.form__label(for='location') Location * 
-                        select#location(name='location')
-                            for location in Object.values(locations)
-                                option(selected=(cl.location==location) value=location)=location
-                
-                .form__column.form__dropdown-group
-                    .form__item
-                        //- for time in Object.entries(times)
-                        //-     h1=time
-                        //-     h2=times[cl.time]
-                        //-     h1 -------------------
-                        label.form__label(for='times') Time * 
-                        select#time(name='time')
-                            for time in Object.entries(times)
-                                //-option(selected=(cl.hour==time) value=time)=time
-                                option(selected= (time[1]==times[cl.time]) value=time[0])=time[1]
+                .form__row
+                    .form__column.form__dropdown-group
+                        .form__item
+                            label.form__label(for='location') Location * 
+                            select#location(name='location')
+                                for location in Object.values(locations)
+                                    option(selected=(cl.location==location) value=location)=location
+                    
+                    .form__column.form__dropdown-group
+                        .form__item
+                            label.form__label(for='times') Time * 
+                            select#time(name='time')
+                                for time in Object.entries(times)
+                                    //-option(selected=(cl.hour==time) value=time)=time
+                                    option(selected= (time[1]==times[cl.time]) value=time[0])=time[1]
 
 
  
