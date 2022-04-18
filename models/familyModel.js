@@ -1,11 +1,18 @@
 // npm modules
 const mongoose = require('mongoose');
 
+const EnrollmentStatuses = Object.freeze({
+  NONE: 'NOT Enrolled',
+  PENDING: 'Pending Payments',
+  ENROLLED: 'Enrolled',
+});
+
 // project modules
 
 const familySchema = new mongoose.Schema(
   {
-    parent: { type: mongoose.Schema.Types.ObjectId, ref: 'User', justOne:true },
+    parent: { type: mongoose.Schema.Types.ObjectId, ref: 'User', justOne: true },
+    yearEnrollmentStatus: { type: Map, of: { type: String, enum: Object.keys(EnrollmentStatuses), default:Object.keys(EnrollmentStatuses)[0] } },
   },
   {
     toJSON: { virtuals: true },
@@ -45,6 +52,10 @@ familySchema.pre(/^find/, function (next) {
   ]);
 
   next();
+});
+
+Object.assign(familySchema.statics, {
+  EnrollmentStatuses,
 });
 
 const Family = mongoose.model('Family', familySchema);

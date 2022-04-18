@@ -16691,7 +16691,201 @@ function index(a) {
     });
   }
 }
-},{"./actions":"components/classes/actions.js"}],"teachers.js":[function(require,module,exports) {
+},{"./actions":"components/classes/actions.js"}],"components/enrollments/actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateEnrollment = exports.changeEnrollmentsYear = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var changeEnrollmentsYear = function changeEnrollmentsYear(year) {
+  location.assign("/enrollments_table/".concat(year));
+};
+
+exports.changeEnrollmentsYear = changeEnrollmentsYear;
+
+var updateEnrollment = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(enrollment, familyId, selectedYear) {
+    var isNewEnrollment, method, url, res, _enrollment;
+
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            isNewEnrollment = enrollment.isNew == true;
+            method = isNewEnrollment ? 'POST' : 'PATCH';
+            _context.prev = 2;
+            url = "/api/v1/enrollments".concat(isNewEnrollment ? '' : '/' + enrollment.id);
+            _context.next = 6;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: enrollment
+            });
+
+          case 6:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              _enrollment = res.data.data.enrollment;
+              (0, _alerts.showAlert)('success', "Enrollment ".concat(classId == 'new' ? ' added ' : ' updated ', " successfully"));
+              _enrollment = (_readOnlyError("enrollment"), res.data.data.enrollment);
+              window.setTimeout(function () {
+                location.replace("/enrollment_profile/".concat(familyId, "/").concat(selectedYear));
+              }, 500);
+            }
+
+            _context.next = 13;
+            break;
+
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](2);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 13:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[2, 10]]);
+  }));
+
+  return function updateEnrollment(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}(); // export const deleteClassModal = async (row) => {
+//   const classId = row.id;
+//   const [className, classTime, classLocation, classGrades, x, y] = [
+//     ...row.children,
+//   ].map((e) => e.innerHTML);
+//   alert('indeleteclassmodal');
+//   const deleteModal = document.querySelector('.delete-modal__window');
+//   const paragraphs = deleteModal.getElementsByTagName('p');
+//   paragraphs.item(2).innerHTML =
+//     className.toUpperCase() + '   ' + classTime + ' ' + classLocation;
+//   const deleteCourseButton = document.getElementById('deleteClass');
+//   const classMsg = `<p>${className}</p> <p>in ${classLocation}</p> <p>at ${classTime}</p>`
+//   deleteCourseButton.addEventListener('click', function () {
+//     deleteClass(classId, classMsg);
+//   });
+//   deleteModal.classList.toggle('delete-modal__show');
+// };
+// export const deleteClass = async (classId, className) => {
+//   try {
+//     const url = `/api/v1/classes/${classId}`;
+//     const res = await axios({
+//       method: 'DELETE',
+//       url,
+//     });
+//     if (res.status == 204) {
+//       showAlert('success', `${className} unscheduled`);
+//       window.setTimeout(() => {
+//         location.reload();
+//       }, 1000);
+//       showAlert('success', `${className} successfully unscheduled`);
+//     }
+//   } catch (err) {
+//     showAlert('error', err.response.data.message);
+//   }
+// };
+
+
+exports.updateEnrollment = updateEnrollment;
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/enrollments/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _actions = require("./actions");
+
+/* eslint-disable */
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime';
+function index(a) {
+  // DOM elements
+  var enrollments = document.querySelector('.enrollments');
+  var enrollmentProfile = document.querySelector('.enrollment_profile');
+
+  if (enrollments) {
+    //alert('before year select');
+    var yearSelect = document.getElementById('year-select'); //alert (`${yearSelect.value} is yearselect`)
+
+    yearSelect.addEventListener('change', function (e) {
+      var newYear = yearSelect.value;
+      (0, _actions.changeEnrollmentsYear)(newYear);
+    }); // add event listners for each family
+
+    var classRows = document.querySelector('.enrollments').getElementsByTagName('tr');
+    var numRows = classRows.length;
+
+    var _loop = function _loop() {
+      var dataRow = classRows[i];
+      var dataCells = dataRow.getElementsByTagName('td');
+      var numCells = dataCells.length;
+      var deleteButton = dataCells.item(numCells - 1);
+      deleteButton.addEventListener('click', function () {
+        deleteClassModal(dataRow);
+      });
+    };
+
+    for (var i = 1; i <= numRows - 2; i++) {
+      _loop();
+    }
+
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    });
+  }
+
+  if (classProfile) {
+    var classProfileForm = document.querySelector('.class-profile__form');
+    classProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var selectedYear = classProfile.dataset.selectedYear;
+      var isNew = classProfile.dataset.isNew == 'new';
+      var classId = classProfileForm.id;
+      var course = document.getElementById('course').value;
+      var teacher = document.getElementById('teacher').value;
+      var sessions = document.getElementById('sessions').value;
+      var location = document.getElementById('location').value;
+      var semester = document.getElementById('semester').value;
+      var time = document.getElementById('time').value;
+      var cl = {
+        id: classId,
+        course: course,
+        teacher: teacher,
+        sessions: sessions,
+        location: location,
+        semester: semester,
+        time: time,
+        year: selectedYear,
+        isNew: isNew
+      };
+      console.log(cl);
+      updateClass(classId, cl, selectedYear);
+    });
+  }
+}
+},{"./actions":"components/enrollments/actions.js"}],"teachers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -125246,6 +125440,8 @@ var _index2 = require("./components/logins/index");
 
 var _index3 = require("./components/classes/index");
 
+var _index4 = require("./components/enrollments/index");
+
 var _teachers = require("./teachers");
 
 var _reports = require("./reports");
@@ -125265,6 +125461,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index.index)();
 (0, _index2.index)();
 (0, _index3.index)();
+(0, _index4.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');
 var families = document.querySelector('.families');
@@ -125560,7 +125757,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

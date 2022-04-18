@@ -4,9 +4,9 @@ block content
     .page__content
         div
             section
-                h1.enrollments__title  Family Name Here
+                h1.enrollments__title  Enrollments
                 include ../_yearSelector
-                h2 Enrollment Open:  mm/dd/yy  Enrollment Close: mm/dd/yy  
+                h2.enrollments__title Enrollment Open:  mm/dd/yy  Enrollment Close: mm/dd/yy  
         
             table.enrollments
                 tr
@@ -14,18 +14,18 @@ block content
                     th FirstName
                     th Enrollment Status
                    
-                for family in families    
+                for family in enrollments    
                     tr(id=family.id)
                         td= family.parent.lastName
                         td= family.parent.firstName
-                        td= family.enrollmentStatus
+                        td= family.yearEnrollmentStatus[selectedYear]
                         
                         
                         td.button
                             //- a.edit(href=`/enrollment_profile/${family.id}/${selectedYear}`) &#9998
-                            a.edit(href= "#")
-                        td.button
-                            .delete &#10006
+                            a.edit(href= "#") &#9998
+                        //- td.button
+                        //-     .delete &#10006
                 
             //-     tr#new
             //-         td.button
