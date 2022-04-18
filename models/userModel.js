@@ -84,6 +84,18 @@ userSchema.virtual('courses', {
   foreignField: 'owner',
 });
 
+userSchema.virtual('classes', {
+  ref: 'Class',
+  localField: '_id',
+  foreignField: 'teacher',
+});
+
+userSchema.virtual('family', {
+  ref: 'Family',
+  localField: '_id',
+  foreignField: 'parent',
+});
+
 userSchema.methods.isCurrentlyRegistered = async function () {
   const currentYear = await Year.findOne({ current: true });
   return this.registrationYears.includes(currentYear.year);

@@ -2,12 +2,10 @@
 const mongoose = require('mongoose');
 
 // project modules
-const User = require('./userModel');
-const Child = require('./childModel');
 
 const familySchema = new mongoose.Schema(
   {
-    parent: { type: mongoose.Schema.Types.ObjectId, ref: User },
+    parent: { type: mongoose.Schema.Types.ObjectId, ref: 'User', justOne:true },
   },
   {
     toJSON: { virtuals: true },
@@ -16,16 +14,14 @@ const familySchema = new mongoose.Schema(
 );
 
 familySchema.virtual('children', {
-  ref: Child,
-  localField: '_id',
+  ref: 'Child',
+  localField: '_id',  //needs to be '_id' not 'id'
   foreignField: 'family',
 });
 
-familySchema.virtual('surName').get(function () {
-  if (this.parent) return this.parent.lastName;
-});
+
 familySchema.virtual('fullName').get(function () {
-  if (this.parent) return this.parent.lastName + this.parent.firstName;
+  if (this.parent) return this.parent.lastName + ", " + this.parent.firstName;
 });
 
 familySchema.path('parent').validate(function (parent) {
@@ -39,11 +35,12 @@ familySchema.pre(/^find/, function (next) {
   this.populate([
     {
       path: 'children',
-      select: 'year family sex grade firstName -_id -family',
+      select: 'year family sex grade firstName _id -family',
     },
     {
       path: 'parent',
-      select: 'firstName lastName address email cellPhone roles -_id',
+      select: 'firstName lastName email cellPhone registrationYears yearRoles _id',
+      justOne:true
     },
   ]);
 

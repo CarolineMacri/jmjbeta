@@ -27,19 +27,19 @@ const Times = Object.freeze({
 });
 
 // project modules
-const Course = require('./courseModel');
-const User = require('./userModel');
+// const Course = require('./courseModel');
+// const User = require('./userModel');
 
 const classSchema = new mongoose.Schema(
   {
     course: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: Course,
+      ref: 'Course',
       required: true,
     },
     teacher: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: User,
+      ref: 'User',
       required: true,
     },
     semester: { type: String, enum: ['1', '2'], default: '1', required: true },

@@ -48,7 +48,7 @@ exports.getClassProfile = catchAsync(async (req, res, next) => {
 
   // class is not a good variable name, it could be a reserved word
 
-  const courses = await Course.find({ years: selectedYear });
+  const courses = await Course.find({ years: selectedYear }).sort({ name: 1 });
   const teachers = await User.find()
     .where(`yearRoles.${selectedYear}`)
     .equals('teacher')

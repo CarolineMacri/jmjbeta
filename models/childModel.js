@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const { Grades } = require('./courseModel');
 
-// project modules
-const Enrollment = require('./enrollmentModel');
-
 const childSchema = new mongoose.Schema(
   {
     firstName: {
@@ -27,7 +24,6 @@ const childSchema = new mongoose.Schema(
       enum:Object.values(Grades),
       required: [true, 'must be a valid grade level'],
     },
-    allergies: String,
   },
   {
     toJSON: { virtuals: true },
@@ -36,10 +32,11 @@ const childSchema = new mongoose.Schema(
 );
 
 childSchema.virtual('enrollments', {
-  ref: Enrollment,
+  ref: 'Enrollment',
   localField: '_id',
   foreignField: 'child',
 });
+
 childSchema.index({ family: 1, year: 1, firstName: 1 }, { unique: true });
 
 const Child = mongoose.model('Child', childSchema);

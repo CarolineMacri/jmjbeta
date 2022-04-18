@@ -23,11 +23,18 @@ exports.getFamily = catchAsync(async (req, res, next) => {
       select: 'class course -child',
       populate: {
         path: 'class',
-        select: 'time hour location course -_id',
+        select: 'time hour location course _id',
         justOne: true,
-        populate:{ path: 'course', select: 'name -_id', justOne:true }
+        populate: { path: 'course', select: 'name _id', justOne: true },
       },
     });
+
+  children.forEach(child => {
+    console.log(child.name)
+    child.enrollments.forEach(enrollment => {
+      console.log(enrollment)
+    })
+  });
 
   children = children.sort(gradeSort);
 
@@ -55,7 +62,8 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
   }
 
   // used aggregation pipeline to let the database do the work
-  const families = await Family.aggregate()
+
+  families = await Family.aggregate()
     .lookup({
       from: 'users',
       localField: 'parent',

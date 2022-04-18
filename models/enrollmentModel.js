@@ -1,36 +1,25 @@
 // npm modules
-const mongoose = require('mongoose');
 
-// project modules
-const Child = require('./childModel');
-const Class = require('./classModel');
+const mongoose = require('mongoose');
 
 const enrollmentSchema = new mongoose.Schema(
   {
+    
+    class: { type: mongoose.Schema.Types.ObjectId, ref: 'Class' },
+    child:{
+      type: mongoose.Schema.Types.ObjectId,ref: 'Child'    },
+    
     drop: {
-      type: new mongoose.Schema({
-        date: Date,
-        reason: String,
-      }),
+      status: {type: Boolean, default: false},
+      date: { type: Date, default: Date.now() },
+      reason: { type: String, default: 'Class full' }
     },
-    class: { type: mongoose.Schema.Types.ObjectId, ref: Class },
-    child: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Child,
-      },
-    ],
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
-
-// enrollmentSchema.pre(/^find/, function (next) {
-//   this.populate({ path: 'class', select: 'course location time -_id', justOne:true });
-//   next();
-// })
 
 const Enrollment = mongoose.model('Enrollment', enrollmentSchema);
 
