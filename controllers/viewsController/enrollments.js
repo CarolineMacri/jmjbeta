@@ -1,5 +1,4 @@
-const catchAsync = require('../../utils/catchAsync');
-const AppError = require('../../utils/appError');
+const catchAsync = require('../../utils/catchAsync');const AppError = require('../../utils/appError');
 const Year = require('../../models/yearModel');
 const Family = require('../../models/familyModel');
 const Child = require('../../models/childModel');
@@ -64,9 +63,7 @@ exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
     .sort('fullName');
 
   if (enrollments.length == 0) {
-    return next(
-      new AppError('There are no families for this year', 404)
-    );
+    return next(new AppError('There are no families for this year', 404));
   }
 
   res.status(200).render('enrollments/enrollments_table', {
@@ -76,7 +73,6 @@ exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
     selectedYear,
   });
 });
-
 
 exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
   let { parentId, selectedYear } = req.params;
@@ -91,8 +87,7 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
 
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
-  const family = await Family.findOne({ parent: parentId })
-  
+  const family = await Family.findOne({ parent: parentId });
 
   let children = await Child.find({ family: family.id, year: selectedYear })
     .select('firstName sex grade _id')
@@ -101,7 +96,8 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
       select: 'class course -child',
       populate: {
         path: 'class',
-        select: 'time hour location course _id',
+        match: { semester: '1' },
+        select: 'time hour location course sessions semester _id',
         justOne: true,
         populate: { path: 'course', select: 'name _id', justOne: true },
       },
@@ -131,7 +127,6 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     selectedYear,
   });
 });
-
 
 function orderEnrollments(enrollments) {
   const timeMap = new Map([
