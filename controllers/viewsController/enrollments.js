@@ -2,7 +2,9 @@ const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 const Year = require('../../models/yearModel');
 const Family = require('../../models/familyModel');
-//const Child = require('../../models/childModel');
+const Child = require('../../models/childModel');
+const Class = require('../../models/classModel');
+const Course = require('../../models/courseModel');
 
 exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
   let { selectedYear } = req.params;
@@ -76,52 +78,59 @@ exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
 });
 
 
-// exports.getFamily = catchAsync(async (req, res, next) => {
-//   let { parentId, selectedYear } = req.params;
+exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
+  let { parentId, selectedYear } = req.params;
 
-//   const years = await Year.find();
+  const years = await Year.find();
 
-//   if (!selectedYear) {
-//     selectedYear = await Year.findOne({ current: true });
-//     selectedYear = selectedYear.year;
-//   }
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+  const classes = await Class.find({ year: selectedYear }).populate('course');
 
-//   const family = await Family.findOne({ parent: parentId });
+  const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
-//   let children = await Child.find({ family: family.id, year: selectedYear })
-//     .select('firstName sex grade _id')
-//     .populate({
-//       path: 'enrollments',
-//       select: 'class course -child',
-//       populate: {
-//         path: 'class',
-//         select: 'time hour location course _id',
-//         justOne: true,
-//         populate: { path: 'course', select: 'name _id', justOne: true },
-//       },
-//     });
+  const family = await Family.findOne({ parent: parentId })
+  
 
-//   children.forEach(child => {
-//     console.log(child.name)
-//     child.enrollments.forEach(enrollment => {
-//       console.log(enrollment)
-//     })
-//   });
+  let children = await Child.find({ family: family.id, year: selectedYear })
+    .select('firstName sex grade _id')
+    .populate({
+      path: 'enrollments',
+      select: 'class course -child',
+      populate: {
+        path: 'class',
+        select: 'time hour location course _id',
+        justOne: true,
+        populate: { path: 'course', select: 'name _id', justOne: true },
+      },
+    });
 
-//   children = children.sort(gradeSort);
+  // children.forEach(child => {
+  //   console.log(child.name)
+  //   child.enrollments.forEach(enrollment => {
+  //     console.log(enrollment)
+  //   })
+  // });
 
-//   children.forEach((child) => {
-//     child.enrollments = orderEnrollments(child.enrollments);
-//   });
+  children = children.sort(gradeSort);
 
-//   res.status(200).render('family', {
-//     title: 'family',
-//     family: family,
-//     children: children,
-//     years: years,
-//     selectedYear,
-//   });
-// });
+  children.forEach((child) => {
+    child.enrollments = orderEnrollments(child.enrollments);
+  });
+  console.log(gradeCourseMap.get('K'));
+
+  res.status(200).render('enrollments/enrollment_profile', {
+    title: `Enrollments ${selectedYear}`,
+    family,
+    children,
+    classes,
+    gradeCourseMap,
+    years,
+    selectedYear,
+  });
+});
 
 
 function orderEnrollments(enrollments) {

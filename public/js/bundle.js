@@ -16831,57 +16831,54 @@ function index(a) {
       var newYear = yearSelect.value;
       (0, _actions.changeEnrollmentsYear)(newYear);
     }); // add event listners for each family
-
-    var classRows = document.querySelector('.enrollments').getElementsByTagName('tr');
-    var numRows = classRows.length;
-
-    var _loop = function _loop() {
-      var dataRow = classRows[i];
-      var dataCells = dataRow.getElementsByTagName('td');
-      var numCells = dataCells.length;
-      var deleteButton = dataCells.item(numCells - 1);
-      deleteButton.addEventListener('click', function () {
-        deleteClassModal(dataRow);
-      });
-    };
-
-    for (var i = 1; i <= numRows - 2; i++) {
-      _loop();
-    }
-
-    var cancelDelete = document.getElementById('cancelDelete');
-    cancelDelete.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
-    });
+    // const enrollmentRows = document
+    //   .querySelector('.enrollments')
+    //   .getElementsByTagName('tr');
+    // const numRows = enrollmentRows.length;
+    // for (var i = 1; i <= numRows - 2; i++) {
+    //   const dataRow = enrollmentRows[i];
+    //   const dataCells = dataRow.getElementsByTagName('td');
+    //   const numCells = dataCells.length;
+    // const deleteButton = dataCells.item(numCells - 1);
+    // deleteButton.addEventListener('click', function () {
+    //   deleteClassModal(dataRow);
+    // });
+    //}
+    // const cancelDelete = document.getElementById('cancelDelete');
+    // cancelDelete.addEventListener('click', (e) => {
+    //   e.preventDefault();
+    //   document
+    //     .querySelector('.delete-modal__window')
+    //     .classList.toggle('delete-modal__show');
+    // });
   }
 
-  if (classProfile) {
-    var classProfileForm = document.querySelector('.class-profile__form');
-    classProfileForm.addEventListener('submit', function (e) {
+  if (enrollmentProfile) {
+    var enrollmentProfileForm = document.querySelector('.enrollment-profile__form');
+    enrollmentProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      var selectedYear = classProfile.dataset.selectedYear;
-      var isNew = classProfile.dataset.isNew == 'new';
-      var classId = classProfileForm.id;
-      var course = document.getElementById('course').value;
-      var teacher = document.getElementById('teacher').value;
-      var sessions = document.getElementById('sessions').value;
-      var location = document.getElementById('location').value;
-      var semester = document.getElementById('semester').value;
-      var time = document.getElementById('time').value;
-      var cl = {
-        id: classId,
-        course: course,
-        teacher: teacher,
-        sessions: sessions,
-        location: location,
-        semester: semester,
-        time: time,
-        year: selectedYear,
-        isNew: isNew
-      };
-      console.log(cl);
-      updateClass(classId, cl, selectedYear);
+      var selectedYear = elementProfile.dataset.selectedYear; //const isNew = classProfile.dataset.isNew == 'new';
+      // const classId = classProfileForm.id;
+      // const course = document.getElementById('course').value;
+      // const teacher = document.getElementById('teacher').value;
+      // const sessions = document.getElementById('sessions').value;
+      // const location = document.getElementById('location').value;
+      // const semester = document.getElementById('semester').value;
+      // const time = document.getElementById('time').value;
+      // const cl = {
+      //   id: classId,
+      //   course,
+      //   teacher,
+      //   sessions,
+      //   location,
+      //   semester,
+      //   time,
+      //   year: selectedYear,
+      //   isNew,
+      // };
+      // console.log(cl);
+
+      updateEnrollments(selectedYear);
     });
   }
 }

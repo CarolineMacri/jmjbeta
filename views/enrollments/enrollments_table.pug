@@ -8,6 +8,7 @@ block content
                 include ../_yearSelector
                 h2.enrollments__title Enrollment Open:  mm/dd/yy  Enrollment Close: mm/dd/yy  
         
+           
             table.enrollments
                 tr
                     th LastName
@@ -15,15 +16,15 @@ block content
                     th Enrollment Status
                    
                 for family in enrollments    
-                    tr(id=family.id)
+                    tr(id=family.parent._id)
                         td= family.parent.lastName
                         td= family.parent.firstName
                         td= family.yearEnrollmentStatus[selectedYear]
                         
                         
                         td.button
-                            //- a.edit(href=`/enrollment_profile/${family.id}/${selectedYear}`) &#9998
-                            a.edit(href= "#") &#9998
+                            a.edit(href=`/enrollment_profile/${family.parent._id}/${selectedYear}`) &#9998
+                            //- a.edit(href= "#") &#9998
                         //- td.button
                         //-     .delete &#10006
                 

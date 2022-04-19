@@ -18,7 +18,7 @@ router.get('/courses_table/:selectedYear?/:ownerId?', authController.protect, vi
 router.get('/course_profile/:courseId/:selectedYear?/:ownerId?', authController.protect, viewsController.getCourseProfile);
 
 router.get('/enrollments_table/:selectedYear?', authController.protect, viewsController.getEnrollmentsTable);
-//router.get('/enrollment_profile/:familyId/:selectedYear?', authController.protect, viewsController.getEnrollmentProfile);
+router.get('/enrollment_profile/:parentId/:selectedYear?', authController.protect, viewsController.getEnrollmentProfile);
 
 router.get('/classes_table/:selectedYear?', authController.protect, viewsController.getClassesTable);
 router.get('/class_profile/:classId/:selectedYear?', authController.protect, viewsController.getClassProfile);
