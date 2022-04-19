@@ -8,7 +8,7 @@ block content
   h2.enrollments__title= selectedYear
   -var enrollmentStatus = family.yearEnrollmentStatus.get(selectedYear)
   -var isDisabled = (enrollmentStatus != "NONE")
-  h2.enrollments__title= `Enrollment Status: ${enrollmentStatus}`
+  h2.enrollments__title(style="color:red;")= `Enrollment Status: ${enrollmentStatus}`
 
   section
     form.form.form__outline-box.form--row.enrollment-profile__form.enrollment-profile--wide
