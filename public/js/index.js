@@ -1,5 +1,5 @@
-/* eslint-disable */
-import 'core-js/stable'; import 'regenerator-runtime/runtime';
+/* eslint-disable */ import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 import { changeFamilyYear, addFamily } from './family';
 import { changeFamiliesYear } from './families';
@@ -13,7 +13,6 @@ import { index as sessions } from './components/classes/index';
 sessions();
 import { index as enrollments } from './components/enrollments/index';
 enrollments();
-
 
 import { changeTeachersYear } from './teachers';
 import { changeReportChildrenByGradeYear } from './reports';
@@ -269,18 +268,25 @@ if (users) {
   });
 
   userProfileForm.addEventListener('submit', (e) => {
+    //alert('adding event listener to userprofile form');
     e.preventDefault();
     const lN = document.getElementById('lastName');
     const lastName = lN.value;
+    //alert(lastName);
     const fN = document.getElementById('firstName');
     const firstName = fN.value;
+    //alert(firstName);
     const em = document.getElementById('email');
     const email = em.value;
+    //alert(email);
     const cf = document.getElementById('cellPhone');
-    const cellPhone = cf.value;
+    var cellPhone = cf.value.replace(/-/g, '');
+    //alert(cellPhone);
     const id = userProfileForm.id;
+    //alert(id);
     const role = document.getElementsByName('roles');
     const selectedYear = document.getElementById('selectedYear').innerHTML;
+
     var r;
     var roles = [];
     for (r of role) {
@@ -289,25 +295,18 @@ if (users) {
       }
     }
 
-    var registration = JSON.parse(userProfileForm.dataset.registration);
-    var registrationIndex = userProfileForm.dataset.registrationIndex;
-    registration[registrationIndex].roles = roles;
-    alert(registration[registrationIndex].year);
     var yearRoles = {};
     yearRoles[selectedYear] = roles;
 
-    const data = {
+    var data = {
       lastName,
       firstName,
       email,
       cellPhone,
-      roles,
-      registration,
       yearRoles,
     };
-
     if (id == 'new') {
-      data.registrationYears = [yearSelect.value];
+      data.registrationYears = [selectedYear];
     }
 
     updateUser(id, data).then((newId) => {

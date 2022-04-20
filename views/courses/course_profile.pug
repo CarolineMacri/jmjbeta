@@ -115,19 +115,18 @@ block content
                                             else    
                                                 option()=size
                 div
+                    .form__row.form__dropdown-group
+                        label.form__label(for='description') Description *
+                        textarea#description.form__input(name='description', rows='5',  cols='70' required='')=course.description
+                    
+                    .form__row.form__dropdown-group
+                        label.form__label(for='notes') Notes 
+                        input#notes.form__input(name='notes', type='text' size='42' value=course.notes)
                     .form__row
-                        .form__item
-                            label.form__label(for='description') Description *
-                            textarea#description.form__input(name='description', rows='3',  cols='70' required='')=course.description
-                    .form__row
-                        .form__item
-                            label.form__label(for='notes') Notes 
-                            input#notes.form__input(name='notes', type='text' size='42' value=course.notes)
-                    .form__row
-                        .form__item
+                        .form__item.form__dropdown-group
                             label.form__label(for='materials') Required Materials:
                             textarea#materials.form__input(name='materials', rows='2', cols='30')=course.materials
-                        .form__item
+                        .form__item.form__dropdown-group
                             label.form__label(for='texts') Required texts:
                             textarea#texts.form__input(name='texts', rows='2', cols='30')=course.texts
                 .form__row

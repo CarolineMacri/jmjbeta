@@ -57,21 +57,22 @@ function index(a) {
       const classId = classProfileForm.id;
       const course = document.getElementById('course').value;
       const teacher = document.getElementById('teacher').value;
-      const sessions = document.getElementById('sessions').value;
+      const semesterSessions = {
+        1: document.getElementById('semesterSessions1').value,
+        2: document.getElementById('semesterSessions2').value,
+      };
       const location = document.getElementById('location').value;
-      const semester = document.getElementById('semester').value;
       const time = document.getElementById('time').value;
 
       const cl = {
         id: classId,
         course,
         teacher,
-        sessions,
+        semesterSessions,
         location,
-        semester,
         time,
         year: selectedYear,
-        isNew,
+        isNew
       };
       console.log(cl);
 

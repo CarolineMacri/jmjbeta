@@ -3,7 +3,8 @@ extends ../base
 block content   
     .page__content.class-profile(data-selected-year=selectedYear data-is-new=(cl.isNew?'new':'old'))                
         section
-            form.form.form__outline-box.class-profile__form(id=cl.id) 
+            
+            form.form.form__outline-box.class-profile__form(id=cl.id style='width:max-content;') 
                 .form__row
                     .form__header-text Class
                     .form__header-background.family-form__header-image
@@ -22,31 +23,9 @@ block content
                             label.form__label(for='teacher') Teacher * 
                             select#teacher(name='teacher')
                                 for teacher in teachers
-                                    option(selected=(teacher.id==cl.teacher.id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
-                    
-                    .form__column.form__dropdown-group
-                        .form__item
-                            label.form__label(for='sessions') Sessions *
-                            select#sessions(name='sessions')
-                                for sessions in [1,2,3,4,5,6,7,8]
-                                    option(selected=(sessions==cl.sessions) value=sessions)=sessions
-                                                            
-                .form__column.form__dropdown-group
-                    .form__item
-                        -var semesters = [1,2]
-                        label.form__label(for='semester') Semester * 
-                        select#semester(name='semester')
-                            for semester in semesters
-                                option(selected=(cl.semester==semester) value=semester)=semester
-
+                                    option(selected=(teacher.id==cl.teacher._id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+   
                 .form__row
-                    .form__column.form__dropdown-group
-                        .form__item
-                            label.form__label(for='location') Location * 
-                            select#location(name='location')
-                                for location in Object.values(locations)
-                                    option(selected=(cl.location==location) value=location)=location
-                    
                     .form__column.form__dropdown-group
                         .form__item
                             label.form__label(for='times') Time * 
@@ -54,9 +33,30 @@ block content
                                 for time in Object.entries(times)
                                     //-option(selected=(cl.hour==time) value=time)=time
                                     option(selected= (time[1]==times[cl.time]) value=time[0])=time[1]
+                .form__row                    
+                    .form__column.form__dropdown-group
+                        .form__item
+                            label.form__label(for='location') Location * 
+                            select#location(name='location')
+                                for location in Object.values(locations)
+                                    option(selected=(cl.location==location) value=location)=location
 
+                .form__row    
+                    .form__column.form__dropdown-group
+                        .form__item 
+                            label.form__label(for='semesterSessions1') Sessions taught in Semester 1 * 
+                            select#semesterSessions1(name='semesterSessions1')
+                                for numSessions in [1,2,3,4,5,6,7,8]
+                                    option(selected=(numSessions==cl.semesterSessions['1']) value=numSessions)=numSessions
 
- 
+                .form__row                                            
+                    .form__column.form__dropdown-group
+                        .form__item
+                            label.form__label(for='semesterSessions2') Sessions taught in Semester 2 * 
+                            select#semesterSessions2(name='semesterSessions2')
+                                for numSessions in [1,2,3,4,5,6,7,8]
+                                    option(selected=(numSessions==cl.semesterSessions['2']) value=numSessions)=numSessions
+
                 .form__row
                     input.form__button.form__item--center(type='submit')
                     a.form__button.form__cancel(href=`/classes_table/${selectedYear}`) X

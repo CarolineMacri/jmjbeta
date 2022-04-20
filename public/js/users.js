@@ -21,9 +21,8 @@ export const userModalOnClick = (event) => {
 export const fillUserForm = (row) => {
   const userForm = document.querySelector('.user-profile__form');
   userForm.id = row.id;
-  userForm.dataset.registration = row.dataset.registration;
-  userForm.dataset.registrationIndex = row.dataset.registrationIndex;
-
+  userForm.dataset.registrationYears = row.dataset.registrationYears;
+ 
   var [userLastName, userFirstName, userEmail, userCellPhone, userRoles, x, y] =
     [...row.children].map((e) => e.innerHTML);
 
@@ -40,7 +39,7 @@ export const fillUserForm = (row) => {
   document.getElementById('lastName').value = userLastName;
   document.getElementById('firstName').value = userFirstName;
   document.getElementById('email').value = userEmail;
-  document.getElementById('cellPhone').value = userCellPhone;
+  document.getElementById('cellPhone').value = userCellPhone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
   document.getElementById('update').value = newUser ? 'Add' : 'Update';
 
   const roleCheckBoxes = document.getElementsByName('roles');
@@ -60,6 +59,7 @@ export const fillUserForm = (row) => {
 
 export const updateUser = async (userId, data) => {
   try {
+    alert(`in update user id= ${userId}`);
     const url = `/api/v1/users/${userId == 'new' ? '' : '/' + userId}`;
 
     const method = userId == 'new' ? 'POST' : 'PATCH';
@@ -72,7 +72,7 @@ export const updateUser = async (userId, data) => {
       data.password = randomPassword;
       data.passwordConfirm = randomPassword;
     }
-
+    
     const res = await axios({
       method,
       url,

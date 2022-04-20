@@ -1,40 +1,79 @@
-import axios from 'axios';
-import { showAlert } from '../../alerts';
+import axios from 'axios';import { showAlert } from '../../alerts';
 
 export const changeEnrollmentsYear = (year) => {
   location.assign(`/enrollments_table/${year}`);
 };
 
-export const updateEnrollment = async ( enrollment, familyId, selectedYear) => {
-  const isNewEnrollment = enrollment.isNew == true;
+export const saveEnrollentSelections = async (enrollments) => {
+  alert('save enrollment selections')
+  alert(enrollments);
+  const enrollmentsToAdd = enrollments.filter((e) => {
+    return !e._id && e.class;
+  });
+  const enrollmentsToUpdate = enrollments.filter((e) => {
+    return e._id && e.class;
+  });
+  const enrollmentsToDelete = enrollments.filter((e) => {
+    return e._id && !e.class;
+  });
+  
+  alert(enrollmentsToAdd.length);
+  enrollmentsToAdd.forEach(async (e) => {
+    
+    try {
+      var url = `/api/v1/enrollments`;
+      alert("adding ")
+      const res = await axios({
+        method: 'POST',
+        url,
+        data: e,
+      });
+    } catch (err) {
+      showAlert('error', err.response.data.message);
+    }
+  });
+  
+  alert(enrollmentsToUpdate.length)
+  enrollmentsToUpdate.forEach(async (e) => {
+    try {
+      var url = `/api/v1/enrollments/${e._id}`;
+      
+      const res = await axios({
+        method: 'PATCH',
+        url,
+        data: e,
+      });
+    } catch (err) {
+      showAlert('error', err.response.data.message);
+    }
+  });
+  
+  alert(enrollmentsToDelete.length)
+  enrollmentsToDelete.forEach(async (e) => {
+    try {
+      var url = `/api/v1/enrollments/${e._id}`;
 
-  const method = isNewEnrollment ? 'POST' : 'PATCH';
+      const res = await axios({
+        method: 'DELETE',
+        url,
+        data: e,
+      });
+    } catch (err) {
+      showAlert('error', err.response.data.message);
+    }
+  });
 
-  try {
-    var url = `/api/v1/enrollments${isNewEnrollment ? '' : '/' + enrollment.id}`;
-
-    const res = await axios({
-      method,
-      url,
-      data: enrollment,
-    });
-
-    if (res.data.status == 'success') {
-      const enrollment = res.data.data.enrollment;
+  if (res.data.status == 'success') {
+      
       showAlert(
         'success',
-        `Enrollment ${
-          classId == 'new' ? ' added ' : ' updated '
-        } successfully`
+        `Enrollment selections saved successfully`
       );
-      enrollment = res.data.data.enrollment;
+    
       window.setTimeout(() => {
         location.replace(`/enrollment_profile/${familyId}/${selectedYear}`);
       }, 500);
     }
-  } catch (err) {
-    showAlert('error', err.response.data.message);
-  }
 };
 
 // export const deleteClassModal = async (row) => {
@@ -60,7 +99,6 @@ export const updateEnrollment = async ( enrollment, familyId, selectedYear) => {
 
 //   deleteModal.classList.toggle('delete-modal__show');
 // };
-
 
 // export const deleteClass = async (classId, className) => {
 //   try {

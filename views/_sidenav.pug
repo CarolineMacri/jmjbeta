@@ -8,6 +8,7 @@ nav.side-nav
   - var isParent = user.currentRoles.includes('parent')
   - var isTeacher = user.currentRoles.includes('teacher')
   
+  
   if isParent
     .side-nav__section
       h3.side-nav__heading Family
@@ -35,6 +36,7 @@ nav.side-nav
       a.side-nav__item(href='/registrations') Registrations 
       a.side-nav__item(href='/teachers') Teachers
       a.side-nav__item(href='#') Create class schedule
-    .side-nav__section
-      h3.side-nav__heading Reports
-      a.side-nav__item(href='/reports/childrenByGrade') Children by Grade
+  .side-nav__section
+    h3.side-nav__heading Reports
+    a.side-nav__item(href='/reports/childrenByGrade') Children by Grade
+    a.side-nav__item(href='/class_grid') Class Grid 

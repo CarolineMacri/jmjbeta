@@ -14,6 +14,7 @@ const Locations = Object.freeze({
   music: 'Music Room',
   conf: 'Conference Room',
   wysz: 'Wysznyski Hall',
+  wysz2: 'Wysznyski Hall 2',
   stage: 'Stage',
 });
 
@@ -41,6 +42,11 @@ const classSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+    },
+    isOwner: { type: Boolean, default: true },
+    semesterSessions: {
+      1: { type: Number, default: 8, min: 1, max: 8, required: true },
+      2: { type: Number, default: 8, min: 1, max: 8, required: true },
     },
     semester: { type: String, enum: ['1', '2'], default: '1', required: true },
     sessions: { type: Number, default: 8, min: 1, max: 8, required: true },

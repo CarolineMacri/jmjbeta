@@ -16537,7 +16537,6 @@ var deleteClassModal = /*#__PURE__*/function () {
             _map = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 6), className = _map2[0], classTime = _map2[1], classLocation = _map2[2], classGrades = _map2[3], x = _map2[4], y = _map2[5];
-            alert('indeleteclassmodal');
             deleteModal = document.querySelector('.delete-modal__window');
             paragraphs = deleteModal.getElementsByTagName('p');
             paragraphs.item(2).innerHTML = className.toUpperCase() + '   ' + classTime + ' ' + classLocation;
@@ -16548,7 +16547,7 @@ var deleteClassModal = /*#__PURE__*/function () {
             });
             deleteModal.classList.toggle('delete-modal__show');
 
-          case 10:
+          case 9:
           case "end":
             return _context2.stop();
         }
@@ -16671,17 +16670,18 @@ function index(a) {
       var classId = classProfileForm.id;
       var course = document.getElementById('course').value;
       var teacher = document.getElementById('teacher').value;
-      var sessions = document.getElementById('sessions').value;
+      var semesterSessions = {
+        1: document.getElementById('semesterSessions1').value,
+        2: document.getElementById('semesterSessions2').value
+      };
       var location = document.getElementById('location').value;
-      var semester = document.getElementById('semester').value;
       var time = document.getElementById('time').value;
       var cl = {
         id: classId,
         course: course,
         teacher: teacher,
-        sessions: sessions,
+        semesterSessions: semesterSessions,
         location: location,
-        semester: semester,
         time: time,
         year: selectedYear,
         isNew: isNew
@@ -16697,15 +16697,13 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateEnrollment = exports.changeEnrollmentsYear = void 0;
+exports.saveEnrollentSelections = exports.changeEnrollmentsYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
 var _alerts = require("../../alerts");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -16717,54 +16715,162 @@ var changeEnrollmentsYear = function changeEnrollmentsYear(year) {
 
 exports.changeEnrollmentsYear = changeEnrollmentsYear;
 
-var updateEnrollment = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(enrollment, familyId, selectedYear) {
-    var isNewEnrollment, method, url, res, _enrollment;
-
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+var saveEnrollentSelections = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(enrollments) {
+    var enrollmentsToAdd, enrollmentsToUpdate, enrollmentsToDelete;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            isNewEnrollment = enrollment.isNew == true;
-            method = isNewEnrollment ? 'POST' : 'PATCH';
-            _context.prev = 2;
-            url = "/api/v1/enrollments".concat(isNewEnrollment ? '' : '/' + enrollment.id);
-            _context.next = 6;
-            return (0, _axios.default)({
-              method: method,
-              url: url,
-              data: enrollment
+            alert('save enrollment selections');
+            alert(enrollments);
+            enrollmentsToAdd = enrollments.filter(function (e) {
+              return !e._id && e.class;
             });
+            enrollmentsToUpdate = enrollments.filter(function (e) {
+              return e._id && e.class;
+            });
+            enrollmentsToDelete = enrollments.filter(function (e) {
+              return e._id && !e.class;
+            });
+            alert(enrollmentsToAdd.length);
+            enrollmentsToAdd.forEach( /*#__PURE__*/function () {
+              var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+                var url, _res;
 
-          case 6:
-            res = _context.sent;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                  while (1) {
+                    switch (_context.prev = _context.next) {
+                      case 0:
+                        _context.prev = 0;
+                        url = "/api/v1/enrollments";
+                        alert("adding ");
+                        _context.next = 5;
+                        return (0, _axios.default)({
+                          method: 'POST',
+                          url: url,
+                          data: e
+                        });
+
+                      case 5:
+                        _res = _context.sent;
+                        _context.next = 11;
+                        break;
+
+                      case 8:
+                        _context.prev = 8;
+                        _context.t0 = _context["catch"](0);
+                        (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+                      case 11:
+                      case "end":
+                        return _context.stop();
+                    }
+                  }
+                }, _callee, null, [[0, 8]]);
+              }));
+
+              return function (_x2) {
+                return _ref2.apply(this, arguments);
+              };
+            }());
+            alert(enrollmentsToUpdate.length);
+            enrollmentsToUpdate.forEach( /*#__PURE__*/function () {
+              var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
+                var url, _res2;
+
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                  while (1) {
+                    switch (_context2.prev = _context2.next) {
+                      case 0:
+                        _context2.prev = 0;
+                        url = "/api/v1/enrollments/".concat(e._id);
+                        _context2.next = 4;
+                        return (0, _axios.default)({
+                          method: 'PATCH',
+                          url: url,
+                          data: e
+                        });
+
+                      case 4:
+                        _res2 = _context2.sent;
+                        _context2.next = 10;
+                        break;
+
+                      case 7:
+                        _context2.prev = 7;
+                        _context2.t0 = _context2["catch"](0);
+                        (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
+
+                      case 10:
+                      case "end":
+                        return _context2.stop();
+                    }
+                  }
+                }, _callee2, null, [[0, 7]]);
+              }));
+
+              return function (_x3) {
+                return _ref3.apply(this, arguments);
+              };
+            }());
+            alert(enrollmentsToDelete.length);
+            enrollmentsToDelete.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
+                var url, _res3;
+
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        _context3.prev = 0;
+                        url = "/api/v1/enrollments/".concat(e._id);
+                        _context3.next = 4;
+                        return (0, _axios.default)({
+                          method: 'DELETE',
+                          url: url,
+                          data: e
+                        });
+
+                      case 4:
+                        _res3 = _context3.sent;
+                        _context3.next = 10;
+                        break;
+
+                      case 7:
+                        _context3.prev = 7;
+                        _context3.t0 = _context3["catch"](0);
+                        (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+
+                      case 10:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3, null, [[0, 7]]);
+              }));
+
+              return function (_x4) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
 
             if (res.data.status == 'success') {
-              _enrollment = res.data.data.enrollment;
-              (0, _alerts.showAlert)('success', "Enrollment ".concat(classId == 'new' ? ' added ' : ' updated ', " successfully"));
-              _enrollment = (_readOnlyError("enrollment"), res.data.data.enrollment);
+              (0, _alerts.showAlert)('success', "Enrollment selections saved successfully");
               window.setTimeout(function () {
                 location.replace("/enrollment_profile/".concat(familyId, "/").concat(selectedYear));
               }, 500);
             }
 
-            _context.next = 13;
-            break;
-
-          case 10:
-            _context.prev = 10;
-            _context.t0 = _context["catch"](2);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
-
-          case 13:
+          case 12:
           case "end":
-            return _context.stop();
+            return _context4.stop();
         }
       }
-    }, _callee, null, [[2, 10]]);
+    }, _callee4);
   }));
 
-  return function updateEnrollment(_x, _x2, _x3) {
+  return function saveEnrollentSelections(_x) {
     return _ref.apply(this, arguments);
   };
 }(); // export const deleteClassModal = async (row) => {
@@ -16804,7 +16910,7 @@ var updateEnrollment = /*#__PURE__*/function () {
 // };
 
 
-exports.updateEnrollment = updateEnrollment;
+exports.saveEnrollentSelections = saveEnrollentSelections;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/enrollments/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -16816,12 +16922,11 @@ exports.index = index;
 var _actions = require("./actions");
 
 /* eslint-disable */
-// import 'core-js/stable';
-// import 'regenerator-runtime/runtime';
+// import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements
   var enrollments = document.querySelector('.enrollments');
-  var enrollmentProfile = document.querySelector('.enrollment_profile');
+  var enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (enrollments) {
     //alert('before year select');
@@ -16830,31 +16935,29 @@ function index(a) {
     yearSelect.addEventListener('change', function (e) {
       var newYear = yearSelect.value;
       (0, _actions.changeEnrollmentsYear)(newYear);
-    }); // add event listners for each family
-    // const enrollmentRows = document
-    //   .querySelector('.enrollments')
-    //   .getElementsByTagName('tr');
-    // const numRows = enrollmentRows.length;
-    // for (var i = 1; i <= numRows - 2; i++) {
-    //   const dataRow = enrollmentRows[i];
-    //   const dataCells = dataRow.getElementsByTagName('td');
-    //   const numCells = dataCells.length;
-    // const deleteButton = dataCells.item(numCells - 1);
-    // deleteButton.addEventListener('click', function () {
-    //   deleteClassModal(dataRow);
-    // });
-    //}
-    // const cancelDelete = document.getElementById('cancelDelete');
-    // cancelDelete.addEventListener('click', (e) => {
-    //   e.preventDefault();
-    //   document
-    //     .querySelector('.delete-modal__window')
-    //     .classList.toggle('delete-modal__show');
-    // });
+    });
   }
 
   if (enrollmentProfile) {
     var enrollmentProfileForm = document.querySelector('.enrollment-profile__form');
+    var saveSelectionsButton = document.querySelector('.btn-save-selections');
+    alert('element profile form');
+    saveSelectionsButton.addEventListener('click', function (e) {
+      e.preventDefault();
+      var enrollmentSelections = document.getElementsByName('enrollment');
+      var enrollmentData = [];
+      enrollmentSelections.forEach(function (selection) {
+        var data = selection.options[selection.selectedIndex].dataset;
+        enrollmentData.push({
+          _id: data.enrollmentId,
+          class: data.classId,
+          child: data.childId
+        }); //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
+      });
+      alert('before save enrollment selections');
+      alert(enrollmentData.length);
+      (0, _actions.saveEnrollentSelections)(enrollmentData);
+    });
     enrollmentProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var selectedYear = elementProfile.dataset.selectedYear; //const isNew = classProfile.dataset.isNew == 'new';
@@ -16877,8 +16980,6 @@ function index(a) {
       //   isNew,
       // };
       // console.log(cl);
-
-      updateEnrollments(selectedYear);
     });
   }
 }
@@ -17190,8 +17291,7 @@ exports.userModalOnClick = userModalOnClick;
 var fillUserForm = function fillUserForm(row) {
   var userForm = document.querySelector('.user-profile__form');
   userForm.id = row.id;
-  userForm.dataset.registration = row.dataset.registration;
-  userForm.dataset.registrationIndex = row.dataset.registrationIndex;
+  userForm.dataset.registrationYears = row.dataset.registrationYears;
 
   var _map = _toConsumableArray(row.children).map(function (e) {
     return e.innerHTML;
@@ -17218,7 +17318,7 @@ var fillUserForm = function fillUserForm(row) {
   document.getElementById('lastName').value = userLastName;
   document.getElementById('firstName').value = userFirstName;
   document.getElementById('email').value = userEmail;
-  document.getElementById('cellPhone').value = userCellPhone;
+  document.getElementById('cellPhone').value = userCellPhone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
   document.getElementById('update').value = newUser ? 'Add' : 'Update';
   var roleCheckBoxes = document.getElementsByName('roles');
   setChecked(roleCheckBoxes, userRoles);
@@ -17242,6 +17342,7 @@ var updateUser = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
+            alert("in update user id= ".concat(userId));
             url = "/api/v1/users/".concat(userId == 'new' ? '' : '/' + userId);
             method = userId == 'new' ? 'POST' : 'PATCH';
 
@@ -17252,14 +17353,14 @@ var updateUser = /*#__PURE__*/function () {
               data.passwordConfirm = randomPassword;
             }
 
-            _context.next = 6;
+            _context.next = 7;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: data
             });
 
-          case 6:
+          case 7:
             res = _context.sent;
 
             if (res.data.status == 'success') {
@@ -17271,17 +17372,17 @@ var updateUser = /*#__PURE__*/function () {
 
             return _context.abrupt("return", res.data.data.user._id);
 
-          case 11:
-            _context.prev = 11;
+          case 12:
+            _context.prev = 12;
             _context.t0 = _context["catch"](0);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 14:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 11]]);
+    }, _callee, null, [[0, 12]]);
   }));
 
   return function updateUser(_x, _x2) {
@@ -125694,16 +125795,22 @@ if (users) {
   });
 
   userProfileForm.addEventListener('submit', function (e) {
+    //alert('adding event listener to userprofile form');
     e.preventDefault();
     var lN = document.getElementById('lastName');
-    var lastName = lN.value;
+    var lastName = lN.value; //alert(lastName);
+
     var fN = document.getElementById('firstName');
-    var firstName = fN.value;
+    var firstName = fN.value; //alert(firstName);
+
     var em = document.getElementById('email');
-    var email = em.value;
+    var email = em.value; //alert(email);
+
     var cf = document.getElementById('cellPhone');
-    var cellPhone = cf.value;
-    var id = userProfileForm.id;
+    var cellPhone = cf.value.replace(/-/g, ''); //alert(cellPhone);
+
+    var id = userProfileForm.id; //alert(id);
+
     var role = document.getElementsByName('roles');
     var selectedYear = document.getElementById('selectedYear').innerHTML;
     var r;
@@ -125726,10 +125833,6 @@ if (users) {
       _iterator3.f();
     }
 
-    var registration = JSON.parse(userProfileForm.dataset.registration);
-    var registrationIndex = userProfileForm.dataset.registrationIndex;
-    registration[registrationIndex].roles = roles;
-    alert(registration[registrationIndex].year);
     var yearRoles = {};
     yearRoles[selectedYear] = roles;
     var data = {
@@ -125737,13 +125840,11 @@ if (users) {
       firstName: firstName,
       email: email,
       cellPhone: cellPhone,
-      roles: roles,
-      registration: registration,
       yearRoles: yearRoles
     };
 
     if (id == 'new') {
-      data.registrationYears = [_yearSelect6.value];
+      data.registrationYears = [selectedYear];
     }
 
     (0, _users.updateUser)(id, data).then(function (newId) {

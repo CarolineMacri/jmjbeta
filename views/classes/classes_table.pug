@@ -11,19 +11,23 @@ block content
                 tr
                     th Course
                     th Instructor
-                    th Semester
+                    th(style='width:10rem') Semester 1 Sessions
+                    th(style='width:10rem') Semester 2 Sessions
                     th Time
                     th Location
                     th Grades
-                for cl in classes    
+                
+                for cl in classes 
+                   
                     tr(id=cl.id)
                         td= cl.course.name
-                        td= cl.teacher.lastName
-                        td= cl.semester
+                        td= `${cl.teacher.lastName} ${(cl.teacher._id.toString()==cl.course.owner.toString())?'':'(sub)'}`
+                        td= cl.semesterSessions['1']
+                        td= cl.semesterSessions['2']
                         td= cl.hour
                         td= cl.location
                         td= `${cl.course.grade.min} - ${cl.course.grade.max}`
-                        
+                                        
                         td.button
                             a.edit(href=`/class_profile/${cl.id}/${selectedYear}`) &#9998
                         td.button

@@ -98,3 +98,9 @@ exports.getClassProfile = catchAsync(async (req, res, next) => {
     years,
   });
 });
+
+exports.getClassGrid = catchAsync(async (req, res, next) => {
+  res.status(200).render('classes/class_grid', {
+    title: 'Class Grid'
+  });
+})

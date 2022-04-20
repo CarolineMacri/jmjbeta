@@ -1,45 +1,57 @@
 extends ../base
+  
 
-block content   
 
- section.enrollment.page__content
+block content 
+
+
+ section.enrollment-profile.page__content
+  - var isAdmin = user.currentRoles.includes('admin')
   h1.enrollments__title Enrollments
   h2.enrollments__title= `${family.parent.lastName}`
   h2.enrollments__title= selectedYear
-  -var enrollmentStatus = family.yearEnrollmentStatus.get(selectedYear)
-  -var isDisabled = (enrollmentStatus != "NONE")
-  h2.enrollments__title(style="color:red;")= `Enrollment Status: ${enrollmentStatus}`
+  - var enrollmentStatus = family.yearEnrollmentStatus.get(selectedYear)
+  
+  - var isDisabled = (enrollmentStatus != "NONE") && !isAdmin
+  h2.enrollments__title= `Enrollment Status: ` 
+    span(style="color:red;")=`${enrollmentStatus}`
 
   section
     form.form.form__outline-box.form--row.enrollment-profile__form.enrollment-profile--wide
       .form__row
-        button.form__button(disabled=isDisabled) Save Selections 
-        input.form__button(type='submit' disabled=isDisabled value='⚠️Submit⚠️') 
+        button.form__button.btn-save-selections(disabled=isDisabled) Save Selections 
+        input.form__button(type='submit' style="padding:1.5rem;" disabled=isDisabled value='⚠️Submit⚠️') 
+
       .enrollment__children
         for child in children
           -var courses= gradeCourseMap.get(child.grade)
+          
           .card.card__outline-box
             .card__column--small
               .card__header-background
               .card__header-text= `${child.firstName} - ${child.grade}`
-              .card__outline-box--bottom
+              
               .card__outline-box--bottom.class__group
                 for enrollment in child.enrollments
                   
-                  .card__item
-                    .class
-                      .class__time= enrollment.class.hour
-                      //-.class__name= enrollment.class.course.name
-                      .class__name
+                  .card__item.class
                       
-                        select#course.form__select--medium(name='course' disabled=isDisabled data-class-id=enrollment.class.id)
-                          option NONE
-                          for c in classes
-                          
-                            if (c.hour == enrollment.class.hour)
-                              if courses.includes(c.course.name)
-                              
-                                option(selected=(enrollment.class.id==c.id) disabled=isDisabled value=enrollment.class.id )=`${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
+                    .class__time= enrollment.class.hour
+                    .class__name
+                      select.form__select--medium(name='enrollment' disabled=isDisabled)
+                        //-var enrollmentId = (enrollment.id ? enrollment.id: 'none')                        
+                        option(data-enrollment-id=enrollment.id) NONE 
+
+                        for c in classes
+                          if ((c.hour==enrollment.class.hour))
+
+                            option.form__option(
+                              selected=(enrollment.class.id==c.id) 
+                              disabled=isDisabled || !courses.includes(c.course.name)
+                              data-enrollment-id=enrollment.id
+                              data-class-id=c.id
+                              data-child-id=child.id)
+                              =`${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
             
     
     

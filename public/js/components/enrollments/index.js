@@ -1,14 +1,13 @@
-/* eslint-disable */ // import 'core-js/stable';
-// import 'regenerator-runtime/runtime';
+/* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 
-import { changeEnrollmentsYear, updateEnrollment} from './actions';
+import { changeEnrollmentsYear, saveEnrollentSelections } from './actions';
 
 function index(a) {
   // DOM elements
 
   const enrollments = document.querySelector('.enrollments');
 
-  const enrollmentProfile = document.querySelector('.enrollment_profile');
+  const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (enrollments) {
     //alert('before year select');
@@ -18,36 +17,33 @@ function index(a) {
       const newYear = yearSelect.value;
       changeEnrollmentsYear(newYear);
     });
-
-    // add event listners for each family
-    // const enrollmentRows = document
-    //   .querySelector('.enrollments')
-    //   .getElementsByTagName('tr');
-
-    // const numRows = enrollmentRows.length;
-
-    // for (var i = 1; i <= numRows - 2; i++) {
-    //   const dataRow = enrollmentRows[i];
-    //   const dataCells = dataRow.getElementsByTagName('td');
-    //   const numCells = dataCells.length;
-      // const deleteButton = dataCells.item(numCells - 1);
-
-      // deleteButton.addEventListener('click', function () {
-      //   deleteClassModal(dataRow);
-      // });
-    //}
-
-    // const cancelDelete = document.getElementById('cancelDelete');
-    // cancelDelete.addEventListener('click', (e) => {
-    //   e.preventDefault();
-    //   document
-    //     .querySelector('.delete-modal__window')
-    //     .classList.toggle('delete-modal__show');
-    // });
   }
 
   if (enrollmentProfile) {
-    const enrollmentProfileForm = document.querySelector('.enrollment-profile__form');
+    const enrollmentProfileForm = document.querySelector(
+      '.enrollment-profile__form'
+    );
+    const saveSelectionsButton = document.querySelector('.btn-save-selections');
+    alert('element profile form');
+    saveSelectionsButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const enrollmentSelections = document.getElementsByName('enrollment');
+      const enrollmentData=[]
+      enrollmentSelections.forEach((selection) => {
+        const data = selection.options[selection.selectedIndex].dataset;
+        enrollmentData.push(
+          {
+            _id: data.enrollmentId,
+            class: data.classId,
+            child: data.childId
+          }
+        )
+        //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
+      });
+      alert('before save enrollment selections');
+      alert(enrollmentData.length)
+      saveEnrollentSelections(enrollmentData);
+    });
     enrollmentProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -75,7 +71,7 @@ function index(a) {
       // };
       // console.log(cl);
 
-      updateEnrollments(selectedYear);
+      
     });
   }
 }

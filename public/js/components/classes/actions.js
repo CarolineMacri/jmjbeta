@@ -42,7 +42,6 @@ export const deleteClassModal = async (row) => {
   const [className, classTime, classLocation, classGrades, x, y] = [
     ...row.children,
   ].map((e) => e.innerHTML);
-  alert('indeleteclassmodal');
 
   const deleteModal = document.querySelector('.delete-modal__window');
 

@@ -17,25 +17,14 @@ block content
           th Cell Phone
           th Roles
 
-        -var roles= []
-        -var registrationIndex=0
-        for u in users  
-          for registration, index in u.registration 
-            if (registration.year === selectedYear)
-              -roles= registration.roles
-              -registrationIndex= index
-            //-roles = user.yearRoles[selectedYear]
-
-        
-          
-          tr(id=u._id data-registration=u.registration data-registration-index=registrationIndex)
+        for u in users         
+          tr(id=u._id )
             td= u.lastName
             td= u.firstName 
             td= u.email
             td= u.cellPhone
             td= u.roles
             
-
             td.button
               .edit &#9998
             td.button
@@ -60,10 +49,10 @@ block content
           .form__outline-box--bottom
             .form__item
               label.form__label(for='email') Email
-              input#email.form__input(type='text' name='email' size='20' value='me@me.me')
+              input#email.form__input(type='email' autocomplete='email' name='email' size='20' value='me@me.me')
             .form__item
               label.form__label(for='cellPhone') CellPhone
-              input#cellPhone.form__input(type='text' name='cellPhone' size='15' value='555-555-55555')
+              input#cellPhone.form__input(type='tel' pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}' name='cellPhone' size='15' value='555-555-55555')
               
           .form__outline-box--bottom
             .form__row.form__item.form__label Roles

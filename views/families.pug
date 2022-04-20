@@ -17,9 +17,12 @@ block content
               .card__item= family.parent.firstName + " " + family.parent.lastName
               .card__item= family.parent.email
               .card__item= family.parent.cellPhone
-              if isAdmin  
-                a(href=`/users/${selectedYear}`) Edit User
-              
+              if isAdmin 
+                div 
+                  a(href=`/users/${selectedYear}`) Edit User
+                div
+                  a(href=`/family/${family.parent._id}/${selectedYear}`) Family Overview
+
            
             
             -var id = family._id
