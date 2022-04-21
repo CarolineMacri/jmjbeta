@@ -1,5 +1,4 @@
-const catchAsync = require('../../utils/catchAsync');
-exports.getClassesTable = catchAsync(async (req, res, next) => {
+const catchAsync = require('../../utils/catchAsync');exports.getClassesTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const Class = require('../../models/classModel');
 
@@ -100,8 +99,6 @@ exports.getClassProfile = catchAsync(async (req, res, next) => {
 exports.getClassGrid = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const Class = require('../../models/classModel');
-  const User = require('../../models/userModel');
-  const Course = require('../../models/courseModel');
 
   let { selectedYear } = req.params;
   const years = await Year.find();
@@ -111,9 +108,7 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
   }
 
   const classes = await Class.find({ year: selectedYear })
-    //.select('time location _id')
-    .sort({ time: 1, location: 1 })
-    .select('time location')
+    .sort({ hour: 1, location: 1 })
     .populate({
       path: 'course',
       justOne: true,
@@ -121,52 +116,54 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
     });
 
   const classesWithStyle = classes.map((cl) => {
-    cl.style = `grid-area:${cl.location
-      .replace(/ /g, '')
-      .toLowerCase()}-${cl.time.toString()};font-size:1rem;margin:1px;outline:1px solid black;box-shadow: 1px 1px 3px 1px rgb(28 52 110 / 20%);`;
-    console.log(cl.course.name, cl.hour, cl.style);
+    cl.style = `grid-area:${cl.location.replace(/ /g, '')}-${cl.hour};`;
     return cl;
   });
 
-  var locations = ['blank'].concat(Object.values(Class.Locations));
+  const locations = Object.values(Class.Locations);
+  const hours = Object.values(Class.Times);
+  const gridStyle = getGridAreas(locations, hours);
 
-  locations = locations.map((l) => {
-    return l.replace(/ /g, '').toLowerCase();
-  });
-
-  //locations = ['blank', 'classroom1', 'classroom2']
-
-  //console.log(locations);
-  var gridColumnHeaderAreas =
-    ' display:grid;grid-template-areas:' + '"' + locations.join(' ') + '"\n';
-  var times = Object.keys(Class.Times).map((t) => {
-    return t.toLowerCase();
-  });
-  //times=['9am', '10am']
-
-  locations.shift();
-  times.forEach((time) => {
-    var gridRow = [];
-    gridRow.push('time-' + time);
-    locations.forEach((l) => {
-      gridRow.push(l + '-' + time);
-    });
-    var gridRowAreas = '"' + gridRow.join(' ') + '"\n';
-
-    gridColumnHeaderAreas = gridColumnHeaderAreas.concat(gridRowAreas);
-  });
-  gridColumnHeaderAreas += ';';
-  console.log(gridColumnHeaderAreas);
-  //   gridStyle =gridStyle.concat(gridRowAreas)
-  // })
-  // gridStyle =gridStyle.concat(';')
-  //gridStyle = gridStyle + ' "a b c d e f g h i j k l m n o" '
-  //console.log(gridStyle);
   res.status(200).render('classes/class_grid', {
     title: 'Class Grid',
     selectedYear,
     years,
     classes,
-    gridStyle: gridColumnHeaderAreas,
+    locations,
+    hours,
+    gridStyle,
   });
 });
+
+function getGridAreas(locations, times) {
+  //initial gridAreas styl
+  var gridAreas = 'grid-template-areas:';
+  //add gridAreas for column names of class locations, including blank at the top left
+  locations = ['blank'].concat(locations);
+  //strip spaces out of locations names - css can't have spaces in style names
+  locations = locations.map((l) => {
+    return l.replace(/ /g, '');
+  });
+  // add the columns to the gridArea style
+  const columnGridAreas = '"' + locations.join(' ') + '"\n';
+  gridAreas = gridAreas.concat(columnGridAreas);
+
+  //get rid of the 'blank' location
+  locations.shift();
+
+  //make the gridareas for each row - the time, then location-time for each locations
+  times.forEach((time) => {
+    var gridRowArray = [];
+    //beginning of row is the time
+    gridRowArray.push('time-' + time);
+
+    locations.forEach((l) => {
+      gridRowArray.push(l + '-' + time);
+    });
+
+    var rowGridAreas = '"' + gridRowArray.join(' ') + '"\n';
+
+    gridAreas = gridAreas.concat(rowGridAreas);
+  });
+  return (gridAreas += ';');
+}

@@ -16627,8 +16627,7 @@ exports.index = index;
 var _actions = require("./actions");
 
 /* eslint-disable */
-// import 'core-js/stable';
-// import 'regenerator-runtime/runtime';
+// import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements
   var classes = document.querySelector('.classes');
@@ -16636,9 +16635,7 @@ function index(a) {
   var classGrid = document.querySelector('.class-grid');
 
   if (classes) {
-    //alert('before year select');
-    var yearSelect = document.getElementById('year-select'); //alert (`${yearSelect.value} is yearselect`)
-
+    var yearSelect = document.getElementById('year-select');
     yearSelect.addEventListener('change', function (e) {
       var newYear = yearSelect.value;
       (0, _actions.changeClassesYear)(newYear);
@@ -16700,8 +16697,6 @@ function index(a) {
 
   if (classGrid) {
     var _yearSelect = document.getElementById('year-select');
-
-    alert("".concat(_yearSelect.value, " is yearselect"));
 
     _yearSelect.addEventListener('change', function (e) {
       var newYear = _yearSelect.value;

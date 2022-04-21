@@ -1,21 +1,21 @@
-/* eslint-disable */ // import 'core-js/stable';
-// import 'regenerator-runtime/runtime';
+/* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 
-import { changeClassesYear, updateClass, deleteClassModal, changeClassGridYear } from './actions';
+import {
+  changeClassesYear,
+  updateClass,
+  deleteClassModal,
+  changeClassGridYear,
+} from './actions';
 
 function index(a) {
   // DOM elements
 
   const classes = document.querySelector('.classes');
-
   const classProfile = document.querySelector('.class-profile');
-
   const classGrid = document.querySelector('.class-grid');
 
   if (classes) {
-    //alert('before year select');
     const yearSelect = document.getElementById('year-select');
-    //alert (`${yearSelect.value} is yearselect`)
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
       changeClassesYear(newYear);
@@ -74,7 +74,7 @@ function index(a) {
         location,
         time,
         year: selectedYear,
-        isNew
+        isNew,
       };
       console.log(cl);
 
@@ -82,13 +82,12 @@ function index(a) {
     });
   }
   if (classGrid) {
-      const yearSelect = document.getElementById('year-select');
-      alert (`${yearSelect.value} is yearselect`)
-      yearSelect.addEventListener('change', (e) => {
-        const newYear = yearSelect.value;
-        changeClassGridYear(newYear);
-      });
+    const yearSelect = document.getElementById('year-select');
+    yearSelect.addEventListener('change', (e) => {
+      const newYear = yearSelect.value;
+      changeClassGridYear(newYear);
+    });
   }
 }
- 
+
 export { index };

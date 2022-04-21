@@ -3,40 +3,24 @@ extends ../base
 block content   
     .page__content
         div
-            section.class-grid
-                h1.classes__title  Classes
+            section
+                h1.classes__title  Class Grid
                 include ../_yearSelector
                 
                 
                 
-                div.grid-container(style=gridStyle)
+                div.grid-container.class-grid(style=gridStyle)
+                    for loc in locations
+                        h5.class-grid__location(style=`grid-area:${loc.replace(/ /g,'')}`)=loc
+                    for hour in hours
+                        h5.class-grid__hour(style=`grid-area:time-${hour}`)=hour
 
                     for cl in classes
-                        .div(style=cl.style)
-                            p(style="font-style:italic;text-align:center;" + "background-color:lightskyblue;")=cl.course.name 
+                        .div.class-grid__item(style=cl.style)
+                            p.class-grid__course=cl.course.name 
                             p
-                            p(style='text-align:center;font-size:1.2rem')=`${cl.course.grade.min}-${cl.course.grade.max} `
-                    p(style='grid-area:classroom2;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Class 2
-                    p(style='grid-area:classroom1;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Class 1
-                    p(style='grid-area:cafeteria3;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 3
-                    p(style='grid-area:classroom3;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Class 3
-                    p(style='grid-area:cafeteria1;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 1
-                    p(style='grid-area:cafeteria2;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 2
-                    p(style='grid-area:stage;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Stage
-                    p(style='grid-area:cafeteria5;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 5
-                    p(style='grid-area:cafeteria6;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 6
-                    p(style='grid-area:conferenceroom;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Conf
-                    p(style='grid-area:musicroom;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Music
-                    p(style='grid-area:cafeteria4;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 4
-                    p(style='grid-area:wysznyskihall;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Wysn 1
-                    p(style='grid-area:wysznyskihall2;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Wysn 2
-                  
-                    p(style='grid-area:time-9;  padding:3rem 0rem; color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod; ') 9am
-                    p(style='grid-area:time-10;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 10am
-                    p(style='grid-area:time-11;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 11am
-                    p(style='grid-area:time-12;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 12pm
-                    p(style='grid-area:time-13;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 1pm
-                    p(style='grid-area:time-14;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 2pm
+                            p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
+                   
                    
                 
             
