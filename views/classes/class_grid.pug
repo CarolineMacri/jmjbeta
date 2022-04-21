@@ -1,26 +1,40 @@
 extends ../base
 
-
-
 block content   
     .page__content
         div
-            section
+            section.class-grid
                 h1.classes__title  Classes
+                include ../_yearSelector
                 
-                div.grid-container(style='display:grid;grid-template-areas: "blank location1 location2 location3" "time1 time1-location1 time1-location2 time1-location3" "time2 time2-location1 time2-location2 time2-location3";')
-                    p(style='grid-area:location1;') Classroom 1
-                    p(style='grid-area:location2;') Classroom 2
-                    p(style='grid-area:location3;') Classroom 3
-                    p(style='grid-area:time1;') 9AM
-                    p(style='grid-area:time2;') 10AM
-                    p(style='grid-area:time1-location1;') early math
-                    p(style='grid-area:time1-location2;') early english
-                    p(style='grid-area:time1-location3;') early science
-                    p(style='grid-area:time2-location1;') late math
-                    p(style='grid-area:time2-location2;') late english
-                    p(style='grid-area:time2-location3;') late science
-                   
+                
+                
+                div.grid-container(style=gridStyle)
+
+                    for cl in classes
+                        .div(style=cl.style)
+                            p=cl.course.name 
+                            p=`${cl.course.grade.min}-${cl.course.grade.max} `
+                    p(style='grid-area:classroom2;') Cl 2
+                    p(style='grid-area:classroom1;') Cl 1
+                    p(style='grid-area:cafeteria3;') Caf 3
+                    p(style='grid-area:classroom3;') Cl 3
+                    p(style='grid-area:cafeteria1;') caf 1
+                    p(style='grid-area:cafeteria2;') caf 2
+                    p(style='grid-area:stage;') stage
+                    p(style='grid-area:cafeteria5;') caf 5
+                    p(style='grid-area:cafeteria6;') caf 6
+                    p(style='grid-area:conferenceroom;') conf
+                    p(style='grid-area:musicroom;') mus
+                    p(style='grid-area:cafeteria4;') caf 4
+                    p(style='grid-area:wysznyskihall;') Wysn
+                  
+                    p(style='grid-area:time-9; color:coral;') 9am
+                    p(style='grid-area:time-10; color:coral') 10am
+                    p(style='grid-area:time-11; color:coral') 11am
+                    p(style='grid-area:time-12; color:coral') 12pm
+                    p(style='grid-area:time-13; color:coral') 1pm
+                    p(style='grid-area:time-14; color:coral') 2pm
                    
                 
             

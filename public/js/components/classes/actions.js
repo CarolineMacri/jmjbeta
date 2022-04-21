@@ -3,6 +3,9 @@ import axios from 'axios';import { showAlert } from '../../alerts';
 export const changeClassesYear = (year) => {
   location.assign(`/classes_table/${year}`);
 };
+export const changeClassGridYear = (year) => {
+  location.assign(`/class_grid/${year}`);
+};
 
 export const updateClass = async (classId, cl, selectedYear) => {
   const isNewClass = cl.isNew == true;

@@ -16431,7 +16431,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteClass = exports.deleteClassModal = exports.updateClass = exports.changeClassesYear = void 0;
+exports.deleteClass = exports.deleteClassModal = exports.updateClass = exports.changeClassGridYear = exports.changeClassesYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -16470,6 +16470,12 @@ var changeClassesYear = function changeClassesYear(year) {
 };
 
 exports.changeClassesYear = changeClassesYear;
+
+var changeClassGridYear = function changeClassGridYear(year) {
+  location.assign("/class_grid/".concat(year));
+};
+
+exports.changeClassGridYear = changeClassGridYear;
 
 var updateClass = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(classId, cl, selectedYear) {
@@ -16627,6 +16633,7 @@ function index(a) {
   // DOM elements
   var classes = document.querySelector('.classes');
   var classProfile = document.querySelector('.class-profile');
+  var classGrid = document.querySelector('.class-grid');
 
   if (classes) {
     //alert('before year select');
@@ -16688,6 +16695,17 @@ function index(a) {
       };
       console.log(cl);
       (0, _actions.updateClass)(classId, cl, selectedYear);
+    });
+  }
+
+  if (classGrid) {
+    var _yearSelect = document.getElementById('year-select');
+
+    alert("".concat(_yearSelect.value, " is yearselect"));
+
+    _yearSelect.addEventListener('change', function (e) {
+      var newYear = _yearSelect.value;
+      (0, _actions.changeClassGridYear)(newYear);
     });
   }
 }

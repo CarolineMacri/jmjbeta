@@ -1,7 +1,7 @@
 /* eslint-disable */ // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
-import { changeClassesYear, updateClass, deleteClassModal } from './actions';
+import { changeClassesYear, updateClass, deleteClassModal, changeClassGridYear } from './actions';
 
 function index(a) {
   // DOM elements
@@ -9,6 +9,8 @@ function index(a) {
   const classes = document.querySelector('.classes');
 
   const classProfile = document.querySelector('.class-profile');
+
+  const classGrid = document.querySelector('.class-grid');
 
   if (classes) {
     //alert('before year select');
@@ -79,6 +81,14 @@ function index(a) {
       updateClass(classId, cl, selectedYear);
     });
   }
+  if (classGrid) {
+      const yearSelect = document.getElementById('year-select');
+      alert (`${yearSelect.value} is yearselect`)
+      yearSelect.addEventListener('change', (e) => {
+        const newYear = yearSelect.value;
+        changeClassGridYear(newYear);
+      });
+  }
 }
-
+ 
 export { index };
