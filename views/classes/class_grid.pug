@@ -13,28 +13,30 @@ block content
 
                     for cl in classes
                         .div(style=cl.style)
-                            p=cl.course.name 
-                            p=`${cl.course.grade.min}-${cl.course.grade.max} `
-                    p(style='grid-area:classroom2;') Cl 2
-                    p(style='grid-area:classroom1;') Cl 1
-                    p(style='grid-area:cafeteria3;') Caf 3
-                    p(style='grid-area:classroom3;') Cl 3
-                    p(style='grid-area:cafeteria1;') caf 1
-                    p(style='grid-area:cafeteria2;') caf 2
-                    p(style='grid-area:stage;') stage
-                    p(style='grid-area:cafeteria5;') caf 5
-                    p(style='grid-area:cafeteria6;') caf 6
-                    p(style='grid-area:conferenceroom;') conf
-                    p(style='grid-area:musicroom;') mus
-                    p(style='grid-area:cafeteria4;') caf 4
-                    p(style='grid-area:wysznyskihall;') Wysn
+                            p(style="font-style:italic;text-align:center;" + "background-color:lightskyblue;")=cl.course.name 
+                            p
+                            p(style='text-align:center;font-size:1.2rem')=`${cl.course.grade.min}-${cl.course.grade.max} `
+                    p(style='grid-area:classroom2;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Class 2
+                    p(style='grid-area:classroom1;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Class 1
+                    p(style='grid-area:cafeteria3;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 3
+                    p(style='grid-area:classroom3;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Class 3
+                    p(style='grid-area:cafeteria1;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 1
+                    p(style='grid-area:cafeteria2;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 2
+                    p(style='grid-area:stage;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Stage
+                    p(style='grid-area:cafeteria5;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 5
+                    p(style='grid-area:cafeteria6;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 6
+                    p(style='grid-area:conferenceroom;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Conf
+                    p(style='grid-area:musicroom;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Music
+                    p(style='grid-area:cafeteria4;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Cafe 4
+                    p(style='grid-area:wysznyskihall;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Wysn 1
+                    p(style='grid-area:wysznyskihall2;  color:darkblue; font-size:2rem; border:1px solid darkblue; ') Wysn 2
                   
-                    p(style='grid-area:time-9; color:coral;') 9am
-                    p(style='grid-area:time-10; color:coral') 10am
-                    p(style='grid-area:time-11; color:coral') 11am
-                    p(style='grid-area:time-12; color:coral') 12pm
-                    p(style='grid-area:time-13; color:coral') 1pm
-                    p(style='grid-area:time-14; color:coral') 2pm
+                    p(style='grid-area:time-9;  padding:3rem 0rem; color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod; ') 9am
+                    p(style='grid-area:time-10;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 10am
+                    p(style='grid-area:time-11;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 11am
+                    p(style='grid-area:time-12;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 12pm
+                    p(style='grid-area:time-13;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 1pm
+                    p(style='grid-area:time-14;  padding:3rem 0rem;color:darkgoldenrod; font-size:2rem; border:1px solid darkgoldenrod') 2pm
                    
                 
             
