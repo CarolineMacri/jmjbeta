@@ -16735,8 +16735,6 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            alert('save enrollment selections');
-            alert(enrollments);
             enrollmentsToAdd = enrollments.filter(function (e) {
               return !e._id && e.class;
             });
@@ -16746,52 +16744,47 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
             enrollmentsToDelete = enrollments.filter(function (e) {
               return e._id && !e.class;
             });
-            alert(enrollmentsToAdd.length);
             enrollmentsToAdd.forEach( /*#__PURE__*/function () {
               var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-                var url, _res;
-
+                var url, res;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                   while (1) {
                     switch (_context.prev = _context.next) {
                       case 0:
                         _context.prev = 0;
                         url = "/api/v1/enrollments";
-                        alert("adding ");
-                        _context.next = 5;
+                        _context.next = 4;
                         return (0, _axios.default)({
                           method: 'POST',
                           url: url,
                           data: e
                         });
 
-                      case 5:
-                        _res = _context.sent;
-                        _context.next = 11;
+                      case 4:
+                        res = _context.sent;
+                        _context.next = 10;
                         break;
 
-                      case 8:
-                        _context.prev = 8;
+                      case 7:
+                        _context.prev = 7;
                         _context.t0 = _context["catch"](0);
                         (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-                      case 11:
+                      case 10:
                       case "end":
                         return _context.stop();
                     }
                   }
-                }, _callee, null, [[0, 8]]);
+                }, _callee, null, [[0, 7]]);
               }));
 
               return function (_x2) {
                 return _ref2.apply(this, arguments);
               };
             }());
-            alert(enrollmentsToUpdate.length);
             enrollmentsToUpdate.forEach( /*#__PURE__*/function () {
               var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
-                var url, _res2;
-
+                var url, res;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                   while (1) {
                     switch (_context2.prev = _context2.next) {
@@ -16806,7 +16799,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                         });
 
                       case 4:
-                        _res2 = _context2.sent;
+                        res = _context2.sent;
                         _context2.next = 10;
                         break;
 
@@ -16827,11 +16820,9 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 return _ref3.apply(this, arguments);
               };
             }());
-            alert(enrollmentsToDelete.length);
             enrollmentsToDelete.forEach( /*#__PURE__*/function () {
               var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
-                var url, _res3;
-
+                var url, res;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                   while (1) {
                     switch (_context3.prev = _context3.next) {
@@ -16846,7 +16837,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                         });
 
                       case 4:
-                        _res3 = _context3.sent;
+                        res = _context3.sent;
                         _context3.next = 10;
                         break;
 
@@ -16866,16 +16857,14 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
               return function (_x4) {
                 return _ref4.apply(this, arguments);
               };
-            }());
+            }()); // if you got to here - everything is good
 
-            if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "Enrollment selections saved successfully");
-              window.setTimeout(function () {
-                location.replace("/enrollment_profile/".concat(familyId, "/").concat(selectedYear));
-              }, 500);
-            }
+            (0, _alerts.showAlert)('success', "Enrollment selections saved successfully");
+            window.setTimeout(function () {
+              location.replace("/enrollment_profile/".concat(familyId, "/").concat(selectedYear));
+            }, 500);
 
-          case 12:
+          case 8:
           case "end":
             return _context4.stop();
         }
@@ -16886,42 +16875,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
   return function saveEnrollentSelections(_x) {
     return _ref.apply(this, arguments);
   };
-}(); // export const deleteClassModal = async (row) => {
-//   const classId = row.id;
-//   const [className, classTime, classLocation, classGrades, x, y] = [
-//     ...row.children,
-//   ].map((e) => e.innerHTML);
-//   alert('indeleteclassmodal');
-//   const deleteModal = document.querySelector('.delete-modal__window');
-//   const paragraphs = deleteModal.getElementsByTagName('p');
-//   paragraphs.item(2).innerHTML =
-//     className.toUpperCase() + '   ' + classTime + ' ' + classLocation;
-//   const deleteCourseButton = document.getElementById('deleteClass');
-//   const classMsg = `<p>${className}</p> <p>in ${classLocation}</p> <p>at ${classTime}</p>`
-//   deleteCourseButton.addEventListener('click', function () {
-//     deleteClass(classId, classMsg);
-//   });
-//   deleteModal.classList.toggle('delete-modal__show');
-// };
-// export const deleteClass = async (classId, className) => {
-//   try {
-//     const url = `/api/v1/classes/${classId}`;
-//     const res = await axios({
-//       method: 'DELETE',
-//       url,
-//     });
-//     if (res.status == 204) {
-//       showAlert('success', `${className} unscheduled`);
-//       window.setTimeout(() => {
-//         location.reload();
-//       }, 1000);
-//       showAlert('success', `${className} successfully unscheduled`);
-//     }
-//   } catch (err) {
-//     showAlert('error', err.response.data.message);
-//   }
-// };
-
+}();
 
 exports.saveEnrollentSelections = saveEnrollentSelections;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/enrollments/index.js":[function(require,module,exports) {
@@ -16954,7 +16908,6 @@ function index(a) {
   if (enrollmentProfile) {
     var enrollmentProfileForm = document.querySelector('.enrollment-profile__form');
     var saveSelectionsButton = document.querySelector('.btn-save-selections');
-    alert('element profile form');
     saveSelectionsButton.addEventListener('click', function (e) {
       e.preventDefault();
       var enrollmentSelections = document.getElementsByName('enrollment');
@@ -16967,8 +16920,6 @@ function index(a) {
           child: data.childId
         }); //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
       });
-      alert('before save enrollment selections');
-      alert(enrollmentData.length);
       (0, _actions.saveEnrollentSelections)(enrollmentData);
     });
     enrollmentProfileForm.addEventListener('submit', function (e) {

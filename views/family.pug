@@ -10,7 +10,7 @@ block content
   .family__parents
     
     .card.card__outline-box
-      .card__column--medium
+      .card__column
         .card__header-background
         .card__outline-box--bottom
           .card__item= family.parent.firstName + ' ' + family.parent.lastName
@@ -22,7 +22,7 @@ block content
   .family__children
     for child in children
       .card.card__outline-box
-        .card__column--small
+        .card__column
           .card__header-background
           .card__header-text= child.firstName
           .card__outline-box--bottom

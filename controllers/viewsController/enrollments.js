@@ -1,4 +1,5 @@
-const catchAsync = require('../../utils/catchAsync');const AppError = require('../../utils/appError');
+const catchAsync = require('../../utils/catchAsync');
+const AppError = require('../../utils/appError');
 const Year = require('../../models/yearModel');
 const Family = require('../../models/familyModel');
 const Child = require('../../models/childModel');
@@ -115,7 +116,6 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
   children.forEach((child) => {
     child.enrollments = orderEnrollments(child.enrollments);
   });
-  console.log(gradeCourseMap.get('K'));
 
   res.status(200).render('enrollments/enrollment_profile', {
     title: `Enrollments ${selectedYear}`,

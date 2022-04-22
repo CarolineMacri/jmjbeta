@@ -24,7 +24,7 @@ function index(a) {
       '.enrollment-profile__form'
     );
     const saveSelectionsButton = document.querySelector('.btn-save-selections');
-    alert('element profile form');
+    
     saveSelectionsButton.addEventListener('click', (e) => {
       e.preventDefault();
       const enrollmentSelections = document.getElementsByName('enrollment');
@@ -40,8 +40,7 @@ function index(a) {
         )
         //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
       });
-      alert('before save enrollment selections');
-      alert(enrollmentData.length)
+      
       saveEnrollentSelections(enrollmentData);
     });
     enrollmentProfileForm.addEventListener('submit', (e) => {

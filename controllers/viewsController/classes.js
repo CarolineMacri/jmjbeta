@@ -115,7 +115,8 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
       select: 'name grade',
     });
 
-  const classesWithStyle = classes.map((cl) => {
+  //const classesWithStyle =
+  classes.map((cl) => {
     cl.style = `grid-area:${cl.location.replace(/ /g, '')}-${cl.hour};`;
     return cl;
   });

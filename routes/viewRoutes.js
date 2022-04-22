@@ -36,5 +36,6 @@ router.get('/users/:selectedYear?', authController.protect, viewsController.getU
 router.get('/pw', authController.protect, authController.restrictTo('admin'),viewsController.setAllUserPasswords);
 
 router.get('/reports/childrenByGrade/:selectedYear?', authController.protect, authController.restrictTo('admin'), viewsController.reportChildrenByGrade);
+router.get('/reports/classLists/:selectedYear?', authController.protect, authController.restrictTo('admin'), viewsController.reportClassLists);
  
 module.exports = router; 

@@ -65,6 +65,12 @@ const classSchema = new mongoose.Schema(
   }
 );
 
+classSchema.virtual('enrollments', {
+  ref: 'Enrollment',
+  localField: '_id',
+  foreignField: 'class',
+});
+
 classSchema.virtual('hour').get(function () {
   let hour = !!this.time ? this.time : '---';
   if (hour != '---') hour = Times[hour];
@@ -75,6 +81,8 @@ Object.assign(classSchema.statics, {
   Locations,
   Times,
 });
+
+
 
 const Class = mongoose.model('Class', classSchema);
 

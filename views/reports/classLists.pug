@@ -1,0 +1,17 @@
+extends baseReport
+
+block content   
+
+  .page__content.reportChildrenByGrade
+    section.page__content-row
+      include ../_yearSelector
+    section.report__title.page__content-row
+      h1 Class Lists
+      .report
+        for cl in classes  
+          .report__column
+            h2= `${cl.course.name}: ${cl.hour} ${cl.location} ${cl.teacher.firstName} ${cl.teacher.lastName}`
+            for e in cl.enrollments 
+              p= `${e.child.family.parent.lastName},${e.child.firstName} - ${e.child.grade}`
+            
+        
