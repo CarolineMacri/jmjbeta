@@ -54,6 +54,7 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
   }
 
   const classes = await Class.find({ year: selectedYear })
+    .sort('hour')
     .populate({
       path: 'enrollments',
       populate: {
@@ -68,7 +69,6 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
             justOne: true,
             select: 'lastName',
           },
-        
         },
       },
     })
@@ -83,47 +83,48 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
       select: 'name',
     });
 
-  // children.sort;
-  // const gradeLists = new Object();
-  // Object.values(Grades).forEach((v) => {
-  //   gradeLists[v] = [];
-  // });
-
-  // children.forEach((c) => {
-  //   gradeLists[c.grade] = gradeLists[c.grade].concat([
-  //     c.family.parent.lastName + ', ' + c.firstName + ' - ' + c.sex,
-  //   ]);
-  // });
-
-  // Object.values(gradeLists).forEach((list) => {
-  //   list.sort();
-  // });
-
-  classes.sort((cl1, cl2) => {
-    return (cl1.time-
-      cl2.time
-    );
+  // make the map of times=>locations=>enrollments
+  const classMap = new Map();
+  Object.values(Class.Times).forEach((hour) => {
+    const locations = new Map();
+    // Object.values(Class.Locations).forEach((location) => {
+    //   locations.set(location, []);
+    //})
+    classMap.set(hour, locations); // 9AM, locations
   });
+
   classes.forEach((cl) => {
-    console.log(
-      `${cl.course.name}: ${cl.hour} ${cl.location} ${cl.teacher.firstName} ${cl.teacher.lastName}`
-    );
-    cl.enrollments.sort((e1, e2) => {
-      return e1.child.family.parent.lastName.localeCompare(
-        e2.child.family.parent.lastName
-      );
+    const hour = cl.hour;
+    const location = cl.location;
+    const teacher = `${cl.teacher.lastName}, ${cl.teacher.firstName}`;
+    const className = cl.course.name;
+    const enrollments = cl.enrollments.map((enrollment) => {
+      const child = enrollment.child;
+      const lastName = child.family.parent.lastName;
+      const firstName = child.firstName;
+      const grade = child.grade;
+      return `${lastName}, ${firstName} - ${grade}`;
+    });
+    // sort children names in alphabetical order
+    enrollments.sort((child1, child2) => {
+      return child1.localeCompare(child2);
     });
 
+    console.log(hour, location);
+    const junk = classMap.get(hour).set(location, { 'className':className, 'teacher':teacher, 'enrollments':enrollments });
+    console.log(junk);
+
     //cl.enrollments.forEach((e) =>
-      //console.log(
-      //  `${e.child.family.parent.lastName},${e.child.firstName} - ${e.child.grade}`
-      //)
-   // );
+    //console.log(
+    //  `${e.child.family.parent.lastName},${e.child.firstName} - ${e.child.grade}`
+    //)
+    // );
     //${cl.enrollment.child.family.parent.lastName},${cl.enrollment.child.firstName} - ${cl.enrollment.child.grade}`)
   });
+  console.log(classMap);
   res.status(200).render('reports/classLists', {
     title: 'Classlists',
-    classes,
+    classMap,
     years,
     selectedYear,
   });
