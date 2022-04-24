@@ -22,8 +22,8 @@ nav.side-nav
     .side-nav__section
       h3.side-nav__heading Teacher
       a.side-nav__item(href='#') Profile
-      a.side-nav__item(href='#') Courses
-      a.side-nav__item(href='#') Class Schedules
+      a.side-nav__item(href=`/courses_table/${selectedYear}/${user.id}`) Courses
+      a.side-nav__item(href=`/reports/classLists/${selectedYear}/${user.id}`) Class Schedules
       a.side-nav__item(href='#') Payments
   if isAdmin  
     .side-nav__section

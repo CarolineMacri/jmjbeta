@@ -1,22 +1,31 @@
 extends baseReport
 
 block content   
+  main
+    .container
+      section 
+        include ../_yearSelector
+      section.report-class-lists
+    
+      .report__title
+        h1 +JMJ+ Homeschool Co-op Class Lists
 
-  .page__content.reportChildrenByGrade
-    section.page__content-row
-      include ../_yearSelector
-    section.report__title.page__content-row
-      h1 Class Lists
-      
-        each [hour, locations] of classMap 
-          .fun(style='break-inside:avoid')
+      each [hour, locations] of classMap   
+        .report-class-lists-hour
           each [location, cl] of locations
-            .fun(style='break-inside:avoid; background-color:white;')
-              if cl.enrollments.length>0
-                  h1=`${hour}-------${location}`
-                  h2=`${cl.className}      ${cl.teacher}`
-                    .report__list(style='break-inside:avoid')
-                      for e in cl.enrollments
-                        h3=e     
-                
+            if (Object.entries(cl)!=0)
+              if (cl.enrollments.length>0)
+                .report-class-lists-box
+                  .report-class-lists-course
+                    .report-class-lists-course-name
+                      h2=cl.className
+                    .report-class-lists-course-hour
+                      h2=hour
+                    .report-class-lists-course-location
+                      h2=location
+                  .report-class-lists-enrollments
         
+                    for e in cl.enrollments
+                      h3.report-class-lists-enrollment=e     
+      
+      

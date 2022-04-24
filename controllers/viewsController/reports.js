@@ -44,7 +44,7 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
 });
 
 exports.reportClassLists = catchAsync(async (req, res, next) => {
-  let { selectedYear } = req.params;
+  let { selectedYear,teacher } = req.params;
 
   const years = await Year.find();
 
@@ -52,8 +52,15 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
+  
+  const match = {
+    year:selectedYear
+  }
+  if (teacher)
+    match.teacher = teacher;
+  console.log(JSON.stringify(match) + '--------------------------------------------------------------------------------------------');
 
-  const classes = await Class.find({ year: selectedYear })
+  const classes = await Class.find(match)
     .sort('hour')
     .populate({
       path: 'enrollments',
@@ -87,9 +94,9 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
   const classMap = new Map();
   Object.values(Class.Times).forEach((hour) => {
     const locations = new Map();
-    // Object.values(Class.Locations).forEach((location) => {
-    //   locations.set(location, []);
-    //})
+    Object.values(Class.Locations).forEach((location) => {
+      locations.set(location, {});
+    })
     classMap.set(hour, locations); // 9AM, locations
   });
 
@@ -110,18 +117,11 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
       return child1.localeCompare(child2);
     });
 
-    console.log(hour, location);
+    
     const junk = classMap.get(hour).set(location, { 'className':className, 'teacher':teacher, 'enrollments':enrollments });
-    console.log(junk);
-
-    //cl.enrollments.forEach((e) =>
-    //console.log(
-    //  `${e.child.family.parent.lastName},${e.child.firstName} - ${e.child.grade}`
-    //)
-    // );
-    //${cl.enrollment.child.family.parent.lastName},${cl.enrollment.child.firstName} - ${cl.enrollment.child.grade}`)
+   
   });
-  console.log(classMap);
+  
   res.status(200).render('reports/classLists', {
     title: 'Classlists',
     classMap,
