@@ -78,6 +78,7 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
     selectedYear,
     teachers,
     years,
+    grades: Object.values(Course.Grades),
     hasOwner,
     ownerId
   });
