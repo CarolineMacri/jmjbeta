@@ -1,4 +1,4 @@
-/* eslint-disable */// import 'core-js/stable';
+/* eslint-disable */ // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
 import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
@@ -55,16 +55,21 @@ function index(a) {
       const owner = document.getElementById('owner').value;
       const courseYears = getChecked('years');
       const classFee = document.getElementById('classFee').value;
-      const materialsFee = [
-        {
-          semester: 1,
-          amount: document.getElementById('materialsFeeAmount1').value,
-        },
-        {
-          semester: 2,
-          amount: document.getElementById('materialsFeeAmount2').value,
-        },
-      ];
+
+      // const materialsFee = [
+      //   {
+      //     semester: 1,
+      //     amount: document.getElementById('materialsFeeAmount1').value,
+      //   },
+      //   {
+      //     semester: 2,
+      //     amount: document.getElementById('materialsFeeAmount2').value,
+      //   },
+      // ];
+      const semesterMaterialsFee = {
+        1: document.getElementById('semesterMaterialsFee1').value,
+        2: document.getElementById('semesterMaterialsFee2').value,
+      };
       const grade = {
         min: document.getElementById('gradeMin').value,
         max: document.getElementById('gradeMax').value,
@@ -90,11 +95,9 @@ function index(a) {
         notes,
         materials,
         texts,
-        materialsFee,
+        semesterMaterialsFee,
         isNew,
       };
-      console.log(course);
-
       updateCourse(courseId, course, selectedYear, hasOwner);
     });
   }

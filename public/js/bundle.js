@@ -14449,14 +14449,21 @@ function index(a) {
       var name = document.getElementById('courseName').value;
       var owner = document.getElementById('owner').value;
       var courseYears = getChecked('years');
-      var classFee = document.getElementById('classFee').value;
-      var materialsFee = [{
-        semester: 1,
-        amount: document.getElementById('materialsFeeAmount1').value
-      }, {
-        semester: 2,
-        amount: document.getElementById('materialsFeeAmount2').value
-      }];
+      var classFee = document.getElementById('classFee').value; // const materialsFee = [
+      //   {
+      //     semester: 1,
+      //     amount: document.getElementById('materialsFeeAmount1').value,
+      //   },
+      //   {
+      //     semester: 2,
+      //     amount: document.getElementById('materialsFeeAmount2').value,
+      //   },
+      // ];
+
+      var semesterMaterialsFee = {
+        1: document.getElementById('semesterMaterialsFee1').value,
+        2: document.getElementById('semesterMaterialsFee2').value
+      };
       var grade = {
         min: document.getElementById('gradeMin').value,
         max: document.getElementById('gradeMax').value
@@ -14481,10 +14488,9 @@ function index(a) {
         notes: notes,
         materials: materials,
         texts: texts,
-        materialsFee: materialsFee,
+        semesterMaterialsFee: semesterMaterialsFee,
         isNew: isNew
       };
-      console.log(course);
       (0, _actions.updateCourse)(courseId, course, selectedYear, hasOwner);
     });
   }

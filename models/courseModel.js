@@ -36,16 +36,21 @@ const courseSchema = new mongoose.Schema(
       min: { type: String, enum: Object.values(Grades), default: 'K' },
       max: { type: String, enum: Object.values(Grades), default: '12th' },
     },
-    materialsFee: {
-      type: Array,
-      of: {
-        semester: { type: Number, enum: [1, 2], default: 1 },
-        amount: { type: Number, default: 0 },
-      },
-      default: [
-        { semester: 1, amount: 0 },
-        { semester: 2, amount: 0 },
-      ],
+    // materialsFee: {
+    //   type: Array,
+    //   of: {
+    //     semester: { type: Number, enum: [1, 2], default: 1 },
+    //     amount: { type: Number, default: 0 },
+    //   },
+     
+    //   default: [
+    //     { semester: 1, amount: 0 },
+    //     { semester: 2, amount: 0 },
+    //   ],
+    // },
+    semesterMaterialsFee: {
+      1: { type: Number, default:0 },
+      2: { type: Number, default: 0 },
     },
     classFee: Number,
     classSize: {
