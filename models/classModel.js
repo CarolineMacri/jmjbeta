@@ -1,5 +1,4 @@
 // npm modules
-
 const mongoose = require('mongoose');
 const Locations = Object.freeze({
   class1: 'Classroom 1',
@@ -28,7 +27,7 @@ const Times = Object.freeze({
 });
 
 // project modules
-// const Course = require('./courseModel');
+const Course = require('./courseModel');
 // const User = require('./userModel');
 
 const classSchema = new mongoose.Schema(
@@ -48,8 +47,8 @@ const classSchema = new mongoose.Schema(
       1: { type: Number, default: 8, min: 1, max: 8, required: true },
       2: { type: Number, default: 8, min: 1, max: 8, required: true },
     },
-    semester: { type: String, enum: ['1', '2'], default: '1', required: true },
-    sessions: { type: Number, default: 8, min: 1, max: 8, required: true },
+    // semester: { type: String, enum: ['1', '2'], default: '1', required: true },
+    // sessions: { type: Number, default: 8, min: 1, max: 8, required: true },
     location: {
       type: String,
       enum: Object.values(Locations),
@@ -77,12 +76,17 @@ classSchema.virtual('hour').get(function () {
   return hour;
 });
 
+classSchema.virtual('classFee').get(async function () {
+  const thisCourse = await Course.findOne({ _id: this.course });
+  return thisCourse.classFee;
+});
+
+
+
 Object.assign(classSchema.statics, {
   Locations,
   Times,
 });
-
-
 
 const Class = mongoose.model('Class', classSchema);
 

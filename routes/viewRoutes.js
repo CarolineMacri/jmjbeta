@@ -23,6 +23,7 @@ router.get('/enrollment_profile/:parentId/:selectedYear?', authController.protec
 router.get('/classes_table/:selectedYear?', authController.protect, viewsController.getClassesTable);
 router.get('/class_profile/:classId/:selectedYear?', authController.protect, viewsController.getClassProfile);
 router.get('/class_grid/:selectedYear?', authController.protect, viewsController.getClassGrid);
+router.get('/class_fees/:selectedYear?', authController.protect, viewsController.getClassFees);
 
 router.get('/teachers/:selectedYear?', authController.protect, viewsController.getTeachers);
 router.get('/registrations/:selectedYear?', authController.protect, viewsController.getRegistrations);

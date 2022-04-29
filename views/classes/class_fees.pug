@@ -1,0 +1,43 @@
+extends ../base
+
+block content   
+    .page__content
+     -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
+        div
+            section
+                h1.classes__title  Classes
+                include ../_yearSelector
+        
+            table.classes
+                tr
+                    th Course
+                    th Instructor
+                    th Time
+                    th Location
+                    th(style='width:10rem') Semester 1 Fee
+                    th(style='width:10rem') Semester 2 Fee
+                    
+                
+                for cl in classes 
+                   
+                    tr(id=cl.id)
+                        td= cl.course.name
+                        td= `${cl.teacher.lastName} ${(cl.teacher._id.toString()==cl.course.owner.toString())?'':'(sub)'}`
+                        td= cl.hour
+                        td= cl.location
+                        td= '$' + formatter.format(cl.semesterFees['1'])
+                        td='$' + formatter.format(cl.semesterFees['2'])
+                    
+            
+        
+            
+               
+                
+                   
+
+                
+                            
+                   
+               
+                   
+            
