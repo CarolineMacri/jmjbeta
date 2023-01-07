@@ -25,7 +25,7 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const apiModelRouters = getApiRouters(
   //['user', 'family', 'child', 'year', 'course', 'teachercourse', 'teacher', 'enrollment', 'class', 'food'],//'class', 
-  ['user', 'family', 'child', 'year', 'course', 'teacher', 'enrollment', 'class' ],//'class', 
+  ['user', 'family', 'child', 'year', 'course', 'teacher', 'enrollment', 'class', 'payment' ],//'class', 
   './routes',
   '/api/v1'
 );
