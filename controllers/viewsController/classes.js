@@ -174,11 +174,7 @@ function getGridAreas(locations, times) {
 exports.getClassFees = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const User = require('../../models/userModel');
-  var pip = [];
-  pip = pipelines.userFamilyChildEnrollmentClassCourseTeacher('2022-2023');
-  console.log('----------' + JSON.stringify(pip));
-  const fams = await User.aggregate(pip);
-  console.log(fams);
+
 
   let { selectedYear } = req.params;
 

@@ -1,9 +1,6 @@
 extends ../base
   
-
-
 block content 
-
 
  section.enrollment-profile.page__content
   - var isAdmin = user.currentRoles.includes('admin')
@@ -26,8 +23,10 @@ block content
         for child in children
           -var courses= gradeCourseMap.get(child.grade)
           
+          
           .card.card__outline-box
             .card__column
+              
               .card__header-background
               .card__header-text= `${child.firstName} - ${child.grade}`
               
@@ -39,7 +38,7 @@ block content
                     .class__time= enrollment.class.hour
                     .class__name
                       select.form__select--medium(name='enrollment' disabled=isDisabled)
-                        //-var enrollmentId = (enrollment.id ? enrollment.id: 'none')                        
+                        -var enrollmentId = (enrollment.id ? enrollment.id: 'none')                        
                         option(data-enrollment-id=enrollment.id) NONE 
 
                         for c in classes

@@ -1,0 +1,23 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      section 
+        include ../_yearSelector
+      section.report-class-lists
+    
+      .report__title
+        h1 +JMJ+ Homeschool Co-op Invoices
+
+     
+      for family in families
+        h1= family._id
+        for teacher in family.teachers
+          h2= " -- " + teacher.name
+          for cl in teacher.classes
+            h3= "---- " + cl.class + " " + cl.student + " $" + cl.price + " + $" + cl.materials + " " 
+          h4= "Total $" + teacher.total
+        
+      
+      

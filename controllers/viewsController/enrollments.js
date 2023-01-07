@@ -66,6 +66,7 @@ exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
   if (enrollments.length == 0) {
     return next(new AppError('There are no families for this year', 404));
   }
+  //console.log(enrollments[0]);
 
   res.status(200).render('enrollments/enrollments_table', {
     title: `Enrollments ${selectedYear}`,
@@ -85,9 +86,10 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
   const classes = await Class.find({ year: selectedYear }).populate('course');
-
+  console.log(selectedYear);
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
+  console.log(gradeCourseMap);
   const family = await Family.findOne({ parent: parentId });
 
   let children = await Child.find({ family: family.id, year: selectedYear })
@@ -97,24 +99,25 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
       select: 'class course -child',
       populate: {
         path: 'class',
-        match: { semester: '1' },
+        match: { 'semesterSessions.1': { $gt: 0 } },
         select: 'time hour location course sessions semester _id',
         justOne: true,
         populate: { path: 'course', select: 'name _id', justOne: true },
       },
     });
 
-  // children.forEach(child => {
-  //   console.log(child.name)
-  //   child.enrollments.forEach(enrollment => {
-  //     console.log(enrollment)
-  //   })
-  // });
+  children.forEach(child => {
+    console.log(child.name)
+    child.enrollments.forEach(enrollment => {
+      console.log(enrollment)
+    })
+  });
 
   children = children.sort(gradeSort);
 
   children.forEach((child) => {
     child.enrollments = orderEnrollments(child.enrollments);
+    console.log(child);
   });
 
   res.status(200).render('enrollments/enrollment_profile', {
