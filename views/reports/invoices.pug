@@ -14,15 +14,16 @@ block content
       for family in families
         .report-class-lists-hour
           .report-class-lists-box
-              h1= family._id
+              h1= family.parent
               .report-class-lists-course
                 .report-class-lists-course-name
                   for teacher in family.teachers
                     h2= teacher.name
                     .report-class-lists-enrollments
                       for cl in teacher.classes
-                        h3= "---- " + cl.class + " " + cl.student + " $" + cl.price + " + $" + cl.materials + " " 
+                        p= "---- " + cl.class + " " + cl.student + " $" + cl.price + " + $" + cl.materials + " " 
                     h4= "Total $" + teacher.total
+              h1= "Grand Total:  $" + family.grandTotal
             
       
       
