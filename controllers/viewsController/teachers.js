@@ -24,7 +24,8 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
   //(teachers);
 
   teachers = await User.aggregate()
-    .match({ registrationYears: selectedYear, roles: 'teacher' })
+    .match({ 'registrationYears': selectedYear })
+    .match(JSON.parse(`{"yearRoles.${selectedYear}":"teacher"}`))
     .sort('lastName')
     .project('firstName lastName')
     .lookup({

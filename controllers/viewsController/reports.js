@@ -132,7 +132,7 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
 });
 
 exports.reportInvoices = catchAsync(async (req, res, next) => {
-  let { selectedYear, teacher } = req.params;
+  let { selectedYear} = req.params;
 
   const years = await Year.find();
 
@@ -140,11 +140,12 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
+  console.log("-------------" ,selectedYear);
 
   await pipelines.pipelineUserFamily();
 
   const pipeline =
-    pipelines.userFamilyChildEnrollmentClassCourseTeacher('2022-2023');
+    pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear);
   //console.log('----------' + JSON.stringify(pipeline));
   const fams = await User.aggregate(pipeline);  
   console.log(JSON.stringify(fams));
