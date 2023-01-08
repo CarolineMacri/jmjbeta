@@ -12,18 +12,27 @@ block content
 
      
       for family in families
-        .report-class-lists-hour
-          .report-class-lists-box
-              h1= family.parent
-              .report-class-lists-course
-                .report-class-lists-course-name
-                  for teacher in family.teachers
-                    h2= teacher.name
-                    .report-class-lists-enrollments
-                      for cl in teacher.classes
-                        p= "---- " + cl.class + " " + cl.student + " $" + cl.price + " + $" + cl.materials + " " 
-                    h4= "Total $" + teacher.total
-              h1= "Grand Total:  $" + family.grandTotal
-            
+        
+        .report-invoices-box
+          .report-invoices-family
+            h2= family.parent 
+        
+          for teacher in family.teachers
+            .report-invoices-teacher
+              p= teacher.name+ "  - $" + teacher.total
+            .report-invoices-classes
+              for cl in teacher.classes
+                .report-invoices-record
+                  .report-invoices-record-student
+                    p=cl.student
+                  .report-invoices-record-class
+                    p=cl.class
+                  .report-invoices-record-price
+                    p="Classes: $" + cl.price
+                  .report-invoices-record-materials
+                    p="Materials: $" + cl.materials + " " 
+          .report-invoices-teacher   
+          h2= "Grand Total:  $" + family.grandTotal
+          
       
       
