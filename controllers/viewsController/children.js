@@ -14,7 +14,6 @@ exports.getChildren = catchAsync(async (req, res, next) => {
     selectedYear = await Year.findOne({ current: true });
     years = [selectedYear];
     selectedYear = selectedYear.year;
-    console.log(years);
   }
 
   const family = await Family.findOne({ parent: parentId });
