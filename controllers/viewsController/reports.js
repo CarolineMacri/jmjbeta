@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const catchAsync = require('../../utils/catchAsync');
 const Child = require('../../models/childModel');
 const Class = require('../../models/classModel');
@@ -133,7 +135,7 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
 });
 
 exports.reportInvoices = catchAsync(async (req, res, next) => {
-  let { selectedYear } = req.params;
+  let { selectedYear, parent } = req.params;
 
   const years = await Year.find();
 
@@ -142,10 +144,24 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
+  console.log('-------------------', parent);
+  var pipeline1 = [];
+  if (parent) {
+    const matchString = `{ "_id" : ObjectId('${parent}')}`;
+    console.log(matchString);
+    //const match = JSON.parse(matchString);
+    //console.log(match);
+    pipeline1 = pipeline1.concat([{ $match: { "_id": mongoose.Types.ObjectId(parent) } }]);
+    console.log('--------', pipeline1);
+  }
+  
   const pipeline =
     pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear);
   
-  const fams = await User.aggregate(pipeline);
+  pipeline1 = pipeline1.concat(pipeline);
+  console.log(pipeline1);
+  
+  const fams = await User.aggregate(pipeline1);
 
   res.status(200).render('reports/invoices', {
     title: 'Invoices',

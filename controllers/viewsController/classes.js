@@ -214,7 +214,7 @@ exports.getClassFees = catchAsync(async (req, res, next) => {
     cl.semesterFees = semesterFees;
     return cl;
   });
-  console.log(await classes[3].classFee + '-------------------------------------------------');
+  //console.log(await classes[3].classFee + '-------------------------------------------------');
 
 
   res.status(200).render('classes/class_fees', {  

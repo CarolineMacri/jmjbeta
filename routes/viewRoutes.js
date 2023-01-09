@@ -20,6 +20,9 @@ router.get('/course_profile/:courseId/:selectedYear?/:ownerId?', authController.
 router.get('/enrollments_table/:selectedYear?', authController.protect, viewsController.getEnrollmentsTable);
 router.get('/enrollment_profile/:parentId/:selectedYear?', authController.protect, viewsController.getEnrollmentProfile);
 
+router.get('/payments_table/:parentId/:selectedYear', viewsController.getPaymentsTable);
+router.get('/payment_profile/:parentId/:selectedYear', viewsController.getPaymentProfile);
+
 router.get('/classes_table/:selectedYear?', authController.protect, viewsController.getClassesTable);
 router.get('/class_profile/:classId/:selectedYear?', authController.protect, viewsController.getClassProfile);
 router.get('/class_grid/:selectedYear?', authController.protect, viewsController.getClassGrid);
@@ -38,6 +41,6 @@ router.get('/pw', authController.protect, authController.restrictTo('admin'),vie
 
 router.get('/reports/childrenByGrade/:selectedYear?', authController.protect, authController.restrictTo('admin'), viewsController.reportChildrenByGrade);
 router.get('/reports/classLists/:selectedYear?/:teacher?', authController.protect, authController.restrictTo('admin'), viewsController.reportClassLists);
-router.get('/reports/invoices/:selectedYear/:teacher?', authController.protect, authController.restrictTo('admin'), viewsController.reportInvoices);
+router.get('/reports/invoices/:selectedYear/:parent?', authController.protect, authController.restrictTo('admin'), viewsController.reportInvoices);
  
 module.exports = router;  

@@ -1,0 +1,72 @@
+extends ../base
+
+block content   
+    .page__content
+        .payments
+            section
+                h1 Enrollments
+                include ../_yearSelector
+                h2 Enrollment Open:  mm/dd/yy  Enrollment Close: mm/dd/yy  
+        
+           
+            //- table.enrollments
+            //-     tr
+            //-         th LastName
+            //-         th FirstName
+            //-         th Enrollment Status
+                   
+            //-     for family in enrollments    
+            //-         tr(id=family.parent._id)
+            //-             td= family.parent.lastName
+            //-             td= family.parent.firstName
+            //-             td= family.yearEnrollmentStatus[selectedYear]
+                        
+                        
+            //-             td.button
+            //-                 a.edit(href=`/enrollment_profile/${family.parent._id}/${selectedYear}`) &#9998
+            //-                 //- a.edit(href= "#") &#9998
+            //-             //- td.button
+            //-             //-     .delete &#10006
+                
+            //-     tr#new
+            //-         td.button
+            //-             .new
+            //-                 //- a(href=`/enrollment_profile/new/${selectedYear}`) &#10010
+            //-                 a(href=`#`) &#10010
+
+
+            //- section.enrollment-delete.page__content-row
+            //-     .delete-modal__window
+            //-         .delete-modal__content.enrollment-delete__modal
+            //-             p.enrollment-delete__warning &#9888
+            //-             p Are you sure you want to unenroll
+            //-             p class?
+            //-             p (Course will not be deleted)
+            //-             button#deleteEnrollment.button-ok OK
+            //-             button#cancelDelete.button-cancel cancel
+            
+        
+            
+               
+                
+                   
+
+                
+                            
+                   
+               
+                   
+            
+
+        
+            
+               
+                
+                   
+
+                
+                            
+                   
+               
+                   
+            

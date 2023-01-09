@@ -1,4 +1,5 @@
-/* eslint-disable */ import 'core-js/stable';
+/* eslint-disable */
+import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import { changeFamilyYear, addFamily } from './family';
@@ -13,6 +14,8 @@ import { index as sessions } from './components/classes/index';
 sessions();
 import { index as enrollments } from './components/enrollments/index';
 enrollments();
+import { index as payments } from './components/payments/index';
+payments();
 
 import { changeTeachersYear } from './teachers';
 import { changeReportChildrenByGradeYear } from './reports';

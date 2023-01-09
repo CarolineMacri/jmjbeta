@@ -86,10 +86,10 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
   const classes = await Class.find({ year: selectedYear }).populate('course');
-  console.log(selectedYear);
+  //console.log(selectedYear);
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
-  console.log(gradeCourseMap);
+  //console.log(gradeCourseMap);
   const family = await Family.findOne({ parent: parentId });
 
   let children = await Child.find({ family: family.id, year: selectedYear })
@@ -107,9 +107,9 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     });
 
   children.forEach(child => {
-    console.log(child.name)
+    //console.log(child.name)
     child.enrollments.forEach(enrollment => {
-      console.log(enrollment)
+      //console.log(enrollment)
     })
   });
 
@@ -117,7 +117,7 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
 
   children.forEach((child) => {
     child.enrollments = orderEnrollments(child.enrollments);
-    console.log(child);
+    //console.log(child);
   });
 
   res.status(200).render('enrollments/enrollment_profile', {

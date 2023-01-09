@@ -16695,8 +16695,8 @@ function index(a) {
         time: time,
         year: selectedYear,
         isNew: isNew
-      };
-      console.log(cl);
+      }; //console.log(cl);
+
       (0, _actions.updateClass)(classId, cl, selectedYear);
     });
   }
@@ -16953,7 +16953,150 @@ function index(a) {
     });
   }
 }
-},{"./actions":"components/enrollments/actions.js"}],"teachers.js":[function(require,module,exports) {
+},{"./actions":"components/enrollments/actions.js"}],"components/payments/actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.changePaymentsYear = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var changePaymentsYear = function changePaymentsYear(year) {
+  location.assign("/payments_table/junk/".concat(year));
+}; // export const saveEnrollentSelections = async (enrollments) => {
+//   const enrollmentsToAdd = enrollments.filter((e) => {
+//     return !e._id && e.class;
+//   });
+//   const enrollmentsToUpdate = enrollments.filter((e) => {
+//     return e._id && e.class;
+//   });
+//   const enrollmentsToDelete = enrollments.filter((e) => {
+//     return e._id && !e.class;
+//   });
+//   enrollmentsToAdd.forEach(async (e) => {
+//     try {
+//       var url = `/api/v1/enrollments`;
+//       const res = await axios({
+//         method: 'POST',
+//         url,
+//         data: e,
+//       });
+//     } catch (err) {
+//       showAlert('error', err.response.data.message);
+//     }
+//   });
+//   enrollmentsToUpdate.forEach(async (e) => {
+//     try {
+//       var url = `/api/v1/enrollments/${e._id}`;
+//       const res = await axios({
+//         method: 'PATCH',
+//         url,
+//         data: e,
+//       });
+//     } catch (err) {
+//       showAlert('error', err.response.data.message);
+//     }
+//   });
+//   enrollmentsToDelete.forEach(async (e) => {
+//     try {
+//       var url = `/api/v1/enrollments/${e._id}`;
+//       const res = await axios({
+//         method: 'DELETE',
+//         url,
+//         data: e,
+//       });
+//     } catch (err) {
+//       showAlert('error', err.response.data.message);
+//     }
+//   });
+//   // if you got to here - everything is good
+//   showAlert('success', `Enrollment selections saved successfully`);
+//   window.setTimeout(() => {
+//     location.replace(`/enrollment_profile/${familyId}/${selectedYear}`);
+//   }, 500);
+// };
+
+
+exports.changePaymentsYear = changePaymentsYear;
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/payments/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _actions = require("./actions");
+
+/* eslint-disable */
+// import 'core-js/stable';// import 'regenerator-runtime/runtime';
+function index(a) {
+  // DOM elements
+  var payments = document.querySelector('.payments'); //const enrollmentProfile = document.querySelector('.enrollment-profile');
+
+  if (payments) {
+    alert('setting event listeners for payments'); // yearSelect = document.getElementById('year-select');
+    //alert (`${yearSelect.value} is yearselect`)
+    // yearSelect.addEventListener('change', (e) => {
+    //   const newYear = yearSelect.value;
+    //   changeEnrollmentsYear(newYear);
+    // });
+  } // if (enrollmentProfile) {
+  //   const enrollmentProfileForm = document.querySelector(
+  //     '.enrollment-profile__form'
+  //   );
+  //   const saveSelectionsButton = document.querySelector('.btn-save-selections');
+  //   saveSelectionsButton.addEventListener('click', (e) => {
+  //     e.preventDefault();
+  //     const enrollmentSelections = document.getElementsByName('enrollment');
+  //     const enrollmentData=[]
+  //     enrollmentSelections.forEach((selection) => {
+  //       const data = selection.options[selection.selectedIndex].dataset;
+  //       enrollmentData.push(
+  //         {
+  //           _id: data.enrollmentId,
+  //           class: data.classId,
+  //           child: data.childId
+  //         }
+  //       )
+  //       //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
+  //     });
+  //     saveEnrollentSelections(enrollmentData);
+  //   });
+  //   enrollmentProfileForm.addEventListener('submit', (e) => {
+  //     e.preventDefault();
+  //     const selectedYear = elementProfile.dataset.selectedYear;
+  //     //const isNew = classProfile.dataset.isNew == 'new';
+  //     // const classId = classProfileForm.id;
+  //     // const course = document.getElementById('course').value;
+  //     // const teacher = document.getElementById('teacher').value;
+  //     // const sessions = document.getElementById('sessions').value;
+  //     // const location = document.getElementById('location').value;
+  //     // const semester = document.getElementById('semester').value;
+  //     // const time = document.getElementById('time').value;
+  //     // const cl = {
+  //     //   id: classId,
+  //     //   course,
+  //     //   teacher,
+  //     //   sessions,
+  //     //   location,
+  //     //   semester,
+  //     //   time,
+  //     //   year: selectedYear,
+  //     //   isNew,
+  //     // };
+  //     // console.log(cl);
+  //   });
+  // }
+
+}
+},{"./actions":"components/payments/actions.js"}],"teachers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -125516,6 +125659,8 @@ var _index3 = require("./components/classes/index");
 
 var _index4 = require("./components/enrollments/index");
 
+var _index5 = require("./components/payments/index");
+
 var _teachers = require("./teachers");
 
 var _reports = require("./reports");
@@ -125536,6 +125681,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index2.index)();
 (0, _index3.index)();
 (0, _index4.index)();
+(0, _index5.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');
 var families = document.querySelector('.families');
@@ -125841,7 +125987,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

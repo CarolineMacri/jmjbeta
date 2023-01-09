@@ -30,9 +30,9 @@ exports.getFamily = catchAsync(async (req, res, next) => {
     });
 
   children.forEach(child => {
-    console.log(child.name)
+    //console.log(child.name)
     child.enrollments.forEach(enrollment => {
-      console.log(enrollment)
+      //console.log(enrollment)
     })
   });
 

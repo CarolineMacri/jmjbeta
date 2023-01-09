@@ -4,11 +4,12 @@ Object.assign(
   require('./classes'),
   require('./children'),
   require('./enrollments'),
-  require('./registrations'),
   require('./families'),
   require('./login'),
-  require('./users'),
+  require('./payments'),
+  require('./registrations'),
   require('./reports'),
+  require('./teachers'),
+  require('./users'),
   require('./years'),
-  require('./teachers')
 );
