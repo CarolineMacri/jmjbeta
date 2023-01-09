@@ -8,8 +8,8 @@ exports.getChildren = catchAsync(async (req, res, next) => {
   const Child = require('../../models/childModel');
 
   var years = await Year.find();
-  console.log(years);
 
+  // coming from the sidenav family, without a  year, therefore limit to current year
   if (!selectedYear) {
     selectedYear = await Year.findOne({ current: true });
     years = [selectedYear];

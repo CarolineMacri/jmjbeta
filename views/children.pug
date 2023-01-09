@@ -5,8 +5,11 @@ block content
     div      
       section 
         include _familyTitle
-        include _yearSelector
- 
+        if (years.length == 1)
+            h1.family__title= selectedYear
+        else    
+          include _yearSelector
+      
       table.children   
         tr
           th First Name
