@@ -106,18 +106,10 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
       },
     });
 
-  children.forEach(child => {
-    //console.log(child.name)
-    child.enrollments.forEach(enrollment => {
-      //console.log(enrollment)
-    })
-  });
-
   children = children.sort(gradeSort);
 
   children.forEach((child) => {
     child.enrollments = orderEnrollments(child.enrollments);
-    //console.log(child);
   });
 
   res.status(200).render('enrollments/enrollment_profile', {
