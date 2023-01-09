@@ -12,7 +12,7 @@ nav.side-nav
     .side-nav__section
       h3.side-nav__heading Family
       a.side-nav__item(href=selectedYear?`/family/${user.id}/${selectedYear}`:`/family/${user.id}`) Overview
-      a.side-nav__item(href=selectedYear?`/children/${user.id}/${selectedYear}`:`/children/${user.id}`) Add/Edit Children
+      a.side-nav__item(href=`/children/${user.id}`) Add/Edit Children
       a.side-nav__item(href=`/enrollment_profile/${user.id}`) Add/Edit Enrollments 
       a.side-nav__item(href=`/reports/invoices/${selectedYear}/${user.id}`) Invoice
   if isTeacher
