@@ -7,11 +7,14 @@ exports.getChildren = catchAsync(async (req, res, next) => {
   const Family = require('../../models/familyModel');
   const Child = require('../../models/childModel');
 
-  const years = await Year.find();
+  var years = await Year.find();
+  console.log(years);
 
   if (!selectedYear) {
     selectedYear = await Year.findOne({ current: true });
+    years = [selectedYear];
     selectedYear = selectedYear.year;
+    console.log(years);
   }
 
   const family = await Family.findOne({ parent: parentId });
