@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { showAlert } from '../../alerts';
 
-export const changeCoursesYear = (year) => {
-  location.assign(`/courses_table/${year}`);
+export const changeCoursesYear = (year, ownerId) => {
+  location.assign(`/courses_table/${year}/${ownerId}`);
 };
 
 export const updateCourse = async (

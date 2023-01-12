@@ -5,7 +5,7 @@ block content
         div
             section
                 if hasOwner 
-                    h1.courses__title= `${owner.firstName}  ${owner.lastName} Courses`
+                    h1.courses__title(id= owner._id)= `${owner.firstName}  ${owner.lastName} Courses`
                 else    
                     h1.courses__title  Courses
                 include ../_yearSelector

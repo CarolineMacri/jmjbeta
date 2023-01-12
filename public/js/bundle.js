@@ -14246,8 +14246,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var changeCoursesYear = function changeCoursesYear(year) {
-  location.assign("/courses_table/".concat(year));
+var changeCoursesYear = function changeCoursesYear(year, ownerId) {
+  location.assign("/courses_table/".concat(year, "/").concat(ownerId));
 };
 
 exports.changeCoursesYear = changeCoursesYear;
@@ -14410,8 +14410,9 @@ function index(a) {
   if (courses) {
     var yearSelect = document.getElementById('year-select');
     yearSelect.addEventListener('change', function (e) {
+      var ownerId = document.querySelector('.courses__title').id;
       var newYear = yearSelect.value;
-      (0, _actions.changeCoursesYear)(newYear);
+      (0, _actions.changeCoursesYear)(newYear, ownerId);
     }); // add event listners for each course
 
     var coursesRows = document.querySelector('.courses').getElementsByTagName('tr');

@@ -11,14 +11,15 @@ function index(a) {
   if (courses) {
     const yearSelect = document.getElementById('year-select');
     yearSelect.addEventListener('change', (e) => {
+      const ownerId = document.querySelector('.courses__title').id;
       const newYear = yearSelect.value;
-      changeCoursesYear(newYear);
+      changeCoursesYear(newYear, ownerId); 
     });
 
     // add event listners for each course
     const coursesRows = document
       .querySelector('.courses')
-      .getElementsByTagName('tr');
+      .getElementsByTagName('tr'); 
 
     const numRows = coursesRows.length;
 
