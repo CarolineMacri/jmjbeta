@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const catchAsync = require('../../utils/catchAsync');
-const Child = require('../../models/childModel');
-const Class = require('../../models/classModel');
-const User = require('../../models/userModel');
-const Year = require('../../models/yearModel');
-const { Grades } = require('../../models/courseModel');
-const pipelines = require('./pipelines');
+const catchAsync = require("../../utils/catchAsync");
+const Child = require("../../models/childModel");
+const Class = require("../../models/classModel");
+const User = require("../../models/userModel");
+const Year = require("../../models/yearModel");
+const { Grades } = require("../../models/courseModel");
+const pipelines = require("./pipelines");
 
 exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
   let { selectedYear } = req.params;
@@ -19,7 +19,7 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
   }
 
   const children = await Child.find({ year: selectedYear }).populate({
-    path: 'family',
+    path: "family",
     justOne: true,
   });
 
@@ -31,7 +31,7 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
 
   children.forEach((c) => {
     gradeLists[c.grade] = gradeLists[c.grade].concat([
-      c.family.parent.lastName + ', ' + c.firstName + ' - ' + c.sex,
+      c.family.parent.lastName + ", " + c.firstName + " - " + c.sex,
     ]);
   });
 
@@ -39,8 +39,8 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
     list.sort();
   });
 
-  res.status(200).render('reports/childrenByGrade', {
-    title: 'Children By Grade',
+  res.status(200).render("reports/childrenByGrade", {
+    title: "Children By Grade",
     gradeLists,
     years,
     selectedYear,
@@ -63,33 +63,33 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
   if (teacher) match.teacher = teacher;
 
   const classes = await Class.find(match)
-    .sort('hour')
+    .sort("hour")
     .populate({
-      path: 'enrollments',
+      path: "enrollments",
       populate: {
-        path: 'child',
+        path: "child",
         justOne: true,
         populate: {
-          path: 'family',
+          path: "family",
           justOne: true,
-          select: 'parent',
+          select: "parent",
           populate: {
-            path: 'parent',
+            path: "parent",
             justOne: true,
-            select: 'lastName',
+            select: "lastName",
           },
         },
       },
     })
     .populate({
-      path: 'teacher',
+      path: "teacher",
       justOne: true,
-      select: 'firstName lastName',
+      select: "firstName lastName",
     })
     .populate({
-      path: 'course',
+      path: "course",
       justOne: true,
-      select: 'name',
+      select: "name",
     });
 
   // make the map of times=>locations=>enrollments
@@ -126,8 +126,8 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
     });
   });
 
-  res.status(200).render('reports/classLists', {
-    title: 'Classlists',
+  res.status(200).render("reports/classLists", {
+    title: "Classlists",
     classMap,
     years,
     selectedYear,
@@ -144,27 +144,30 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  console.log('-------------------', parent);
+  console.log("-------------------", parent);
   var pipeline1 = [];
   if (parent) {
     const matchString = `{ "_id" : ObjectId('${parent}')}`;
     console.log(matchString);
     //const match = JSON.parse(matchString);
     //console.log(match);
-    pipeline1 = pipeline1.concat([{ $match: { "_id": mongoose.Types.ObjectId(parent) } }]);
-    console.log('--------', pipeline1);
+    pipeline1 = pipeline1.concat([
+      { $match: { _id: mongoose.Types.ObjectId(parent) } },
+    ]);
+    console.log("--------", pipeline1);
   }
-  
-  const pipeline =
-    pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear);
-  
+
+  const pipeline = pipelines.userFamilyChildEnrollmentClassCourseTeacher(
+    selectedYear
+  );
+
   pipeline1 = pipeline1.concat(pipeline);
   console.log(pipeline1);
-  
+
   const fams = await User.aggregate(pipeline1);
 
-  res.status(200).render('reports/invoices', {
-    title: 'Invoices',
+  res.status(200).render("reports/invoices", {
+    title: "Invoices",
     families: fams,
     years,
     selectedYear,

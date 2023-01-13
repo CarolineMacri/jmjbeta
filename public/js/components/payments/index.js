@@ -1,16 +1,16 @@
 /* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 
-import { changePaymentsYear } from './actions';
+import { changePaymentsYear } from "./actions";
 
 function index(a) {
   // DOM elements
 
-  const payments = document.querySelector('.payments');
+  const payments = document.querySelector(".payments");
 
   //const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (payments) {
-    alert('setting event listeners for payments');
+    alert("setting event listeners for payments");
     // yearSelect = document.getElementById('year-select');
     //alert (`${yearSelect.value} is yearselect`)
     // yearSelect.addEventListener('change', (e) => {
@@ -24,7 +24,7 @@ function index(a) {
   //     '.enrollment-profile__form'
   //   );
   //   const saveSelectionsButton = document.querySelector('.btn-save-selections');
-    
+
   //   saveSelectionsButton.addEventListener('click', (e) => {
   //     e.preventDefault();
   //     const enrollmentSelections = document.getElementsByName('enrollment');
@@ -40,7 +40,7 @@ function index(a) {
   //       )
   //       //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
   //     });
-      
+
   //     saveEnrollentSelections(enrollmentData);
   //   });
   //   enrollmentProfileForm.addEventListener('submit', (e) => {
@@ -70,7 +70,6 @@ function index(a) {
   //     // };
   //     // console.log(cl);
 
-      
   //   });
   // }
 }

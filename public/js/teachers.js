@@ -1,4 +1,3 @@
-
 export const changeTeachersYear = (year) => {
-  location.assign(`/teachers/${year}`); 
-}; 
+  location.assign(`/teachers/${year}`);
+};

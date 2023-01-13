@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { showAlert } from '../../alerts';
+import axios from "axios";
+import { showAlert } from "../../alerts";
 
 export const changePaymentsYear = (year) => {
   location.assign(`/payments_table/junk/${year}`);

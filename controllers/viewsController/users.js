@@ -1,11 +1,11 @@
-const catchAsync = require('../../utils/catchAsync');
+const catchAsync = require("../../utils/catchAsync");
 
-const Year = require('../../models/yearModel');
-const User = require('../../models/userModel');
+const Year = require("../../models/yearModel");
+const User = require("../../models/userModel");
 
 exports.getMyProfile = catchAsync(async (req, res) => {
-  res.status(200).render('myProfile', {
-    title: 'My Profile',
+  res.status(200).render("myProfile", {
+    title: "My Profile",
   });
 });
 
@@ -21,18 +21,14 @@ exports.getUsers = catchAsync(async (req, res, next) => {
 
   const fieldName = `yearRoles.${selectedYear}`;
   //console.log(fieldName);
-  
-   var users = await User.find().exists(fieldName, true).sort(
-    'lastName'
-  );
-  users.forEach(user => { 
-    user.roles = user.get(fieldName);
-  
-  })
-  
 
-  res.status(200).render('users', {
-    title: 'users',
+  var users = await User.find().exists(fieldName, true).sort("lastName");
+  users.forEach((user) => {
+    user.roles = user.get(fieldName);
+  });
+
+  res.status(200).render("users", {
+    title: "users",
     users,
     years,
     selectedYear,

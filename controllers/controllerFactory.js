@@ -1,18 +1,18 @@
-const pluralize = require('pluralize');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const APIFeatures = require('../utils/apiFeatures');
+const pluralize = require("pluralize");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const APIFeatures = require("../utils/apiFeatures");
 const {
   splitDataWithMaps,
   setUndefinedMapKeys,
   setMapData,
-} = require('../utils/mongooseMapTypeHandlers');
+} = require("../utils/mongooseMapTypeHandlers");
 
-const { Model } = require('mongoose');
+const { Model } = require("mongoose");
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == 'development')
+    if (process.env.NODE_ENV == "development")
       console.log(`createOne ${Model.modelName}`);
 
     const newDoc = await Model.create(req.body);
@@ -23,14 +23,15 @@ exports.createOne = (Model) =>
     data[modelName] = newDoc;
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       data,
     });
   });
 
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == 'development') console.log(`getOne ${Model.modelName}`);
+    if (process.env.NODE_ENV == "development")
+      console.log(`getOne ${Model.modelName}`);
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
@@ -45,14 +46,14 @@ exports.getOne = (Model, popOptions) =>
     data[modelName] = doc;
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data,
     });
   });
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == 'development')
+    if (process.env.NODE_ENV == "development")
       console.log(`updateOne ${Model.modelName}`);
     const { dataWithoutMaps, dataMapsOnly } = splitDataWithMaps(
       Model,
@@ -83,14 +84,14 @@ exports.updateOne = (Model) =>
     data[modelName] = doc;
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data,
     });
   });
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == 'development')
+    if (process.env.NODE_ENV == "development")
       console.log(`deleteOne ${Model.modelName}`);
     const document = await Model.findByIdAndDelete(req.params.id);
 
@@ -101,7 +102,7 @@ exports.deleteOne = (Model) =>
     }
 
     res.status(204).json({
-      status: 'success',
+      status: "success",
       data: null, //restful api don't send data back for a delete operation
     });
   });
@@ -123,7 +124,7 @@ exports.getAll = (Model) =>
 
     // SEND RESPONSE3
     res.status(200).json({
-      status: 'success',
+      status: "success",
       results: docs.length,
       data,
     });

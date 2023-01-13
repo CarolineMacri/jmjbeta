@@ -1,9 +1,9 @@
 // npm modules
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // project modules
-const User = require('./userModel');
-const Course = require('./courseModel');
+const User = require("./userModel");
+const Course = require("./courseModel");
 
 const teacherCourseSchema = new mongoose.Schema(
   {
@@ -16,6 +16,6 @@ const teacherCourseSchema = new mongoose.Schema(
   }
 );
 
-const TeacherCourse = mongoose.model('TeacherCourse', teacherCourseSchema);
+const TeacherCourse = mongoose.model("TeacherCourse", teacherCourseSchema);
 
 module.exports = TeacherCourse;

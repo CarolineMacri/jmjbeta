@@ -1,6 +1,5 @@
-const Child = require('../models/childModel');
-const factory = require('./controllerFactory');
-
+const Child = require("../models/childModel");
+const factory = require("./controllerFactory");
 
 exports.getChild = factory.getOne(Child);
 exports.getAllChildren = factory.getAll(Child);

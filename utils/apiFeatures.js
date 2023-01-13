@@ -38,7 +38,7 @@ class APIFeatures {
       const sortString = formatForDb(this.reqQuery.sort);
       this.dbQuery = this.dbQuery.sort(sortString);
     } else {
-      this.dbQuery = this.dbQuery.sort('lastName');
+      this.dbQuery = this.dbQuery.sort("lastName");
     }
 
     return this;
@@ -50,7 +50,7 @@ class APIFeatures {
       const fieldsString = formatForDb(this.reqQuery.fields);
       this.dbQuery = this.dbQuery.select(fieldsString);
     } else {
-      this.dbQuery = this.dbQuery.select('-id'); 
+      this.dbQuery = this.dbQuery.select("-id");
     }
 
     return this;
@@ -69,7 +69,7 @@ class APIFeatures {
 
 function getMatchFields(reqQuery) {
   const matchFields = { ...reqQuery }; //shallow copy
-  const excludedFields = ['page', 'limit', 'sort', 'fields'];
+  const excludedFields = ["page", "limit", "sort", "fields"];
   excludedFields.forEach((field) => delete matchFields[field]);
   return matchFields;
 }
@@ -80,7 +80,7 @@ function formatMatchForDb(matchFields) {
 }
 
 function formatForDb(sortString) {
-  return sortString.split('.').join(' ');
+  return sortString.split(".").join(" ");
 }
 
 function prefix$(match) {

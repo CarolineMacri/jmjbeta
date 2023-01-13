@@ -1,5 +1,5 @@
-const Family = require('../models/familyModel');
-const factory = require('./controllerFactory');
+const Family = require("../models/familyModel");
+const factory = require("./controllerFactory");
 
 exports.getFamily = factory.getOne(Family);
 exports.getAllFamilies = factory.getAll(Family);

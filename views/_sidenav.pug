@@ -14,7 +14,7 @@ nav.side-nav
       a.side-nav__item(href=selectedYear?`/family/${user.id}/${selectedYear}`:`/family/${user.id}`) Overview
       a.side-nav__item(href=`/children/${user.id}`) Add/Edit Children
       a.side-nav__item(href=`/enrollment_profile/${user.id}`) Add/Edit Enrollments 
-      a.side-nav__item(href=`/reports/invoices/${selectedYear}/${user.id}`) Invoice
+      a.side-nav__item(href=`/reports/invoices/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Invoice
   if isTeacher
     .side-nav__section
       h3.side-nav__heading Teacher
@@ -34,8 +34,8 @@ nav.side-nav
       a.side-nav__item(href='#') Create class schedule
   .side-nav__section
     h3.side-nav__heading Reports
-    a.side-nav__item(href='/reports/childrenByGrade') Children by Grade
-    a.side-nav__item(href='/reports/classLists') Class Listings
+    a.side-nav__item(href='/reports/childrenByGrade' target="_blank" rel="noopener noreferrer") Children by Grade
+    a.side-nav__item(href='/reports/classLists' target="_blank" rel="noopener noreferrer") Class Listings
     a.side-nav__item(href='/class_grid') Class Grid 
     a.side-nav__item(href='/class_fees') Class Fees 
-    a.side-nav__item(href=`/reports/invoices/${selectedYear}`) Invoices
+    a.side-nav__item(href=`/reports/invoices/${selectedYear}`  target="_blank" rel="noopener noreferrer") Invoices

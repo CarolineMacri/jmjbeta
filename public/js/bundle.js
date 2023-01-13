@@ -14091,7 +14091,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.showAlert = exports.hideAlert = void 0;
 
 var hideAlert = function hideAlert() {
-  var el = document.querySelector('.alert');
+  var el = document.querySelector(".alert");
   if (el) el.parentElement.removeChild(el);
 };
 
@@ -14101,7 +14101,7 @@ var showAlert = function showAlert(type, msg) {
   hideAlert();
   console.log(type, msg);
   var markup = "<div class=\"alert alert--".concat(type, "\">").concat(msg, "</div>");
-  document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
+  document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
   window.setTimeout(hideAlert, 5000);
 };
 
@@ -14139,7 +14139,7 @@ var addFamily = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             url = "/api/v1/families";
-            method = 'POST';
+            method = "POST";
             data = {
               parent: parentId
             };
@@ -14153,8 +14153,8 @@ var addFamily = /*#__PURE__*/function () {
           case 6:
             res = _context.sent;
 
-            if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "Family added successfully");
+            if (res.data.status == "success") {
+              (0, _alerts.showAlert)("success", "Family added successfully");
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -14166,7 +14166,7 @@ var addFamily = /*#__PURE__*/function () {
           case 10:
             _context.prev = 10;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
           case 13:
           case "end":
@@ -14260,9 +14260,9 @@ var updateCourse = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             isNewCourse = course.isNew == true;
-            method = isNewCourse ? 'POST' : 'PATCH';
+            method = isNewCourse ? "POST" : "PATCH";
             _context.prev = 2;
-            url = "/api/v1/courses".concat(isNewCourse ? '' : '/' + course.id); //console.log(`updating  ${course.name} name`);
+            url = "/api/v1/courses".concat(isNewCourse ? "" : "/" + course.id); //console.log(`updating  ${course.name} name`);
 
             _context.next = 6;
             return (0, _axios.default)({
@@ -14274,8 +14274,8 @@ var updateCourse = /*#__PURE__*/function () {
           case 6:
             res = _context.sent;
 
-            if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "".concat(course.name, " ").concat(courseId == 'new' ? ' added ' : ' updated ', " successfully"));
+            if (res.data.status == "success") {
+              (0, _alerts.showAlert)("success", "".concat(course.name, " ").concat(courseId == "new" ? " added " : " updated ", " successfully"));
               course = res.data.data.course;
               window.setTimeout(function () {
                 if (hasOwner) location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear, "/").concat(course.owner));else location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear));
@@ -14288,7 +14288,7 @@ var updateCourse = /*#__PURE__*/function () {
           case 10:
             _context.prev = 10;
             _context.t0 = _context["catch"](2);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
           case 13:
           case "end":
@@ -14317,14 +14317,14 @@ var deleteCourseModal = /*#__PURE__*/function () {
             _map = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 5), courseName = _map2[0], courseGrades = _map2[1], courseFee = _map2[2], x = _map2[3], y = _map2[4];
-            deleteModal = document.querySelector('.delete-modal__window');
-            paragraphs = deleteModal.getElementsByTagName('p');
-            paragraphs.item(2).innerHTML = courseName.toUpperCase() + '   ' + courseGrades;
-            deleteCourseButton = document.getElementById('deleteCourse');
-            deleteCourseButton.addEventListener('click', function () {
+            deleteModal = document.querySelector(".delete-modal__window");
+            paragraphs = deleteModal.getElementsByTagName("p");
+            paragraphs.item(2).innerHTML = courseName.toUpperCase() + "   " + courseGrades;
+            deleteCourseButton = document.getElementById("deleteCourse");
+            deleteCourseButton.addEventListener("click", function () {
               deleteCourse(courseId, courseName);
             });
-            deleteModal.classList.toggle('delete-modal__show');
+            deleteModal.classList.toggle("delete-modal__show");
 
           case 8:
           case "end":
@@ -14352,7 +14352,7 @@ var deleteCourse = /*#__PURE__*/function () {
             url = "/api/v1/courses/".concat(courseId);
             _context3.next = 4;
             return (0, _axios.default)({
-              method: 'DELETE',
+              method: "DELETE",
               url: url
             });
 
@@ -14360,11 +14360,11 @@ var deleteCourse = /*#__PURE__*/function () {
             res = _context3.sent;
 
             if (res.status == 204) {
-              (0, _alerts.showAlert)('success', "".concat(courseName, " deleted"));
+              (0, _alerts.showAlert)("success", "".concat(courseName, " deleted"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
-              (0, _alerts.showAlert)('success', "".concat(courseName, " successfully deleted"));
+              (0, _alerts.showAlert)("success", "".concat(courseName, " successfully deleted"));
             }
 
             _context3.next = 11;
@@ -14373,7 +14373,7 @@ var deleteCourse = /*#__PURE__*/function () {
           case 8:
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -14404,26 +14404,26 @@ var _actions = require("./actions");
 // import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements
-  var courses = document.querySelector('.courses');
-  var courseProfile = document.querySelector('.course-profile');
+  var courses = document.querySelector(".courses");
+  var courseProfile = document.querySelector(".course-profile");
 
   if (courses) {
-    var yearSelect = document.getElementById('year-select');
-    yearSelect.addEventListener('change', function (e) {
-      var ownerId = document.querySelector('.courses__title').id;
+    var yearSelect = document.getElementById("year-select");
+    yearSelect.addEventListener("change", function (e) {
+      var ownerId = document.querySelector(".courses__title").id;
       var newYear = yearSelect.value;
       (0, _actions.changeCoursesYear)(newYear, ownerId);
     }); // add event listners for each course
 
-    var coursesRows = document.querySelector('.courses').getElementsByTagName('tr');
+    var coursesRows = document.querySelector(".courses").getElementsByTagName("tr");
     var numRows = coursesRows.length;
 
     var _loop = function _loop() {
       var dataRow = coursesRows[i];
-      var dataCells = dataRow.getElementsByTagName('td');
+      var dataCells = dataRow.getElementsByTagName("td");
       var numCells = dataCells.length;
       var deleteButton = dataCells.item(numCells - 1);
-      deleteButton.addEventListener('click', function () {
+      deleteButton.addEventListener("click", function () {
         (0, _actions.deleteCourseModal)(dataRow);
       });
     };
@@ -14432,25 +14432,25 @@ function index(a) {
       _loop();
     }
 
-    var cancelDelete = document.getElementById('cancelDelete');
-    cancelDelete.addEventListener('click', function (e) {
+    var cancelDelete = document.getElementById("cancelDelete");
+    cancelDelete.addEventListener("click", function (e) {
       e.preventDefault();
-      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+      document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
     });
   }
 
   if (courseProfile) {
-    var courseProfileForm = document.querySelector('.course-profile__form');
-    courseProfileForm.addEventListener('submit', function (e) {
+    var courseProfileForm = document.querySelector(".course-profile__form");
+    courseProfileForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var selectedYear = courseProfile.dataset.selectedYear;
-      var isNew = courseProfile.dataset.isNew == 'new';
-      var hasOwner = courseProfile.dataset.hasOwner == 'true';
+      var isNew = courseProfile.dataset.isNew == "new";
+      var hasOwner = courseProfile.dataset.hasOwner == "true";
       var courseId = courseProfileForm.id;
-      var name = document.getElementById('courseName').value;
-      var owner = document.getElementById('owner').value;
-      var courseYears = getChecked('years');
-      var classFee = document.getElementById('classFee').value; // const materialsFee = [
+      var name = document.getElementById("courseName").value;
+      var owner = document.getElementById("owner").value;
+      var courseYears = getChecked("years");
+      var classFee = document.getElementById("classFee").value; // const materialsFee = [
       //   {
       //     semester: 1,
       //     amount: document.getElementById('materialsFeeAmount1').value,
@@ -14462,21 +14462,21 @@ function index(a) {
       // ];
 
       var semesterMaterialsFee = {
-        1: document.getElementById('semesterMaterialsFee1').value,
-        2: document.getElementById('semesterMaterialsFee2').value
+        1: document.getElementById("semesterMaterialsFee1").value,
+        2: document.getElementById("semesterMaterialsFee2").value
       };
       var grade = {
-        min: document.getElementById('gradeMin').value,
-        max: document.getElementById('gradeMax').value
+        min: document.getElementById("gradeMin").value,
+        max: document.getElementById("gradeMax").value
       };
       var classSize = {
-        min: document.getElementById('classSizeMin').value,
-        max: document.getElementById('classSizeMax').value
+        min: document.getElementById("classSizeMin").value,
+        max: document.getElementById("classSizeMax").value
       };
-      var description = document.getElementById('description').value;
-      var notes = document.getElementById('notes').value;
-      var materials = document.getElementById('materials').value;
-      var texts = document.getElementById('texts').value;
+      var description = document.getElementById("description").value;
+      var notes = document.getElementById("notes").value;
+      var materials = document.getElementById("materials").value;
+      var texts = document.getElementById("texts").value;
       var course = {
         id: courseId,
         name: name,
@@ -14501,7 +14501,7 @@ function getChecked(name) {
   var items = document.getElementsByName(name);
   var selectedItems = [];
   items.forEach(function (item) {
-    if (item.type == 'checkbox' && item.checked == true) selectedItems.push(item.value);
+    if (item.type == "checkbox" && item.checked == true) selectedItems.push(item.value);
   });
   return selectedItems;
 }
@@ -16004,8 +16004,8 @@ var login = /*#__PURE__*/function () {
             _context.prev = 0;
             _context.next = 3;
             return (0, _axios.default)({
-              method: 'POST',
-              url: '/api/v1/users/login',
+              method: "POST",
+              url: "/api/v1/users/login",
               data: {
                 email: email,
                 password: password
@@ -16018,8 +16018,8 @@ var login = /*#__PURE__*/function () {
 
             familyUrl = "/family/".concat(id);
 
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', 'Logged in successfully');
+            if (res.data.status === "success") {
+              (0, _alerts.showAlert)("success", "Logged in successfully");
               window.setTimeout(function () {
                 location.assign(familyUrl);
               }, 3000);
@@ -16031,7 +16031,7 @@ var login = /*#__PURE__*/function () {
           case 9:
             _context.prev = 9;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
           case 12:
           case "end":
@@ -16058,15 +16058,15 @@ var logout = /*#__PURE__*/function () {
             _context2.prev = 0;
             _context2.next = 3;
             return (0, _axios.default)({
-              method: 'GET',
-              url: '/api/v1/users/logout'
+              method: "GET",
+              url: "/api/v1/users/logout"
             });
 
           case 3:
             res = _context2.sent;
 
-            if (res.data.status == 'success') {
-              location.replace('/');
+            if (res.data.status == "success") {
+              location.replace("/");
             }
 
             _context2.next = 10;
@@ -16075,7 +16075,7 @@ var logout = /*#__PURE__*/function () {
           case 7:
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
-            (0, _alerts.showAlert)('error', 'Error logging out! Try again.');
+            (0, _alerts.showAlert)("error", "Error logging out! Try again.");
 
           case 10:
           case "end":
@@ -16105,7 +16105,7 @@ var resetPassword = /*#__PURE__*/function () {
 
             _context3.next = 4;
             return (0, _axios.default)({
-              method: 'PATCH',
+              method: "PATCH",
               url: _url,
               data: {
                 password: newPassword,
@@ -16116,10 +16116,10 @@ var resetPassword = /*#__PURE__*/function () {
           case 4:
             res = _context3.sent;
 
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', "Password reset successfully");
+            if (res.data.status === "success") {
+              (0, _alerts.showAlert)("success", "Password reset successfully");
               window.setTimeout(function () {
-                location.assign('/login');
+                location.assign("/login");
               }, 1000);
             }
 
@@ -16130,7 +16130,7 @@ var resetPassword = /*#__PURE__*/function () {
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
             console.log(_context3.t0.response);
-            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
 
           case 12:
           case "end":
@@ -16156,10 +16156,10 @@ var updateUserSettings = /*#__PURE__*/function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.prev = 0;
-            _url2 = type == 'password' ? "/api/v1/users/updateMyPassword" : "/api/v1/users/updateMe";
+            _url2 = type == "password" ? "/api/v1/users/updateMyPassword" : "/api/v1/users/updateMe";
             _context4.next = 4;
             return (0, _axios.default)({
-              method: 'PATCH',
+              method: "PATCH",
               url: _url2,
               data: data
             });
@@ -16167,10 +16167,10 @@ var updateUserSettings = /*#__PURE__*/function () {
           case 4:
             res = _context4.sent;
 
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully"));
+            if (res.data.status === "success") {
+              (0, _alerts.showAlert)("success", "".concat(type, " updated successfully"));
               window.setTimeout(function () {
-                location.assign(type == 'profile' ? '/myProfile' : '/updatePassword');
+                location.assign(type == "profile" ? "/myProfile" : "/updatePassword");
               }, 1000);
             }
 
@@ -16181,7 +16181,7 @@ var updateUserSettings = /*#__PURE__*/function () {
             _context4.prev = 8;
             _context4.t0 = _context4["catch"](0);
             console.log(_context4.t0.response);
-            (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context4.t0.response.data.message);
 
           case 12:
           case "end":
@@ -16208,8 +16208,8 @@ var forgotMyPassword = /*#__PURE__*/function () {
             _context5.prev = 0;
             _context5.next = 3;
             return (0, _axios.default)({
-              method: 'POST',
-              url: '/api/v1/users/forgotPassword',
+              method: "POST",
+              url: "/api/v1/users/forgotPassword",
               data: {
                 email: email
               }
@@ -16218,8 +16218,8 @@ var forgotMyPassword = /*#__PURE__*/function () {
           case 3:
             res = _context5.sent;
 
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', 'Password reset email sent'); // window.setTimeout(() => {
+            if (res.data.status === "success") {
+              (0, _alerts.showAlert)("success", "Password reset email sent"); // window.setTimeout(() => {
               //   location.assign('/login');
               // }, 3000);
             }
@@ -16230,7 +16230,7 @@ var forgotMyPassword = /*#__PURE__*/function () {
           case 7:
             _context5.prev = 7;
             _context5.t0 = _context5["catch"](0);
-            (0, _alerts.showAlert)('error', _context5.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context5.t0.response.data.message);
 
           case 10:
           case "end":
@@ -16261,15 +16261,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function index(a) {
-  var loginForm = document.querySelector('.login__form');
-  var logoutItem = document.querySelector('.dropdown__item--logout');
-  var forgotPasswordLink = document.querySelector('.login__forgot-password');
-  var resetPasswordForm = document.querySelector('.reset-password__form');
-  var myProfileForm = document.querySelector('.my-profile__form');
-  var updatePasswordForm = document.querySelector('.update-password__form');
+  var loginForm = document.querySelector(".login__form");
+  var logoutItem = document.querySelector(".dropdown__item--logout");
+  var forgotPasswordLink = document.querySelector(".login__forgot-password");
+  var resetPasswordForm = document.querySelector(".reset-password__form");
+  var myProfileForm = document.querySelector(".my-profile__form");
+  var updatePasswordForm = document.querySelector(".update-password__form");
 
   if (loginForm) {
-    loginForm.addEventListener('submit', /*#__PURE__*/function () {
+    loginForm.addEventListener("submit", /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
         var email, password;
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -16277,8 +16277,8 @@ function index(a) {
             switch (_context.prev = _context.next) {
               case 0:
                 e.preventDefault();
-                email = document.getElementById('email').value;
-                password = document.getElementById('password').value;
+                email = document.getElementById("email").value;
+                password = document.getElementById("password").value;
                 _context.next = 5;
                 return (0, _actions.login)(email, password);
 
@@ -16297,7 +16297,7 @@ function index(a) {
   }
 
   if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener('click', /*#__PURE__*/function () {
+    forgotPasswordLink.addEventListener("click", /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
         var email;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -16305,7 +16305,7 @@ function index(a) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 e.preventDefault();
-                email = document.getElementById('email').value;
+                email = document.getElementById("email").value;
                 _context2.next = 4;
                 return (0, _actions.forgotMyPassword)(email);
 
@@ -16324,11 +16324,11 @@ function index(a) {
   }
 
   if (logoutItem) {
-    logoutItem.addEventListener('click', _actions.logout);
+    logoutItem.addEventListener("click", _actions.logout);
   }
 
   if (updatePasswordForm) {
-    updatePasswordForm.addEventListener('submit', /*#__PURE__*/function () {
+    updatePasswordForm.addEventListener("submit", /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
         var data;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -16336,20 +16336,20 @@ function index(a) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 e.preventDefault();
-                document.querySelector('.update-password__button').innerHTML = 'Updating.....';
+                document.querySelector(".update-password__button").innerHTML = "Updating.....";
                 data = {
-                  password: document.getElementById('password').value,
-                  newPassword: document.getElementById('newPassword').value,
-                  newPasswordConfirm: document.getElementById('newPasswordConfirm').value
+                  password: document.getElementById("password").value,
+                  newPassword: document.getElementById("newPassword").value,
+                  newPasswordConfirm: document.getElementById("newPasswordConfirm").value
                 };
                 _context3.next = 5;
-                return (0, _actions.updateUserSettings)('password', data);
+                return (0, _actions.updateUserSettings)("password", data);
 
               case 5:
-                document.getElementById('password').value = '';
-                document.getElementById('newPassword').value = '';
-                document.getElementById('newPasswordConfirm').value = '';
-                document.querySelector('.update-password__button').innerHTML = 'Submit';
+                document.getElementById("password").value = "";
+                document.getElementById("newPassword").value = "";
+                document.getElementById("newPasswordConfirm").value = "";
+                document.querySelector(".update-password__button").innerHTML = "Submit";
 
               case 9:
               case "end":
@@ -16366,7 +16366,7 @@ function index(a) {
   }
 
   if (resetPasswordForm) {
-    resetPasswordForm.addEventListener('submit', /*#__PURE__*/function () {
+    resetPasswordForm.addEventListener("submit", /*#__PURE__*/function () {
       var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(e) {
         var newPassword, newPasswordConfirm, currentUrlParts, resetPasswordIndex, token;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -16374,13 +16374,13 @@ function index(a) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 e.preventDefault();
-                newPassword = document.getElementById('newPassword').value;
-                newPasswordConfirm = document.getElementById('newPasswordConfirm').value;
-                currentUrlParts = window.location.href.split('/');
-                resetPasswordIndex = currentUrlParts.indexOf('resetPassword');
+                newPassword = document.getElementById("newPassword").value;
+                newPasswordConfirm = document.getElementById("newPasswordConfirm").value;
+                currentUrlParts = window.location.href.split("/");
+                resetPasswordIndex = currentUrlParts.indexOf("resetPassword");
                 token = currentUrlParts[resetPasswordIndex + 1];
                 (0, _actions.resetPassword)(token, newPassword, newPasswordConfirm);
-                document.querySelector('.reset-password__button').innerHTML = 'Resetting.....';
+                document.querySelector(".reset-password__button").innerHTML = "Resetting.....";
 
               case 8:
               case "end":
@@ -16397,7 +16397,7 @@ function index(a) {
   }
 
   if (myProfileForm) {
-    myProfileForm.addEventListener('submit', /*#__PURE__*/function () {
+    myProfileForm.addEventListener("submit", /*#__PURE__*/function () {
       var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(e) {
         var firstName, lastName, email, cellPhone, data;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
@@ -16405,18 +16405,18 @@ function index(a) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 e.preventDefault();
-                firstName = document.getElementById('firstName').value;
-                lastName = document.getElementById('lastName').value;
-                email = document.getElementById('email').value;
-                cellPhone = document.getElementById('cellPhone').value;
+                firstName = document.getElementById("firstName").value;
+                lastName = document.getElementById("lastName").value;
+                email = document.getElementById("email").value;
+                cellPhone = document.getElementById("cellPhone").value;
                 data = {
                   firstName: firstName,
                   lastName: lastName,
                   email: email,
-                  cellPhone: cellPhone.replaceAll('-', '')
+                  cellPhone: cellPhone.replaceAll("-", "")
                 };
                 _context5.next = 8;
-                return (0, _actions.updateUserSettings)('profile', data);
+                return (0, _actions.updateUserSettings)("profile", data);
 
               case 8:
               case "end":
@@ -16493,9 +16493,9 @@ var updateClass = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             isNewClass = cl.isNew == true;
-            method = isNewClass ? 'POST' : 'PATCH';
+            method = isNewClass ? "POST" : "PATCH";
             _context.prev = 2;
-            url = "/api/v1/classes".concat(isNewClass ? '' : '/' + classId);
+            url = "/api/v1/classes".concat(isNewClass ? "" : "/" + classId);
             _context.next = 6;
             return (0, _axios.default)({
               method: method,
@@ -16506,9 +16506,9 @@ var updateClass = /*#__PURE__*/function () {
           case 6:
             res = _context.sent;
 
-            if (res.data.status == 'success') {
+            if (res.data.status == "success") {
               _cl = res.data.data.class;
-              (0, _alerts.showAlert)('success', "".concat(_cl.location, " - ").concat(_cl.hour, " class ").concat(classId == 'new' ? ' added ' : ' updated ', " successfully"));
+              (0, _alerts.showAlert)("success", "".concat(_cl.location, " - ").concat(_cl.hour, " class ").concat(classId == "new" ? " added " : " updated ", " successfully"));
               _cl = (_readOnlyError("cl"), res.data.data.class);
               window.setTimeout(function () {
                 location.replace("/class_profile/".concat(_cl.id, "/").concat(selectedYear));
@@ -16521,7 +16521,7 @@ var updateClass = /*#__PURE__*/function () {
           case 10:
             _context.prev = 10;
             _context.t0 = _context["catch"](2);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
           case 13:
           case "end":
@@ -16550,15 +16550,15 @@ var deleteClassModal = /*#__PURE__*/function () {
             _map = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 6), className = _map2[0], classTime = _map2[1], classLocation = _map2[2], classGrades = _map2[3], x = _map2[4], y = _map2[5];
-            deleteModal = document.querySelector('.delete-modal__window');
-            paragraphs = deleteModal.getElementsByTagName('p');
-            paragraphs.item(2).innerHTML = className.toUpperCase() + '   ' + classTime + ' ' + classLocation;
-            deleteCourseButton = document.getElementById('deleteClass');
+            deleteModal = document.querySelector(".delete-modal__window");
+            paragraphs = deleteModal.getElementsByTagName("p");
+            paragraphs.item(2).innerHTML = className.toUpperCase() + "   " + classTime + " " + classLocation;
+            deleteCourseButton = document.getElementById("deleteClass");
             classMsg = "<p>".concat(className, "</p> <p>in ").concat(classLocation, "</p> <p>at ").concat(classTime, "</p>");
-            deleteCourseButton.addEventListener('click', function () {
+            deleteCourseButton.addEventListener("click", function () {
               deleteClass(classId, classMsg);
             });
-            deleteModal.classList.toggle('delete-modal__show');
+            deleteModal.classList.toggle("delete-modal__show");
 
           case 9:
           case "end":
@@ -16586,7 +16586,7 @@ var deleteClass = /*#__PURE__*/function () {
             url = "/api/v1/classes/".concat(classId);
             _context3.next = 4;
             return (0, _axios.default)({
-              method: 'DELETE',
+              method: "DELETE",
               url: url
             });
 
@@ -16594,11 +16594,11 @@ var deleteClass = /*#__PURE__*/function () {
             res = _context3.sent;
 
             if (res.status == 204) {
-              (0, _alerts.showAlert)('success', "".concat(className, " unscheduled"));
+              (0, _alerts.showAlert)("success", "".concat(className, " unscheduled"));
               window.setTimeout(function () {
                 location.reload();
               }, 1000);
-              (0, _alerts.showAlert)('success', "".concat(className, " successfully unscheduled"));
+              (0, _alerts.showAlert)("success", "".concat(className, " successfully unscheduled"));
             }
 
             _context3.next = 11;
@@ -16607,7 +16607,7 @@ var deleteClass = /*#__PURE__*/function () {
           case 8:
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -16637,26 +16637,26 @@ var _actions = require("./actions");
 // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements
-  var classes = document.querySelector('.classes');
-  var classProfile = document.querySelector('.class-profile');
-  var classGrid = document.querySelector('.class-grid');
+  var classes = document.querySelector(".classes");
+  var classProfile = document.querySelector(".class-profile");
+  var classGrid = document.querySelector(".class-grid");
 
   if (classes) {
-    var yearSelect = document.getElementById('year-select');
-    yearSelect.addEventListener('change', function (e) {
+    var yearSelect = document.getElementById("year-select");
+    yearSelect.addEventListener("change", function (e) {
       var newYear = yearSelect.value;
       (0, _actions.changeClassesYear)(newYear);
     }); // add event listners for each course
 
-    var classRows = document.querySelector('.classes').getElementsByTagName('tr');
+    var classRows = document.querySelector(".classes").getElementsByTagName("tr");
     var numRows = classRows.length;
 
     var _loop = function _loop() {
       var dataRow = classRows[i];
-      var dataCells = dataRow.getElementsByTagName('td');
+      var dataCells = dataRow.getElementsByTagName("td");
       var numCells = dataCells.length;
       var deleteButton = dataCells.item(numCells - 1);
-      deleteButton.addEventListener('click', function () {
+      deleteButton.addEventListener("click", function () {
         (0, _actions.deleteClassModal)(dataRow);
       });
     };
@@ -16665,28 +16665,28 @@ function index(a) {
       _loop();
     }
 
-    var cancelDelete = document.getElementById('cancelDelete');
-    cancelDelete.addEventListener('click', function (e) {
+    var cancelDelete = document.getElementById("cancelDelete");
+    cancelDelete.addEventListener("click", function (e) {
       e.preventDefault();
-      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+      document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
     });
   }
 
   if (classProfile) {
-    var classProfileForm = document.querySelector('.class-profile__form');
-    classProfileForm.addEventListener('submit', function (e) {
+    var classProfileForm = document.querySelector(".class-profile__form");
+    classProfileForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var selectedYear = classProfile.dataset.selectedYear;
-      var isNew = classProfile.dataset.isNew == 'new';
+      var isNew = classProfile.dataset.isNew == "new";
       var classId = classProfileForm.id;
-      var course = document.getElementById('course').value;
-      var teacher = document.getElementById('teacher').value;
+      var course = document.getElementById("course").value;
+      var teacher = document.getElementById("teacher").value;
       var semesterSessions = {
-        1: document.getElementById('semesterSessions1').value,
-        2: document.getElementById('semesterSessions2').value
+        1: document.getElementById("semesterSessions1").value,
+        2: document.getElementById("semesterSessions2").value
       };
-      var location = document.getElementById('location').value;
-      var time = document.getElementById('time').value;
+      var location = document.getElementById("location").value;
+      var time = document.getElementById("time").value;
       var cl = {
         id: classId,
         course: course,
@@ -16703,9 +16703,9 @@ function index(a) {
   }
 
   if (classGrid) {
-    var _yearSelect = document.getElementById('year-select');
+    var _yearSelect = document.getElementById("year-select");
 
-    _yearSelect.addEventListener('change', function (e) {
+    _yearSelect.addEventListener("change", function (e) {
       var newYear = _yearSelect.value;
       (0, _actions.changeClassGridYear)(newYear);
     });
@@ -16762,7 +16762,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                         url = "/api/v1/enrollments";
                         _context.next = 4;
                         return (0, _axios.default)({
-                          method: 'POST',
+                          method: "POST",
                           url: url,
                           data: e
                         });
@@ -16775,7 +16775,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                       case 7:
                         _context.prev = 7;
                         _context.t0 = _context["catch"](0);
-                        (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+                        (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
                       case 10:
                       case "end":
@@ -16800,7 +16800,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                         url = "/api/v1/enrollments/".concat(e._id);
                         _context2.next = 4;
                         return (0, _axios.default)({
-                          method: 'PATCH',
+                          method: "PATCH",
                           url: url,
                           data: e
                         });
@@ -16813,7 +16813,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                       case 7:
                         _context2.prev = 7;
                         _context2.t0 = _context2["catch"](0);
-                        (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
+                        (0, _alerts.showAlert)("error", _context2.t0.response.data.message);
 
                       case 10:
                       case "end":
@@ -16838,7 +16838,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                         url = "/api/v1/enrollments/".concat(e._id);
                         _context3.next = 4;
                         return (0, _axios.default)({
-                          method: 'DELETE',
+                          method: "DELETE",
                           url: url,
                           data: e
                         });
@@ -16851,7 +16851,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                       case 7:
                         _context3.prev = 7;
                         _context3.t0 = _context3["catch"](0);
-                        (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+                        (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
 
                       case 10:
                       case "end":
@@ -16866,7 +16866,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
               };
             }()); // if you got to here - everything is good
 
-            (0, _alerts.showAlert)('success', "Enrollment selections saved successfully");
+            (0, _alerts.showAlert)("success", "Enrollment selections saved successfully");
             window.setTimeout(function () {
               location.replace("/enrollment_profile/".concat(familyId, "/").concat(selectedYear));
             }, 500);
@@ -16899,25 +16899,25 @@ var _actions = require("./actions");
 // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements
-  var enrollments = document.querySelector('.enrollments');
-  var enrollmentProfile = document.querySelector('.enrollment-profile');
+  var enrollments = document.querySelector(".enrollments");
+  var enrollmentProfile = document.querySelector(".enrollment-profile");
 
   if (enrollments) {
     //alert('before year select');
-    var yearSelect = document.getElementById('year-select'); //alert (`${yearSelect.value} is yearselect`)
+    var yearSelect = document.getElementById("year-select"); //alert (`${yearSelect.value} is yearselect`)
 
-    yearSelect.addEventListener('change', function (e) {
+    yearSelect.addEventListener("change", function (e) {
       var newYear = yearSelect.value;
       (0, _actions.changeEnrollmentsYear)(newYear);
     });
   }
 
   if (enrollmentProfile) {
-    var enrollmentProfileForm = document.querySelector('.enrollment-profile__form');
-    var saveSelectionsButton = document.querySelector('.btn-save-selections');
-    saveSelectionsButton.addEventListener('click', function (e) {
+    var enrollmentProfileForm = document.querySelector(".enrollment-profile__form");
+    var saveSelectionsButton = document.querySelector(".btn-save-selections");
+    saveSelectionsButton.addEventListener("click", function (e) {
       e.preventDefault();
-      var enrollmentSelections = document.getElementsByName('enrollment');
+      var enrollmentSelections = document.getElementsByName("enrollment");
       var enrollmentData = [];
       enrollmentSelections.forEach(function (selection) {
         var data = selection.options[selection.selectedIndex].dataset;
@@ -16929,7 +16929,7 @@ function index(a) {
       });
       (0, _actions.saveEnrollentSelections)(enrollmentData);
     });
-    enrollmentProfileForm.addEventListener('submit', function (e) {
+    enrollmentProfileForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var selectedYear = elementProfile.dataset.selectedYear; //const isNew = classProfile.dataset.isNew == 'new';
       // const classId = classProfileForm.id;
@@ -17039,10 +17039,10 @@ var _actions = require("./actions");
 // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements
-  var payments = document.querySelector('.payments'); //const enrollmentProfile = document.querySelector('.enrollment-profile');
+  var payments = document.querySelector(".payments"); //const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (payments) {
-    alert('setting event listeners for payments'); // yearSelect = document.getElementById('year-select');
+    alert("setting event listeners for payments"); // yearSelect = document.getElementById('year-select');
     //alert (`${yearSelect.value} is yearselect`)
     // yearSelect.addEventListener('change', (e) => {
     //   const newYear = yearSelect.value;
@@ -17174,13 +17174,13 @@ var changeChildrenYear = function changeChildrenYear(parentId, year) {
 exports.changeChildrenYear = changeChildrenYear;
 
 var toggleModal = function toggleModal() {
-  document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
 };
 
 exports.toggleModal = toggleModal;
 
 var modalOnClick = function modalOnClick(event) {
-  if (event.target = document.querySelector('.form-modal__window')) {
+  if (event.target = document.querySelector(".form-modal__window")) {
     toggleModal();
   }
 };
@@ -17188,7 +17188,7 @@ var modalOnClick = function modalOnClick(event) {
 exports.modalOnClick = modalOnClick;
 
 var fillChildForm = function fillChildForm(row) {
-  document.querySelector('.child-profile__form').id = row.id;
+  document.querySelector(".child-profile__form").id = row.id;
 
   var _map = _toConsumableArray(row.children).map(function (e) {
     return e.innerHTML;
@@ -17200,13 +17200,13 @@ var fillChildForm = function fillChildForm(row) {
       x = _map2[3],
       y = _map2[4];
 
-  document.getElementById('firstName').value = childFirstName.includes('<div') ? '' : childFirstName;
-  document.getElementById('update').value = childFirstName.includes('<div') ? 'Add' : "Update";
-  var sexRadios = document.getElementsByName('sex');
+  document.getElementById("firstName").value = childFirstName.includes("<div") ? "" : childFirstName;
+  document.getElementById("update").value = childFirstName.includes("<div") ? "Add" : "Update";
+  var sexRadios = document.getElementsByName("sex");
   setChecked(sexRadios, childSex);
-  var gradeRadios = document.getElementsByName('grade');
+  var gradeRadios = document.getElementsByName("grade");
   setChecked(gradeRadios, childGrade);
-  document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
 
   function setChecked(radioButtons, checkedValue) {
     radioButtons.forEach(function (btn) {
@@ -17226,8 +17226,8 @@ var updateChild = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            url = "/api/v1/children".concat(parentId == 'new' ? '' : '/' + parentId);
-            method = parentId == 'new' ? 'POST' : 'PATCH';
+            url = "/api/v1/children".concat(parentId == "new" ? "" : "/" + parentId);
+            method = parentId == "new" ? "POST" : "PATCH";
             _context.next = 5;
             return (0, _axios.default)({
               method: method,
@@ -17238,8 +17238,8 @@ var updateChild = /*#__PURE__*/function () {
           case 5:
             res = _context.sent;
 
-            if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "Child ".concat(res.data.data.child.firstName, " ").concat(parentId == 'new' ? 'added' : 'updated', " successfully"));
+            if (res.data.status == "success") {
+              (0, _alerts.showAlert)("success", "Child ".concat(res.data.data.child.firstName, " ").concat(parentId == "new" ? "added" : "updated", " successfully"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -17251,7 +17251,7 @@ var updateChild = /*#__PURE__*/function () {
           case 9:
             _context.prev = 9;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
           case 12:
           case "end":
@@ -17280,14 +17280,14 @@ var deleteChildModal = /*#__PURE__*/function () {
             _map3 = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map4 = _slicedToArray(_map3, 5), childFirstName = _map4[0], childSex = _map4[1], childGrade = _map4[2], x = _map4[3], y = _map4[4];
-            deleteModal = document.querySelector('.delete-modal__window');
-            paragraphs = deleteModal.getElementsByTagName('p');
-            paragraphs.item(2).innerHTML = childFirstName.toUpperCase() + '   ' + childGrade + ' grade';
-            deleteChildButton = document.getElementById('deleteChild');
-            deleteChildButton.addEventListener('click', function () {
+            deleteModal = document.querySelector(".delete-modal__window");
+            paragraphs = deleteModal.getElementsByTagName("p");
+            paragraphs.item(2).innerHTML = childFirstName.toUpperCase() + "   " + childGrade + " grade";
+            deleteChildButton = document.getElementById("deleteChild");
+            deleteChildButton.addEventListener("click", function () {
               deleteChild(childId, childFirstName);
             });
-            deleteModal.classList.toggle('delete-modal__show');
+            deleteModal.classList.toggle("delete-modal__show");
 
           case 8:
           case "end":
@@ -17315,7 +17315,7 @@ var deleteChild = /*#__PURE__*/function () {
             url = "/api/v1/children/".concat(childId);
             _context3.next = 4;
             return (0, _axios.default)({
-              method: 'DELETE',
+              method: "DELETE",
               url: url
             });
 
@@ -17323,7 +17323,7 @@ var deleteChild = /*#__PURE__*/function () {
             res = _context3.sent;
 
             if (res.status == 204) {
-              (0, _alerts.showAlert)('success', "".concat(childFirstName, " deleted"));
+              (0, _alerts.showAlert)("success", "".concat(childFirstName, " deleted"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -17335,7 +17335,7 @@ var deleteChild = /*#__PURE__*/function () {
           case 8:
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -17395,13 +17395,13 @@ exports.changeUsersYear = changeUsersYear;
 
 var toggleModalUser = function toggleModalUser() {
   //alert('in toglle modal user');
-  document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
 };
 
 exports.toggleModalUser = toggleModalUser;
 
 var userModalOnClick = function userModalOnClick(event) {
-  if (event.target = document.querySelector('.form-modal__window')) {
+  if (event.target = document.querySelector(".form-modal__window")) {
     toggleModalUser();
   }
 };
@@ -17409,7 +17409,7 @@ var userModalOnClick = function userModalOnClick(event) {
 exports.userModalOnClick = userModalOnClick;
 
 var fillUserForm = function fillUserForm(row) {
-  var userForm = document.querySelector('.user-profile__form');
+  var userForm = document.querySelector(".user-profile__form");
   userForm.id = row.id;
   userForm.dataset.registrationYears = row.dataset.registrationYears;
 
@@ -17425,24 +17425,24 @@ var fillUserForm = function fillUserForm(row) {
       x = _map2[5],
       y = _map2[6];
 
-  var newUser = userLastName.includes('<div');
+  var newUser = userLastName.includes("<div");
 
   if (newUser) {
-    userLastName = '';
-    userFirstName = '';
-    userEmail = '';
-    userCellPhone = '';
-    userRoles = '';
+    userLastName = "";
+    userFirstName = "";
+    userEmail = "";
+    userCellPhone = "";
+    userRoles = "";
   }
 
-  document.getElementById('lastName').value = userLastName;
-  document.getElementById('firstName').value = userFirstName;
-  document.getElementById('email').value = userEmail;
-  document.getElementById('cellPhone').value = userCellPhone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-  document.getElementById('update').value = newUser ? 'Add' : 'Update';
-  var roleCheckBoxes = document.getElementsByName('roles');
+  document.getElementById("lastName").value = userLastName;
+  document.getElementById("firstName").value = userFirstName;
+  document.getElementById("email").value = userEmail;
+  document.getElementById("cellPhone").value = userCellPhone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  document.getElementById("update").value = newUser ? "Add" : "Update";
+  var roleCheckBoxes = document.getElementsByName("roles");
   setChecked(roleCheckBoxes, userRoles);
-  document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
 
   function setChecked(checkBoxes, checkedValues) {
     checkBoxes.forEach(function (checkBox) {
@@ -17463,10 +17463,10 @@ var updateUser = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             alert("in update user id= ".concat(userId));
-            url = "/api/v1/users/".concat(userId == 'new' ? '' : '/' + userId);
-            method = userId == 'new' ? 'POST' : 'PATCH';
+            url = "/api/v1/users/".concat(userId == "new" ? "" : "/" + userId);
+            method = userId == "new" ? "POST" : "PATCH";
 
-            if (userId === 'new') {
+            if (userId === "new") {
               randomPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2).toUpperCase(); //alert(randomPassword);
 
               data.password = randomPassword;
@@ -17483,8 +17483,8 @@ var updateUser = /*#__PURE__*/function () {
           case 7:
             res = _context.sent;
 
-            if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "User ".concat(userId == 'new' ? 'added' : 'updated', " successfully"));
+            if (res.data.status == "success") {
+              (0, _alerts.showAlert)("success", "User ".concat(userId == "new" ? "added" : "updated", " successfully"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -17495,7 +17495,7 @@ var updateUser = /*#__PURE__*/function () {
           case 12:
             _context.prev = 12;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
           case 15:
           case "end":
@@ -17524,14 +17524,14 @@ var deleteUserModal = /*#__PURE__*/function () {
             _map3 = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map4 = _slicedToArray(_map3, 7), userLastName = _map4[0], userFirstName = _map4[1], userEmail = _map4[2], userCellPhone = _map4[3], userRoles = _map4[4], x = _map4[5], y = _map4[6];
-            deleteModal = document.querySelector('.delete-modal__window');
-            paragraphs = deleteModal.getElementsByTagName('p');
-            paragraphs.item(2).innerHTML = userFirstName.toUpperCase() + '   ' + userLastName.toUpperCase();
-            deleteUserButton = document.getElementById('deleteUser');
-            deleteUserButton.addEventListener('click', function () {
+            deleteModal = document.querySelector(".delete-modal__window");
+            paragraphs = deleteModal.getElementsByTagName("p");
+            paragraphs.item(2).innerHTML = userFirstName.toUpperCase() + "   " + userLastName.toUpperCase();
+            deleteUserButton = document.getElementById("deleteUser");
+            deleteUserButton.addEventListener("click", function () {
               deleteUser(userId, userFirstName);
             });
-            deleteModal.classList.toggle('delete-modal__show');
+            deleteModal.classList.toggle("delete-modal__show");
 
           case 8:
           case "end":
@@ -17559,7 +17559,7 @@ var deleteUser = /*#__PURE__*/function () {
             url = "/api/v1/users/".concat(userId);
             _context3.next = 4;
             return (0, _axios.default)({
-              method: 'DELETE',
+              method: "DELETE",
               url: url
             });
 
@@ -17567,7 +17567,7 @@ var deleteUser = /*#__PURE__*/function () {
             res = _context3.sent;
 
             if (res.status == 204) {
-              (0, _alerts.showAlert)('success', "".concat(userFirstName, " deleted"));
+              (0, _alerts.showAlert)("success", "".concat(userFirstName, " deleted"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -17579,7 +17579,7 @@ var deleteUser = /*#__PURE__*/function () {
           case 8:
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -125684,32 +125684,32 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index4.index)();
 (0, _index5.index)();
 //import { fill } from 'core-js/core/array';
-var family = document.querySelector('.family');
-var families = document.querySelector('.families');
-var children = document.querySelector('.children');
-var childProfileForm = document.querySelector('.child-profile__form');
-var teachers = document.querySelector('.teachers');
-var registrations = document.querySelector('.registrations');
-var users = document.querySelector('.users');
-var userProfileForm = document.querySelector('.user-profile__form');
-var reportChildrenByGrade = document.querySelector('.reportChildrenByGrade');
-var reportInvoices = document.querySelector('.report-invoices'); //values
+var family = document.querySelector(".family");
+var families = document.querySelector(".families");
+var children = document.querySelector(".children");
+var childProfileForm = document.querySelector(".child-profile__form");
+var teachers = document.querySelector(".teachers");
+var registrations = document.querySelector(".registrations");
+var users = document.querySelector(".users");
+var userProfileForm = document.querySelector(".user-profile__form");
+var reportChildrenByGrade = document.querySelector(".reportChildrenByGrade");
+var reportInvoices = document.querySelector(".report-invoices"); //values
 
 if (family) {
-  var yearSelect = document.getElementById('year-select');
-  yearSelect.addEventListener('change', function (e) {
+  var yearSelect = document.getElementById("year-select");
+  yearSelect.addEventListener("change", function (e) {
     var newYear = yearSelect.value;
-    var id = window.location.pathname.split('/')[2];
+    var id = window.location.pathname.split("/")[2];
     (0, _family.changeFamilyYear)(id, newYear);
   });
 }
 
 if (families) {
-  var _yearSelect = document.getElementById('year-select');
+  var _yearSelect = document.getElementById("year-select");
 
-  var editFamilyButtons = Array.from(document.getElementsByClassName('edit-family'));
+  var editFamilyButtons = Array.from(document.getElementsByClassName("edit-family"));
 
-  _yearSelect.addEventListener('change', function (e) {
+  _yearSelect.addEventListener("change", function (e) {
     var newYear = _yearSelect.value;
     (0, _families.changeFamiliesYear)(newYear);
   });
@@ -125718,7 +125718,7 @@ if (families) {
     //console.log(editFamilyButtons);
     editFamilyButtons.forEach(function (btn) {
       //console.log(btn.id);
-      btn.addEventListener('click', function () {
+      btn.addEventListener("click", function () {
         alert("".concat(btn.id));
       });
     });
@@ -125726,36 +125726,36 @@ if (families) {
 }
 
 if (teachers) {
-  var _yearSelect2 = document.getElementById('year-select');
+  var _yearSelect2 = document.getElementById("year-select");
 
-  _yearSelect2.addEventListener('change', function (e) {
+  _yearSelect2.addEventListener("change", function (e) {
     var newYear = _yearSelect2.value;
     (0, _teachers.changeTeachersYear)(newYear);
   });
 }
 
 if (registrations) {
-  var _yearSelect3 = document.getElementById('year-select');
+  var _yearSelect3 = document.getElementById("year-select");
 
-  _yearSelect3.addEventListener('change', function (e) {
+  _yearSelect3.addEventListener("change", function (e) {
     var newYear = _yearSelect3.value;
     (0, _registrations.changeRegistrationsYear)(newYear);
   });
 }
 
 if (reportChildrenByGrade) {
-  var _yearSelect4 = document.getElementById('year-select');
+  var _yearSelect4 = document.getElementById("year-select");
 
-  _yearSelect4.addEventListener('change', function (e) {
+  _yearSelect4.addEventListener("change", function (e) {
     var newYear = _yearSelect4.value;
     (0, _reports.changeReportChildrenByGradeYear)(newYear);
   });
 }
 
 if (reportInvoices) {
-  var _yearSelect5 = document.getElementById('year-select');
+  var _yearSelect5 = document.getElementById("year-select");
 
-  _yearSelect5.addEventListener('change', function (e) {
+  _yearSelect5.addEventListener("change", function (e) {
     var newYear = _yearSelect5.value;
     (0, _reports.changeReportInvoicesYear)(newYear);
   });
@@ -125763,28 +125763,28 @@ if (reportInvoices) {
 
 if (children) {
   // year  selector
-  var _yearSelect6 = document.getElementById('year-select');
+  var _yearSelect6 = document.getElementById("year-select");
 
-  _yearSelect6.addEventListener('change', function (e) {
+  _yearSelect6.addEventListener("change", function (e) {
     var newYear = _yearSelect6.value;
-    var id = window.location.pathname.split('/')[2];
+    var id = window.location.pathname.split("/")[2];
     (0, _children.changeChildrenYear)(id, newYear);
   }); // add event listners for each child
 
 
-  var childrenRows = document.querySelector('.children').getElementsByTagName('tr');
+  var childrenRows = document.querySelector(".children").getElementsByTagName("tr");
   var numRows = childrenRows.length;
 
   var _loop = function _loop() {
     var dataRow = childrenRows[i];
-    var dataCells = dataRow.getElementsByTagName('td');
+    var dataCells = dataRow.getElementsByTagName("td");
     var numCells = dataCells.length;
     var editButton = dataCells.item(numCells - 2);
     var deleteButton = dataCells.item(numCells - 1);
-    editButton.addEventListener('click', function () {
+    editButton.addEventListener("click", function () {
       (0, _children.fillChildForm)(dataRow);
     });
-    deleteButton.addEventListener('click', function () {
+    deleteButton.addEventListener("click", function () {
       (0, _children.deleteChildModal)(dataRow);
     });
   };
@@ -125794,29 +125794,29 @@ if (children) {
   }
 
   var addNewRow = childrenRows[numRows - 1];
-  var addNewCells = addNewRow.getElementsByTagName('td');
+  var addNewCells = addNewRow.getElementsByTagName("td");
   var addNewButton = addNewCells.item(0);
-  addNewButton.addEventListener('click', function () {
+  addNewButton.addEventListener("click", function () {
     (0, _children.fillChildForm)(addNewRow);
   });
-  var cancel = document.getElementById('cancel');
-  cancel.addEventListener('click', function (e) {
+  var cancel = document.getElementById("cancel");
+  cancel.addEventListener("click", function (e) {
     e.preventDefault();
-    document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+    document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
   });
-  var cancelDelete = document.getElementById('cancelDelete');
-  cancelDelete.addEventListener('click', function (e) {
+  var cancelDelete = document.getElementById("cancelDelete");
+  cancelDelete.addEventListener("click", function (e) {
     e.preventDefault();
-    document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
   });
-  childProfileForm.addEventListener('submit', function (e) {
+  childProfileForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    var fN = document.getElementById('firstName');
+    var fN = document.getElementById("firstName");
     var firstName = fN.value;
     var id = childProfileForm.id;
-    var grades = document.getElementsByName('grade');
+    var grades = document.getElementsByName("grade");
     var g;
-    var grade = '';
+    var grade = "";
 
     var _iterator = _createForOfIteratorHelper(grades),
         _step;
@@ -125836,9 +125836,9 @@ if (children) {
       _iterator.f();
     }
 
-    var sexes = document.getElementsByName('sex');
+    var sexes = document.getElementsByName("sex");
     var s;
-    var sex = '';
+    var sex = "";
 
     var _iterator2 = _createForOfIteratorHelper(sexes),
         _step2;
@@ -125858,7 +125858,7 @@ if (children) {
       _iterator2.f();
     }
 
-    var family = document.querySelector('.family__title').id;
+    var family = document.querySelector(".family__title").id;
     var year = _yearSelect6.value;
     var data = {
       firstName: firstName,
@@ -125873,28 +125873,28 @@ if (children) {
 
 if (users) {
   // year  selector
-  var _yearSelect7 = document.getElementById('year-select');
+  var _yearSelect7 = document.getElementById("year-select");
 
-  _yearSelect7.addEventListener('change', function (e) {
+  _yearSelect7.addEventListener("change", function (e) {
     var newYear = _yearSelect7.value;
-    var id = window.location.pathname.split('/')[2];
+    var id = window.location.pathname.split("/")[2];
     (0, _users.changeUsersYear)(newYear);
   }); // add event listners for each child
 
 
-  var usersRows = document.querySelector('.users').getElementsByTagName('tr');
+  var usersRows = document.querySelector(".users").getElementsByTagName("tr");
   var _numRows = usersRows.length;
 
   var _loop2 = function _loop2() {
     var dataRow = usersRows[i];
-    var dataCells = dataRow.getElementsByTagName('td');
+    var dataCells = dataRow.getElementsByTagName("td");
     var numCells = dataCells.length;
     var editButton = dataCells.item(numCells - 2);
     var deleteButton = dataCells.item(numCells - 1);
-    editButton.addEventListener('click', function () {
+    editButton.addEventListener("click", function () {
       (0, _users.fillUserForm)(dataRow);
     });
-    deleteButton.addEventListener('click', function () {
+    deleteButton.addEventListener("click", function () {
       (0, _users.deleteUserModal)(dataRow);
     });
   };
@@ -125905,47 +125905,47 @@ if (users) {
 
   var _addNewRow = usersRows[_numRows - 1];
 
-  var _addNewCells = _addNewRow.getElementsByTagName('td');
+  var _addNewCells = _addNewRow.getElementsByTagName("td");
 
   var _addNewButton = _addNewCells.item(0);
 
-  _addNewButton.addEventListener('click', function () {
+  _addNewButton.addEventListener("click", function () {
     (0, _users.fillUserForm)(_addNewRow);
   });
 
-  var _cancel = document.getElementById('cancel');
+  var _cancel = document.getElementById("cancel");
 
-  _cancel.addEventListener('click', function (e) {
+  _cancel.addEventListener("click", function (e) {
     e.preventDefault();
-    document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+    document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
   });
 
-  var _cancelDelete = document.getElementById('cancelDelete');
+  var _cancelDelete = document.getElementById("cancelDelete");
 
-  _cancelDelete.addEventListener('click', function (e) {
+  _cancelDelete.addEventListener("click", function (e) {
     e.preventDefault();
-    document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
   });
 
-  userProfileForm.addEventListener('submit', function (e) {
+  userProfileForm.addEventListener("submit", function (e) {
     //alert('adding event listener to userprofile form');
     e.preventDefault();
-    var lN = document.getElementById('lastName');
+    var lN = document.getElementById("lastName");
     var lastName = lN.value; //alert(lastName);
 
-    var fN = document.getElementById('firstName');
+    var fN = document.getElementById("firstName");
     var firstName = fN.value; //alert(firstName);
 
-    var em = document.getElementById('email');
+    var em = document.getElementById("email");
     var email = em.value; //alert(email);
 
-    var cf = document.getElementById('cellPhone');
-    var cellPhone = cf.value.replace(/-/g, ''); //alert(cellPhone);
+    var cf = document.getElementById("cellPhone");
+    var cellPhone = cf.value.replace(/-/g, ""); //alert(cellPhone);
 
     var id = userProfileForm.id; //alert(id);
 
-    var role = document.getElementsByName('roles');
-    var selectedYear = document.getElementById('selectedYear').innerHTML;
+    var role = document.getElementsByName("roles");
+    var selectedYear = document.getElementById("selectedYear").innerHTML;
     var r;
     var roles = [];
 
@@ -125976,13 +125976,13 @@ if (users) {
       yearRoles: yearRoles
     };
 
-    if (id == 'new') {
+    if (id == "new") {
       data.registrationYears = [selectedYear];
     }
 
     (0, _users.updateUser)(id, data).then(function (newId) {
-      if (id == 'new') {
-        alert('new parent id for addFamily: ' + newId);
+      if (id == "new") {
+        alert("new parent id for addFamily: " + newId);
         (0, _family.addFamily)(newId);
       }
     });

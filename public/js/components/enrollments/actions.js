@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { showAlert } from '../../alerts';
+import axios from "axios";
+import { showAlert } from "../../alerts";
 
 export const changeEnrollmentsYear = (year) => {
   location.assign(`/enrollments_table/${year}`);
@@ -21,12 +21,12 @@ export const saveEnrollentSelections = async (enrollments) => {
       var url = `/api/v1/enrollments`;
 
       const res = await axios({
-        method: 'POST',
+        method: "POST",
         url,
         data: e,
       });
     } catch (err) {
-      showAlert('error', err.response.data.message);
+      showAlert("error", err.response.data.message);
     }
   });
 
@@ -35,12 +35,12 @@ export const saveEnrollentSelections = async (enrollments) => {
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({
-        method: 'PATCH',
+        method: "PATCH",
         url,
         data: e,
       });
     } catch (err) {
-      showAlert('error', err.response.data.message);
+      showAlert("error", err.response.data.message);
     }
   });
 
@@ -49,17 +49,17 @@ export const saveEnrollentSelections = async (enrollments) => {
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({
-        method: 'DELETE',
+        method: "DELETE",
         url,
         data: e,
       });
     } catch (err) {
-      showAlert('error', err.response.data.message);
+      showAlert("error", err.response.data.message);
     }
   });
 
   // if you got to here - everything is good
-  showAlert('success', `Enrollment selections saved successfully`);
+  showAlert("success", `Enrollment selections saved successfully`);
 
   window.setTimeout(() => {
     location.replace(`/enrollment_profile/${familyId}/${selectedYear}`);

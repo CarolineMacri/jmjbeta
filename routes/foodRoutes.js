@@ -1,15 +1,15 @@
-const express = require('express');
-const foodController = require('../controllers/foodController');
+const express = require("express");
+const foodController = require("../controllers/foodController");
 
 //ROUTES
 const router = express.Router();
 
 router
-  .route('/')
+  .route("/")
   .get(foodController.getAllFoods)
   .post(foodController.createFood);
 router
-  .route('/:id')
+  .route("/:id")
   .get(foodController.getFood)
   .patch(foodController.updateFood)
   .delete(foodController.deleteFood);

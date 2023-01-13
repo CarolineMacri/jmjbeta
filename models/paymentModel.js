@@ -1,20 +1,20 @@
 // npm modules
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // project modules
-const Family = require('./familyModel');
-const User = require('./userModel');
+const Family = require("./familyModel");
+const User = require("./userModel");
 
 const paymentSchema = new mongoose.Schema(
   {
     family: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Family',
+      ref: "Family",
       required: true,
     },
     teacher: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     year: {
@@ -28,7 +28,7 @@ const paymentSchema = new mongoose.Schema(
     checkNumber: {
       type: String,
     },
-    semester: { type: String, enum: ['1', '2'], default: '1', required: true },
+    semester: { type: String, enum: ["1", "2"], default: "1", required: true },
     notes: {
       type: String,
     },
@@ -61,6 +61,6 @@ const paymentSchema = new mongoose.Schema(
 //   Times,
 // });
 
-const Payment = mongoose.model('Payment', paymentSchema);
+const Payment = mongoose.model("Payment", paymentSchema);
 
 module.exports = Payment;

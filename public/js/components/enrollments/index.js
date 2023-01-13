@@ -1,19 +1,19 @@
 /* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 
-import { changeEnrollmentsYear, saveEnrollentSelections } from './actions';
+import { changeEnrollmentsYear, saveEnrollentSelections } from "./actions";
 
 function index(a) {
   // DOM elements
 
-  const enrollments = document.querySelector('.enrollments');
+  const enrollments = document.querySelector(".enrollments");
 
-  const enrollmentProfile = document.querySelector('.enrollment-profile');
+  const enrollmentProfile = document.querySelector(".enrollment-profile");
 
   if (enrollments) {
     //alert('before year select');
-    const yearSelect = document.getElementById('year-select');
+    const yearSelect = document.getElementById("year-select");
     //alert (`${yearSelect.value} is yearselect`)
-    yearSelect.addEventListener('change', (e) => {
+    yearSelect.addEventListener("change", (e) => {
       const newYear = yearSelect.value;
       changeEnrollmentsYear(newYear);
     });
@@ -21,29 +21,27 @@ function index(a) {
 
   if (enrollmentProfile) {
     const enrollmentProfileForm = document.querySelector(
-      '.enrollment-profile__form'
+      ".enrollment-profile__form"
     );
-    const saveSelectionsButton = document.querySelector('.btn-save-selections');
-    
-    saveSelectionsButton.addEventListener('click', (e) => {
+    const saveSelectionsButton = document.querySelector(".btn-save-selections");
+
+    saveSelectionsButton.addEventListener("click", (e) => {
       e.preventDefault();
-      const enrollmentSelections = document.getElementsByName('enrollment');
-      const enrollmentData=[]
+      const enrollmentSelections = document.getElementsByName("enrollment");
+      const enrollmentData = [];
       enrollmentSelections.forEach((selection) => {
         const data = selection.options[selection.selectedIndex].dataset;
-        enrollmentData.push(
-          {
-            _id: data.enrollmentId,
-            class: data.classId,
-            child: data.childId
-          }
-        )
+        enrollmentData.push({
+          _id: data.enrollmentId,
+          class: data.classId,
+          child: data.childId,
+        });
         //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
       });
-      
+
       saveEnrollentSelections(enrollmentData);
     });
-    enrollmentProfileForm.addEventListener('submit', (e) => {
+    enrollmentProfileForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
       const selectedYear = elementProfile.dataset.selectedYear;
@@ -69,8 +67,6 @@ function index(a) {
       //   isNew,
       // };
       // console.log(cl);
-
-      
     });
   }
 }

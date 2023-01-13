@@ -1,18 +1,18 @@
 // npm modules
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // project modules
 const foodSchema = new mongoose.Schema(
   {
     kind: {
       type: Map,
-      of: [String]
+      of: [String],
     },
     year: {
       type: Map,
-      of: [String]
+      of: [String],
     },
-    girl: String
+    girl: String,
   },
   {
     toJSON: { virtuals: true },
@@ -25,6 +25,6 @@ const foodSchema = new mongoose.Schema(
 //   next();
 // })
 
-const Food = mongoose.model('Food', foodSchema);
+const Food = mongoose.model("Food", foodSchema);
 
 module.exports = Food;

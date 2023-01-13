@@ -16,7 +16,7 @@
 // const AppError = require('../utils/appError');
 
 // exports.getTest = catchAsync(async (req, res, next) => {
-  
+
 //   const courses = await models
 //     .get('Course')
 //     .find({ year: '2020-2021' })
@@ -32,11 +32,11 @@
 
 //   let i = 0;
 //   courses.forEach((course) => {
-  
+
 //     course.grades.forEach((grade) => {
-      
+
 //       let timeCourseMap = gradeTimeCourseMap.get(grade);
-      
+
 //       course.classes.forEach((c) => {
 //         if (!timeCourseMap.has(c.hour)) {
 //           timeCourseMap.set(c.hour, []);
@@ -49,9 +49,9 @@
 //   console.log(gradeTimeCourseMap);
 //   console.log(i);
 //   console.log(gradeTimeCourseMap.get('K').get('9AM'));
-  
+
 //   let  gradeCourseMap = await models.get('Course').getGradeCourseMap('2020-2021');
- 
+
 //   const docs3 = await models
 //     .get('Child')
 //     .find({ year: '2020-2021' })

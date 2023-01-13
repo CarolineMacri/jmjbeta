@@ -1,17 +1,17 @@
-const express = require('express');
-const teacherCourseController = require('../controllers/teachercourseController');
+const express = require("express");
+const teacherCourseController = require("../controllers/teachercourseController");
 
 //ROUTES
 const router = express.Router();
 
 router
-  .route('/')
+  .route("/")
   .get(teacherCourseController.getAllTeacherCourses)
   .post(teacherCourseController.createTeacherCourse);
 router
-  .route('/:id')
+  .route("/:id")
   .get(teacherCourseController.getTeacherCourse)
   .patch(teacherCourseController.updateTeacherCourse)
   .delete(teacherCourseController.deleteTeacherCourse);
 
-module.exports = router; 
+module.exports = router;

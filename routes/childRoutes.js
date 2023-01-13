@@ -1,15 +1,15 @@
-const express = require('express');
-const childController = require('../controllers/childController');
+const express = require("express");
+const childController = require("../controllers/childController");
 
 //ROUTES
 const router = express.Router();
 
 router
-  .route('/')
+  .route("/")
   .get(childController.getAllChildren)
   .post(childController.createChild);
 router
-  .route('/:id')
+  .route("/:id")
   .get(childController.getChild)
   .patch(childController.updateChild)
   .delete(childController.deleteChild);

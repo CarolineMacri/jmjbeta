@@ -1,15 +1,15 @@
-const express = require('express');
-const classController = require('../controllers/classController');
+const express = require("express");
+const classController = require("../controllers/classController");
 
 //ROUTES
 const router = express.Router();
 
 router
-  .route('/')
+  .route("/")
   .get(classController.getAllClasses)
   .post(classController.createClass);
 router
-  .route('/:id')
+  .route("/:id")
   .get(classController.getClass)
   .patch(classController.updateClass)
   .delete(classController.deleteClass);

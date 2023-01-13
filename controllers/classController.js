@@ -1,5 +1,5 @@
-const Class = require('../models/classModel');
-const factory = require('./controllerFactory');
+const Class = require("../models/classModel");
+const factory = require("./controllerFactory");
 
 exports.getClass = factory.getOne(Class);
 exports.getAllClasses = factory.getAll(Class);

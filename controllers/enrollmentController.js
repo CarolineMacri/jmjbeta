@@ -1,5 +1,5 @@
-const Enrollment = require('../models/enrollmentModel');
-const factory = require('./controllerFactory');
+const Enrollment = require("../models/enrollmentModel");
+const factory = require("./controllerFactory");
 
 exports.getEnrollment = factory.getOne(Enrollment);
 exports.getAllEnrollments = factory.getAll(Enrollment);

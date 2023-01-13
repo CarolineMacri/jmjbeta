@@ -23,13 +23,13 @@ class OrderedEnum {
   get getterProxy() {
     return {
       get: function (target, prop, receiver) {
-        if (prop === 'names') return target.enumNames;
+        if (prop === "names") return target.enumNames;
 
         prop = addUnderscore(prop.toUpperCase());
         return target[prop];
 
         function addUnderscore(prop) {
-          return prop[0] == '_' ? prop : `_${prop}`;
+          return prop[0] == "_" ? prop : `_${prop}`;
         }
       },
     };

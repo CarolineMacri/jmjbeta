@@ -1,15 +1,15 @@
-const express = require('express');
-const paymentController = require('../controllers/paymentController');
+const express = require("express");
+const paymentController = require("../controllers/paymentController");
 
 //ROUTES
 const router = express.Router();
 
 router
-  .route('/')
+  .route("/")
   .get(paymentController.getAllPayments)
   .post(paymentController.createPayment);
 router
-  .route('/:id')
+  .route("/:id")
   .get(paymentController.getPayment)
   .patch(paymentController.updatePayment)
   .delete(paymentController.deletePayment);

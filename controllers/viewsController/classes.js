@@ -1,9 +1,9 @@
-const pipelines = require('./pipelines');
-const catchAsync = require('../../utils/catchAsync');
+const pipelines = require("./pipelines");
+const catchAsync = require("../../utils/catchAsync");
 
 exports.getClassesTable = catchAsync(async (req, res, next) => {
-  const Year = require('../../models/yearModel');
-  const Class = require('../../models/classModel');
+  const Year = require("../../models/yearModel");
+  const Class = require("../../models/classModel");
 
   let { selectedYear } = req.params;
 
@@ -19,20 +19,20 @@ exports.getClassesTable = catchAsync(async (req, res, next) => {
   classes = await Class.find({ year: selectedYear })
     .sort({ time: 1, location: 1 })
     .populate({
-      path: 'course',
+      path: "course",
       justOne: true,
     })
     .populate({
-      path: 'teacher',
+      path: "teacher",
       justOne: true,
       populate: {
-        path: 'teacher',
-        select: 'firstName, lastName, _id',
+        path: "teacher",
+        select: "firstName, lastName, _id",
         justOne: true,
       },
     });
 
-  res.status(200).render('classes/classes_table', {
+  res.status(200).render("classes/classes_table", {
     title: `Classes ${selectedYear}`,
     classes,
     years,
@@ -41,10 +41,10 @@ exports.getClassesTable = catchAsync(async (req, res, next) => {
 });
 
 exports.getClassProfile = catchAsync(async (req, res, next) => {
-  const Year = require('../../models/yearModel');
-  const Class = require('../../models/classModel');
-  const User = require('../../models/userModel');
-  const Course = require('../../models/courseModel');
+  const Year = require("../../models/yearModel");
+  const Class = require("../../models/classModel");
+  const User = require("../../models/userModel");
+  const Course = require("../../models/courseModel");
 
   let { classId, selectedYear } = req.params;
 
@@ -53,30 +53,30 @@ exports.getClassProfile = catchAsync(async (req, res, next) => {
   const courses = await Course.find({ years: selectedYear }).sort({ name: 1 });
   const teachers = await User.find()
     .where(`yearRoles.${selectedYear}`)
-    .equals('teacher')
-    .sort('lastName');
+    .equals("teacher")
+    .sort("lastName");
 
   var cl = {};
-  if (classId == 'new') {
+  if (classId == "new") {
     cl = new Class({
       year: selectedYear,
       course: courses[0],
       teacher: teachers[0],
     });
     //cl = await cl.save();
-    cl = await cl.populate({ path: 'course', justOne: true });
+    cl = await cl.populate({ path: "course", justOne: true });
   } else {
     cl = await Class.findOne({ _id: classId })
       .populate({
-        path: 'course',
+        path: "course",
         justOne: true,
       })
       .populate({
-        path: 'teacher',
+        path: "teacher",
         justOne: true,
         populate: {
-          path: 'teacher',
-          select: 'firstName, lastName, _id',
+          path: "teacher",
+          select: "firstName, lastName, _id",
           justOne: true,
         },
       });
@@ -87,7 +87,7 @@ exports.getClassProfile = catchAsync(async (req, res, next) => {
   const locations = Class.Locations;
   const times = Class.Times;
 
-  res.status(200).render('classes/class_profile', {
+  res.status(200).render("classes/class_profile", {
     title: `${cl.course.name}`,
     cl,
     courses,
@@ -100,8 +100,8 @@ exports.getClassProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.getClassGrid = catchAsync(async (req, res, next) => {
-  const Year = require('../../models/yearModel');
-  const Class = require('../../models/classModel');
+  const Year = require("../../models/yearModel");
+  const Class = require("../../models/classModel");
 
   let { selectedYear } = req.params;
   const years = await Year.find();
@@ -113,14 +113,14 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
   const classes = await Class.find({ year: selectedYear })
     .sort({ hour: 1, location: 1 })
     .populate({
-      path: 'course',
+      path: "course",
       justOne: true,
-      select: 'name grade',
+      select: "name grade",
     });
 
   //const classesWithStyle =
   classes.map((cl) => {
-    cl.style = `grid-area:${cl.location.replace(/ /g, '')}-${cl.hour};`;
+    cl.style = `grid-area:${cl.location.replace(/ /g, "")}-${cl.hour};`;
     return cl;
   });
 
@@ -128,8 +128,8 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
   const hours = Object.values(Class.Times);
   const gridStyle = getGridAreas(locations, hours);
 
-  res.status(200).render('classes/class_grid', {
-    title: 'Class Grid',
+  res.status(200).render("classes/class_grid", {
+    title: "Class Grid",
     selectedYear,
     years,
     classes,
@@ -141,15 +141,15 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
 
 function getGridAreas(locations, times) {
   //initial gridAreas styl
-  var gridAreas = 'grid-template-areas:';
+  var gridAreas = "grid-template-areas:";
   //add gridAreas for column names of class locations, including blank at the top left
-  locations = ['blank'].concat(locations);
+  locations = ["blank"].concat(locations);
   //strip spaces out of locations names - css can't have spaces in style names
   locations = locations.map((l) => {
-    return l.replace(/ /g, '');
+    return l.replace(/ /g, "");
   });
   // add the columns to the gridArea style
-  const columnGridAreas = '"' + locations.join(' ') + '"\n';
+  const columnGridAreas = '"' + locations.join(" ") + '"\n';
   gridAreas = gridAreas.concat(columnGridAreas);
 
   //get rid of the 'blank' location
@@ -159,22 +159,21 @@ function getGridAreas(locations, times) {
   times.forEach((time) => {
     var gridRowArray = [];
     //beginning of row is the time
-    gridRowArray.push('time-' + time);
+    gridRowArray.push("time-" + time);
 
     locations.forEach((l) => {
-      gridRowArray.push(l + '-' + time);
+      gridRowArray.push(l + "-" + time);
     });
 
-    var rowGridAreas = '"' + gridRowArray.join(' ') + '"\n';
+    var rowGridAreas = '"' + gridRowArray.join(" ") + '"\n';
 
     gridAreas = gridAreas.concat(rowGridAreas);
   });
-  return (gridAreas += ';');
+  return (gridAreas += ";");
 }
 exports.getClassFees = catchAsync(async (req, res, next) => {
-  const Year = require('../../models/yearModel');
-  const User = require('../../models/userModel');
-
+  const Year = require("../../models/yearModel");
+  const User = require("../../models/userModel");
 
   let { selectedYear } = req.params;
 
@@ -183,58 +182,57 @@ exports.getClassFees = catchAsync(async (req, res, next) => {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
-  const Class = require('../../models/classModel');
+  const Class = require("../../models/classModel");
 
   var classes = await Class.find({ year: selectedYear })
-    .select('_id semesterSessions teacher isOwner time location')
+    .select("_id semesterSessions teacher isOwner time location")
     .populate({
-      path: 'course',
+      path: "course",
       justOne: true,
-      select: 'name owner classFee semesterMaterialsFee',
-    }).
-    populate(
-      {
-        path: 'teacher',
-        justOne: true,
-        select:'_id firstName lastName'
-      }
-    )
-    .sort('');
+      select: "name owner classFee semesterMaterialsFee",
+    })
+    .populate({
+      path: "teacher",
+      justOne: true,
+      select: "_id firstName lastName",
+    })
+    .sort("");
 
   //const classesWithStyle =
-  classes = classes.map(cl => {
-    const semesters = ['1', '2'];
-  
+  classes = classes.map((cl) => {
+    const semesters = ["1", "2"];
+
     var semesterFees = {};
-   
-    semesters.forEach(semester => { 
-      semesterFees[semester] = cl.semesterSessions[semester] * cl.course.classFee;
-      if (cl.isOwner) semesterFees[semester] += cl.course.semesterMaterialsFee[semester];
-    })
+
+    semesters.forEach((semester) => {
+      semesterFees[semester] =
+        cl.semesterSessions[semester] * cl.course.classFee;
+      if (cl.isOwner)
+        semesterFees[semester] += cl.course.semesterMaterialsFee[semester];
+    });
     cl.semesterFees = semesterFees;
     return cl;
   });
   //console.log(await classes[3].classFee + '-------------------------------------------------');
 
-
-  res.status(200).render('classes/class_fees', {  
-    title: 'Class Fees',
+  res.status(200).render("classes/class_fees", {
+    title: "Class Fees",
     classes,
-    years
+    years,
   });
 });
 
 function getGridAreas(locations, times) {
   //initial gridAreas styl
-  var gridAreas = 'grid-template-areas:';
+  var gridAreas = "grid-template-areas:";
   //add gridAreas for column names of class locations, including blank at the top left
-  locations = ['blank'].concat(locations);
+  locations = ["blank"].concat(locations);
   //strip spaces out of locations names - css can't have spaces in style names
   locations = locations.map((l) => {
-    return l.replace(/ /g, '');
+    return l.replace(/ /g, "");
   });
   // add the columns to the gridArea style
-  const columnGridAreas = '"' + locations.join(' ') + '"\n';
+  const columnGridAreas = '"' + locations.join(" ") + '"\n';
   gridAreas = gridAreas.concat(columnGridAreas);
 
   //get rid of the 'blank' location
@@ -244,15 +242,15 @@ function getGridAreas(locations, times) {
   times.forEach((time) => {
     var gridRowArray = [];
     //beginning of row is the time
-    gridRowArray.push('time-' + time);
+    gridRowArray.push("time-" + time);
 
     locations.forEach((l) => {
-      gridRowArray.push(l + '-' + time);
+      gridRowArray.push(l + "-" + time);
     });
 
-    var rowGridAreas = '"' + gridRowArray.join(' ') + '"\n';
+    var rowGridAreas = '"' + gridRowArray.join(" ") + '"\n';
 
     gridAreas = gridAreas.concat(rowGridAreas);
   });
-  return (gridAreas += ';');
+  return (gridAreas += ";");
 }

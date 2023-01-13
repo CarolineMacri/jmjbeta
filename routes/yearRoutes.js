@@ -1,17 +1,17 @@
-const express = require('express');
-const yearController = require('../controllers/yearController');
+const express = require("express");
+const yearController = require("../controllers/yearController");
 
 //ROUTES
 
 const router = express.Router();
 router
-  .route('/')
+  .route("/")
   .get(yearController.getAllYears)
   .post(yearController.createYear);
 router
-  .route('/:id')
+  .route("/:id")
   .get(yearController.getYear)
   .patch(yearController.updateYear)
   .delete(yearController.deleteYear);
 
-module.exports = router; 
+module.exports = router;

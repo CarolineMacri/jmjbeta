@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { showAlert } from '../../alerts';
+import axios from "axios";
+import { showAlert } from "../../alerts";
 
 export const changeCoursesYear = (year, ownerId) => {
   location.assign(`/courses_table/${year}/${ownerId}`);
@@ -13,10 +13,10 @@ export const updateCourse = async (
 ) => {
   const isNewCourse = course.isNew == true;
 
-  const method = isNewCourse ? 'POST' : 'PATCH';
+  const method = isNewCourse ? "POST" : "PATCH";
 
   try {
-    var url = `/api/v1/courses${isNewCourse ? '' : '/' + course.id}`;
+    var url = `/api/v1/courses${isNewCourse ? "" : "/" + course.id}`;
     //console.log(`updating  ${course.name} name`);
     const res = await axios({
       method,
@@ -24,11 +24,11 @@ export const updateCourse = async (
       data: course,
     });
 
-    if (res.data.status == 'success') {
+    if (res.data.status == "success") {
       showAlert(
-        'success',
+        "success",
         `${course.name} ${
-          courseId == 'new' ? ' added ' : ' updated '
+          courseId == "new" ? " added " : " updated "
         } successfully`
       );
       course = res.data.data.course;
@@ -41,7 +41,7 @@ export const updateCourse = async (
       }, 500);
     }
   } catch (err) {
-    showAlert('error', err.response.data.message);
+    showAlert("error", err.response.data.message);
   }
 };
 
@@ -52,19 +52,19 @@ export const deleteCourseModal = async (row) => {
     (e) => e.innerHTML
   );
 
-  const deleteModal = document.querySelector('.delete-modal__window');
+  const deleteModal = document.querySelector(".delete-modal__window");
 
-  const paragraphs = deleteModal.getElementsByTagName('p');
+  const paragraphs = deleteModal.getElementsByTagName("p");
   paragraphs.item(2).innerHTML =
-    courseName.toUpperCase() + '   ' + courseGrades;
+    courseName.toUpperCase() + "   " + courseGrades;
 
-  const deleteCourseButton = document.getElementById('deleteCourse');
+  const deleteCourseButton = document.getElementById("deleteCourse");
 
-  deleteCourseButton.addEventListener('click', function () {
+  deleteCourseButton.addEventListener("click", function () {
     deleteCourse(courseId, courseName);
   });
 
-  deleteModal.classList.toggle('delete-modal__show');
+  deleteModal.classList.toggle("delete-modal__show");
 };
 
 export const deleteCourse = async (courseId, courseName) => {
@@ -72,19 +72,19 @@ export const deleteCourse = async (courseId, courseName) => {
     const url = `/api/v1/courses/${courseId}`;
 
     const res = await axios({
-      method: 'DELETE',
+      method: "DELETE",
       url,
     });
 
     if (res.status == 204) {
-      showAlert('success', `${courseName} deleted`);
+      showAlert("success", `${courseName} deleted`);
       window.setTimeout(() => {
         location.reload();
       }, 500);
 
-      showAlert('success', `${courseName} successfully deleted`);
+      showAlert("success", `${courseName} successfully deleted`);
     }
   } catch (err) {
-    showAlert('error', err.response.data.message);
+    showAlert("error", err.response.data.message);
   }
 };

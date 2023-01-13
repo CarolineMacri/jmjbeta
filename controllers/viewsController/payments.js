@@ -1,12 +1,13 @@
-const catchAsync = require('../../utils/catchAsync');const Year = require('../../models/yearModel');
-const Payment = require('../../models/paymentModel');
-const User = require('../../models/userModel');
+const catchAsync = require("../../utils/catchAsync");
+const Year = require("../../models/yearModel");
+const Payment = require("../../models/paymentModel");
+const User = require("../../models/userModel");
 
 exports.getPaymentsTable = catchAsync(async (req, res, next) => {
-  const Year = require('../../models/yearModel');
-  const Payment = require('../../models/paymentModel');
-  const User = require('../../models/userModel');
-  console.log('--------------------get payments table controller');
+  const Year = require("../../models/yearModel");
+  const Payment = require("../../models/paymentModel");
+  const User = require("../../models/userModel");
+  console.log("--------------------get payments table controller");
   let { parentId, selectedYear } = req.params;
 
   const years = await Year.find();
@@ -20,7 +21,7 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
 
   const parent = await User.findOne({ parent: parentId });
 
-  res.status(200).render('payments/payments_table', {
+  res.status(200).render("payments/payments_table", {
     title: `Payments ${selectedYear}`,
     parent: parent,
     payments: payments,
@@ -41,7 +42,7 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
 
   var payment = {};
 
-  if (paymentId == 'new') {
+  if (paymentId == "new") {
     payment = new Payment();
     payment.year = selectedYear;
     payment.parent = parentId;
@@ -53,7 +54,7 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
   const parentName = `${parent.lastName}, ${parent.firstName}`;
   //const years = await Year.find();
 
-  res.status(200).render('payments/payment_profile', {
+  res.status(200).render("payments/payment_profile", {
     title: `${selectedYear} payment ${parentName}`,
     payment,
     parent,

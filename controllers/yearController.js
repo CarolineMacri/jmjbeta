@@ -1,6 +1,5 @@
-const Year = require('../models/yearModel');
-const factory = require('./controllerFactory');
-
+const Year = require("../models/yearModel");
+const factory = require("./controllerFactory");
 
 exports.getYear = factory.getOne(Year);
 exports.getAllYears = factory.getAll(Year);

@@ -1,6 +1,6 @@
-const catchAsync = require('../utils/catchAsync');
-const Food = require('../models/foodModel');
-const factory = require('./controllerFactory');
+const catchAsync = require("../utils/catchAsync");
+const Food = require("../models/foodModel");
+const factory = require("./controllerFactory");
 
 exports.getModel = factory.getOne(Food);
 exports.getAllModels = factory.getAll(Food);
@@ -30,7 +30,7 @@ exports.updateModel = catchAsync(async (req, res, next) => {
     delete req.body[mapKey];
     if (mapValue) {
       console.log(
-        mapKey.toString().toUpperCase() + '---------------------------'
+        mapKey.toString().toUpperCase() + "---------------------------"
       );
       Object.entries(mapValue).forEach(([k, v]) => {
         console.log(`setting ${k} :  ${v}`);
@@ -40,7 +40,7 @@ exports.updateModel = catchAsync(async (req, res, next) => {
   });
 
   doc = await doc.save();
-  console.log(doc.kind.get('2021-2022'));
+  console.log(doc.kind.get("2021-2022"));
 
   const modelName = Food.modelName.toLowerCase();
 
@@ -52,7 +52,7 @@ exports.updateModel = catchAsync(async (req, res, next) => {
   data[modelName] = doc;
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data,
   });
 });
@@ -60,12 +60,12 @@ exports.updateModel = catchAsync(async (req, res, next) => {
 getModelMapKeys = (Model) => {
   const modelMapKeys = [];
   const modelSchemaDefinition = Object.entries(Model.schema.obj);
-  var schemaType = '';
+  var schemaType = "";
 
   Object.keys(modelSchemaDefinition).forEach((k) => {
     schemaType = Model.schema.path(k).instance;
 
-    if (schemaType == 'Map') {
+    if (schemaType == "Map") {
       modelMapKeys.push(k);
     }
   });

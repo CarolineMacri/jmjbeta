@@ -6,7 +6,7 @@ exports.splitDataWithMaps = (Model, data) => {
   const dataKeys = Object.keys(data);
   const mapKeysInData = getIntersection(modelMapKeys, dataKeys);
 
-  var mapDataValue = '';
+  var mapDataValue = "";
 
   mapKeysInData.forEach((mapKey) => {
     mapDataValue = data[mapKey];
@@ -30,7 +30,7 @@ exports.setMapData = (doc, dataMapsOnly) => {
     Object.entries(mapData).forEach(([k, v]) => {
       // set mammals: [pig, dog]
       // set birds: [chicken, robin]
-      doc[mapKey].set(k, v); 
+      doc[mapKey].set(k, v);
     });
   });
   return doc;
@@ -50,16 +50,14 @@ exports.setUndefinedMapKeys = (doc, dataMapsOnly) => {
 };
 
 getModelMapKeys = (Model) => {
-
   var modelMapKeys = [];
   var modelSchemaDefinition = Model.schema.obj;
-  var schemaType = '';
+  var schemaType = "";
   Object.entries(modelSchemaDefinition).forEach(([k, v]) => {
     //console.log(`---------------------------${Model.schema.path(k)}: ${k}`);
-    if (Model.schema.path(k)){
-
+    if (Model.schema.path(k)) {
       schemaType = Model.schema.path(k).instance;
-      if (schemaType == 'Map') {
+      if (schemaType == "Map") {
         modelMapKeys.push(k);
       }
     }
