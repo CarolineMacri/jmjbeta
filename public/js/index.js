@@ -117,11 +117,10 @@ if (reportChildrenByGrade) {
 }
 if (reportInvoices) {
   const yearSelect = document.getElementById("year-select");
-
+  const parentId = document.querySelector(".invoices-title").id
   yearSelect.addEventListener("change", (e) => {
     const newYear = yearSelect.value;
-
-    changeReportInvoicesYear(newYear);
+    changeReportInvoicesYear(newYear, parentId);
   });
 }
 

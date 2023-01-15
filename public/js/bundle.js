@@ -17124,8 +17124,8 @@ var changeReportChildrenByGradeYear = function changeReportChildrenByGradeYear(y
 
 exports.changeReportChildrenByGradeYear = changeReportChildrenByGradeYear;
 
-var changeReportInvoicesYear = function changeReportInvoicesYear(year) {
-  location.assign("/reports/invoices/".concat(year));
+var changeReportInvoicesYear = function changeReportInvoicesYear(year, parentId) {
+  location.assign("/reports/invoices/".concat(year, "/").concat(parentId));
 };
 
 exports.changeReportInvoicesYear = changeReportInvoicesYear;
@@ -125755,9 +125755,11 @@ if (reportChildrenByGrade) {
 if (reportInvoices) {
   var _yearSelect5 = document.getElementById("year-select");
 
+  var parentId = document.querySelector(".invoices-title").id;
+
   _yearSelect5.addEventListener("change", function (e) {
     var newYear = _yearSelect5.value;
-    (0, _reports.changeReportInvoicesYear)(newYear);
+    (0, _reports.changeReportInvoicesYear)(newYear, parentId);
   });
 }
 
