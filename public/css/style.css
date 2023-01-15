@@ -57,6 +57,20 @@ main {
     display: flex;
     flex-direction: column; }
 
+@media print {
+  .header {
+    display: none; }
+  .footer {
+    display: none; }
+  .side-nav {
+    display: none; }
+  .report__column {
+    page-break-inside: avoid; } }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  html {
+    font-size: 50%; } }
+
 .card {
   background-color: white;
   box-shadow: 1px 1px 3px 1px rgba(28, 52, 110, 0.2);
@@ -88,11 +102,11 @@ main {
   .card__column {
     min-width: 20rem; }
     .card__column--small {
-      width: 20rem; }
+      min-width: 20rem; }
     .card__column--medium {
-      width: 30rem; }
+      min-width: 30rem; }
     .card__column--large {
-      width: 40rem; }
+      min-width: 40rem; }
     .card__column--extra-large {
       min-width: 50rem; }
   .card__item {
@@ -178,7 +192,7 @@ main {
   flex-wrap: wrap;
   flex-direction: column; }
   .form--wide {
-    max-width: 90%; }
+    width: 90%; }
   .form--row {
     flex-direction: row; }
   .form__header-background {
@@ -296,9 +310,6 @@ main {
     background-color: #eee;
     color: #aaa;
     cursor: not-allowed; }
-  .form__option:disabled {
-    text-decoration: line-through;
-    color: #cfd1e2; }
 
 select {
   border: 1px solid #c78b37;
@@ -307,12 +318,10 @@ select {
   font-size: 2rem;
   padding: 3px;
   background-color: white; }
-  select option {
-    font-size: 1.5rem;
-    padding-left: 1rem; }
-    select option:disabled {
-      text-decoration: line-through;
-      text-color: #cfd1e2; }
+
+option {
+  font-size: 1.5rem;
+  padding-left: 1rem; }
 
 .year-select {
   margin: auto; }
@@ -567,7 +576,7 @@ select {
     flex: 1;
     text-align: right; }
   .class__name {
-    flex: 6;
+    flex: 2;
     padding-left: 1rem;
     text-align: left; }
 
@@ -911,7 +920,7 @@ select {
     flex: 1;
     text-align: right; }
   .class__name {
-    flex: 6;
+    flex: 2;
     padding-left: 1rem;
     text-align: left; }
 
@@ -975,7 +984,7 @@ select {
   .report-invoices-teacher {
     margin: 0;
     padding: 0 3rem;
-    font-size: 2.0 rem;
+    font-size: 2 rem;
     font-style: italic;
     font-weight: bold; }
   .report-invoices-classes {
@@ -1177,11 +1186,16 @@ select {
     color: #ffd293;
     font-style: italic; }
   .side-nav__item {
+    display: none;
     padding-left: 1rem;
     font-size: 1.5rem;
-    color: white; }
+    color: white;
+    z-index: 0; }
     .side-nav__item:hover {
       border-left: 2px solid white; }
+
+.side-nav__section:hover .side-nav__item {
+  display: block; }
 
 .footer {
   background-color: #1c346e;
@@ -1208,7 +1222,7 @@ select {
     text-align: right;
     padding: 3rem .5rem; }
   .class-grid__item {
-    box-shadow: 1px 1px 2px 1px rgba(28, 52, 110, 0.7);
+    box-shadow: 1px 1px 2px 1px rgba(207, 209, 226, 0.7);
     text-align: center;
     color: black; }
   .class-grid__course {
@@ -1216,17 +1230,3 @@ select {
   .class-grid__grades {
     font-size: 1.2rem;
     font-style: italic; }
-
-@media print {
-  .header {
-    display: none; }
-  .footer {
-    display: none; }
-  .side-nav {
-    display: none; }
-  .report__column {
-    page-break-inside: avoid; } }
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  html {
-    font-size: 50%; } }
