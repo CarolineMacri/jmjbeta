@@ -17,13 +17,14 @@ block content
               .card__item= family.parent.firstName + " " + family.parent.lastName
               .card__item= family.parent.email
               .card__item= family.parent.cellPhone
-              if isAdmin 
-                div 
-                  a(href=`/users/${selectedYear}`) Edit User
-                div
-                  a(href=`/family/${family.parent._id}/${selectedYear}`) Family Overview
-                div
-                  a(href=`/payments/payments_table/${family.parent._id}/${selectedYear}`) Payments
+              if isAdmin
+                .card__outline-box
+                  div 
+                    a.card__button(href=`/family/${family.parent._id}/${selectedYear}`) Family Overview
+                  div
+                    a.card__button(href=`/users/${selectedYear}`) Edit User
+                  div
+                    a.card__button(href=`/payments/payments_table/${family.parent._id}/${selectedYear}`) Edit Payments
 
            
             
@@ -33,7 +34,7 @@ block content
             for child in family.children
               .card__item= child.firstName + " - " + child.grade
             if isAdmin  
-              a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
+              a.card__button(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
               
 
     
