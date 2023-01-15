@@ -53,11 +53,12 @@ router.get(
 );
 
 router.get(
-  "/payments_table/:parentId/:selectedYear",
+  "/payments_table/:selectedYear/:parentId?",
+  authController.protect,
   viewsController.getPaymentsTable
 );
 router.get(
-  "/payment_profile/:parentId/:selectedYear",
+  "/payment_profile/:selectedYear/:parentId",
   viewsController.getPaymentProfile
 );
 

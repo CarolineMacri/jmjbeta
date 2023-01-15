@@ -1004,6 +1004,87 @@ option {
   display: flex;
   justify-content: center; }
 
+.payments table {
+  font-size: 2rem;
+  margin: 5rem auto; }
+
+.payments th {
+  background-color: #2f4885;
+  color: #ffd293;
+  font-style: italic;
+  padding: 0 2rem; }
+
+.payments tr {
+  background-color: white; }
+  .payments tr:hover {
+    background-color: #cfd1e2; }
+
+.payments td {
+  background-color: inherit;
+  border: 1px solid gray;
+  font-size: 2rem;
+  padding: 0 0.5rem; }
+
+.payments .button {
+  background-color: white; }
+
+.payments .edit {
+  color: #2f4885;
+  padding: 0.2rem 0.5rem; }
+  .payments .edit:hover {
+    transform: scale(1.5);
+    color: green; }
+
+.payments .delete {
+  padding: 0 0.4rem;
+  color: #c7a337; }
+  .payments .delete:hover {
+    transform: scale(1.5);
+    color: red; }
+
+.payments .new {
+  text-align: center;
+  a-text-decoration: none; }
+  .payments .new:hover {
+    transform: scale(1.5);
+    color: #c7a337; }
+
+.payment-profile__form {
+  width: 50%; }
+
+.payment-profile--wide {
+  width: 90%; }
+
+.payment-delete__modal {
+  background-color: white;
+  padding: 1rem 2rem 0rem;
+  border-radius: 2px;
+  text-align: center; }
+
+.payment-delete__warning {
+  color: red;
+  font-size: 3rem;
+  font-weight: bolder; }
+
+.payments {
+  padding: 2rem 5rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7rem; }
+  .payments__title {
+    text-align: center; }
+  .payments .payment_card__grades, .payments .payment_card__semesters {
+    display: flex;
+    justify-content: left; }
+  .payments .payment_card__header-text {
+    max-width: 40rem;
+    white-space: normal; }
+
+.year-selector {
+  display: flex;
+  justify-content: center; }
+
 .teachers table {
   font-size: 2rem;
   margin: 5rem auto; }

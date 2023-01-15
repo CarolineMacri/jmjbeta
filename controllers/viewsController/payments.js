@@ -8,7 +8,7 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
   const Payment = require("../../models/paymentModel");
   const User = require("../../models/userModel");
   console.log("--------------------get payments table controller");
-  let { parentId, selectedYear } = req.params;
+  let { selectedYear, parentId} = req.params;
 
   const years = await Year.find();
 
@@ -21,6 +21,7 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
 
   const parent = await User.findOne({ parent: parentId });
 
+  console.log('------------render payments table----------------------------');
   res.status(200).render("payments/payments_table", {
     title: `Payments ${selectedYear}`,
     parent: parent,
