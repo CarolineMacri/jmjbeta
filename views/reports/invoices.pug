@@ -6,17 +6,16 @@ block content
       section.page__content-row
         include ../_yearSelector
       section.report-invoices
-    
+
       .report__title
         h1 +JMJ+ Homeschool Co-op Invoices
 
-     
       for family in families
-        
+
         .report-invoices-box
           .report-invoices-family
             h2= family.parent 
-        
+
           for teacher in family.teachers
             .report-invoices-teacher
               p= teacher.name+ "  - $" + teacher.total
@@ -33,6 +32,3 @@ block content
                     p="Materials: $" + cl.materials + " " 
           .report-invoices-teacher   
           h2= "Grand Total:  $" + family.grandTotal
-          
-      
-      
