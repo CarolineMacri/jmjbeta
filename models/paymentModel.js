@@ -2,20 +2,21 @@
 const mongoose = require("mongoose");
 
 // project modules
-const Family = require("./familyModel");
 const User = require("./userModel");
 
 const paymentSchema = new mongoose.Schema(
   {
-    family: {
+    parent: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Family",
+      ref: "User",
       required: true,
+      justOne: true,
     },
     teacher: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      justOne:true,
     },
     year: {
       type: String,
@@ -38,6 +39,24 @@ const paymentSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+paymentSchema.pre(/^find/, function (next) {
+  this.populate([
+    {
+      path: "parent",
+      select: "firstName lastName _id",
+      justOne: true
+    },
+    {
+      path: "teacher",
+      select:
+        "firstName lastName _id",
+      justOne: true,
+    },
+  ]);
+
+  next();
+});
 
 // classSchema.virtual('enrollments', {
 //   ref: 'Enrollment',

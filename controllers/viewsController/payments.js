@@ -1,14 +1,16 @@
-const catchAsync = require("../../utils/catchAsync");
-const Year = require("../../models/yearModel");
-const Payment = require("../../models/paymentModel");
-const User = require("../../models/userModel");
+const mongoose = require("mongoose");
+
+const catchAsync = require('../../utils/catchAsync');
+const Year = require('../../models/yearModel');
+const Payment = require('../../models/paymentModel');
+const User = require('../../models/userModel');
 
 exports.getPaymentsTable = catchAsync(async (req, res, next) => {
-  const Year = require("../../models/yearModel");
-  const Payment = require("../../models/paymentModel");
-  const User = require("../../models/userModel");
-  console.log("--------------------get payments table controller");
-  let { selectedYear, parentId} = req.params;
+  const Year = require('../../models/yearModel');
+  const Payment = require('../../models/paymentModel');
+  const User = require('../../models/userModel');
+
+  let { selectedYear, parentId } = req.params;
 
   const years = await Year.find();
 
@@ -17,12 +19,36 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const payments = await Payment.find({ parent: parentId, year: selectedYear });
+  const hasParent = parentId != ' ' && typeof parentId != 'undefined';
+
+  var parentPipeline = [];
+  if (hasParent) {
+    parentPipeline = [{ '$match': { 'parent': mongoose.Types.ObjectId(parentId) } }];
+  }
+
+  var payments = await Payment.aggregate()
+    .append(parentPipeline)
+    .match({ 'year': selectedYear })
+    .lookup({
+      from: 'users',
+      localField: 'parent',
+      foreignField: '_id',
+      as: 'parent',
+    })
+    .addFields({ parent: { $first: '$parent' } })
+    .lookup({
+      from: 'users',
+      localField: 'teacher',
+      foreignField: '_id',
+      as: 'teacher',
+    })
+    .addFields({ teacher: { $first: '$teacher' } })
+    .sort({'parent.lastName': 1, 'teacher.lastName': 1  });
+  console.log(payments);
 
   const parent = await User.findOne({ parent: parentId });
 
-  console.log('------------render payments table----------------------------');
-  res.status(200).render("payments/payments_table", {
+  res.status(200).render('payments/payments_table', {
     title: `Payments ${selectedYear}`,
     parent: parent,
     payments: payments,
@@ -43,7 +69,7 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
 
   var payment = {};
 
-  if (paymentId == "new") {
+  if (paymentId == 'new') {
     payment = new Payment();
     payment.year = selectedYear;
     payment.parent = parentId;
@@ -55,7 +81,7 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
   const parentName = `${parent.lastName}, ${parent.firstName}`;
   //const years = await Year.find();
 
-  res.status(200).render("payments/payment_profile", {
+  res.status(200).render('payments/payment_profile', {
     title: `${selectedYear} payment ${parentName}`,
     payment,
     parent,

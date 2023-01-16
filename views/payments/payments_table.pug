@@ -16,13 +16,13 @@ block content
                     th Teacher
                     th Check Number
                     th Amount
-                //- for payment in payments  
-                //-     tr(id=payment.id)
-                //-         td= parent.name
-                //-         td= teacher.name
-                //-         td= checkNumber
-                //-         -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
-                //-         td= `$${formatter.format(amount)}`
+                for payment in payments  
+                    tr(id=payment.id)
+                        td= payment.parent.lastName
+                        td= payment.teacher.lastName
+                        td= payment.checkNumber
+                        -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
+                        td= `$${formatter.format(payment.amount)}`
                 //-         td.button
                 //-             if hasOwner
                 //-                 a.edit(href=`/payment_profile/${payment.id}/${selectedYear}/${owner.id}`) &#9998

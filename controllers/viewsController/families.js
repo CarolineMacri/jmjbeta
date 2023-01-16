@@ -65,7 +65,7 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
 
   // used aggregation pipeline to let the database do the work
 
-  families = await Family.aggregate()
+  var families = await Family.aggregate()
     .lookup({
       from: 'users',
       localField: 'parent',

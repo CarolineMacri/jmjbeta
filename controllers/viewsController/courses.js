@@ -6,8 +6,7 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Teacher = require("../../models/teacherModel");
 
   let { selectedYear, ownerId } = req.params;
-  //console.log(selectedYear, ownerId);
-
+  
   const years = await Year.find();
 
   if (!selectedYear) {
