@@ -65,7 +65,7 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
 
   // used aggregation pipeline to let the database do the work
 
-  var families = await Family.aggregate()
+  families = await Family.aggregate()
     .lookup({
       from: 'users',
       localField: 'parent',
@@ -105,20 +105,22 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
         $size: '$children',
       },
     })
-    .match({
-      numChildren: { $gte: 0 },
-    })
+    // .match({
+    //   numChildren: { $gte: 0 },
+    // })
     .sort('fullName');
 
-  if (families.length == 0) {
-    return next(
-      new AppError('There are no families which meet this criteria', 404)
-    );
-  }
-
-  families.forEach((f) => {
-    f.children = f.children.sort(gradeSort);
-  });
+  // if (families.length == 0) {
+  //   return next(
+  //     new AppError(`There are no families for ${selectedYear}`, 404)
+  //   );
+  // }
+  if (families.length > 0) {
+    families.forEach((f) => {
+      f.children = f.children.sort(gradeSort);
+    });
+     
+   }
 
   res.status(200).render('families', {
     title: `Families ${selectedYear}`,
