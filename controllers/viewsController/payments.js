@@ -44,15 +44,15 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
     })
     .addFields({ teacher: { $first: '$teacher' } })
     .sort({'parent.lastName': 1, 'teacher.lastName': 1  });
-  console.log(payments);
-
-  const parent = await User.findOne({ parent: parentId });
-
+  
+  const parent = await User.findOne({ _id: parentId });
+  
   res.status(200).render('payments/payments_table', {
     title: `Payments ${selectedYear}`,
-    parent: parent,
-    payments: payments,
-    years: years,
+    hasParent,
+    parent,
+    payments,
+    years,
     selectedYear,
   });
 });

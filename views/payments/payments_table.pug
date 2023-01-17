@@ -4,8 +4,9 @@ block content
     .page__content
         div
             section
-                if hasOwner 
-                    h1.payments__title(id= owner._id)= `${owner.firstName}  ${owner.lastName} Payments`
+                h1= hasParent
+                if hasParent
+                    h1.payments__title(id= parent._id)= `${parent.firstName}  ${parent.lastName} Payments`
                 else    
                     h1.payments__title  Payments
                 include ../_yearSelector

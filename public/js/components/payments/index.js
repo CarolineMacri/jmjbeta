@@ -10,13 +10,15 @@ function index(a) {
   //const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (payments) {
-    alert("setting event listeners for payments");
-    // yearSelect = document.getElementById('year-select');
-    //alert (`${yearSelect.value} is yearselect`)
-    // yearSelect.addEventListener('change', (e) => {
-    //   const newYear = yearSelect.value;
-    //   changeEnrollmentsYear(newYear);
-    // });
+    //alert("setting event listeners for payments");
+    const yearSelect = document.getElementById('year-select');
+    const parentId = document.querySelector(".payments__title").id;
+    //alert (`${yearSelect.value}   ${parentId}`)
+    yearSelect.addEventListener('change', (e) => {
+      //alert(`${yearSelect.value} is yearselect`)
+      const newYear = yearSelect.value;
+      changePaymentsYear(newYear, parentId);
+    });
   }
 
   // if (enrollmentProfile) {
