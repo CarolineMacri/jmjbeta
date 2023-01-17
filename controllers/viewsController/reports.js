@@ -130,6 +130,7 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
     title: 'Classlists',
     classMap,
     years,
+    teacher,
     selectedYear,
   });
 });

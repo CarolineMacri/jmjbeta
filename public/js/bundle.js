@@ -17119,7 +17119,7 @@ exports.changeTeachersYear = changeTeachersYear;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeReportInvoicesYear = exports.changeReportChildrenByGradeYear = void 0;
+exports.changeReportClassListsYear = exports.changeReportInvoicesYear = exports.changeReportChildrenByGradeYear = void 0;
 
 var changeReportChildrenByGradeYear = function changeReportChildrenByGradeYear(year) {
   location.assign("/reports/childrenByGrade/".concat(year));
@@ -17132,6 +17132,12 @@ var changeReportInvoicesYear = function changeReportInvoicesYear(year, parentId)
 };
 
 exports.changeReportInvoicesYear = changeReportInvoicesYear;
+
+var changeReportClassListsYear = function changeReportClassListsYear(year, teacherId) {
+  location.assign("/reports/classLists/".concat(year, "/").concat(teacherId));
+};
+
+exports.changeReportClassListsYear = changeReportClassListsYear;
 },{}],"children.js":[function(require,module,exports) {
 "use strict";
 
@@ -125696,7 +125702,8 @@ var registrations = document.querySelector(".registrations");
 var users = document.querySelector(".users");
 var userProfileForm = document.querySelector(".user-profile__form");
 var reportChildrenByGrade = document.querySelector(".reportChildrenByGrade");
-var reportInvoices = document.querySelector(".report-invoices"); //values
+var reportInvoices = document.querySelector(".report-invoices");
+var reportClassLists = document.querySelector(".report-class-lists"); //values
 
 if (family) {
   var yearSelect = document.getElementById("year-select");
@@ -125766,12 +125773,23 @@ if (reportInvoices) {
   });
 }
 
-if (children) {
-  // year  selector
+if (reportClassLists) {
   var _yearSelect6 = document.getElementById("year-select");
+
+  var teacherId = document.querySelector(".class-lists-title").id;
 
   _yearSelect6.addEventListener("change", function (e) {
     var newYear = _yearSelect6.value;
+    (0, _reports.changeReportClassListsYear)(newYear, teacherId);
+  });
+}
+
+if (children) {
+  // year  selector
+  var _yearSelect7 = document.getElementById("year-select");
+
+  _yearSelect7.addEventListener("change", function (e) {
+    var newYear = _yearSelect7.value;
     var id = window.location.pathname.split("/")[2];
     (0, _children.changeChildrenYear)(id, newYear);
   }); // add event listners for each child
@@ -125864,7 +125882,7 @@ if (children) {
     }
 
     var family = document.querySelector(".family__title").id;
-    var year = _yearSelect6.value;
+    var year = _yearSelect7.value;
     var data = {
       firstName: firstName,
       grade: grade,
@@ -125878,10 +125896,10 @@ if (children) {
 
 if (users) {
   // year  selector
-  var _yearSelect7 = document.getElementById("year-select");
+  var _yearSelect8 = document.getElementById("year-select");
 
-  _yearSelect7.addEventListener("change", function (e) {
-    var newYear = _yearSelect7.value;
+  _yearSelect8.addEventListener("change", function (e) {
+    var newYear = _yearSelect8.value;
     var id = window.location.pathname.split("/")[2];
     (0, _users.changeUsersYear)(newYear);
   }); // add event listners for each child

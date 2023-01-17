@@ -20,7 +20,7 @@ nav.side-nav
       h3.side-nav__heading Teacher
       a.side-nav__item(href='#') Profile
       a.side-nav__item(href=`/courses_table/${selectedYear}/${user.id}`) Courses
-      a.side-nav__item(href=`/reports/classLists/${selectedYear}/${user.id}`) Class Schedules
+      a.side-nav__item(href=`/reports/classLists/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Class Schedules
   if isAdmin  
     .side-nav__section
       h3.side-nav__heading Administration
