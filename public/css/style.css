@@ -310,6 +310,13 @@ main {
     background-color: #eee;
     color: #aaa;
     cursor: not-allowed; }
+  .form__option {
+    font-style: italic;
+    font-weight: bold; }
+    .form__option:disabled {
+      color: #aaa;
+      font-style: normal;
+      font-weight: normal; }
 
 select {
   border: 1px solid #c78b37;
