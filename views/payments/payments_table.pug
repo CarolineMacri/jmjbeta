@@ -23,13 +23,13 @@ block content
                         -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                         td= `$${formatter.format(payment.amount)}`
                         td.button    
-                            a.edit(href=`/payment_profile/${payment._id}/${selectedYear}`) &#9998
+                            a.edit(href=`/payment_profile/${payment._id}`) &#9998
                         td.button
                             .delete &#10006
                 tr#new
                     td.button
                         .new  
-                            a(href=`/payment_profile/new/${selectedYear}`) &#10010
+                            a(href=`/payment_profile/new/${selectedYear}/${parent._id}`) &#10010
            
         section.payment-delete.page__content-row
             .delete-modal__window

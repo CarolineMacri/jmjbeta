@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const catchAsync = require('../../utils/catchAsync');
 const Year = require('../../models/yearModel');
@@ -23,12 +23,14 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
 
   var parentPipeline = [];
   if (hasParent) {
-    parentPipeline = [{ '$match': { 'parent': mongoose.Types.ObjectId(parentId) } }];
+    parentPipeline = [
+      { $match: { parent: mongoose.Types.ObjectId(parentId) } },
+    ];
   }
 
   var payments = await Payment.aggregate()
     .append(parentPipeline)
-    .match({ 'year': selectedYear })
+    .match({ year: selectedYear })
     .lookup({
       from: 'users',
       localField: 'parent',
@@ -43,10 +45,10 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
       as: 'teacher',
     })
     .addFields({ teacher: { $first: '$teacher' } })
-    .sort({'parent.lastName': 1, 'teacher.lastName': 1  });
-  
+    .sort({ 'parent.lastName': 1, 'teacher.lastName': 1 });
+
   const parent = await User.findOne({ _id: parentId });
-  
+
   res.status(200).render('payments/payments_table', {
     title: `Payments ${selectedYear}`,
     hasParent,
@@ -58,32 +60,54 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
 });
 
 exports.getPaymentProfile = catchAsync(async (req, res, next) => {
-  // const Year = require('../../models/yearModel');
-  // const Course = require('../../models/courseModel');
-  // const User = require('../../models/userModel');
+  const Payment = require('../../models/paymentModel');
+  const User = require('../../models/userModel');
+  
 
-  let { parentId, selectedYear, paymentId } = req.params;
-  //console.log(courseId, selectedYear, ownerId);
-
-  //const hasOwner = typeof ownerId != 'undefined';
-
+  let { paymentId, selectedYear, parentId } = req.params;
+  
   var payment = {};
+  var parent = {};
 
   if (paymentId == 'new') {
     payment = new Payment();
     payment.year = selectedYear;
     payment.parent = parentId;
+    payment.teacher = null;
+    parent = User.findOne({ '_id': parentId });
   } else {
-    payment = await Payment.findOne({ _id: paymentId });
+    payments = await Payment.aggregate()
+      .match({ "_id": mongoose.Types.ObjectId(paymentId) })
+      .lookup({
+        from: 'users',
+        localField: 'parent',
+        foreignField: '_id',
+        as: 'parent',
+      })
+      .addFields({ parent: { $first: '$parent' } })
+      .lookup({
+        from: 'users',
+        localField: 'teacher',
+        foreignField: '_id',
+        as: 'teacher',
+      })
+      .addFields({ teacher: { $first: '$teacher' } });
+
+    payment = payments.pop();
+    //parent = User.findOne({ _id: payment.parent._id });
   }
+  
+  const teachers = await User.find()
+  .where(`yearRoles.${payment.year}`)
+  .equals("teacher")
+  .sort("lastName");
 
-  const parent = await User.findOne({ parent: parentId });
-  const parentName = `${parent.lastName}, ${parent.firstName}`;
-  //const years = await Year.find();
+  console.log(teachers);
+  
 
-  res.status(200).render('payments/payment_profile', {
-    title: `${selectedYear} payment ${parentName}`,
+  res.status(200).render('payments/payment_profile', { 
+    title: `${selectedYear} payment ${parent.lastName}`, 
     payment,
-    parent,
+    teachers
   });
 });
