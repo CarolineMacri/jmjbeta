@@ -2,7 +2,7 @@ import axios from "axios";
 import { showAlert } from "../../alerts";
 
 export const changePaymentsYear = (year, parentId) => {
-  location.assign(`/payments_table/${year}/${parentId}`);
+  location.assign(`/payments_table/${year}/${parentId}`); 
 };
 
 // export const saveEnrollentSelections = async (enrollments) => {

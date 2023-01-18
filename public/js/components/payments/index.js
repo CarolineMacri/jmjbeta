@@ -10,7 +10,7 @@ function index(a) {
   //const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (payments) {
-    //alert("setting event listeners for payments");
+    alert("setting event listeners for payments");
     const yearSelect = document.getElementById('year-select');
     const parentId = document.querySelector(".payments__title").id;
     //alert (`${yearSelect.value}   ${parentId}`)

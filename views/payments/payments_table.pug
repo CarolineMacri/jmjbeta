@@ -1,140 +1,41 @@
 extends ../base
-extends ../base
 
 block content   
     .page__content
         div
             section
-                h1= hasParent
                 if hasParent
                     h1.payments__title(id= parent._id)= `${parent.firstName}  ${parent.lastName} Payments`
                 else    
                     h1.payments__title  Payments
                 include ../_yearSelector
-        
-            table.payments
+        table.payments
                 tr
                     th Parent
                     th Teacher
                     th Check Number
                     th Amount
                 for payment in payments  
-                    tr(id=payment.id)
+                    tr(id=payment._id)
                         td= payment.parent.lastName
                         td= payment.teacher.lastName
                         td= payment.checkNumber
                         -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                         td= `$${formatter.format(payment.amount)}`
-                //-         td.button
-                //-             if hasOwner
-                //-                 a.edit(href=`/payment_profile/${payment.id}/${selectedYear}/${owner.id}`) &#9998
-                //-             else
-                //-                 a.edit(href=`/payment_profile/${payment.id}/${selectedYear}`) &#9998
-                //-         td.button
-                //-             .delete &#10006
-                
+                        td.button    
+                            a.edit(href=`/payment_profile/${payment._id}/${selectedYear}`) &#9998
+                        td.button
+                            .delete &#10006
                 tr#new
                     td.button
-                        .new
-                            if hasOwner
-                                a(href=`/payment_profile/new/${selectedYear}/${owner.id}`) &#10010
-                            else
-                                a(href=`/payment_profile/new/${selectedYear}`) &#10010
-
-
-            section.course-delete.page__content-row
-                .delete-modal__window
-                    .delete-modal__content.course-delete__modal
-                        p.course-delete__warning &#9888
-                        p Are you sure you want to delete
-                        p course
-                        button#deleteCourse.button-ok OK
-                        button#cancelDelete.button-cancel cancel
-            
-        
-            
-               
-                
-                   
-
-                
-                            
-                   
-               
-                   
-            
-block content   
-    .page__content
-        div
-            section
-                h1= hasParent
-                if hasParent
-                    h1.payments__title(id= parent._id)= `${parent.firstName}  ${parent.lastName} Payments`
-                else    
-                    h1.payments__title  Payments
-                include ../_yearSelector
-        
-            table.payments
-                tr
-                    th Parent
-                    th Teacher
-                    th Check Number
-                    th Amount
-                for payment in payments  
-                    tr(id=payment.id)
-                        td= payment.parent.lastName
-                        td= payment.teacher.lastName
-                        td= payment.checkNumber
-                        -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
-                        td= `$${formatter.format(payment.amount)}`
-                //-         td.button
-                //-             if hasOwner
-                //-                 a.edit(href=`/payment_profile/${payment.id}/${selectedYear}/${owner.id}`) &#9998
-                //-             else
-                //-                 a.edit(href=`/payment_profile/${payment.id}/${selectedYear}`) &#9998
-                //-         td.button
-                //-             .delete &#10006
-                
-                tr#new
-                    td.button
-                        .new
-                            if hasOwner
-                                a(href=`/payment_profile/new/${selectedYear}/${owner.id}`) &#10010
-                            else
-                                a(href=`/payment_profile/new/${selectedYear}`) &#10010
-
-
-            section.course-delete.page__content-row
-                .delete-modal__window
-                    .delete-modal__content.course-delete__modal
-                        p.course-delete__warning &#9888
-                        p Are you sure you want to delete
-                        p course
-                        button#deleteCourse.button-ok OK
-                        button#cancelDelete.button-cancel cancel
-            
-        
-            
-               
-                
-                   
-
-                
-                            
-                   
-               
-                   
-            
-            
-        
-            
-               
-                
-                   
-
-                
-                            
-                   
-               
-                   
-            
+                        .new  
+                            a(href=`/payment_profile/new/${selectedYear}`) &#10010
+           
+        section.payment-delete.page__content-row
+            .delete-modal__window
+                .delete-modal__content.payment-delete__modal
+                    p.payment-delete__warning &#9888
+                    p Are you sure you want to delete
+                    p course
+                    button#deletePayment.button-ok OK
+                    button#cancelDelete.button-cancel cancel                    

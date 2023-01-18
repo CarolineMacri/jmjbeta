@@ -1,0 +1,48 @@
+extends ../base
+
+block content   
+    .page__content.payment-profile(data-is-new=(payment.isNew?'new':'old') )
+       
+                
+        section
+            form.form.form__outline-box.payment-profile__form(id=payment.id) 
+                .form__row
+                    .form__header-text= `Payment - ${year}`
+                    .form__header-background.family-form__header-image
+               
+                .form__column.form__item
+                    label.form__label(for='parent') Parent *
+                    input#parent.form__input.form__input--inline(type='text', name='parent', size='30', value= `${parent.lastName}, ${parent.firstName}` )
+                
+                .form__column.form__dropdown-group
+                    .form__item
+                        label.form__label(for='teacher') Teacher * 
+                        select#teacher(name='teacher' data-teacher-id=teacher.id)
+                            for teacher in teachers
+                                option(selected=(teacher.id==payment.teacher.id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+
+                .form__column.form__item
+                    label.form__label(for='semester') Semester *
+                    select#semester(name='semester')
+          
+                    for semester in ['1','2']
+                        if (semester==payment.semester)
+                            option(selected)=semester
+                        else
+                            option()=semester
+
+                .form__column.form__item
+                    label.form__label(for='checkNumber') Check Number *
+                    input#checkNumber.form__input.form__input--inline(type='text', name='checkNumber', size='6', value= payment.checkNumber )
+                            
+                -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
+                -var nonStandardFee = !(classFees.includes(formatter.format(course.classFee)))
+                  
+                .form__column..form__item
+                    label.form__label(for=`amount`)= `Amount *`
+                    input#amount.form__input.form__input--inline(type='text', name=`amount`, size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(payment.amount)}`) 
+            
+                .form__row
+                    input.form__button.form__item--center(type='submit')
+                        a.form__button.form__cancel(href=`/payments_table/${selectedYear}/${payment.parent.id}`) X
+                    

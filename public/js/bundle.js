@@ -17042,7 +17042,7 @@ function index(a) {
   var payments = document.querySelector(".payments"); //const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (payments) {
-    //alert("setting event listeners for payments");
+    alert("setting event listeners for payments");
     var yearSelect = document.getElementById('year-select');
     var parentId = document.querySelector(".payments__title").id; //alert (`${yearSelect.value}   ${parentId}`)
 
