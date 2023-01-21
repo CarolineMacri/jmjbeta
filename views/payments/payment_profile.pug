@@ -11,8 +11,15 @@ block content
                     .form__header-background.family-form__header-image
                
                 .form__column.form__item
+                    h1= `has Parent ${hasParent}`
                     label.form__label(for='parent') Parent *
-                    input#parent.form__input.form__input--inline(type='text', name='parent', size='30', value= `${payment.parent.lastName}, ${payment.parent.firstName}` disabled)
+                    //- input#parent.form__input.form__input--inline(type='text', name='parent', size='30', value= `${payment.parent.lastName}, ${payment.parent.firstName}` disabled)
+                    select#parent(name='parent')
+                        for parent in parents
+                            if (payment.isNew)
+                                option(value=parent.id)=`${parent.lastName}, ${parent.firstName}`
+                            else
+                                option(selected=(parent.id==payment.parent.id) value=parent.id)=`${parent.lastName}, ${parent.firstName}`
                 
                 .form__column.form__dropdown-group
                     .form__item
@@ -45,5 +52,8 @@ block content
             
                 .form__row
                     input.form__button.form__item--center(type='submit')
-                    a.form__button.form__cancel(href=`/payments_table/${payment.year}/${payment.parent._id}`) X
+                    if (hasParent) 
+                        a.form__button.form__cancel(href=`/payments_table/${payment.year}/${payment.parent._id}`) X
+                    else    
+                        a.form__button.form__cancel(href=`/payments_table/${selectedYear}`) X
                     

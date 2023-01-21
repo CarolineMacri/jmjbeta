@@ -47,7 +47,7 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
     .addFields({ teacher: { $first: '$teacher' } })
     .sort({ 'parent.lastName': 1, 'teacher.lastName': 1 });
 
-  const parent = await User.findOne({ _id: parentId });
+  const parent = await User.findOne({ _id: mongoose.Types.ObjectId(parentId) });
 
   res.status(200).render('payments/payments_table', {
     title: `Payments ${selectedYear}`,
@@ -67,6 +67,12 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
 
   var payment = {};
 
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+  console.log('----------------------', selectedYear);
+
   const teachers = await User.find()
     .where(`yearRoles.${selectedYear}`)
     .equals('teacher')
@@ -80,11 +86,11 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
       _id: mongoose.Types.ObjectId(parentId),
     });
     payment.teacher = teachers[0].id;
-    payment.amount = 0;  
+    payment.amount = 0;
   }
   // FILL IN PARENT AND TEACHER INFO FROM EXISTING PAYMENT
   else {
-    payment = await Payment.aggregate()
+    const payments = await Payment.aggregate()
       .match({ _id: mongoose.Types.ObjectId(paymentId) })
       .lookup({
         from: 'users',
@@ -99,13 +105,33 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
         foreignField: '_id',
         as: 'teacher',
       })
-      .addFields({ teacher: { $first: '$teacher' } })
-      .pop();
+      .addFields({ teacher: { $first: '$teacher' } });
+
+    payment = payments.pop();
   }
 
+  
+  var matchParent = {};
+  if (parentId) {
+    matchParent = { _id: mongoose.Types.ObjectId(parentId) };
+  } else if (paymentId != 'new') {
+    matchParent = { _id: mongoose.Types.ObjectId(payment.parent._id) };
+  }
+
+  const parents = await User.find(matchParent)
+    .where(`yearRoles.${selectedYear}`)
+    .equals('parent')
+    .sort('lastName');
+
   res.status(200).render('payments/payment_profile', {
-    title: `${selectedYear} payment ${payment.parent.lastName}`,
+    title:
+      paymentId == 'new'
+        ? `${selectedYear} payment`
+        : `${selectedYear} payment ${payment.parent.lastName}`,
     payment,
     teachers,
+    parents,
+    selectedYear,
+    hasParent: (parentId !== undefined)
   });
 });
