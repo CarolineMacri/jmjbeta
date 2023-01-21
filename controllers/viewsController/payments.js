@@ -62,22 +62,30 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
 exports.getPaymentProfile = catchAsync(async (req, res, next) => {
   const Payment = require('../../models/paymentModel');
   const User = require('../../models/userModel');
-  
 
   let { paymentId, selectedYear, parentId } = req.params;
-  
-  var payment = {};
-  var parent = {};
 
+  var payment = {};
+
+  const teachers = await User.find()
+    .where(`yearRoles.${selectedYear}`)
+    .equals('teacher')
+    .sort('lastName');
+
+  // INITIALIZE NEW PAYMENT WITH YEAR, PARENT, FIRST TEACHER
   if (paymentId == 'new') {
     payment = new Payment();
     payment.year = selectedYear;
-    payment.parent = parentId;
-    payment.teacher = null;
-    parent = User.findOne({ '_id': parentId });
-  } else {
-    payments = await Payment.aggregate()
-      .match({ "_id": mongoose.Types.ObjectId(paymentId) })
+    payment.parent = await User.findOne({
+      _id: mongoose.Types.ObjectId(parentId),
+    });
+    payment.teacher = teachers[0].id;
+    payment.amount = 0;  
+  }
+  // FILL IN PARENT AND TEACHER INFO FROM EXISTING PAYMENT
+  else {
+    payment = await Payment.aggregate()
+      .match({ _id: mongoose.Types.ObjectId(paymentId) })
       .lookup({
         from: 'users',
         localField: 'parent',
@@ -91,23 +99,13 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
         foreignField: '_id',
         as: 'teacher',
       })
-      .addFields({ teacher: { $first: '$teacher' } });
-
-    payment = payments.pop();
-    //parent = User.findOne({ _id: payment.parent._id });
+      .addFields({ teacher: { $first: '$teacher' } })
+      .pop();
   }
-  
-  const teachers = await User.find()
-  .where(`yearRoles.${payment.year}`)
-  .equals("teacher")
-  .sort("lastName");
 
-  console.log(teachers);
-  
-
-  res.status(200).render('payments/payment_profile', { 
-    title: `${selectedYear} payment ${parent.lastName}`, 
+  res.status(200).render('payments/payment_profile', {
+    title: `${selectedYear} payment ${payment.parent.lastName}`,
     payment,
-    teachers
+    teachers,
   });
 });
