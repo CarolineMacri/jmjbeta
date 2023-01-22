@@ -94,6 +94,11 @@ router.get(
   authController.protect,
   viewsController.getRegistrationsTable
 );
+router.get(
+  "/registration_profile/:selectedYear/:userId",
+  authController.protect,
+  viewsController.getRegistrationProfile
+);
 
 router.get("/myProfile", authController.protect, viewsController.getMyProfile);
 router.get(
