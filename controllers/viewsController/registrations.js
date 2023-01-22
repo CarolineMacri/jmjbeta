@@ -1,6 +1,6 @@
 const catchAsync = require("../../utils/catchAsync");
 
-exports.getRegistrations = catchAsync(async (req, res, next) => {
+exports.getRegistrationsTable = catchAsync(async (req, res, next) => {
   const Year = require("../../models/yearModel");
   const User = require("../../models/userModel");
 
@@ -14,8 +14,8 @@ exports.getRegistrations = catchAsync(async (req, res, next) => {
   }
 
   const registrations = await User.find().sort({ lastName: 1 });
-
-  res.status(200).render("registrations", {
+  console.log('-----------------------')
+  res.status(200).render("registrations/registrations_table", {
     title: `Registrations ${selectedYear}`,
     registrations,
     years,

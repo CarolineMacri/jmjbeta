@@ -1,4 +1,4 @@
-extends base
+extends ../base
 
 block content   
 
@@ -6,7 +6,7 @@ block content
     div
       section
         h1.users__title REGISTRATIONS
-        include _yearSelector
+        include ../_yearSelector
      
       table.registrations
         tr
@@ -18,8 +18,9 @@ block content
             td= registration.lastName
             td= registration.firstName 
             td(data-years= registration.registrationYears)= registration.registrationYears.includes(selectedYear)? "X":" "
-           
-
+            td.button              
+              //a.edit(href=`/course_profile/${course.id}/${selectedYear}/${owner.id}`) &#9998
+              a.edit(href='#') &#9998
     section.user-profile.form-modal__window
         form.form.form__outline-box.user-profile__form.form-modal__content
           .form__row

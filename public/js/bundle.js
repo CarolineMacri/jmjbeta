@@ -14204,7 +14204,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.changeRegistrationsYear = void 0;
 
 var changeRegistrationsYear = function changeRegistrationsYear(year) {
-  location.assign("/registrations/".concat(year));
+  location.assign("/registrations_table/".concat(year));
 };
 
 exports.changeRegistrationsYear = changeRegistrationsYear;
