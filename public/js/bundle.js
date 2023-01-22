@@ -17587,17 +17587,23 @@ var fillUserForm = function fillUserForm(row) {
   userForm.id = row.id;
   userForm.dataset.registrationYears = row.dataset.registrationYears;
 
-  var _map = _toConsumableArray(row.children).map(function (e) {
-    return e.innerHTML;
-  }),
-      _map2 = _slicedToArray(_map, 7),
-      userLastName = _map2[0],
-      userFirstName = _map2[1],
-      userEmail = _map2[2],
-      userCellPhone = _map2[3],
-      userRoles = _map2[4],
-      x = _map2[5],
-      y = _map2[6];
+  if (Array.isArray(row)) {
+    alert("Im and array");
+  } else {
+    alert("Im an htmltablerowelement");
+
+    var _map = _toConsumableArray(row.children).map(function (e) {
+      return e.innerHTML;
+    }),
+        _map2 = _slicedToArray(_map, 7),
+        userLastName = _map2[0],
+        userFirstName = _map2[1],
+        userEmail = _map2[2],
+        userCellPhone = _map2[3],
+        userRoles = _map2[4],
+        x = _map2[5],
+        y = _map2[6];
+  }
 
   var newUser = userLastName.includes("<div");
 

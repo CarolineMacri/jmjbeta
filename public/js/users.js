@@ -23,15 +23,22 @@ export const fillUserForm = (row) => {
   userForm.id = row.id;
   userForm.dataset.registrationYears = row.dataset.registrationYears;
 
-  var [
-    userLastName,
-    userFirstName,
-    userEmail,
-    userCellPhone,
-    userRoles,
-    x,
-    y,
-  ] = [...row.children].map((e) => e.innerHTML);
+  
+  if (Array.isArray(row)) { 
+    alert ("Im and array")
+  } else
+  { 
+    alert ("Im an htmltablerowelement")
+    var [
+      userLastName,
+      userFirstName,
+      userEmail,
+      userCellPhone, 
+      userRoles,
+      x,
+      y,
+    ] = [...row.children].map((e) => e.innerHTML); 
+  }
 
   const newUser = userLastName.includes("<div");
 
