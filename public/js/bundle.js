@@ -14112,7 +14112,7 @@ exports.showAlert = showAlert;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addFamily = exports.changeFamilyYear = void 0;
+exports.existsFamily = exports.addFamily = exports.changeFamilyYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -14139,7 +14139,7 @@ var addFamily = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             url = "/api/v1/families";
-            method = "POST";
+            method = 'POST';
             data = {
               parent: parentId
             };
@@ -14153,8 +14153,8 @@ var addFamily = /*#__PURE__*/function () {
           case 6:
             res = _context.sent;
 
-            if (res.data.status == "success") {
-              (0, _alerts.showAlert)("success", "Family added successfully");
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "Family added successfully");
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -14166,7 +14166,7 @@ var addFamily = /*#__PURE__*/function () {
           case 10:
             _context.prev = 10;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
           case 13:
           case "end":
@@ -14182,6 +14182,60 @@ var addFamily = /*#__PURE__*/function () {
 }();
 
 exports.addFamily = addFamily;
+
+var existsFamily = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(parentId) {
+    var url, method, data, res;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            url = "/api/v1/families/?parent=".concat(parentId);
+            method = 'GET';
+            data = {
+              parent: parentId
+            };
+            _context2.next = 6;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: data
+            });
+
+          case 6:
+            res = _context2.sent;
+
+            if (!(res.data.status == 'success')) {
+              _context2.next = 9;
+              break;
+            }
+
+            return _context2.abrupt("return", res.data.results != 0);
+
+          case 9:
+            _context2.next = 14;
+            break;
+
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2["catch"](0);
+            (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
+
+          case 14:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 11]]);
+  }));
+
+  return function existsFamily(_x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.existsFamily = existsFamily;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"families.js":[function(require,module,exports) {
 "use strict";
 
@@ -17106,13 +17160,124 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeTeachersYear = void 0;
+exports.existsTeacher = exports.addTeacher = exports.changeTeachersYear = void 0;
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var changeTeachersYear = function changeTeachersYear(year) {
   location.assign("/teachers/".concat(year));
 };
 
 exports.changeTeachersYear = changeTeachersYear;
+
+var addTeacher = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(teacherId) {
+    var url, method, data, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            url = "/api/v1/teachers";
+            method = 'POST';
+            data = {
+              teacher: teacherId
+            };
+            _context.next = 6;
+            return axios({
+              method: method,
+              url: url,
+              data: data
+            });
+
+          case 6:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              showAlert('success', "Teacher added successfully");
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context.next = 13;
+            break;
+
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](0);
+            showAlert('error', _context.t0.response.data.message);
+
+          case 13:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 10]]);
+  }));
+
+  return function addTeacher(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.addTeacher = addTeacher;
+
+var existsTeacher = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(teacherId) {
+    var url, method, data, res;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            url = "/api/v1/teachers/?teacher=".concat(teacherId);
+            method = 'GET';
+            data = {
+              teacher: teacherId
+            };
+            _context2.next = 6;
+            return axios({
+              method: method,
+              url: url,
+              data: data
+            });
+
+          case 6:
+            res = _context2.sent;
+
+            if (!(res.data.status == 'success')) {
+              _context2.next = 9;
+              break;
+            }
+
+            return _context2.abrupt("return", res.data.results != 0);
+
+          case 9:
+            _context2.next = 14;
+            break;
+
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2["catch"](0);
+            showAlert('error', _context2.t0.response.data.message);
+
+          case 14:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 11]]);
+  }));
+
+  return function existsTeacher(_x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.existsTeacher = existsTeacher;
 },{}],"reports.js":[function(require,module,exports) {
 "use strict";
 
@@ -125693,33 +125858,33 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index4.index)();
 (0, _index5.index)();
 //import { fill } from 'core-js/core/array';
-var family = document.querySelector(".family");
-var families = document.querySelector(".families");
-var children = document.querySelector(".children");
-var childProfileForm = document.querySelector(".child-profile__form");
-var teachers = document.querySelector(".teachers");
-var registrations = document.querySelector(".registrations");
-var users = document.querySelector(".users");
-var userProfileForm = document.querySelector(".user-profile__form");
-var reportChildrenByGrade = document.querySelector(".reportChildrenByGrade");
-var reportInvoices = document.querySelector(".report-invoices");
-var reportClassLists = document.querySelector(".report-class-lists"); //values
+var family = document.querySelector('.family');
+var families = document.querySelector('.families');
+var children = document.querySelector('.children');
+var childProfileForm = document.querySelector('.child-profile__form');
+var teachers = document.querySelector('.teachers');
+var registrations = document.querySelector('.registrations');
+var users = document.querySelector('.users');
+var userProfileForm = document.querySelector('.user-profile__form');
+var reportChildrenByGrade = document.querySelector('.reportChildrenByGrade');
+var reportInvoices = document.querySelector('.report-invoices');
+var reportClassLists = document.querySelector('.report-class-lists'); //values
 
 if (family) {
-  var yearSelect = document.getElementById("year-select");
-  yearSelect.addEventListener("change", function (e) {
+  var yearSelect = document.getElementById('year-select');
+  yearSelect.addEventListener('change', function (e) {
     var newYear = yearSelect.value;
-    var id = window.location.pathname.split("/")[2];
+    var id = window.location.pathname.split('/')[2];
     (0, _family.changeFamilyYear)(id, newYear);
   });
 }
 
 if (families) {
-  var _yearSelect = document.getElementById("year-select");
+  var _yearSelect = document.getElementById('year-select');
 
-  var editFamilyButtons = Array.from(document.getElementsByClassName("edit-family"));
+  var editFamilyButtons = Array.from(document.getElementsByClassName('edit-family'));
 
-  _yearSelect.addEventListener("change", function (e) {
+  _yearSelect.addEventListener('change', function (e) {
     var newYear = _yearSelect.value;
     (0, _families.changeFamiliesYear)(newYear);
   });
@@ -125728,7 +125893,7 @@ if (families) {
     //console.log(editFamilyButtons);
     editFamilyButtons.forEach(function (btn) {
       //console.log(btn.id);
-      btn.addEventListener("click", function () {
+      btn.addEventListener('click', function () {
         alert("".concat(btn.id));
       });
     });
@@ -125736,49 +125901,49 @@ if (families) {
 }
 
 if (teachers) {
-  var _yearSelect2 = document.getElementById("year-select");
+  var _yearSelect2 = document.getElementById('year-select');
 
-  _yearSelect2.addEventListener("change", function (e) {
+  _yearSelect2.addEventListener('change', function (e) {
     var newYear = _yearSelect2.value;
     (0, _teachers.changeTeachersYear)(newYear);
   });
 }
 
 if (registrations) {
-  var _yearSelect3 = document.getElementById("year-select");
+  var _yearSelect3 = document.getElementById('year-select');
 
-  _yearSelect3.addEventListener("change", function (e) {
+  _yearSelect3.addEventListener('change', function (e) {
     var newYear = _yearSelect3.value;
     (0, _registrations.changeRegistrationsYear)(newYear);
   });
 }
 
 if (reportChildrenByGrade) {
-  var _yearSelect4 = document.getElementById("year-select");
+  var _yearSelect4 = document.getElementById('year-select');
 
-  _yearSelect4.addEventListener("change", function (e) {
+  _yearSelect4.addEventListener('change', function (e) {
     var newYear = _yearSelect4.value;
     (0, _reports.changeReportChildrenByGradeYear)(newYear);
   });
 }
 
 if (reportInvoices) {
-  var _yearSelect5 = document.getElementById("year-select");
+  var _yearSelect5 = document.getElementById('year-select');
 
-  var parentId = document.querySelector(".invoices-title").id;
+  var parentId = document.querySelector('.invoices-title').id;
 
-  _yearSelect5.addEventListener("change", function (e) {
+  _yearSelect5.addEventListener('change', function (e) {
     var newYear = _yearSelect5.value;
     (0, _reports.changeReportInvoicesYear)(newYear, parentId);
   });
 }
 
 if (reportClassLists) {
-  var _yearSelect6 = document.getElementById("year-select");
+  var _yearSelect6 = document.getElementById('year-select');
 
-  var teacherId = document.querySelector(".class-lists-title").id;
+  var teacherId = document.querySelector('.class-lists-title').id;
 
-  _yearSelect6.addEventListener("change", function (e) {
+  _yearSelect6.addEventListener('change', function (e) {
     var newYear = _yearSelect6.value;
     (0, _reports.changeReportClassListsYear)(newYear, teacherId);
   });
@@ -125786,28 +125951,28 @@ if (reportClassLists) {
 
 if (children) {
   // year  selector
-  var _yearSelect7 = document.getElementById("year-select");
+  var _yearSelect7 = document.getElementById('year-select');
 
-  _yearSelect7.addEventListener("change", function (e) {
+  _yearSelect7.addEventListener('change', function (e) {
     var newYear = _yearSelect7.value;
-    var id = window.location.pathname.split("/")[2];
+    var id = window.location.pathname.split('/')[2];
     (0, _children.changeChildrenYear)(id, newYear);
   }); // add event listners for each child
 
 
-  var childrenRows = document.querySelector(".children").getElementsByTagName("tr");
+  var childrenRows = document.querySelector('.children').getElementsByTagName('tr');
   var numRows = childrenRows.length;
 
   var _loop = function _loop() {
     var dataRow = childrenRows[i];
-    var dataCells = dataRow.getElementsByTagName("td");
+    var dataCells = dataRow.getElementsByTagName('td');
     var numCells = dataCells.length;
     var editButton = dataCells.item(numCells - 2);
     var deleteButton = dataCells.item(numCells - 1);
-    editButton.addEventListener("click", function () {
+    editButton.addEventListener('click', function () {
       (0, _children.fillChildForm)(dataRow);
     });
-    deleteButton.addEventListener("click", function () {
+    deleteButton.addEventListener('click', function () {
       (0, _children.deleteChildModal)(dataRow);
     });
   };
@@ -125817,29 +125982,29 @@ if (children) {
   }
 
   var addNewRow = childrenRows[numRows - 1];
-  var addNewCells = addNewRow.getElementsByTagName("td");
+  var addNewCells = addNewRow.getElementsByTagName('td');
   var addNewButton = addNewCells.item(0);
-  addNewButton.addEventListener("click", function () {
+  addNewButton.addEventListener('click', function () {
     (0, _children.fillChildForm)(addNewRow);
   });
-  var cancel = document.getElementById("cancel");
-  cancel.addEventListener("click", function (e) {
+  var cancel = document.getElementById('cancel');
+  cancel.addEventListener('click', function (e) {
     e.preventDefault();
-    document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
+    document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
   });
-  var cancelDelete = document.getElementById("cancelDelete");
-  cancelDelete.addEventListener("click", function (e) {
+  var cancelDelete = document.getElementById('cancelDelete');
+  cancelDelete.addEventListener('click', function (e) {
     e.preventDefault();
-    document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
+    document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
   });
-  childProfileForm.addEventListener("submit", function (e) {
+  childProfileForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var fN = document.getElementById("firstName");
+    var fN = document.getElementById('firstName');
     var firstName = fN.value;
     var id = childProfileForm.id;
-    var grades = document.getElementsByName("grade");
+    var grades = document.getElementsByName('grade');
     var g;
-    var grade = "";
+    var grade = '';
 
     var _iterator = _createForOfIteratorHelper(grades),
         _step;
@@ -125859,9 +126024,9 @@ if (children) {
       _iterator.f();
     }
 
-    var sexes = document.getElementsByName("sex");
+    var sexes = document.getElementsByName('sex');
     var s;
-    var sex = "";
+    var sex = '';
 
     var _iterator2 = _createForOfIteratorHelper(sexes),
         _step2;
@@ -125881,7 +126046,7 @@ if (children) {
       _iterator2.f();
     }
 
-    var family = document.querySelector(".family__title").id;
+    var family = document.querySelector('.family__title').id;
     var year = _yearSelect7.value;
     var data = {
       firstName: firstName,
@@ -125895,29 +126060,28 @@ if (children) {
 }
 
 if (users) {
-  // year  selector
-  var _yearSelect8 = document.getElementById("year-select");
+  var _yearSelect8 = document.getElementById('year-select');
 
-  _yearSelect8.addEventListener("change", function (e) {
+  _yearSelect8.addEventListener('change', function (e) {
     var newYear = _yearSelect8.value;
-    var id = window.location.pathname.split("/")[2];
+    var id = window.location.pathname.split('/')[2];
     (0, _users.changeUsersYear)(newYear);
   }); // add event listners for each child
 
 
-  var usersRows = document.querySelector(".users").getElementsByTagName("tr");
+  var usersRows = document.querySelector('.users').getElementsByTagName('tr');
   var _numRows = usersRows.length;
 
   var _loop2 = function _loop2() {
     var dataRow = usersRows[i];
-    var dataCells = dataRow.getElementsByTagName("td");
+    var dataCells = dataRow.getElementsByTagName('td');
     var numCells = dataCells.length;
     var editButton = dataCells.item(numCells - 2);
     var deleteButton = dataCells.item(numCells - 1);
-    editButton.addEventListener("click", function () {
+    editButton.addEventListener('click', function () {
       (0, _users.fillUserForm)(dataRow);
     });
-    deleteButton.addEventListener("click", function () {
+    deleteButton.addEventListener('click', function () {
       (0, _users.deleteUserModal)(dataRow);
     });
   };
@@ -125928,47 +126092,47 @@ if (users) {
 
   var _addNewRow = usersRows[_numRows - 1];
 
-  var _addNewCells = _addNewRow.getElementsByTagName("td");
+  var _addNewCells = _addNewRow.getElementsByTagName('td');
 
   var _addNewButton = _addNewCells.item(0);
 
-  _addNewButton.addEventListener("click", function () {
+  _addNewButton.addEventListener('click', function () {
     (0, _users.fillUserForm)(_addNewRow);
   });
 
-  var _cancel = document.getElementById("cancel");
+  var _cancel = document.getElementById('cancel');
 
-  _cancel.addEventListener("click", function (e) {
+  _cancel.addEventListener('click', function (e) {
     e.preventDefault();
-    document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
+    document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
   });
 
-  var _cancelDelete = document.getElementById("cancelDelete");
+  var _cancelDelete = document.getElementById('cancelDelete');
 
-  _cancelDelete.addEventListener("click", function (e) {
+  _cancelDelete.addEventListener('click', function (e) {
     e.preventDefault();
-    document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
+    document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
   });
 
-  userProfileForm.addEventListener("submit", function (e) {
+  userProfileForm.addEventListener('submit', function (e) {
     //alert('adding event listener to userprofile form');
     e.preventDefault();
-    var lN = document.getElementById("lastName");
+    var lN = document.getElementById('lastName');
     var lastName = lN.value; //alert(lastName);
 
-    var fN = document.getElementById("firstName");
+    var fN = document.getElementById('firstName');
     var firstName = fN.value; //alert(firstName);
 
-    var em = document.getElementById("email");
+    var em = document.getElementById('email');
     var email = em.value; //alert(email);
 
-    var cf = document.getElementById("cellPhone");
-    var cellPhone = cf.value.replace(/-/g, ""); //alert(cellPhone);
+    var cf = document.getElementById('cellPhone');
+    var cellPhone = cf.value.replace(/-/g, ''); //alert(cellPhone);
 
     var id = userProfileForm.id; //alert(id);
 
-    var role = document.getElementsByName("roles");
-    var selectedYear = document.getElementById("selectedYear").innerHTML;
+    var role = document.getElementsByName('roles');
+    var selectedYear = document.getElementById('selectedYear').innerHTML;
     var r;
     var roles = [];
 
@@ -125999,14 +126163,45 @@ if (users) {
       yearRoles: yearRoles
     };
 
-    if (id == "new") {
+    if (id == 'new') {
       data.registrationYears = [selectedYear];
     }
 
     (0, _users.updateUser)(id, data).then(function (newId) {
-      if (id == "new") {
-        alert("new parent id for addFamily: " + newId);
-        (0, _family.addFamily)(newId);
+      if (roles.includes('parent')) {
+        alert('Im a parent');
+
+        if (id == 'new') {
+          alert('new parent id for addFamily: ' + newId);
+          (0, _family.addFamily)(newId);
+        } else {
+          (0, _family.existsFamily)(id).then(function (exists) {
+            alert('family exists' + exists);
+
+            if (!exists) {
+              alert('add family here  ' + newId);
+              (0, _family.addFamily)(newId);
+            }
+          });
+        }
+      }
+
+      if (roles.includes('teacher')) {
+        alert('Im a teacher');
+
+        if (id == 'new') {
+          alert('new teacher id for addteacher: ' + newId);
+          (0, _teachers.addTeacher)(newId);
+        } else {
+          (0, _teachers.existsTeacher)(id).then(function (exists) {
+            alert('Teacher exists' + exists);
+
+            if (!exists) {
+              alert('add teacher here  ' + newId);
+              (0, _teachers.addTeacher)(newId);
+            }
+          });
+        }
       }
     });
   });
