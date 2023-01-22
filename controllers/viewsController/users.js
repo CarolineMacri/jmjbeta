@@ -28,7 +28,7 @@ exports.getUsers = catchAsync(async (req, res, next) => {
   });
 
   res.status(200).render("users", {
-    title: "users",
+    title: `${selectedYear} Users`,
     users,
     years,
     selectedYear,

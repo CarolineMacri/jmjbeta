@@ -75,9 +75,7 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
     .addFields({
       parent: { $arrayElemAt: ['$parent', 0] },
     })
-    .match({
-      'parent.registrationYears': selectedYear,
-    })
+    .match(JSON.parse(`{"parent.yearRoles.${selectedYear}":"parent"}`))
     .addFields({
       fullName: {
         $concat: ['$parent.lastName', '$parent.firstName'],
@@ -119,8 +117,7 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
     families.forEach((f) => {
       f.children = f.children.sort(gradeSort);
     });
-     
-   }
+  }
 
   res.status(200).render('families', {
     title: `Families ${selectedYear}`,
