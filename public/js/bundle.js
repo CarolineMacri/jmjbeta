@@ -14249,19 +14249,6 @@ var changeFamiliesYear = function changeFamiliesYear(year) {
 };
 
 exports.changeFamiliesYear = changeFamiliesYear;
-},{}],"registrations.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.changeRegistrationsYear = void 0;
-
-var changeRegistrationsYear = function changeRegistrationsYear(year) {
-  location.assign("/registrations_table/".concat(year));
-};
-
-exports.changeRegistrationsYear = changeRegistrationsYear;
 },{}],"components/courses/actions.js":[function(require,module,exports) {
 "use strict";
 
@@ -17008,7 +16995,20 @@ function index(a) {
     });
   }
 }
-},{"./actions":"components/enrollments/actions.js"}],"components/payments/actions.js":[function(require,module,exports) {
+},{"./actions":"components/enrollments/actions.js"}],"registrations.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.changeRegistrationsYear = void 0;
+
+var changeRegistrationsYear = function changeRegistrationsYear(year) {
+  location.assign("/registrations_table/".concat(year));
+};
+
+exports.changeRegistrationsYear = changeRegistrationsYear;
+},{}],"components/payments/actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -125830,8 +125830,6 @@ var _family = require("./family");
 
 var _families = require("./families");
 
-var _registrations = require("./registrations");
-
 var _index = require("./components/courses/index");
 
 var _index2 = require("./components/logins/index");
@@ -125839,6 +125837,8 @@ var _index2 = require("./components/logins/index");
 var _index3 = require("./components/classes/index");
 
 var _index4 = require("./components/enrollments/index");
+
+var _registrations = require("./registrations");
 
 var _index5 = require("./components/payments/index");
 
@@ -126212,7 +126212,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./registrations":"registrations.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./registrations":"registrations.js","./components/payments/index":"components/payments/index.js","./teachers":"teachers.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

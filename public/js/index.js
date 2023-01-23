@@ -4,7 +4,6 @@ import 'regenerator-runtime/runtime';
 
 import { changeFamilyYear, addFamily, existsFamily } from './family';
 import { changeFamiliesYear } from './families';
-import { changeRegistrationsYear } from './registrations';
 
 import { index as courses } from './components/courses/index';
 courses();
@@ -16,7 +15,8 @@ import { index as enrollments } from './components/enrollments/index';
 enrollments();
 import { index as payments } from './components/payments/index';
 payments();
-
+import { index as registrations } from './components/registrations/index';
+payments();
 import { changeTeachersYear, addTeacher, existsTeacher } from './teachers';
 import { changeReportChildrenByGradeYear } from './reports';
 import { changeReportInvoicesYear } from './reports';
