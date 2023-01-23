@@ -33,15 +33,18 @@ exports.getRegistrationProfile = catchAsync(async (req, res, next) => {
   const years = await Year.find();
 
   if (!selectedYear) {
-    selectedYear = await Year.findOne({ current: true }); 
+    selectedYear = await Year.findOne({ current: true });   
     selectedYear = selectedYear.year;
   }
   let registeredUser = await User.findById(userId);
 
+  const registeredYears = [...registeredUser.yearRoles.keys()]
+  console.log(registeredYears)
   
   res.status(200).render("registrations/registration_profile", {
     title: `Registrations ${selectedYear}`,
     registeredUser,
+    registeredYears,
     years,
     selectedYear,
   });
