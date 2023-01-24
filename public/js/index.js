@@ -43,7 +43,7 @@ const children = document.querySelector('.children');
 const childProfileForm = document.querySelector('.child-profile__form');
 
 const teachers = document.querySelector('.teachers');
-const registrations = document.querySelector('.registrations');
+//const registrations = document.querySelector('.registrations');
 
 const users = document.querySelector('.users');
 const userProfileForm = document.querySelector('.user-profile__form');
@@ -98,15 +98,15 @@ if (teachers) {
   });
 }
 
-if (registrations) {
-  const yearSelect = document.getElementById('year-select');
+// if (registrations) {
+//   const yearSelect = document.getElementById('year-select');
 
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
 
-    changeRegistrationsYear(newYear);
-  });
-}
+//     changeRegistrationsYear(newYear);
+//   });
+// }
 
 if (reportChildrenByGrade) {
   const yearSelect = document.getElementById('year-select');

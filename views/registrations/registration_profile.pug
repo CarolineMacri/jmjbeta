@@ -7,7 +7,7 @@ block content
         section
             form.form.form__outline-box.registration-profile__form(id=registeredUser._id) 
                 .form__row
-                    .form__header-text= `Registration`
+                    .form__header-text= `Registered Years`
                     .form__header-background.family-form__header-image
 
                 .form__row
@@ -17,20 +17,16 @@ block content
                 .form__row
                     .form__item
                         .form__label Years
-                    
                             for year in years 
                                 .form__column
                                     .form__item
-                                        
                                         if (registeredYears.includes(year.year))
-                                            input(id=year.id type="checkbox" name='years' value=year.year checked)
+                                            -var roles = registeredUser.yearRoles.get(year.year)
+                                            input(id=year.id data-roles=roles type="checkbox" name='years' value=year.year checked)
                                         else
-                                            input(id=year.id type="checkbox" name='years' value=year.year)
+                                            input(id=year.id data-roles='none' type="checkbox" name='years' value=year.year)
                                         
                                         label.form__label(for=year.id)=year.year
-
-                            -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
-                    
                     
                     .form__row
                         input.form__button.form__item--center(type='submit')
