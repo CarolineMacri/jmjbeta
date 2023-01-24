@@ -16,7 +16,7 @@ enrollments();
 import { index as payments } from './components/payments/index';
 payments();
 import { index as registrations } from './components/registrations/index';
-payments();
+registrations();
 import { changeTeachersYear, addTeacher, existsTeacher } from './teachers';
 import { changeReportChildrenByGradeYear } from './reports';
 import { changeReportInvoicesYear } from './reports';
@@ -98,15 +98,7 @@ if (teachers) {
   });
 }
 
-// if (registrations) {
-//   const yearSelect = document.getElementById('year-select');
 
-//   yearSelect.addEventListener('change', (e) => {
-//     const newYear = yearSelect.value;
-
-//     changeRegistrationsYear(newYear);
-//   });
-// }
 
 if (reportChildrenByGrade) {
   const yearSelect = document.getElementById('year-select');

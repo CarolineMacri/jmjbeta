@@ -2,7 +2,7 @@ extends ../base
 
 block content   
 
-  .page__content.family
+  .page__content
     div
       section
         h1.users__title REGISTRATIONS
@@ -17,7 +17,8 @@ block content
           tr(id= registration._id)
             td= registration.lastName
             td= registration.firstName 
-            td(data-years= registration.registrationYears)= registration.registrationYears.includes(selectedYear)? "X":" "
+            -var registeredYears = [...registration.yearRoles.keys()]
+            td(data-years= registeredYears)= registeredYears.includes(selectedYear)? "X":" "
             td.button              
               a.edit(href=`/registration_profile/${selectedYear}/${registration._id}`) &#9998
               //a.edit(href='#') &#9998

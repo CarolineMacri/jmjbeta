@@ -9,7 +9,7 @@ function index(a) {
   const registrationProfile = document.querySelector('.registration-profile');
 
   if (registrations) {
-    const yearSelect = document.getElementById('year-select');
+    const yearSelect = document.getElementById('year-select'); 
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
       changeRegistrationsYear(newYear);
@@ -20,31 +20,22 @@ function index(a) {
     const registrationProfileForm = document.querySelector(
       '.registration-profile__form'
     );
+
+   
+
     registrationProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const selectedYear = registrationProfile.dataset.selectedYear;
-      const registeredUserId = registrationProfileForm.id;
-      
       const registrationYears = getChecked('years');
-      
+      alert(registrationYears);
+      const registeredUserId = registrationProfileForm.id;
 
       const registeredUser = {
         id: registeredUserId,
-        name,
-        owner,
-        years: courseYears,
-        classFee,
-        grade,
-        classSize,
-        description,
-        notes,
-        materials,
-        texts,
-        semesterMaterialsFee,
-        isNew,
       };
-      updateCourse(courseId, course, selectedYear, hasOwner);
+
+      updateRegistration(registeredUser, selectedYear);
     });
   }
 }

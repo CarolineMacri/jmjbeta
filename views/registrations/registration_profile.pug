@@ -1,35 +1,34 @@
 extends ../base
 
-
 block content   
-    .page__content.registration-profile(data-selected-year=selectedYear)
-                
-        section
-            form.form.form__outline-box.registration-profile__form(id=registeredUser._id) 
-                .form__row
-                    .form__header-text= `Registered Years`
-                    .form__header-background.family-form__header-image
+	.page__content.registration-profile(data-selected-year=selectedYear)
+				
+		section
+			form.form.form__outline-box.registration-profile__form(id=registeredUser._id) 
+				.form__row
+					.form__header-text= `Registered Years`
+					.form__header-background.family-form__header-image
 
-                .form__row
-                    .form__item
-                        h1=registeredUser.lastName + ', ' + registeredUser.firstName
-               
-                .form__row
-                    .form__item
-                        .form__label Years
-                            for year in years 
-                                .form__column
-                                    .form__item
-                                        if (registeredYears.includes(year.year))
-                                            -var roles = registeredUser.yearRoles.get(year.year)
-                                            input(id=year.id data-roles=roles type="checkbox" name='years' value=year.year checked)
-                                        else
-                                            input(id=year.id data-roles='none' type="checkbox" name='years' value=year.year)
-                                        
-                                        label.form__label(for=year.id)=year.year
-                    
-                    .form__row
-                        input.form__button.form__item--center(type='submit')
-                        
-                        a.form__button.form__cancel(href=`/registrations_table/${selectedYear}`) X
-                    
+				.form__row
+					.form__item
+						h1=registeredUser.lastName + ', ' + registeredUser.firstName
+			   
+				.form__row
+					.form__item
+						.form__label Years
+							for year in years 
+								.form__column
+									.form__item
+										if (registeredYears.includes(year.year))
+											-var roles = registeredUser.yearRoles.get(year.year)
+											input(id=year.id data-roles=roles type="checkbox" name='years' value=year.year checked)
+										else
+											input(id=year.id data-roles='none' type="checkbox" name='years' value=year.year)
+										
+										label.form__label(for=year.id)=year.year
+					
+				.form__row
+					input.form__button.form__item--center(type='submit')
+					
+					a.form__button.form__cancel(href=`/registrations_table/${selectedYear}`) X
+					

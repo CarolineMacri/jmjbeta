@@ -90,12 +90,12 @@ router.get(
   viewsController.getTeachers
 );
 router.get(
-  "/registrations_table/:selectedYear?",
+  "/registrations_table/:selectedYear",
   authController.protect,
   viewsController.getRegistrationsTable
 );
 router.get(
-  "/registration_profile/:selectedYear/:userId",
+  "/registration_profile/:selectedYear/:registeredUserId",
   authController.protect,
   viewsController.getRegistrationProfile
 );
