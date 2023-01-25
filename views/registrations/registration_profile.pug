@@ -21,7 +21,10 @@ block content
 									.form__item
 										if (registeredYears.includes(year.year))
 											-var roles = registeredUser.yearRoles.get(year.year)
-											input(id=year.id data-roles=roles type="checkbox" name='years' value=year.year checked)
+											if (roles==undefined)
+												-var roles='none'
+
+											input(id=year.id data-roles=roles type="checkbox" name='years' value=year.year checked= roles!='none')
 										else
 											input(id=year.id data-roles='none' type="checkbox" name='years' value=year.year)
 										

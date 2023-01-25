@@ -9,7 +9,7 @@ function index(a) {
   const registrationProfile = document.querySelector('.registration-profile');
 
   if (registrations) {
-    const yearSelect = document.getElementById('year-select'); 
+    const yearSelect = document.getElementById('year-select');
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
       changeRegistrationsYear(newYear);
@@ -21,8 +21,6 @@ function index(a) {
       '.registration-profile__form'
     );
 
-   
-
     registrationProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -31,9 +29,32 @@ function index(a) {
       alert(registrationYears);
       const registeredUserId = registrationProfileForm.id;
 
-      const registeredUser = {
+      var registeredUser = {
         id: registeredUserId,
       };
+
+      var y;
+      var yearRoles = {};
+
+      const years = document.getElementsByName('years');
+      alert(years);
+      years.forEach((y) => {
+        alert(y);
+        if (y.checked == true) {
+          alert(y.dataset.roles);
+          
+          if (y.dataset.roles == 'none') {
+            yearRoles[y.value] = [];
+            alert(`registering for ${y.value}`);
+          }
+        } else {
+          yearRoles[y.value] = null;
+        }
+
+      });
+      alert(JSON.stringify(yearRoles));
+      registeredUser.yearRoles = yearRoles;
+      alert(JSON.stringify(registeredUser));
 
       updateRegistration(registeredUser, selectedYear);
     });

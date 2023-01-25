@@ -17254,6 +17254,27 @@ function index(a) {
       var registeredUser = {
         id: registeredUserId
       };
+      var y;
+      var yearRoles = {};
+      var years = document.getElementsByName('years');
+      alert(years);
+      years.forEach(function (y) {
+        alert(y);
+
+        if (y.checked == true) {
+          alert(y.dataset.roles);
+
+          if (y.dataset.roles == 'none') {
+            yearRoles[y.value] = [];
+            alert("registering for ".concat(y.value));
+          }
+        } else {
+          yearRoles[y.value] = null;
+        }
+      });
+      alert(JSON.stringify(yearRoles));
+      registeredUser.yearRoles = yearRoles;
+      alert(JSON.stringify(registeredUser));
       (0, _actions.updateRegistration)(registeredUser, selectedYear);
     });
   }
@@ -17700,11 +17721,7 @@ var fillUserForm = function fillUserForm(row) {
   userForm.id = row.id;
   userForm.dataset.registrationYears = row.dataset.registrationYears;
 
-  if (Array.isArray(row)) {
-    alert("Im and array");
-  } else {
-    alert("Im an htmltablerowelement");
-
+  if (Array.isArray(row)) {} else {
     var _map = _toConsumableArray(row.children).map(function (e) {
       return e.innerHTML;
     }),

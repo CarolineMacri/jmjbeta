@@ -25,10 +25,10 @@ export const fillUserForm = (row) => {
 
   
   if (Array.isArray(row)) { 
-    alert ("Im and array")
+    
   } else
   { 
-    alert ("Im an htmltablerowelement")
+    
     var [
       userLastName,
       userFirstName,

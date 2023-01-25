@@ -17,7 +17,7 @@ block content
           tr(id= registration._id)
             td= registration.lastName
             td= registration.firstName 
-            -var registeredYears = [...registration.yearRoles.keys()]
+            -var registeredYears = [...registration.yearRoles.keys()].filter((key) => { return registration.yearRoles.get(key) !== null; })
             td(data-years= registeredYears)= registeredYears.includes(selectedYear)? "X":" "
             td.button              
               a.edit(href=`/registration_profile/${selectedYear}/${registration._id}`) &#9998
