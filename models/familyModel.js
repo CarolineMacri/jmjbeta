@@ -65,6 +65,19 @@ familySchema.pre(/^find/, function (next) {
   next();
 });
 
+familySchema.pre('findOneAndDelete', async function (next) {
+  const familyToDelete = await this.model
+    .findOne(this.getQuery());
+
+  const numChildren = familyToDelete.children.length;
+
+  if (numChildren > 0) {
+    const enrolledYears = familyToDelete.children.map(child => { child.year });
+    throw new Error(`Family has children for ${[...new Set(familyToDelete.children.map(child => child.year))]}`)
+  }
+  next();
+})
+
 Object.assign(familySchema.statics, {
   EnrollmentStatuses,
 });

@@ -24,14 +24,17 @@ block content
 											if (roles==undefined)
 												-var roles='none'
 
-											input(id=year.id data-roles=roles type="checkbox" name='years' value=year.year checked= roles!='none')
+											input(id=year.id data-roles=roles type="checkbox" name='years' value=year.year checked= roles!='none' disabled=roles.length>0)
+											label.form__label(for=year.id)=`${year.year}  [${roles}]`
 										else
 											input(id=year.id data-roles='none' type="checkbox" name='years' value=year.year)
 										
-										label.form__label(for=year.id)=year.year
+											label.form__label(for=year.id)=year.year
+										
+									
 					
-				.form__row
-					input.form__button.form__item--center(type='submit')
-					
-					a.form__button.form__cancel(href=`/registrations_table/${selectedYear}`) X
+					.form__row
+						input.form__button.form__item--center(type='submit')
+						
+						a.form__button.form__cancel(href=`/registrations_table/${selectedYear}`) X
 					

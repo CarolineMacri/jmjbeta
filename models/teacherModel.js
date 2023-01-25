@@ -12,11 +12,24 @@ const teacherSchema = new mongoose.Schema(
   }
 );
 
-teacherSchema.virtual("courses", {
+teacherSchema.virtual("teachers", {
   ref: "Course",
   localField: "_id",
   foreignField: "owner",
 });
+
+teacherSchema.pre('findOneAndDelete', async function (next) {
+  const teacherToDelete = await this.model
+    .findOne(this.getQuery())
+    .populate({ path: 'courses' });
+
+  const numCourses = teacherToDelete.courses.length;
+
+  if (numCourses > 0) {
+    throw new Error(`Teacher owns ${numCourses} existing courses`);
+  }
+  next();
+})
 
 const Teacher = mongoose.model("Teacher", teacherSchema);
 

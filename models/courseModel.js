@@ -73,6 +73,21 @@ courseSchema.virtual("classes", {
   foreignField: "course",
 });
 
+courseSchema.pre('findOneAndDelete', async function (next) {
+  const courseToDelete = await this.model
+    .findOne(this.getQuery())
+    .populate({ path: 'classes' });
+
+  const numClasses = courseToDelete.classes.length;
+
+  if (numClasses > 0) {
+    throw new Error(
+      `Course has ${numClasses} classes scheduled in ${courseToDelete.years}`
+    );
+  }
+  next();
+});
+
 courseSchema.virtual("grades").get(function () {
   let gradesArray = Object.values(Grades);
   const minGradeIndex = gradesArray.indexOf(this.grade.min);

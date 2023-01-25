@@ -81,6 +81,21 @@ classSchema.virtual("classFee").get(async function () {
   return thisCourse.classFee;
 });
 
+classSchema.pre('findOneAndDelete', async function (next) {
+  const classToDelete = await this.model
+    .findOne(this.getQuery())
+    .populate({ path: 'enrollments' });
+
+  const numEnrollments = classToDelete.enrollments.length;
+
+  if (numEnrollments > 0) {
+    throw new Error(
+      `Class has ${numEnrollments} enrollments for ${classToDelete.year}`
+    );
+  }
+  next();
+});
+
 Object.assign(classSchema.statics, {
   Locations,
   Times,
