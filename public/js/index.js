@@ -315,6 +315,7 @@ if (users) {
     updateUser(id, data).then((newId) => {
       if (roles.includes('parent')) {
         if (id == 'new') {
+          addFamily(newId)
         } else {
           existsFamily(id).then((exists) => {
             if (!exists) {

@@ -7,11 +7,11 @@ block content
   h1.enrollments__title Enrollments
   h2.enrollments__title= `${family.parent.lastName}`
   h2.enrollments__title= selectedYear
-  - var enrollmentStatus = family.yearEnrollmentStatus.get(selectedYear)
+  //- - var enrollmentStatus = family.yearEnrollmentStatus.get(selectedYear)
   
-  - var isDisabled = (enrollmentStatus != "NONE") && !isAdmin
-  h2.enrollments__title= `Enrollment Status: ` 
-    span(style="color:red;")=`${enrollmentStatus}`
+  //- - var isDisabled = (enrollmentStatus != "NONE") && !isAdmin
+  //- h2.enrollments__title= `Enrollment Status: ` 
+  //-   span(style="color:red;")=`${enrollmentStatus}`
 
   section
     form.form.form__outline-box.form--row.enrollment-profile__form.enrollment-profile--wide

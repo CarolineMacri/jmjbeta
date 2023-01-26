@@ -126267,7 +126267,9 @@ if (users) {
 
     (0, _users.updateUser)(id, data).then(function (newId) {
       if (roles.includes('parent')) {
-        if (id == 'new') {} else {
+        if (id == 'new') {
+          (0, _family.addFamily)(newId);
+        } else {
           (0, _family.existsFamily)(id).then(function (exists) {
             if (!exists) {
               (0, _family.addFamily)(newId);
