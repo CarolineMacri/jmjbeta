@@ -1,67 +1,28 @@
+const mongoose = require('mongoose');
+
 const catchAsync = require('../../utils/catchAsync');
 
 exports.getTeacherProfile = catchAsync(async (req, res, next) => {
-  const Year = require('../../models/yearModel');
   const User = require('../../models/userModel');
 
-  let { selectedYear } = req.params;
+  let { selectedYear, userId } = req.params;
 
-  const years = await Year.find();
-
-  if (!selectedYear) {
-    selectedYear = await Year.findOne({ current: true });
-    selectedYear = selectedYear.year;
-  }
-
-  // const teachers = await User.find({
-  //   roles: "parent",
-  //   year: selectedYear,
-  // })
-  //   .sort("lastName")
-  //   .populate({ path: "courses", match: { year: selectedYear } })
-  //   .populate({ path: "teacher", justOne: true, select: "bio" });
-
-  //(teachers);
-
-  const teachers = await User.aggregate()
-    //.match({ registrationYears: selectedYear })
-    .match(JSON.parse(`{"yearRoles.${selectedYear}":"teacher"}`))
-    .sort('lastName')
-    .project('firstName lastName')
-    .lookup({
-      from: 'teachercourses',
-      localField: '_id',
-      foreignField: 'teacher',
-      as: 'courses',
-      pipeline: [
-        {
-          $lookup: {
-            from: 'courses',
-            localField: 'courses',
-            foreignField: '_id',
-            as: 'courses',
-          },
-        },
-        {
-          $match: {
-            'courses.year': selectedYear,
-          },
-        },
-      ],
-    })
-    .addFields({ courses: { $arrayElemAt: ['$courses.courses', 0] } })
+  var teacher = await User.aggregate()
+    .match({ _id: mongoose.Types.ObjectId(userId) })
     .lookup({
       from: 'teachers',
       localField: '_id',
       foreignField: 'teacher',
-      as: 'bio',
+      as: 'teacher',
     })
-    .addFields({ bio: { $arrayElemAt: ['$bio.bio', 0] } });
+    .addFields({ 'bio': { $first: '$teacher.bio' }, 'teacherId':{$first:'$teacher._id'} })
+    .project({firstName:1, lastName:1, bio: 1, teacherId:1});
+  
+  teacher = teacher[0];
 
   res.status(200).render('teachers/teacher_profile', {
-    title: `Teacher ${teachers[0].lastName} ${selectedYear}`,
-    teachers,
-    years,
+    title: `Teacher Info`,
+    teacher,
     selectedYear,
   });
 });

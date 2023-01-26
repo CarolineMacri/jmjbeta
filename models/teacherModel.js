@@ -12,12 +12,6 @@ const teacherSchema = new mongoose.Schema(
   }
 );
 
-teacherSchema.virtual("teachers", {
-  ref: "Course",
-  localField: "_id",
-  foreignField: "owner",
-});
-
 teacherSchema.pre('findOneAndDelete', async function (next) {
   const teacherToDelete = await this.model
     .findOne(this.getQuery())

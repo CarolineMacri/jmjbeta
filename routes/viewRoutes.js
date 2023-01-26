@@ -91,7 +91,7 @@ router.get(
 );
 
 router.get(
-  "/teacher_profile/:selectedYear/:teacherId",
+  "/teacher_profile/:selectedYear/:userId",
   authController.protect,
   viewsController.getTeacherProfile
 );
