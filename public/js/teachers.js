@@ -1,5 +1,5 @@
 export const changeTeachersYear = (year) => {
-  location.assign(`/teachers/${year}`);
+  location.assign(`/teachers_table/${year}`);
 };
 
 export const addTeacher = async (teacherId) => {

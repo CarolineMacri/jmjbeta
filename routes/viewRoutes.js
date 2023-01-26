@@ -85,9 +85,15 @@ router.get(
 );
 
 router.get(
-  "/teachers/:selectedYear?",
+  "/teachers_table/:selectedYear?",
   authController.protect,
-  viewsController.getTeachers
+  viewsController.getTeachersTable
+);
+
+router.get(
+  "/teacher_profile/:selectedYear/:teacherId",
+  authController.protect,
+  viewsController.getTeacherProfile
 );
 router.get(
   "/registrations_table/:selectedYear",

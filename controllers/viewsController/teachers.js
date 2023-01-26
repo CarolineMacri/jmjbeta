@@ -1,6 +1,6 @@
 const catchAsync = require('../../utils/catchAsync');
 
-exports.getTeacher = catchAsync(async (req, res, next) => {
+exports.getTeacherProfile = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const User = require('../../models/userModel');
 
@@ -23,7 +23,7 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
 
   //(teachers);
 
-  teachers = await User.aggregate()
+  const teachers = await User.aggregate()
     //.match({ registrationYears: selectedYear })
     .match(JSON.parse(`{"yearRoles.${selectedYear}":"teacher"}`))
     .sort('lastName')
@@ -58,15 +58,15 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
     })
     .addFields({ bio: { $arrayElemAt: ['$bio.bio', 0] } });
 
-  res.status(200).render('teacher', {
-    title: `Teachers ${selectedYear}`,
+  res.status(200).render('teachers/teacher_profile', {
+    title: `Teacher ${teachers[0].lastName} ${selectedYear}`,
     teachers,
     years,
     selectedYear,
   });
 });
 
-exports.getTeachers = catchAsync(async (req, res, next) => {
+exports.getTeachersTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
   const User = require('../../models/userModel');
 
@@ -87,7 +87,7 @@ exports.getTeachers = catchAsync(async (req, res, next) => {
     .populate({ path: 'courses', match: { years: selectedYear } })
     .populate({ path: 'teacher', justOne: true });
 
-  res.status(200).render('teachers', {
+  res.status(200).render('teachers/teachers_table', {
     title: `Teachers ${selectedYear}`,
     teachers,
     years,

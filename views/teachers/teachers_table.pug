@@ -1,10 +1,10 @@
-extends base
+extends ../base
 
 block content   
   section.page__content
 
     h1.family__title  JMJ Teachers
-    include _yearSelector
+    include ../_yearSelector
     -var isAdmin = user.currentRoles.includes('admin')
     .teachers
       for teacher in teachers
@@ -23,7 +23,7 @@ block content
                 if isAdmin  
                   .card__row    
                     //- a(href=`/users/${selectedYear}`) Edit Teacher
-                    a.card__button.card__item(href=`#`) Edit Teacher
+                    a.card__button.card__item(href=`/teacher_profile/${selectedYear}/${teacher._id}`) Edit Teacher
               
            
             
