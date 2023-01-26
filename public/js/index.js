@@ -3,7 +3,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import { changeFamilyYear, addFamily, existsFamily } from './family';
-import { changeFamiliesYear } from './families';
+import { changeFamiliesYear, deleteFamily } from './families';
 
 import { index as courses } from './components/courses/index';
 courses();
@@ -70,6 +70,10 @@ if (families) {
   const editFamilyButtons = Array.from(
     document.getElementsByClassName('edit-family')
   );
+  const deleteFamilyButtons = Array.from(
+    document.getElementsByClassName('delete-family')
+  );
+  alert(`num delete family buttons = ${deleteFamilyButtons.length}`)
 
   yearSelect.addEventListener('change', (e) => {
     const newYear = yearSelect.value;
@@ -79,7 +83,15 @@ if (families) {
 
   if (editFamilyButtons) {
     editFamilyButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {});
+      btn.addEventListener('click', () => {}); 
+    });
+  }
+
+  if (deleteFamilyButtons) {
+    deleteFamilyButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        deleteFamily(btn.dataset.family_id)
+      });
     });
   }
 }

@@ -14242,13 +14242,19 @@ exports.existsFamily = existsFamily;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeFamiliesYear = void 0;
+exports.deleteFamily = exports.changeFamiliesYear = void 0;
 
 var changeFamiliesYear = function changeFamiliesYear(year) {
   location.assign("/families/".concat(year));
 };
 
 exports.changeFamiliesYear = changeFamiliesYear;
+
+var deleteFamily = function deleteFamily(familyId) {
+  confirm('Are you sure you want to delete this family?' + familyId);
+};
+
+exports.deleteFamily = deleteFamily;
 },{}],"components/courses/actions.js":[function(require,module,exports) {
 "use strict";
 
@@ -126000,6 +126006,8 @@ if (families) {
   var _yearSelect = document.getElementById('year-select');
 
   var editFamilyButtons = Array.from(document.getElementsByClassName('edit-family'));
+  var deleteFamilyButtons = Array.from(document.getElementsByClassName('delete-family'));
+  alert("num delete family buttons = ".concat(deleteFamilyButtons.length));
 
   _yearSelect.addEventListener('change', function (e) {
     var newYear = _yearSelect.value;
@@ -126009,6 +126017,14 @@ if (families) {
   if (editFamilyButtons) {
     editFamilyButtons.forEach(function (btn) {
       btn.addEventListener('click', function () {});
+    });
+  }
+
+  if (deleteFamilyButtons) {
+    deleteFamilyButtons.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        (0, _families.deleteFamily)(btn.dataset.family_id);
+      });
     });
   }
 }
