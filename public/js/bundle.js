@@ -14244,18 +14244,79 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.deleteFamily = exports.changeFamiliesYear = void 0;
 
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("./alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var changeFamiliesYear = function changeFamiliesYear(year) {
   location.assign("/families/".concat(year));
 };
 
 exports.changeFamiliesYear = changeFamiliesYear;
 
-var deleteFamily = function deleteFamily(familyId) {
-  confirm('Are you sure you want to delete this family?' + familyId);
-};
+var deleteFamily = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(familyId) {
+    var deleteOk, url, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            deleteOk = confirm('Are you sure you want to delete this family?' + familyId);
+
+            if (!deleteOk) {
+              _context.next = 15;
+              break;
+            }
+
+            alert('you pressed OK');
+            _context.prev = 3;
+            url = "/api/v1/families/".concat(familyId);
+            alert(url);
+            _context.next = 8;
+            return (0, _axios.default)({
+              method: 'DELETE',
+              url: url
+            });
+
+          case 8:
+            res = _context.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)('success', "Family deleted");
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context.next = 15;
+            break;
+
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](3);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 15:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[3, 12]]);
+  }));
+
+  return function deleteFamily(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 exports.deleteFamily = deleteFamily;
-},{}],"components/courses/actions.js":[function(require,module,exports) {
+},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"components/courses/actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
