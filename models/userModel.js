@@ -91,6 +91,12 @@ userSchema.virtual("family", {
   foreignField: "parent",
 });
 
+userSchema.virtual("payments", {
+  ref: "Payment",
+  localField: "_id",
+  foreignField: "parent",
+});
+
 userSchema.methods.isCurrentlyRegistered = async function () {
   const currentYear = await Year.findOne({ current: true });
   return this.registrationYears.includes(currentYear.year);
@@ -158,6 +164,47 @@ userSchema.pre("save", function (next) {
 
   next();
 });
+
+userSchema.pre('findOneAndDelete', async function (next) {
+  const userToDelete = await this.model
+    .findOne(this.getQuery())
+    .populate('family')
+    .populate('teacher')
+    .populate('classes')
+    .populate('courses')
+    .populate('payments')
+
+  // Check for existing family
+  var linkedDocuments = userToDelete.family.length;
+
+  if (linkedDocuments > 0) {
+    //const enrolledYears = familyToDelete.children.map(child => { child.year });
+    throw new Error(`This user has an existing family record`);
+  }
+
+  linkedDocuments = userToDelete['teacher'].length;
+  if (linkedDocuments > 0) {
+    //const enrolledYears = familyToDelete.children.map(child => { child.year });
+    throw new Error(`This user has an existing teacher record`);
+  }
+
+  linkedDocuments = userToDelete['payments'].length;
+  if (linkedDocuments > 0) {
+    throw new Error(`This user has ${linkedDocuments} existing payments`);
+  }
+
+  linkedDocuments = userToDelete['courses'].length;
+  
+  if (linkedDocuments > 0) {
+    throw new Error(`This user has ${linkedDocuments} existing courses`);
+  }
+
+  linkedDocuments = userToDelete['classes'].length;
+  if (linkedDocuments > 0) {
+    throw new Error(`This user has ${linkedDocuments} existing classes`);
+  }
+  next();
+})
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
