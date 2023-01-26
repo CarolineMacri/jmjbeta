@@ -26,7 +26,6 @@ function index(a) {
 
       const selectedYear = registrationProfile.dataset.selectedYear;
       const registrationYears = getChecked('years');
-      alert(registrationYears);
       const registeredUserId = registrationProfileForm.id;
 
       var registeredUser = {
@@ -37,24 +36,16 @@ function index(a) {
       var yearRoles = {};
 
       const years = document.getElementsByName('years');
-      alert(years);
       years.forEach((y) => {
-        alert(y);
         if (y.checked == true) {
-          alert(y.dataset.roles);
-          
           if (y.dataset.roles == 'none') {
             yearRoles[y.value] = [];
-            alert(`registering for ${y.value}`);
           }
         } else {
           yearRoles[y.value] = null;
         }
-
       });
-      alert(JSON.stringify(yearRoles));
       registeredUser.yearRoles = yearRoles;
-      alert(JSON.stringify(registeredUser));
 
       updateRegistration(registeredUser, selectedYear);
     });

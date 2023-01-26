@@ -78,12 +78,8 @@ if (families) {
   });
 
   if (editFamilyButtons) {
-    //console.log(editFamilyButtons);
     editFamilyButtons.forEach((btn) => {
-      //console.log(btn.id);
-      btn.addEventListener('click', () => {
-        alert(`${btn.id}`);
-      });
+      btn.addEventListener('click', () => {});
     });
   }
 }
@@ -97,8 +93,6 @@ if (teachers) {
     changeTeachersYear(newYear);
   });
 }
-
-
 
 if (reportChildrenByGrade) {
   const yearSelect = document.getElementById('year-select');
@@ -283,22 +277,16 @@ if (users) {
   });
 
   userProfileForm.addEventListener('submit', (e) => {
-    //alert('adding event listener to userprofile form');
     e.preventDefault();
     const lN = document.getElementById('lastName');
     const lastName = lN.value;
-    //alert(lastName);
     const fN = document.getElementById('firstName');
     const firstName = fN.value;
-    //alert(firstName);
     const em = document.getElementById('email');
     const email = em.value;
-    //alert(email);
     const cf = document.getElementById('cellPhone');
     var cellPhone = cf.value.replace(/-/g, '');
-    //alert(cellPhone);
     const id = userProfileForm.id;
-    //alert(id);
     const role = document.getElementsByName('roles');
     const selectedYear = document.getElementById('selectedYear').innerHTML;
 
@@ -326,15 +314,10 @@ if (users) {
 
     updateUser(id, data).then((newId) => {
       if (roles.includes('parent')) {
-        alert('Im a parent');
         if (id == 'new') {
-          alert('new parent id for addFamily: ' + newId);
-          addFamily(newId);
         } else {
           existsFamily(id).then((exists) => {
-            alert('family exists' + exists);
             if (!exists) {
-              alert('add family here  ' + newId);
               addFamily(newId);
             }
           });
@@ -342,15 +325,11 @@ if (users) {
       }
 
       if (roles.includes('teacher')) {
-        alert('Im a teacher');
         if (id == 'new') {
-          alert('new teacher id for addteacher: ' + newId);
           addTeacher(newId);
         } else {
           existsTeacher(id).then((exists) => {
-            alert('Teacher exists' + exists);
             if (!exists) {
-              alert('add teacher here  ' + newId);
               addTeacher(newId);
             }
           });

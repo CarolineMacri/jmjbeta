@@ -1,12 +1,12 @@
-import axios from "axios";
-import url from "url";
-import { showAlert } from "../../alerts";
+import axios from 'axios';
+import url from 'url';
+import { showAlert } from '../../alerts';
 
 export const login = async (email, password) => {
   try {
     const res = await axios({
-      method: "POST",
-      url: "/api/v1/users/login",
+      method: 'POST',
+      url: '/api/v1/users/login',
       data: {
         email,
         password,
@@ -16,39 +16,38 @@ export const login = async (email, password) => {
     //ODO : pick default page based on  admin views)
     const familyUrl = `/family/${id}`;
 
-    if (res.data.status === "success") {
-      showAlert("success", "Logged in successfully");
+    if (res.data.status === 'success') {
+      showAlert('success', 'Logged in successfully');
       window.setTimeout(() => {
         location.assign(familyUrl);
       }, 3000);
     }
   } catch (err) {
-    showAlert("error", err.response.data.message);
+    showAlert('error', err.response.data.message);
   }
 };
 
 export const logout = async () => {
   try {
     const res = await axios({
-      method: "GET",
-      url: "/api/v1/users/logout",
+      method: 'GET',
+      url: '/api/v1/users/logout',
     });
 
-    if (res.data.status == "success") {
-      location.replace("/");
+    if (res.data.status == 'success') {
+      location.replace('/');
     }
   } catch (err) {
-    showAlert("error", "Error logging out! Try again.");
+    showAlert('error', 'Error logging out! Try again.');
   }
 };
 
 export const resetPassword = async (token, newPassword, newPasswordConfirm) => {
   try {
     const url = `/api/v1/users/resetPassword/${token}`;
-    //alert(`In reset password ${url}`);
 
     const res = await axios({
-      method: "PATCH",
+      method: 'PATCH',
       url,
       data: {
         password: newPassword,
@@ -56,60 +55,60 @@ export const resetPassword = async (token, newPassword, newPasswordConfirm) => {
       },
     });
 
-    if (res.data.status === "success") {
-      showAlert("success", `Password reset successfully`);
+    if (res.data.status === 'success') {
+      showAlert('success', `Password reset successfully`);
       window.setTimeout(() => {
-        location.assign("/login");
+        location.assign('/login');
       }, 1000);
     }
   } catch (err) {
     console.log(err.response);
-    showAlert("error", err.response.data.message);
+    showAlert('error', err.response.data.message);
   }
 };
 
 export const updateUserSettings = async (type, data) => {
   try {
     const url =
-      type == "password"
+      type == 'password'
         ? `/api/v1/users/updateMyPassword`
         : `/api/v1/users/updateMe`;
 
     const res = await axios({
-      method: "PATCH",
+      method: 'PATCH',
       url,
       data,
     });
 
-    if (res.data.status === "success") {
-      showAlert("success", `${type} updated successfully`);
+    if (res.data.status === 'success') {
+      showAlert('success', `${type} updated successfully`);
       window.setTimeout(() => {
-        location.assign(type == "profile" ? "/myProfile" : "/updatePassword");
+        location.assign(type == 'profile' ? '/myProfile' : '/updatePassword');
       }, 1000);
     }
   } catch (err) {
     console.log(err.response);
-    showAlert("error", err.response.data.message);
+    showAlert('error', err.response.data.message);
   }
 };
 
 export const forgotMyPassword = async (email) => {
   try {
     const res = await axios({
-      method: "POST",
-      url: "/api/v1/users/forgotPassword",
+      method: 'POST',
+      url: '/api/v1/users/forgotPassword',
       data: {
         email,
       },
     });
 
-    if (res.data.status === "success") {
-      showAlert("success", "Password reset email sent");
+    if (res.data.status === 'success') {
+      showAlert('success', 'Password reset email sent');
       // window.setTimeout(() => {
       //   location.assign('/login');
       // }, 3000);
     }
   } catch (err) {
-    showAlert("error", err.response.data.message);
+    showAlert('error', err.response.data.message);
   }
 };

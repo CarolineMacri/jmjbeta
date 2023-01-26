@@ -14,12 +14,14 @@ block content
                     th Parent
                     th Teacher
                     th Check Number
+                    th Semester
                     th Amount
                 for payment in payments  
                     tr(id=payment._id)
                         td= payment.parent.lastName
                         td= payment.teacher.lastName
                         td= payment.checkNumber
+                        td= payment.semester
                         -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
                         td= `$${formatter.format(payment.amount)}`
                         td.button

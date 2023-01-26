@@ -16045,8 +16045,8 @@ var login = /*#__PURE__*/function () {
             _context.prev = 0;
             _context.next = 3;
             return (0, _axios.default)({
-              method: "POST",
-              url: "/api/v1/users/login",
+              method: 'POST',
+              url: '/api/v1/users/login',
               data: {
                 email: email,
                 password: password
@@ -16059,8 +16059,8 @@ var login = /*#__PURE__*/function () {
 
             familyUrl = "/family/".concat(id);
 
-            if (res.data.status === "success") {
-              (0, _alerts.showAlert)("success", "Logged in successfully");
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', 'Logged in successfully');
               window.setTimeout(function () {
                 location.assign(familyUrl);
               }, 3000);
@@ -16072,7 +16072,7 @@ var login = /*#__PURE__*/function () {
           case 9:
             _context.prev = 9;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
           case 12:
           case "end":
@@ -16099,15 +16099,15 @@ var logout = /*#__PURE__*/function () {
             _context2.prev = 0;
             _context2.next = 3;
             return (0, _axios.default)({
-              method: "GET",
-              url: "/api/v1/users/logout"
+              method: 'GET',
+              url: '/api/v1/users/logout'
             });
 
           case 3:
             res = _context2.sent;
 
-            if (res.data.status == "success") {
-              location.replace("/");
+            if (res.data.status == 'success') {
+              location.replace('/');
             }
 
             _context2.next = 10;
@@ -16116,7 +16116,7 @@ var logout = /*#__PURE__*/function () {
           case 7:
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
-            (0, _alerts.showAlert)("error", "Error logging out! Try again.");
+            (0, _alerts.showAlert)('error', 'Error logging out! Try again.');
 
           case 10:
           case "end":
@@ -16142,11 +16142,10 @@ var resetPassword = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            _url = "/api/v1/users/resetPassword/".concat(token); //alert(`In reset password ${url}`);
-
+            _url = "/api/v1/users/resetPassword/".concat(token);
             _context3.next = 4;
             return (0, _axios.default)({
-              method: "PATCH",
+              method: 'PATCH',
               url: _url,
               data: {
                 password: newPassword,
@@ -16157,10 +16156,10 @@ var resetPassword = /*#__PURE__*/function () {
           case 4:
             res = _context3.sent;
 
-            if (res.data.status === "success") {
-              (0, _alerts.showAlert)("success", "Password reset successfully");
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', "Password reset successfully");
               window.setTimeout(function () {
-                location.assign("/login");
+                location.assign('/login');
               }, 1000);
             }
 
@@ -16171,7 +16170,7 @@ var resetPassword = /*#__PURE__*/function () {
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
             console.log(_context3.t0.response);
-            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
           case 12:
           case "end":
@@ -16197,10 +16196,10 @@ var updateUserSettings = /*#__PURE__*/function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.prev = 0;
-            _url2 = type == "password" ? "/api/v1/users/updateMyPassword" : "/api/v1/users/updateMe";
+            _url2 = type == 'password' ? "/api/v1/users/updateMyPassword" : "/api/v1/users/updateMe";
             _context4.next = 4;
             return (0, _axios.default)({
-              method: "PATCH",
+              method: 'PATCH',
               url: _url2,
               data: data
             });
@@ -16208,10 +16207,10 @@ var updateUserSettings = /*#__PURE__*/function () {
           case 4:
             res = _context4.sent;
 
-            if (res.data.status === "success") {
-              (0, _alerts.showAlert)("success", "".concat(type, " updated successfully"));
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully"));
               window.setTimeout(function () {
-                location.assign(type == "profile" ? "/myProfile" : "/updatePassword");
+                location.assign(type == 'profile' ? '/myProfile' : '/updatePassword');
               }, 1000);
             }
 
@@ -16222,7 +16221,7 @@ var updateUserSettings = /*#__PURE__*/function () {
             _context4.prev = 8;
             _context4.t0 = _context4["catch"](0);
             console.log(_context4.t0.response);
-            (0, _alerts.showAlert)("error", _context4.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
 
           case 12:
           case "end":
@@ -16249,8 +16248,8 @@ var forgotMyPassword = /*#__PURE__*/function () {
             _context5.prev = 0;
             _context5.next = 3;
             return (0, _axios.default)({
-              method: "POST",
-              url: "/api/v1/users/forgotPassword",
+              method: 'POST',
+              url: '/api/v1/users/forgotPassword',
               data: {
                 email: email
               }
@@ -16259,8 +16258,8 @@ var forgotMyPassword = /*#__PURE__*/function () {
           case 3:
             res = _context5.sent;
 
-            if (res.data.status === "success") {
-              (0, _alerts.showAlert)("success", "Password reset email sent"); // window.setTimeout(() => {
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', 'Password reset email sent'); // window.setTimeout(() => {
               //   location.assign('/login');
               // }, 3000);
             }
@@ -16271,7 +16270,7 @@ var forgotMyPassword = /*#__PURE__*/function () {
           case 7:
             _context5.prev = 7;
             _context5.t0 = _context5["catch"](0);
-            (0, _alerts.showAlert)("error", _context5.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context5.t0.response.data.message);
 
           case 10:
           case "end":
@@ -16944,9 +16943,7 @@ function index(a) {
   var enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (enrollments) {
-    alert('before year select');
     var yearSelect = document.getElementById('year-select');
-    alert("".concat(yearSelect.value, " is yearselect"));
     yearSelect.addEventListener('change', function (e) {
       var newYear = yearSelect.value;
       (0, _actions.changeEnrollmentsYear)(newYear);
@@ -16966,7 +16963,7 @@ function index(a) {
           _id: data.enrollmentId,
           class: data.classId,
           child: data.childId
-        }); //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
+        });
       });
       (0, _actions.saveEnrollentSelections)(enrollmentData);
     });
@@ -17083,12 +17080,9 @@ function index(a) {
   var payments = document.querySelector(".payments"); //const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (payments) {
-    alert("setting event listeners for payments");
     var yearSelect = document.getElementById('year-select');
-    var parentId = document.querySelector(".payments__title").id; //alert (`${yearSelect.value}   ${parentId}`)
-
+    var parentId = document.querySelector(".payments__title").id;
     yearSelect.addEventListener('change', function (e) {
-      //alert(`${yearSelect.value} is yearselect`)
       var newYear = yearSelect.value;
       (0, _actions.changePaymentsYear)(newYear, parentId);
     });
@@ -17175,16 +17169,14 @@ var updateRegistration = /*#__PURE__*/function () {
             method = 'PATCH';
             _context.prev = 1;
             url = "/api/v1/users/".concat(registeredUser.id);
-            alert(url); //console.log(`updating  ${course.name} name`);
-
-            _context.next = 6;
+            _context.next = 5;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: registeredUser
             });
 
-          case 6:
+          case 5:
             res = _context.sent;
 
             if (res.data.status == 'success') {
@@ -17195,20 +17187,20 @@ var updateRegistration = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context.next = 13;
+            _context.next = 12;
             break;
 
-          case 10:
-            _context.prev = 10;
+          case 9:
+            _context.prev = 9;
             _context.t0 = _context["catch"](1);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 13:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[1, 10]]);
+    }, _callee, null, [[1, 9]]);
   }));
 
   return function updateRegistration(_x, _x2) {
@@ -17249,7 +17241,6 @@ function index(a) {
       e.preventDefault();
       var selectedYear = registrationProfile.dataset.selectedYear;
       var registrationYears = getChecked('years');
-      alert(registrationYears);
       var registeredUserId = registrationProfileForm.id;
       var registeredUser = {
         id: registeredUserId
@@ -17257,24 +17248,16 @@ function index(a) {
       var y;
       var yearRoles = {};
       var years = document.getElementsByName('years');
-      alert(years);
       years.forEach(function (y) {
-        alert(y);
-
         if (y.checked == true) {
-          alert(y.dataset.roles);
-
           if (y.dataset.roles == 'none') {
             yearRoles[y.value] = [];
-            alert("registering for ".concat(y.value));
           }
         } else {
           yearRoles[y.value] = null;
         }
       });
-      alert(JSON.stringify(yearRoles));
       registeredUser.yearRoles = yearRoles;
-      alert(JSON.stringify(registeredUser));
       (0, _actions.updateRegistration)(registeredUser, selectedYear);
     });
   }
@@ -17702,7 +17685,6 @@ var changeUsersYear = function changeUsersYear(year) {
 exports.changeUsersYear = changeUsersYear;
 
 var toggleModalUser = function toggleModalUser() {
-  //alert('in toglle modal user');
   document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
 };
 
@@ -17772,25 +17754,23 @@ var updateUser = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            alert("in update user id= ".concat(userId));
             url = "/api/v1/users/".concat(userId == "new" ? "" : "/" + userId);
             method = userId == "new" ? "POST" : "PATCH";
 
             if (userId === "new") {
-              randomPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2).toUpperCase(); //alert(randomPassword);
-
+              randomPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2).toUpperCase();
               data.password = randomPassword;
               data.passwordConfirm = randomPassword;
             }
 
-            _context.next = 7;
+            _context.next = 6;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: data
             });
 
-          case 7:
+          case 6:
             res = _context.sent;
 
             if (res.data.status == "success") {
@@ -17802,17 +17782,17 @@ var updateUser = /*#__PURE__*/function () {
 
             return _context.abrupt("return", res.data.data.user._id);
 
-          case 12:
-            _context.prev = 12;
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](0);
             (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
-          case 15:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 12]]);
+    }, _callee, null, [[0, 11]]);
   }));
 
   return function updateUser(_x, _x2) {
@@ -126027,12 +126007,8 @@ if (families) {
   });
 
   if (editFamilyButtons) {
-    //console.log(editFamilyButtons);
     editFamilyButtons.forEach(function (btn) {
-      //console.log(btn.id);
-      btn.addEventListener('click', function () {
-        alert("".concat(btn.id));
-      });
+      btn.addEventListener('click', function () {});
     });
   }
 }
@@ -126243,22 +126219,16 @@ if (users) {
   });
 
   userProfileForm.addEventListener('submit', function (e) {
-    //alert('adding event listener to userprofile form');
     e.preventDefault();
     var lN = document.getElementById('lastName');
-    var lastName = lN.value; //alert(lastName);
-
+    var lastName = lN.value;
     var fN = document.getElementById('firstName');
-    var firstName = fN.value; //alert(firstName);
-
+    var firstName = fN.value;
     var em = document.getElementById('email');
-    var email = em.value; //alert(email);
-
+    var email = em.value;
     var cf = document.getElementById('cellPhone');
-    var cellPhone = cf.value.replace(/-/g, ''); //alert(cellPhone);
-
-    var id = userProfileForm.id; //alert(id);
-
+    var cellPhone = cf.value.replace(/-/g, '');
+    var id = userProfileForm.id;
     var role = document.getElementsByName('roles');
     var selectedYear = document.getElementById('selectedYear').innerHTML;
     var r;
@@ -126297,17 +126267,9 @@ if (users) {
 
     (0, _users.updateUser)(id, data).then(function (newId) {
       if (roles.includes('parent')) {
-        alert('Im a parent');
-
-        if (id == 'new') {
-          alert('new parent id for addFamily: ' + newId);
-          (0, _family.addFamily)(newId);
-        } else {
+        if (id == 'new') {} else {
           (0, _family.existsFamily)(id).then(function (exists) {
-            alert('family exists' + exists);
-
             if (!exists) {
-              alert('add family here  ' + newId);
               (0, _family.addFamily)(newId);
             }
           });
@@ -126315,17 +126277,11 @@ if (users) {
       }
 
       if (roles.includes('teacher')) {
-        alert('Im a teacher');
-
         if (id == 'new') {
-          alert('new teacher id for addteacher: ' + newId);
           (0, _teachers.addTeacher)(newId);
         } else {
           (0, _teachers.existsTeacher)(id).then(function (exists) {
-            alert('Teacher exists' + exists);
-
             if (!exists) {
-              alert('add teacher here  ' + newId);
               (0, _teachers.addTeacher)(newId);
             }
           });

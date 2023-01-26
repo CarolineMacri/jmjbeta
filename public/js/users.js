@@ -6,7 +6,7 @@ export const changeUsersYear = (year) => {
 };
 
 export const toggleModalUser = () => {
-  //alert('in toglle modal user');
+  
   document
     .querySelector(".form-modal__window")
     .classList.toggle("form-modal__show");
@@ -76,7 +76,7 @@ export const fillUserForm = (row) => {
 
 export const updateUser = async (userId, data) => {
   try {
-    alert(`in update user id= ${userId}`);
+   
     const url = `/api/v1/users/${userId == "new" ? "" : "/" + userId}`;
 
     const method = userId == "new" ? "POST" : "PATCH";
@@ -85,7 +85,7 @@ export const updateUser = async (userId, data) => {
       const randomPassword =
         Math.random().toString(36).slice(2) +
         Math.random().toString(36).slice(2).toUpperCase();
-      //alert(randomPassword);
+ 
       data.password = randomPassword;
       data.passwordConfirm = randomPassword;
     }

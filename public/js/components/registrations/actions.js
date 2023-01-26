@@ -9,8 +9,7 @@ export const updateRegistration = async (registeredUser, selectedYear) => {
 
   try {
     const url = `/api/v1/users/${registeredUser.id}`;
-    alert(url);
-    //console.log(`updating  ${course.name} name`);
+    
     const res = await axios({
       method,
       url,

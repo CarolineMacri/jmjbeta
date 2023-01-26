@@ -10,9 +10,9 @@ function index(a) {
   const enrollmentProfile = document.querySelector('.enrollment-profile');
 
   if (enrollments) {
-    alert('before year select');
+
     const yearSelect = document.getElementById('year-select');
-    alert(`${yearSelect.value} is yearselect`);
+
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
       changeEnrollmentsYear(newYear);
@@ -36,7 +36,7 @@ function index(a) {
           class: data.classId,
           child: data.childId,
         });
-        //alert(Boolean(data.enrollmentId) +" " +  Boolean(data.classId))
+       
       });
 
       saveEnrollentSelections(enrollmentData);

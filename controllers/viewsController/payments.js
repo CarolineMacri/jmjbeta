@@ -71,8 +71,7 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
-  console.log('----------------------', selectedYear);
-
+  
   const teachers = await User.find()
     .where(`yearRoles.${selectedYear}`)
     .equals('teacher')
@@ -87,6 +86,7 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
     });
     payment.teacher = teachers[0].id;
     payment.amount = 0;
+    payment.semester = 1;
   }
   // FILL IN PARENT AND TEACHER INFO FROM EXISTING PAYMENT
   else {
