@@ -17,7 +17,9 @@ import { index as payments } from './components/payments/index';
 payments();
 import { index as registrations } from './components/registrations/index';
 registrations();
-import { changeTeachersYear, addTeacher, existsTeacher } from './teachers';
+import { index as teachers } from './components/teachers/index';
+teachers();
+import {addTeacher, existsTeacher } from './components/teachers/actions';
 import { changeReportChildrenByGradeYear } from './reports';
 import { changeReportInvoicesYear } from './reports';
 import { changeReportClassListsYear } from './reports';
@@ -41,9 +43,6 @@ const families = document.querySelector('.families');
 
 const children = document.querySelector('.children');
 const childProfileForm = document.querySelector('.child-profile__form');
-
-const teachers = document.querySelector('.teachers');
-//const registrations = document.querySelector('.registrations');
 
 const users = document.querySelector('.users');
 const userProfileForm = document.querySelector('.user-profile__form');
@@ -94,16 +93,6 @@ if (families) {
       });
     });
   }
-}
-
-if (teachers) {
-  const yearSelect = document.getElementById('year-select');
-
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
-
-    changeTeachersYear(newYear);
-  });
 }
 
 if (reportChildrenByGrade) {
@@ -327,9 +316,11 @@ if (users) {
     updateUser(id, data).then((newId) => {
       if (roles.includes('parent')) {
         if (id == 'new') {
+          alert('new parent')
           addFamily(newId)
         } else {
           existsFamily(id).then((exists) => {
+            alert('non existent family')
             if (!exists) {
               addFamily(newId);
             }
@@ -339,10 +330,12 @@ if (users) {
 
       if (roles.includes('teacher')) {
         if (id == 'new') {
+          alert('new teacher')
           addTeacher(newId);
         } else {
           existsTeacher(id).then((exists) => {
             if (!exists) {
+              alert('non existent teacher record')
               addTeacher(newId);
             }
           });
