@@ -17555,6 +17555,11 @@ function index(a) {
       };
       (0, _actions.updateTeacher)(teacher);
     });
+    var formCancel = document.querySelector('.form__cancel');
+    formCancel.addEventListener('click', function (e) {
+      e.preventDefault();
+      history.back();
+    });
   }
 }
 },{"./actions":"components/teachers/actions.js"}],"reports.js":[function(require,module,exports) {

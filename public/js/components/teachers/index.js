@@ -4,8 +4,6 @@
 import {
   changeTeachersYear,
   updateTeacher,
-  addTeacher,
-  existsTeacher,
 } from './actions';
 
 function index(a) {
@@ -36,6 +34,13 @@ function index(a) {
 
       updateTeacher(teacher);
     });
+
+    const formCancel = document.querySelector('.form__cancel');
+    formCancel.addEventListener('click',(e) => {
+      e.preventDefault();
+      history.back();
+
+    })
   }
 }
 

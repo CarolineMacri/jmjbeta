@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
-
 const catchAsync = require('../../utils/catchAsync');
 
 exports.getTeacherProfile = catchAsync(async (req, res, next) => {
   const User = require('../../models/userModel');
 
-  let { selectedYear, userId, hasTeacher } = req.params;
+  let { userId } = req.params;
 
   var teacher = await User.aggregate()
     .match({ _id: mongoose.Types.ObjectId(userId) })
@@ -15,16 +14,17 @@ exports.getTeacherProfile = catchAsync(async (req, res, next) => {
       foreignField: 'teacher',
       as: 'teacher',
     })
-    .addFields({ 'bio': { $first: '$teacher.bio' }, 'teacherId':{$first:'$teacher._id'} })
-    .project({firstName:1, lastName:1, bio: 1, teacherId:1});
-  
+    .addFields({
+      bio: { $first: '$teacher.bio' },
+      teacherId: { $first: '$teacher._id' },
+    })
+    .project({ firstName: 1, lastName: 1, bio: 1, teacherId: 1 });
+
   teacher = teacher[0];
 
   res.status(200).render('teachers/teacher_profile', {
     title: `Teacher Info`,
     teacher,
-    selectedYear,
-    hasTeacher
   });
 });
 
