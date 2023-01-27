@@ -17143,8 +17143,9 @@ var _actions = require("./actions");
 /* eslint-disable */
 // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
-  // DOM elements
-  var payments = document.querySelector(".payments"); //const enrollmentProfile = document.querySelector('.enrollment-profile');
+  // DOM elements=
+  var payments = document.querySelector(".payments");
+  var paymentProfile = document.querySelector('.payment-profile');
 
   if (payments) {
     var yearSelect = document.getElementById('year-select');

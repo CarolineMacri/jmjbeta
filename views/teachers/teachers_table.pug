@@ -1,45 +1,47 @@
 extends ../base
 
 block content   
-  section.page__content
+  .page__content
+    div 
+      section
 
-    h1.family__title  JMJ Teachers
-    include ../_yearSelector
-    -var isAdmin = user.currentRoles.includes('admin')
-    .teachers
-      for teacher in teachers
-        .card.teacher-card.card__outline-box
-          .card__column
-            .card__header-background.teacher-card__header-image
-            .card__header-text= `${teacher.lastName}, ${teacher.firstName}` 
-           
-            .card__row.teacher-card__bio.card__outline-box--bottom
-              -var isNoBio = (teacher.teacher.length == 0)
-              //-var bio = (isNoBio? '' : teacher.teacher.bio.slice(0,120)+"...")
-              -var bio = (isNoBio?'':teacher.teacher[0].bio)
-
-              .card__item= bio
-    
-                if isAdmin  
-                  .card__row    
-                    //- a(href=`/users/${selectedYear}`) Edit Teacher
-                    a.card__button.card__item(href=`/teacher_profile/${teacher._id}`) Edit Teacher
+        h1.family__title  JMJ Teachers
+        include ../_yearSelector
+        -var isAdmin = user.currentRoles.includes('admin')
+        .teachers
+          for teacher in teachers
+            .card.teacher-card.card__outline-box
+              .card__column
+                .card__header-background.teacher-card__header-image
+                .card__header-text= `${teacher.lastName}, ${teacher.firstName}` 
               
-           
-            
-            -var id = teacher._id
+                .card__row.teacher-card__bio.card__outline-box--bottom
+                  -var isNoBio = (teacher.teacher.length == 0)
+                  //-var bio = (isNoBio? '' : teacher.teacher.bio.slice(0,120)+"...")
+                  -var bio = (isNoBio?'':teacher.teacher[0].bio)
+
+                  .card__item= bio
         
-          .card__row.teacher-card__courses
-              - isCoursesDefined = !(typeof teacher.courses === 'undefined')
-              if isCoursesDefined
-                for course in teacher.courses
-                  - var isLongName = course.name.length > 50
-                  - var name = (isLongName? course.name.slice(0,45)+"...":course.name)
-                  .card__item= name
-                if isAdmin  
-                  .card__row
-                    //- a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
-                    a.card__button(href=`/courses_table/${selectedYear}/${id}`) Edit Courses
+                    if isAdmin  
+                      .card__row    
+                        //- a(href=`/users/${selectedYear}`) Edit Teacher
+                        a.card__button.card__item(href=`/teacher_profile/${teacher._id}`) Edit Teacher
+                  
+              
+                
+                -var id = teacher._id
+            
+              .card__row.teacher-card__courses
+                  - isCoursesDefined = !(typeof teacher.courses === 'undefined')
+                  if isCoursesDefined
+                    for course in teacher.courses
+                      - var isLongName = course.name.length > 50
+                      - var name = (isLongName? course.name.slice(0,45)+"...":course.name)
+                      .card__item= name
+                    if isAdmin  
+                      .card__row
+                        //- a(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
+                        a.card__button(href=`/courses_table/${selectedYear}/${id}`) Edit Courses
               
 
     

@@ -3,11 +3,9 @@
 import { changePaymentsYear } from "./actions";
 
 function index(a) {
-  // DOM elements
-
+  // DOM elements=
   const payments = document.querySelector(".payments");
-
-  //const enrollmentProfile = document.querySelector('.enrollment-profile');
+  const paymentProfile = document.querySelector('.payment-profile');
 
   if (payments) {
     
