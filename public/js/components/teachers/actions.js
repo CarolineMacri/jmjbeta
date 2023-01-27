@@ -5,13 +5,13 @@ export const changeTeachersYear = (year) => {
   location.assign(`/teachers_table/${year}`);
 };
 
-export const updateTeacher = async (teacherDocument) => {
+export const updateTeacher = async (teacher) => {
   try {
-    const url = `/api/v1/teachers`;
+    const url = `/api/v1/teachers/${teacher.id}`;
 
     const method = 'PATCH';
 
-    const data = { teacher: teacherId };
+    const data = teacher;
 
     const res = await axios({
       method,
@@ -20,7 +20,7 @@ export const updateTeacher = async (teacherDocument) => {
     });
 
     if (res.data.status == 'success') {
-      showAlert('success', `Teacher added successfully`);
+      showAlert('success', `Teacher updated successfully`);
       window.setTimeout(() => {
         location.reload();
       }, 500);

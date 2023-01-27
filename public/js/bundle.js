@@ -17363,18 +17363,16 @@ var changeTeachersYear = function changeTeachersYear(year) {
 exports.changeTeachersYear = changeTeachersYear;
 
 var updateTeacher = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(teacherDocument) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(teacher) {
     var url, method, data, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            url = "/api/v1/teachers";
+            url = "/api/v1/teachers/".concat(teacher.id);
             method = 'PATCH';
-            data = {
-              teacher: teacherId
-            };
+            data = teacher;
             _context.next = 6;
             return (0, _axios.default)({
               method: method,
@@ -17386,7 +17384,7 @@ var updateTeacher = /*#__PURE__*/function () {
             res = _context.sent;
 
             if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "Teacher added successfully");
+              (0, _alerts.showAlert)('success', "Teacher updated successfully");
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -17551,12 +17549,11 @@ function index(a) {
     var teacherProfileForm = document.querySelector('.teacher-profile__form');
     teacherProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      var teacherDocumentId = registrationProfileForm.id;
-      var teacherDocument = {
-        id: teacherDocumentId,
-        bio: document.querySelector('.bio')
+      var teacher = {
+        id: teacherProfileForm.id,
+        bio: document.getElementById('bio').value
       };
-      (0, _actions.updateTeacher)(teacherDocument);
+      (0, _actions.updateTeacher)(teacher);
     });
   }
 }
