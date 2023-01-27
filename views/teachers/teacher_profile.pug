@@ -16,4 +16,5 @@ block content
                     
                 .form__row
                     input.form__button.form__item--center(type='submit')
-                    a.form__button.form__cancel(href=`/teachers_table/${selectedYear}`) X
+                    if !hasTeacher
+                        a.form__button.form__cancel(href=`/teachers_table/${selectedYear}`) X

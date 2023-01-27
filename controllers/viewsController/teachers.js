@@ -5,7 +5,7 @@ const catchAsync = require('../../utils/catchAsync');
 exports.getTeacherProfile = catchAsync(async (req, res, next) => {
   const User = require('../../models/userModel');
 
-  let { selectedYear, userId } = req.params;
+  let { selectedYear, userId, hasTeacher } = req.params;
 
   var teacher = await User.aggregate()
     .match({ _id: mongoose.Types.ObjectId(userId) })
@@ -24,6 +24,7 @@ exports.getTeacherProfile = catchAsync(async (req, res, next) => {
     title: `Teacher Info`,
     teacher,
     selectedYear,
+    hasTeacher
   });
 });
 
