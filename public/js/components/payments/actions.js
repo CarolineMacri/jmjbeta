@@ -1,67 +1,55 @@
-import axios from "axios";
-import { showAlert } from "../../alerts";
+import axios from 'axios';
+import { showAlert } from '../../alerts';
 
 export const changePaymentsYear = (year, parentId) => {
-  location.assign(`/payments_table/${year}/${parentId}`); 
+  location.assign(`/payments_table/${year}/${parentId}`);
 };
 
-// export const saveEnrollentSelections = async (enrollments) => {
-//   const enrollmentsToAdd = enrollments.filter((e) => {
-//     return !e._id && e.class;
-//   });
-//   const enrollmentsToUpdate = enrollments.filter((e) => {
-//     return e._id && e.class;
-//   });
-//   const enrollmentsToDelete = enrollments.filter((e) => {
-//     return e._id && !e.class;
-//   });
+export const updatePayment = async(
+  paymentId,
+  payment,
+  selectedYear,
+  hasParent
+) => {
+  const isNewPayment = payment.isNew == true;
+  const method = isNewPayment ? "POST" : "PATCH";
+  alert(method);
+}
 
-//   enrollmentsToAdd.forEach(async (e) => {
-//     try {
-//       var url = `/api/v1/enrollments`;
+export const deletePaymentModal = async (row) => {
+  alert('im in deletepaymentModal');
+  const paymentId = row.id;
+  alert(row.id);
+  const [parentName, teacherName, checkNumber, semester, amount, x, y] = [
+    ...row.children,
+  ].map((e) => e.innerHTML);
 
-//       const res = await axios({
-//         method: 'POST',
-//         url,
-//         data: e,
-//       });
-//     } catch (err) {
-//       showAlert('error', err.response.data.message);
-//     }
-//   });
+  const deleteModal = document.querySelector('.delete-modal__window');
+  const paragraphs = deleteModal.getElementsByTagName("p");
+  paragraphs.item(2).innerHTML = parentName.toUpperCase() + " Check: " + checkNumber;
+  const deletePaymentButton = document.getElementById("deletePayment");
+  deletePaymentButton.addEventListener("click", () => { deletePayment(paymentId, parentName) });
+  deleteModal.classList.toggle("delete-modal__show");
+};
 
-//   enrollmentsToUpdate.forEach(async (e) => {
-//     try {
-//       var url = `/api/v1/enrollments/${e._id}`;
+export const deletePayment = async (paymentId, parentName) => {
+  
+  try {
+    const url = `/api/v1/payments/${paymentId}`;
+    alert(url);  
+    const res = await axios({
+      method: "DELETE",
+      url
+    });
 
-//       const res = await axios({
-//         method: 'PATCH',
-//         url,
-//         data: e,
-//       });
-//     } catch (err) {
-//       showAlert('error', err.response.data.message);
-//     }
-//   });
+    if (res.status == 204) {
+      showAlert('success', `${parentName} payment successfully deleted`);
+      window.setTimeout(() => {
+        location.reload();
+      }, 500);
+    }
+  } catch (err) {
+    showAlert("error", err.respons.data.message)
+  }
+};
 
-//   enrollmentsToDelete.forEach(async (e) => {
-//     try {
-//       var url = `/api/v1/enrollments/${e._id}`;
-
-//       const res = await axios({
-//         method: 'DELETE',
-//         url,
-//         data: e,
-//       });
-//     } catch (err) {
-//       showAlert('error', err.response.data.message);
-//     }
-//   });
-
-//   // if you got to here - everything is good
-//   showAlert('success', `Enrollment selections saved successfully`);
-
-//   window.setTimeout(() => {
-//     location.replace(`/enrollment_profile/${familyId}/${selectedYear}`);
-//   }, 500);
-// };
