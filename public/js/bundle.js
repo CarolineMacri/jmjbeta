@@ -14508,30 +14508,29 @@ exports.index = index;
 var _actions = require("./actions");
 
 /* eslint-disable */
-// import 'core-js/stable';
-// import 'regenerator-runtime/runtime';
+// import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements
-  var courses = document.querySelector(".courses");
-  var courseProfile = document.querySelector(".course-profile");
+  var courses = document.querySelector('.courses');
+  var courseProfile = document.querySelector('.course-profile');
 
   if (courses) {
-    var yearSelect = document.getElementById("year-select");
-    yearSelect.addEventListener("change", function (e) {
-      var ownerId = document.querySelector(".courses__title").id;
+    var yearSelect = document.getElementById('year-select');
+    yearSelect.addEventListener('change', function (e) {
+      var ownerId = document.querySelector('.courses__title').id;
       var newYear = yearSelect.value;
       (0, _actions.changeCoursesYear)(newYear, ownerId);
     }); // add event listners for each course
 
-    var coursesRows = document.querySelector(".courses").getElementsByTagName("tr");
+    var coursesRows = document.querySelector('.courses').getElementsByTagName('tr');
     var numRows = coursesRows.length;
 
     var _loop = function _loop() {
       var dataRow = coursesRows[i];
-      var dataCells = dataRow.getElementsByTagName("td");
+      var dataCells = dataRow.getElementsByTagName('td');
       var numCells = dataCells.length;
       var deleteButton = dataCells.item(numCells - 1);
-      deleteButton.addEventListener("click", function () {
+      deleteButton.addEventListener('click', function () {
         (0, _actions.deleteCourseModal)(dataRow);
       });
     };
@@ -14540,34 +14539,38 @@ function index(a) {
       _loop();
     }
 
-    var cancelDelete = document.getElementById("cancelDelete");
-    cancelDelete.addEventListener("click", function (e) {
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
       e.preventDefault();
-      document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
     });
   }
 
   if (courseProfile) {
-    var courseProfileForm = document.querySelector(".course-profile__form");
-    courseProfileForm.addEventListener("submit", function (e) {
+    alert(' in course Profile');
+    var courseProfileForm = document.querySelector('.course-profile__form');
+    if (courseProfileForm) alert('courseProfile form OK');
+    courseProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
+      alert('submitted');
       var selectedYear = courseProfile.dataset.selectedYear;
-      var isNew = courseProfile.dataset.isNew == "new";
-      var hasOwner = courseProfile.dataset.hasOwner == "true";
+      var isNew = courseProfile.dataset.isNew == 'new';
+      var hasOwner = courseProfile.dataset.hasOwner == 'true';
       var courseId = courseProfileForm.id;
-      var name = document.getElementById("courseName").value;
-      var owner = document.getElementById("owner").value;
-      var courseYears = getChecked("years");
-      var classFee = document.getElementById("classFee").value; // const materialsFee = [
-      //   {
-      //     semester: 1,
-      //     amount: document.getElementById('materialsFeeAmount1').value,
-      //   },
-      //   {
-      //     semester: 2,
-      //     amount: document.getElementById('materialsFeeAmount2').value,
-      //   },
-      // ];
+      var name = document.getElementById('courseName').value;
+      var owner = document.getElementById('owner').value;
+      var courseYears = getChecked('years');
+      var classFee = document.getElementById('classFee').value;
+      alert(classFee); //     // const materialsFee = [
+      //     //   {
+      //     //     semester: 1,
+      //     //     amount: document.getElementById('materialsFeeAmount1').value,
+      //     //   },
+      //     //   {
+      //     //     semester: 2,
+      //     //     amount: document.getElementById('materialsFeeAmount2').value,
+      //     //   },
+      //     // ];
 
       var semesterMaterialsFee = {
         1: document.getElementById("semesterMaterialsFee1").value,
@@ -14600,6 +14603,7 @@ function index(a) {
         semesterMaterialsFee: semesterMaterialsFee,
         isNew: isNew
       };
+      alert('before adding update course to event listener');
       (0, _actions.updateCourse)(courseId, course, selectedYear, hasOwner);
     });
   }
@@ -14609,7 +14613,7 @@ function getChecked(name) {
   var items = document.getElementsByName(name);
   var selectedItems = [];
   items.forEach(function (item) {
-    if (item.type == "checkbox" && item.checked == true) selectedItems.push(item.value);
+    if (item.type == 'checkbox' && item.checked == true) selectedItems.push(item.value);
   });
   return selectedItems;
 }
@@ -17065,7 +17069,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changePaymentsYear = void 0;
+exports.deletePayment = exports.deletePaymentModal = exports.updatePayment = exports.changePaymentsYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -17073,63 +17077,148 @@ var _alerts = require("../../alerts");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var changePaymentsYear = function changePaymentsYear(year, parentId) {
   location.assign("/payments_table/".concat(year, "/").concat(parentId));
-}; // export const saveEnrollentSelections = async (enrollments) => {
-//   const enrollmentsToAdd = enrollments.filter((e) => {
-//     return !e._id && e.class;
-//   });
-//   const enrollmentsToUpdate = enrollments.filter((e) => {
-//     return e._id && e.class;
-//   });
-//   const enrollmentsToDelete = enrollments.filter((e) => {
-//     return e._id && !e.class;
-//   });
-//   enrollmentsToAdd.forEach(async (e) => {
-//     try {
-//       var url = `/api/v1/enrollments`;
-//       const res = await axios({
-//         method: 'POST',
-//         url,
-//         data: e,
-//       });
-//     } catch (err) {
-//       showAlert('error', err.response.data.message);
-//     }
-//   });
-//   enrollmentsToUpdate.forEach(async (e) => {
-//     try {
-//       var url = `/api/v1/enrollments/${e._id}`;
-//       const res = await axios({
-//         method: 'PATCH',
-//         url,
-//         data: e,
-//       });
-//     } catch (err) {
-//       showAlert('error', err.response.data.message);
-//     }
-//   });
-//   enrollmentsToDelete.forEach(async (e) => {
-//     try {
-//       var url = `/api/v1/enrollments/${e._id}`;
-//       const res = await axios({
-//         method: 'DELETE',
-//         url,
-//         data: e,
-//       });
-//     } catch (err) {
-//       showAlert('error', err.response.data.message);
-//     }
-//   });
-//   // if you got to here - everything is good
-//   showAlert('success', `Enrollment selections saved successfully`);
-//   window.setTimeout(() => {
-//     location.replace(`/enrollment_profile/${familyId}/${selectedYear}`);
-//   }, 500);
-// };
-
+};
 
 exports.changePaymentsYear = changePaymentsYear;
+
+var updatePayment = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(paymentId, payment, selectedYear, hasParent) {
+    var isNewPayment, method;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            isNewPayment = payment.isNew == true;
+            method = isNewPayment ? "POST" : "PATCH";
+            alert(method);
+
+          case 3:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function updatePayment(_x, _x2, _x3, _x4) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.updatePayment = updatePayment;
+
+var deletePaymentModal = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
+    var paymentId, _map, _map2, parentName, teacherName, checkNumber, semester, amount, x, y, deleteModal, paragraphs, deletePaymentButton;
+
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            alert('im in deletepaymentModal');
+            paymentId = row.id;
+            alert(row.id);
+            _map = _toConsumableArray(row.children).map(function (e) {
+              return e.innerHTML;
+            }), _map2 = _slicedToArray(_map, 7), parentName = _map2[0], teacherName = _map2[1], checkNumber = _map2[2], semester = _map2[3], amount = _map2[4], x = _map2[5], y = _map2[6];
+            deleteModal = document.querySelector('.delete-modal__window');
+            paragraphs = deleteModal.getElementsByTagName("p");
+            paragraphs.item(2).innerHTML = parentName.toUpperCase() + " Check: " + checkNumber;
+            deletePaymentButton = document.getElementById("deletePayment");
+            deletePaymentButton.addEventListener("click", function () {
+              deletePayment(paymentId, parentName);
+            });
+            deleteModal.classList.toggle("delete-modal__show");
+
+          case 10:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function deletePaymentModal(_x5) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.deletePaymentModal = deletePaymentModal;
+
+var deletePayment = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(paymentId, parentName) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            url = "/api/v1/payments/".concat(paymentId);
+            alert(url);
+            _context3.next = 5;
+            return (0, _axios.default)({
+              method: "DELETE",
+              url: url
+            });
+
+          case 5:
+            res = _context3.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)('success', "".concat(parentName, " payment successfully deleted"));
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context3.next = 12;
+            break;
+
+          case 9:
+            _context3.prev = 9;
+            _context3.t0 = _context3["catch"](0);
+            (0, _alerts.showAlert)("error", _context3.t0.respons.data.message);
+
+          case 12:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 9]]);
+  }));
+
+  return function deletePayment(_x6, _x7) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.deletePayment = deletePayment;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/payments/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -17144,16 +17233,71 @@ var _actions = require("./actions");
 // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
   // DOM elements=
-  var payments = document.querySelector(".payments");
+  var payments = document.querySelector('.payments');
   var paymentProfile = document.querySelector('.payment-profile');
 
   if (payments) {
     var yearSelect = document.getElementById('year-select');
-    var parentId = document.querySelector(".payments__title").id;
+    var parentId = document.querySelector('.payments__title').id;
     yearSelect.addEventListener('change', function (e) {
       var newYear = yearSelect.value;
       (0, _actions.changePaymentsYear)(newYear, parentId);
     });
+    var paymentsRows = document.querySelector('.payments').getElementsByTagName('tr');
+    var numRows = paymentsRows.length;
+    alert('num payments ' + numRows);
+
+    var _loop = function _loop() {
+      var dataRow = paymentsRows[i];
+      var dataCells = dataRow.getElementsByTagName('td');
+      var numCells = dataCells.length;
+      var deleteButton = dataCells.item(numCells - 1);
+      deleteButton.addEventListener("click", function () {
+        (0, _actions.deletePaymentModal)(dataRow);
+      });
+    };
+
+    for (var i = 1; i <= numRows - 2; i++) {
+      _loop();
+    }
+
+    var cancelDelete = document.getElementById("cancelDelete");
+    cancelDelete.addEventListener("click", function (e) {
+      e.preventDefault();
+      alert('toggling delete');
+      document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
+    });
+  }
+
+  if (paymentProfile) {
+    var paymentProfileForm = document.querySelector('.payment-profile__form');
+
+    if (paymentProfileForm) {
+      paymentProfileForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var selectedYear = paymentProfile.dataset.selectedYear;
+        var isNew = paymentProfile.dataset.isNew == 'new';
+        var hasParent = paymentProfile.hasParent == 'true';
+        var paymentId = paymentProfileForm.id;
+        var parent = document.getElementById("parent").value;
+        var teacher = document.getElementById('teacher').value;
+        var semester = document.getElementById('semester').value;
+        var checkNumber = document.getElementById('checkNumber').value;
+        var amount = document.getElementById('amount').value;
+        var payment = {
+          id: paymentId,
+          parent: parent,
+          teacher: teacher,
+          year: selectedYear,
+          semester: semester,
+          checkNumber: checkNumber,
+          amount: amount,
+          isNew: isNew
+        };
+        alert(JSON.stringify(payment));
+        (0, _actions.updatePayment)(paymentId, payment, selectedYear, hasParent);
+      });
+    }
   } // if (enrollmentProfile) {
   //   const enrollmentProfileForm = document.querySelector(
   //     '.enrollment-profile__form'
