@@ -49,7 +49,8 @@ function index(a) {
     if (paymentProfileForm) {
       paymentProfileForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const selectedYear = paymentProfile.dataset.selectedYear;
+        const year = paymentProfile.dataset.selectedYear;
+        alert(year)
         const isNew = paymentProfile.dataset.isNew == 'new';
         const hasParent = paymentProfile.hasParent == 'true';
         const paymentId = paymentProfileForm.id;
@@ -60,17 +61,17 @@ function index(a) {
         const amount = document.getElementById('amount').value;
 
         const payment = {
-          id: paymentId,
+          _id: paymentId,
           parent,
           teacher,
-          year: selectedYear,
+          year,
           semester,
           checkNumber,
           amount,
           isNew
         };
         alert(JSON.stringify(payment));
-        updatePayment(paymentId, payment, selectedYear, hasParent);
+        updatePayment(paymentId, payment, year, hasParent);
       })
     }
   }

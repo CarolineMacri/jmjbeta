@@ -17109,21 +17109,49 @@ exports.changePaymentsYear = changePaymentsYear;
 
 var updatePayment = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(paymentId, payment, selectedYear, hasParent) {
-    var isNewPayment, method;
+    var isNewPayment, method, url, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             isNewPayment = payment.isNew == true;
-            method = isNewPayment ? "POST" : "PATCH";
+            method = isNewPayment ? 'POST' : 'PATCH';
             alert(method);
+            _context.prev = 3;
+            url = "/api/v1/payments".concat(isNewPayment ? '' : '/' + payment._id);
+            alert(url);
+            _context.next = 8;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: payment
+            });
 
-          case 3:
+          case 8:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "Check ".concat(payment.checkNumber, " : $").concat(payment.amount, " ").concat(paymentId == 'new' ? ' added ' : ' updated ', " successfully"));
+              payment = res.data.data.payment;
+              window.setTimeout(function () {
+                if (hasParent) location.replace("/payment_profile/".concat(payment.id, "/").concat(selectedYear, "/").concat(payment.parent));else location.replace("/payment_profile/".concat(payment.id, "/").concat(selectedYear));
+              }, 500);
+            }
+
+            _context.next = 15;
+            break;
+
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](3);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[3, 12]]);
   }));
 
   return function updatePayment(_x, _x2, _x3, _x4) {
@@ -17148,13 +17176,13 @@ var deletePaymentModal = /*#__PURE__*/function () {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 7), parentName = _map2[0], teacherName = _map2[1], checkNumber = _map2[2], semester = _map2[3], amount = _map2[4], x = _map2[5], y = _map2[6];
             deleteModal = document.querySelector('.delete-modal__window');
-            paragraphs = deleteModal.getElementsByTagName("p");
-            paragraphs.item(2).innerHTML = parentName.toUpperCase() + " Check: " + checkNumber;
-            deletePaymentButton = document.getElementById("deletePayment");
-            deletePaymentButton.addEventListener("click", function () {
+            paragraphs = deleteModal.getElementsByTagName('p');
+            paragraphs.item(2).innerHTML = parentName.toUpperCase() + ' Check: ' + checkNumber;
+            deletePaymentButton = document.getElementById('deletePayment');
+            deletePaymentButton.addEventListener('click', function () {
               deletePayment(paymentId, parentName);
             });
-            deleteModal.classList.toggle("delete-modal__show");
+            deleteModal.classList.toggle('delete-modal__show');
 
           case 10:
           case "end":
@@ -17183,7 +17211,7 @@ var deletePayment = /*#__PURE__*/function () {
             alert(url);
             _context3.next = 5;
             return (0, _axios.default)({
-              method: "DELETE",
+              method: 'DELETE',
               url: url
             });
 
@@ -17203,7 +17231,7 @@ var deletePayment = /*#__PURE__*/function () {
           case 9:
             _context3.prev = 9;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)("error", _context3.t0.respons.data.message);
+            (0, _alerts.showAlert)('error', _context3.t0.respons.data.message);
 
           case 12:
           case "end":
@@ -17275,7 +17303,8 @@ function index(a) {
     if (paymentProfileForm) {
       paymentProfileForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        var selectedYear = paymentProfile.dataset.selectedYear;
+        var year = paymentProfile.dataset.selectedYear;
+        alert(year);
         var isNew = paymentProfile.dataset.isNew == 'new';
         var hasParent = paymentProfile.hasParent == 'true';
         var paymentId = paymentProfileForm.id;
@@ -17285,17 +17314,17 @@ function index(a) {
         var checkNumber = document.getElementById('checkNumber').value;
         var amount = document.getElementById('amount').value;
         var payment = {
-          id: paymentId,
+          _id: paymentId,
           parent: parent,
           teacher: teacher,
-          year: selectedYear,
+          year: year,
           semester: semester,
           checkNumber: checkNumber,
           amount: amount,
           isNew: isNew
         };
         alert(JSON.stringify(payment));
-        (0, _actions.updatePayment)(paymentId, payment, selectedYear, hasParent);
+        (0, _actions.updatePayment)(paymentId, payment, year, hasParent);
       });
     }
   } // if (enrollmentProfile) {

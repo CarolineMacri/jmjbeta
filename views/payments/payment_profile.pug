@@ -2,10 +2,10 @@ extends ../base
 
 block content
 
-    .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') )
+    .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') data-selected-year=selectedYear )
          
         section
-            form.form.form__outline-box.payment-profile__form(id=payment._id) 
+            form.form.form__outline-box.payment-profile__form(id=payment._id ) 
                 .form__row
                     .form__header-text= `Payment - ${payment.year}`
                     .form__header-background.family-form__header-image
