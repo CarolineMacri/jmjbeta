@@ -22,6 +22,8 @@ exports.getTeacherProfile = catchAsync(async (req, res, next) => {
 
   teacher = teacher[0];
 
+  console.log(teacher);
+  
   res.status(200).render('teachers/teacher_profile', {
     title: `Teacher Info`,
     teacher,
@@ -49,7 +51,11 @@ exports.getTeachersTable = catchAsync(async (req, res, next) => {
     .populate({ path: 'courses', match: { years: selectedYear } })
     .populate({ path: 'teacher', justOne: true });
 
-  res.status(200).render('teachers/teachers_table', {
+  // user with year role teacher unchecked but without and existing teacher record
+  teachers = teachers.filter(teacher => (teacher.teacher.length > 0))
+
+  //console.log(teachers[0]);
+  res.status(200).render('teachers/teachers_table', { 
     title: `Teachers ${selectedYear}`,
     teachers,
     years,

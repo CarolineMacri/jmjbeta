@@ -17518,7 +17518,7 @@ function getChecked(name) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.existsTeacher = exports.addTeacher = exports.updateTeacher = exports.changeTeachersYear = void 0;
+exports.deleteTeacher = exports.existsTeacher = exports.addTeacher = exports.updateTeacher = exports.changeTeachersYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -17648,7 +17648,7 @@ var existsTeacher = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            url = "/api/v1/teachers/?teacher=".concat(teacherId);
+            url = "/api/v1/teachers/".concat(teacherId);
             method = 'GET';
             data = {
               teacher: teacherId
@@ -17693,6 +17693,62 @@ var existsTeacher = /*#__PURE__*/function () {
 }();
 
 exports.existsTeacher = existsTeacher;
+
+var deleteTeacher = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(teacherId) {
+    var deleteOk, url, res;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            deleteOk = confirm('Are you sure you want to delete this teacher?' + teacherId);
+
+            if (!deleteOk) {
+              _context4.next = 14;
+              break;
+            }
+
+            _context4.prev = 2;
+            url = "/api/v1/teachers/".concat(teacherId);
+            alert(url);
+            _context4.next = 7;
+            return (0, _axios.default)({
+              method: 'DELETE',
+              url: url
+            });
+
+          case 7:
+            res = _context4.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)('success', "Teacher deleted");
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context4.next = 14;
+            break;
+
+          case 11:
+            _context4.prev = 11;
+            _context4.t0 = _context4["catch"](2);
+            (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
+
+          case 14:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[2, 11]]);
+  }));
+
+  return function deleteTeacher(_x4) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.deleteTeacher = deleteTeacher;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/teachers/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -17717,6 +17773,16 @@ function index(a) {
       var newYear = yearSelect.value;
       (0, _actions.changeTeachersYear)(newYear);
     });
+    var deleteTeacherButtons = Array.from(document.getElementsByClassName('delete-teacher'));
+    alert("num delete teacher buttons = ".concat(deleteTeacherButtons.length));
+
+    if (deleteTeacherButtons) {
+      deleteTeacherButtons.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          (0, _actions.deleteTeacher)(btn.dataset.teacher_id);
+        });
+      });
+    }
   }
 
   if (teacherProfile) {

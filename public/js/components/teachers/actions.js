@@ -58,7 +58,7 @@ export const addTeacher = async (teacherId) => {
 
 export const existsTeacher = async (teacherId) => {
   try {
-    const url = `/api/v1/teachers/?teacher=${teacherId}`;
+    const url = `/api/v1/teachers/${teacherId}`;
     const method = 'GET';
     const data = { teacher: teacherId };
     const res = await axios({
@@ -71,6 +71,33 @@ export const existsTeacher = async (teacherId) => {
     }
   } catch (err) {
     showAlert('error', err.response.data.message); 
+  }
+};
+
+export const deleteTeacher = async (teacherId) => {
+  const deleteOk = confirm(
+    'Are you sure you want to delete this teacher?' + teacherId
+  );
+
+  if (deleteOk) {
+    
+    try {
+      const url = `/api/v1/teachers/${teacherId}`;
+      alert(url)
+      const res = await axios({
+        method: 'DELETE',
+        url,
+      });
+
+      if (res.status == 204) {
+        showAlert('success', `Teacher deleted`);
+        window.setTimeout(() => {
+          location.reload();
+        }, 500);
+      }
+    } catch (err) {
+      showAlert('error', err.response.data.message);
+    }
   }
 };
 

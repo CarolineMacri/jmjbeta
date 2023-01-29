@@ -1,10 +1,7 @@
 /* eslint-disable */ // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
-import {
-  changeTeachersYear,
-  updateTeacher,
-} from './actions';
+import { changeTeachersYear, updateTeacher, deleteTeacher } from './actions';
 
 function index(a) {
   // DOM
@@ -19,10 +16,23 @@ function index(a) {
 
       changeTeachersYear(newYear);
     });
+
+    const deleteTeacherButtons = Array.from(
+      document.getElementsByClassName('delete-teacher')
+    );
+    alert(`num delete teacher buttons = ${deleteTeacherButtons.length}`);
+
+    if (deleteTeacherButtons) {
+      deleteTeacherButtons.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          deleteTeacher(btn.dataset.teacher_id);
+        });
+      });
+    }
   }
 
   if (teacherProfile) {
-    const teacherProfileForm = document.querySelector('.teacher-profile__form'); 
+    const teacherProfileForm = document.querySelector('.teacher-profile__form');
 
     teacherProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -36,11 +46,10 @@ function index(a) {
     });
 
     const formCancel = document.querySelector('.form__cancel');
-    formCancel.addEventListener('click',(e) => {
+    formCancel.addEventListener('click', (e) => {
       e.preventDefault();
       history.back();
-
-    })
+    });
   }
 }
 
