@@ -5,7 +5,7 @@ const { update } = require("./userModel");
 const yearSchema = new mongoose.Schema({
   year: {
     type: String,
-    required: [true, "Year in the format yyyy-yyyy required"],
+    required: [true, "Year in the format yyyy-yyyy required"], 
   },
   current: {
     type: Boolean,

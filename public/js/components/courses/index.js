@@ -43,13 +43,13 @@ function index(a) {
   }
 
   if (courseProfile) {
-    alert(' in course Profile');
+    //alert(' in course Profile');
     const courseProfileForm = document.querySelector('.course-profile__form');
-    if (courseProfileForm) alert('courseProfile form OK');
+    //if (courseProfileForm) alert('courseProfile form OK');
 
     courseProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert('submitted');
+      //alert('submitted');
 
       const selectedYear = courseProfile.dataset.selectedYear;
       const isNew = courseProfile.dataset.isNew == 'new';
@@ -60,7 +60,6 @@ function index(a) {
       const courseYears = getChecked('years');
       const classFee = document.getElementById('classFee').value;
 
-      alert(classFee)
       //     // const materialsFee = [
       //     //   {
       //     //     semester: 1,
@@ -103,7 +102,7 @@ function index(a) {
             semesterMaterialsFee,
             isNew,
           };
-          alert ('before adding update course to event listener')
+          // alert ('before adding update course to event listener')
           updateCourse(courseId, course, selectedYear, hasOwner);
     });
   }
