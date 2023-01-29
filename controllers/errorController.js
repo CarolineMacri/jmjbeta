@@ -88,7 +88,7 @@ function getRenderErrorDevResponse(err, res) {
   });
 }
 
-function getApiOperationalErrorProdResponse(err, res) {
+function getApiOperationalErrorProdResponse(err, res) { 
   return res.status(err.statusCode).json({
     status: err.status,
     message: err.message,
@@ -98,7 +98,7 @@ function getApiOperationalErrorProdResponse(err, res) {
 function getApiSystemErrorProdResponse(err, res) {
   return res.status(500).json({
     status: "error",
-    message: "Something went very wrong",
+    message: err.message,
   });
 }
 

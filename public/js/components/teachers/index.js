@@ -20,12 +20,11 @@ function index(a) {
     const deleteTeacherButtons = Array.from(
       document.getElementsByClassName('delete-teacher')
     );
-    alert(`num delete teacher buttons = ${deleteTeacherButtons.length}`);
 
     if (deleteTeacherButtons) {
       deleteTeacherButtons.forEach((btn) => {
         btn.addEventListener('click', (e) => {
-          deleteTeacher(btn.dataset.teacher_id);
+          deleteTeacher(btn.dataset.teacher_id); 
         });
       });
     }

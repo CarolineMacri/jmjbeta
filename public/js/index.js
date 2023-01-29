@@ -72,7 +72,6 @@ if (families) {
   const deleteFamilyButtons = Array.from(
     document.getElementsByClassName('delete-family')
   );
-  alert(`num delete family buttons = ${deleteFamilyButtons.length}`)
 
   yearSelect.addEventListener('change', (e) => {
     const newYear = yearSelect.value;
@@ -316,11 +315,9 @@ if (users) {
     updateUser(id, data).then((newId) => {
       if (roles.includes('parent')) {
         if (id == 'new') {
-          alert('new parent')
           addFamily(newId)
         } else {
           existsFamily(id).then((exists) => {
-            alert('non existent family')
             if (!exists) {
               addFamily(newId);
             }
@@ -330,12 +327,10 @@ if (users) {
 
       if (roles.includes('teacher')) {
         if (id == 'new') {
-          alert('new teacher')
           addTeacher(newId);
         } else {
           existsTeacher(id).then((exists) => {
             if (!exists) {
-              alert('non existent teacher record')
               addTeacher(newId);
             }
           });

@@ -12,11 +12,10 @@ export const updatePayment = async (
 ) => {
   const isNewPayment = payment.isNew == true;
   const method = isNewPayment ? 'POST' : 'PATCH';
-  alert(method);
 
   try {
     var url = `/api/v1/payments${isNewPayment ? '' : '/' + payment._id}`;
-    alert(url);
+
     const res = await axios({
       method,
       url,
@@ -45,9 +44,9 @@ export const updatePayment = async (
 };
 
 export const deletePaymentModal = async (row) => {
-  alert('im in deletepaymentModal');
+
   const paymentId = row.id;
-  alert(row.id);
+
   const [parentName, teacherName, checkNumber, semester, amount, x, y] = [
     ...row.children,
   ].map((e) => e.innerHTML);
@@ -66,7 +65,7 @@ export const deletePaymentModal = async (row) => {
 export const deletePayment = async (paymentId, parentName) => {
   try {
     const url = `/api/v1/payments/${paymentId}`;
-    alert(url);
+
     const res = await axios({
       method: 'DELETE',
       url,

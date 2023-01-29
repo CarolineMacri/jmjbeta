@@ -1,5 +1,5 @@
-import axios from "axios";
-import { showAlert } from "./alerts";
+import axios from 'axios';
+import { showAlert } from './alerts';
 
 export const changeFamiliesYear = (year) => {
   location.assign(`/families/${year}`);
@@ -10,11 +10,8 @@ export const deleteFamily = async (familyId) => {
   );
 
   if (deleteOk) {
-    alert('you pressed OK');
-
     try {
       const url = `/api/v1/families/${familyId}`;
-      alert(url)
       const res = await axios({
         method: 'DELETE',
         url,

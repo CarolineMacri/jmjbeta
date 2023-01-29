@@ -21,7 +21,7 @@ function index(a) {
       .getElementsByTagName('tr');
     
     const numRows = paymentsRows.length;
-    alert('num payments ' + numRows);
+ 
 
     for (var i = 1; i <= numRows - 2; i++){
       const dataRow = paymentsRows[i];
@@ -36,7 +36,7 @@ function index(a) {
     const cancelDelete = document.getElementById("cancelDelete");
     cancelDelete.addEventListener("click", function (e) {
       e.preventDefault();
-      alert('toggling delete')
+   
       document
         .querySelector(".delete-modal__window")
         .classList.toggle("delete-modal__show");
@@ -50,7 +50,6 @@ function index(a) {
       paymentProfileForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const year = paymentProfile.dataset.selectedYear;
-        alert(year)
         const isNew = paymentProfile.dataset.isNew == 'new';
         const hasParent = paymentProfile.hasParent == 'true';
         const paymentId = paymentProfileForm.id;
@@ -70,7 +69,7 @@ function index(a) {
           amount,
           isNew
         };
-        alert(JSON.stringify(payment));
+     
         updatePayment(paymentId, payment, year, hasParent);
       })
     }

@@ -83,7 +83,6 @@ export const deleteTeacher = async (teacherId) => {
     
     try {
       const url = `/api/v1/teachers/${teacherId}`;
-      alert(url)
       const res = await axios({
         method: 'DELETE',
         url,

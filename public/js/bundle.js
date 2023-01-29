@@ -14270,21 +14270,19 @@ var deleteFamily = /*#__PURE__*/function () {
             deleteOk = confirm('Are you sure you want to delete this family?' + familyId);
 
             if (!deleteOk) {
-              _context.next = 15;
+              _context.next = 13;
               break;
             }
 
-            alert('you pressed OK');
-            _context.prev = 3;
+            _context.prev = 2;
             url = "/api/v1/families/".concat(familyId);
-            alert(url);
-            _context.next = 8;
+            _context.next = 6;
             return (0, _axios.default)({
               method: 'DELETE',
               url: url
             });
 
-          case 8:
+          case 6:
             res = _context.sent;
 
             if (res.status == 204) {
@@ -14294,109 +14292,13 @@ var deleteFamily = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context.next = 15;
-            break;
-
-          case 12:
-            _context.prev = 12;
-            _context.t0 = _context["catch"](3);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
-
-          case 15:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[3, 12]]);
-  }));
-
-  return function deleteFamily(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-exports.deleteFamily = deleteFamily;
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"components/courses/actions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.deleteCourse = exports.deleteCourseModal = exports.updateCourse = exports.changeCoursesYear = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _alerts = require("../../alerts");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var changeCoursesYear = function changeCoursesYear(year, ownerId) {
-  location.assign("/courses_table/".concat(year, "/").concat(ownerId));
-};
-
-exports.changeCoursesYear = changeCoursesYear;
-
-var updateCourse = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(courseId, course, selectedYear, hasOwner) {
-    var isNewCourse, method, url, res;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            isNewCourse = course.isNew == true;
-            method = isNewCourse ? "POST" : "PATCH";
-            _context.prev = 2;
-            url = "/api/v1/courses".concat(isNewCourse ? "" : "/" + course.id); //console.log(`updating  ${course.name} name`);
-
-            _context.next = 6;
-            return (0, _axios.default)({
-              method: method,
-              url: url,
-              data: course
-            });
-
-          case 6:
-            res = _context.sent;
-
-            if (res.data.status == "success") {
-              (0, _alerts.showAlert)("success", "".concat(course.name, " ").concat(courseId == "new" ? " added " : " updated ", " successfully"));
-              course = res.data.data.course;
-              window.setTimeout(function () {
-                if (hasOwner) location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear, "/").concat(course.owner));else location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear));
-              }, 500);
-            }
-
             _context.next = 13;
             break;
 
           case 10:
             _context.prev = 10;
             _context.t0 = _context["catch"](2);
-            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
           case 13:
           case "end":
@@ -14406,98 +14308,13 @@ var updateCourse = /*#__PURE__*/function () {
     }, _callee, null, [[2, 10]]);
   }));
 
-  return function updateCourse(_x, _x2, _x3, _x4) {
+  return function deleteFamily(_x) {
     return _ref.apply(this, arguments);
   };
 }();
 
-exports.updateCourse = updateCourse;
-
-var deleteCourseModal = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
-    var courseId, _map, _map2, courseName, courseGrades, courseFee, x, y, deleteModal, paragraphs, deleteCourseButton;
-
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            courseId = row.id;
-            _map = _toConsumableArray(row.children).map(function (e) {
-              return e.innerHTML;
-            }), _map2 = _slicedToArray(_map, 5), courseName = _map2[0], courseGrades = _map2[1], courseFee = _map2[2], x = _map2[3], y = _map2[4];
-            deleteModal = document.querySelector(".delete-modal__window");
-            paragraphs = deleteModal.getElementsByTagName("p");
-            paragraphs.item(2).innerHTML = courseName.toUpperCase() + "   " + courseGrades;
-            deleteCourseButton = document.getElementById("deleteCourse");
-            deleteCourseButton.addEventListener("click", function () {
-              deleteCourse(courseId, courseName);
-            });
-            deleteModal.classList.toggle("delete-modal__show");
-
-          case 8:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function deleteCourseModal(_x5) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-exports.deleteCourseModal = deleteCourseModal;
-
-var deleteCourse = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(courseId, courseName) {
-    var url, res;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.prev = 0;
-            url = "/api/v1/courses/".concat(courseId);
-            _context3.next = 4;
-            return (0, _axios.default)({
-              method: "DELETE",
-              url: url
-            });
-
-          case 4:
-            res = _context3.sent;
-
-            if (res.status == 204) {
-              (0, _alerts.showAlert)("success", "".concat(courseName, " deleted"));
-              window.setTimeout(function () {
-                location.reload();
-              }, 500);
-              (0, _alerts.showAlert)("success", "".concat(courseName, " successfully deleted"));
-            }
-
-            _context3.next = 11;
-            break;
-
-          case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
-
-          case 11:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3, null, [[0, 8]]);
-  }));
-
-  return function deleteCourse(_x6, _x7) {
-    return _ref3.apply(this, arguments);
-  };
-}();
-
-exports.deleteCourse = deleteCourse;
-},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/courses/index.js":[function(require,module,exports) {
+exports.deleteFamily = deleteFamily;
+},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"components/courses/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14505,10 +14322,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.index = index;
 
-var _actions = require("./actions");
-
 /* eslint-disable */
-// import 'core-js/stable';// import 'regenerator-runtime/runtime';
+// import 'core-js/stable';// import 'regenerator-runtime/runtime';import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
 function index(a) {
   // DOM elements
   var courses = document.querySelector('.courses');
@@ -14519,7 +14334,7 @@ function index(a) {
     yearSelect.addEventListener('change', function (e) {
       var ownerId = document.querySelector('.courses__title').id;
       var newYear = yearSelect.value;
-      (0, _actions.changeCoursesYear)(newYear, ownerId);
+      changeCoursesYear(newYear, ownerId);
     }); // add event listners for each course
 
     var coursesRows = document.querySelector('.courses').getElementsByTagName('tr');
@@ -14531,7 +14346,7 @@ function index(a) {
       var numCells = dataCells.length;
       var deleteButton = dataCells.item(numCells - 1);
       deleteButton.addEventListener('click', function () {
-        (0, _actions.deleteCourseModal)(dataRow);
+        deleteCourseModal(dataRow);
       });
     };
 
@@ -14547,12 +14362,9 @@ function index(a) {
   }
 
   if (courseProfile) {
-    alert(' in course Profile');
     var courseProfileForm = document.querySelector('.course-profile__form');
-    if (courseProfileForm) alert('courseProfile form OK');
     courseProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      alert('submitted');
       var selectedYear = courseProfile.dataset.selectedYear;
       var isNew = courseProfile.dataset.isNew == 'new';
       var hasOwner = courseProfile.dataset.hasOwner == 'true';
@@ -14560,8 +14372,7 @@ function index(a) {
       var name = document.getElementById('courseName').value;
       var owner = document.getElementById('owner').value;
       var courseYears = getChecked('years');
-      var classFee = document.getElementById('classFee').value;
-      alert(classFee); //     // const materialsFee = [
+      var classFee = document.getElementById('classFee').value; //     // const materialsFee = [
       //     //   {
       //     //     semester: 1,
       //     //     amount: document.getElementById('materialsFeeAmount1').value,
@@ -14573,21 +14384,21 @@ function index(a) {
       //     // ];
 
       var semesterMaterialsFee = {
-        1: document.getElementById("semesterMaterialsFee1").value,
-        2: document.getElementById("semesterMaterialsFee2").value
+        1: document.getElementById('semesterMaterialsFee1').value,
+        2: document.getElementById('semesterMaterialsFee2').value
       };
       var grade = {
-        min: document.getElementById("gradeMin").value,
-        max: document.getElementById("gradeMax").value
+        min: document.getElementById('gradeMin').value,
+        max: document.getElementById('gradeMax').value
       };
       var classSize = {
-        min: document.getElementById("classSizeMin").value,
-        max: document.getElementById("classSizeMax").value
+        min: document.getElementById('classSizeMin').value,
+        max: document.getElementById('classSizeMax').value
       };
-      var description = document.getElementById("description").value;
-      var notes = document.getElementById("notes").value;
-      var materials = document.getElementById("materials").value;
-      var texts = document.getElementById("texts").value;
+      var description = document.getElementById('description').value;
+      var notes = document.getElementById('notes').value;
+      var materials = document.getElementById('materials').value;
+      var texts = document.getElementById('texts').value;
       var course = {
         id: courseId,
         name: name,
@@ -14603,8 +14414,7 @@ function index(a) {
         semesterMaterialsFee: semesterMaterialsFee,
         isNew: isNew
       };
-      alert('before adding update course to event listener');
-      (0, _actions.updateCourse)(courseId, course, selectedYear, hasOwner);
+      updateCourse(courseId, course, selectedYear, hasOwner);
     });
   }
 }
@@ -14617,7 +14427,7 @@ function getChecked(name) {
   });
   return selectedItems;
 }
-},{"./actions":"components/courses/actions.js"}],"../../node_modules/node-libs-browser/node_modules/punycode/punycode.js":[function(require,module,exports) {
+},{}],"../../node_modules/node-libs-browser/node_modules/punycode/punycode.js":[function(require,module,exports) {
 var global = arguments[3];
 var define;
 /*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -17116,18 +16926,16 @@ var updatePayment = /*#__PURE__*/function () {
           case 0:
             isNewPayment = payment.isNew == true;
             method = isNewPayment ? 'POST' : 'PATCH';
-            alert(method);
-            _context.prev = 3;
+            _context.prev = 2;
             url = "/api/v1/payments".concat(isNewPayment ? '' : '/' + payment._id);
-            alert(url);
-            _context.next = 8;
+            _context.next = 6;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: payment
             });
 
-          case 8:
+          case 6:
             res = _context.sent;
 
             if (res.data.status == 'success') {
@@ -17138,20 +16946,20 @@ var updatePayment = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context.next = 15;
+            _context.next = 13;
             break;
 
-          case 12:
-            _context.prev = 12;
-            _context.t0 = _context["catch"](3);
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](2);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 15:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[3, 12]]);
+    }, _callee, null, [[2, 10]]);
   }));
 
   return function updatePayment(_x, _x2, _x3, _x4) {
@@ -17169,9 +16977,7 @@ var deletePaymentModal = /*#__PURE__*/function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            alert('im in deletepaymentModal');
             paymentId = row.id;
-            alert(row.id);
             _map = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 7), parentName = _map2[0], teacherName = _map2[1], checkNumber = _map2[2], semester = _map2[3], amount = _map2[4], x = _map2[5], y = _map2[6];
@@ -17184,7 +16990,7 @@ var deletePaymentModal = /*#__PURE__*/function () {
             });
             deleteModal.classList.toggle('delete-modal__show');
 
-          case 10:
+          case 8:
           case "end":
             return _context2.stop();
         }
@@ -17208,14 +17014,13 @@ var deletePayment = /*#__PURE__*/function () {
           case 0:
             _context3.prev = 0;
             url = "/api/v1/payments/".concat(paymentId);
-            alert(url);
-            _context3.next = 5;
+            _context3.next = 4;
             return (0, _axios.default)({
               method: 'DELETE',
               url: url
             });
 
-          case 5:
+          case 4:
             res = _context3.sent;
 
             if (res.status == 204) {
@@ -17225,20 +17030,20 @@ var deletePayment = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context3.next = 12;
+            _context3.next = 11;
             break;
 
-          case 9:
-            _context3.prev = 9;
+          case 8:
+            _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
             (0, _alerts.showAlert)('error', _context3.t0.respons.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 9]]);
+    }, _callee3, null, [[0, 8]]);
   }));
 
   return function deletePayment(_x6, _x7) {
@@ -17273,7 +17078,6 @@ function index(a) {
     });
     var paymentsRows = document.querySelector('.payments').getElementsByTagName('tr');
     var numRows = paymentsRows.length;
-    alert('num payments ' + numRows);
 
     var _loop = function _loop() {
       var dataRow = paymentsRows[i];
@@ -17292,7 +17096,6 @@ function index(a) {
     var cancelDelete = document.getElementById("cancelDelete");
     cancelDelete.addEventListener("click", function (e) {
       e.preventDefault();
-      alert('toggling delete');
       document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
     });
   }
@@ -17304,7 +17107,6 @@ function index(a) {
       paymentProfileForm.addEventListener("submit", function (e) {
         e.preventDefault();
         var year = paymentProfile.dataset.selectedYear;
-        alert(year);
         var isNew = paymentProfile.dataset.isNew == 'new';
         var hasParent = paymentProfile.hasParent == 'true';
         var paymentId = paymentProfileForm.id;
@@ -17323,7 +17125,6 @@ function index(a) {
           amount: amount,
           isNew: isNew
         };
-        alert(JSON.stringify(payment));
         (0, _actions.updatePayment)(paymentId, payment, year, hasParent);
       });
     }
@@ -17704,20 +17505,19 @@ var deleteTeacher = /*#__PURE__*/function () {
             deleteOk = confirm('Are you sure you want to delete this teacher?' + teacherId);
 
             if (!deleteOk) {
-              _context4.next = 14;
+              _context4.next = 13;
               break;
             }
 
             _context4.prev = 2;
             url = "/api/v1/teachers/".concat(teacherId);
-            alert(url);
-            _context4.next = 7;
+            _context4.next = 6;
             return (0, _axios.default)({
               method: 'DELETE',
               url: url
             });
 
-          case 7:
+          case 6:
             res = _context4.sent;
 
             if (res.status == 204) {
@@ -17727,20 +17527,20 @@ var deleteTeacher = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context4.next = 14;
+            _context4.next = 13;
             break;
 
-          case 11:
-            _context4.prev = 11;
+          case 10:
+            _context4.prev = 10;
             _context4.t0 = _context4["catch"](2);
             (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
 
-          case 14:
+          case 13:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[2, 11]]);
+    }, _callee4, null, [[2, 10]]);
   }));
 
   return function deleteTeacher(_x4) {
@@ -17774,7 +17574,6 @@ function index(a) {
       (0, _actions.changeTeachersYear)(newYear);
     });
     var deleteTeacherButtons = Array.from(document.getElementsByClassName('delete-teacher'));
-    alert("num delete teacher buttons = ".concat(deleteTeacherButtons.length));
 
     if (deleteTeacherButtons) {
       deleteTeacherButtons.forEach(function (btn) {
@@ -126409,7 +126208,6 @@ if (families) {
 
   var editFamilyButtons = Array.from(document.getElementsByClassName('edit-family'));
   var deleteFamilyButtons = Array.from(document.getElementsByClassName('delete-family'));
-  alert("num delete family buttons = ".concat(deleteFamilyButtons.length));
 
   _yearSelect.addEventListener('change', function (e) {
     var newYear = _yearSelect.value;
@@ -126677,12 +126475,9 @@ if (users) {
     (0, _users.updateUser)(id, data).then(function (newId) {
       if (roles.includes('parent')) {
         if (id == 'new') {
-          alert('new parent');
           (0, _family.addFamily)(newId);
         } else {
           (0, _family.existsFamily)(id).then(function (exists) {
-            alert('non existent family');
-
             if (!exists) {
               (0, _family.addFamily)(newId);
             }
@@ -126692,12 +126487,10 @@ if (users) {
 
       if (roles.includes('teacher')) {
         if (id == 'new') {
-          alert('new teacher');
           (0, _actions.addTeacher)(newId);
         } else {
           (0, _actions.existsTeacher)(id).then(function (exists) {
             if (!exists) {
-              alert('non existent teacher record');
               (0, _actions.addTeacher)(newId);
             }
           });
