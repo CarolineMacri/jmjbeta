@@ -183,7 +183,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  // check to see if user is registered for this school year
+  // check to see if user is registered for this school 
   var isCurrentlyRegistered = await currentUser.isCurrentlyRegistered();
   if (!isCurrentlyRegistered) {
     return next(

@@ -99,7 +99,9 @@ userSchema.virtual("payments", {
 
 userSchema.methods.isCurrentlyRegistered = async function () {
   const currentYear = await Year.findOne({ current: true });
-  return this.registrationYears.includes(currentYear.year);
+ 
+  return this.yearRoles.get(currentYear.year);
+  //return this.registrationYears.includes(currentYear.year);
 };
 userSchema.methods.getCurrentRoles = async function () {
   const currentYear = await Year.findOne({ current: true });

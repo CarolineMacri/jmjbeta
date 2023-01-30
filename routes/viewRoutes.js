@@ -22,7 +22,6 @@ router.get(
 router.get(
   "/family/:parentId/:selectedYear?",
   authController.protect,
-  authController.restrictTo("admin"),
   viewsController.getFamily
 );
 router.get(
