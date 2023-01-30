@@ -1,17 +1,25 @@
 extends baseReport
 
 block content   
+  main
+    .container
+      section.page__content-row
+        include ../_yearSelector
 
-  .page__content.reportChildrenByGrade
-    section.page__content-row
-      include ../_yearSelector
-    section.report__title.page__content-row
-      h1 Children By Grade Level
-      .report
-        each list, grade in gradeLists  
-          .report__column
-            h2= grade
-            each child in list 
-              p= child
-            h4= "Total: " + list.length  
+      section.report-invoices 
+      .report__title
+        h1.invoices-title Children By Grade Level
+        
+      each list, grade in gradeLists
+      
+        .report-invoices-box
+          .report-invoices-family 
+            h2=`${grade} - ${list.length}`
+
+          each child in list
+            .report-invoices-record
+              .report-invoices-record-student
+                p=child
+            
+          
         
