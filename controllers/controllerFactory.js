@@ -12,7 +12,7 @@ const { Model } = require("mongoose");
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == "development")
+    if (process.env.NODE_ENV.toLowerCase() == "development")
       console.log(`createOne ${Model.modelName}`);
 
     const newDoc = await Model.create(req.body);
@@ -30,7 +30,7 @@ exports.createOne = (Model) =>
 
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == "development")
+    if (process.env.NODE_ENV.toLowerCase() == "development")
       console.log(`getOne ${Model.modelName}`);
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
@@ -53,7 +53,7 @@ exports.getOne = (Model, popOptions) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == "development")
+    if (process.env.NODE_ENV.toLowerCase() == "development")
       console.log(`updateOne ${Model.modelName}`);
     const { dataWithoutMaps, dataMapsOnly } = splitDataWithMaps(
       Model,
@@ -91,7 +91,7 @@ exports.updateOne = (Model) =>
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (process.env.NODE_ENV == "development")
+    if (process.env.NODE_ENV.toLowerCase() == "development")
       console.log(`deleteOne ${Model.modelName}`);
     const document = await Model.findByIdAndDelete(req.params.id);
 

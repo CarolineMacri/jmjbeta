@@ -25,12 +25,12 @@ function connectToDatabase() {
   const env = process.env.NODE_ENV;
   let DB = "";
 
-  if (env == "production") {
+  if (env.toLowerCase() == "production") {
     DB = process.env.PROD_DATABASE.replace(
       "<PASSWORD>",
       process.env.PROD_DATABASE_PASSWORD
     );
-  } else if (env == "development") {
+  } else if (env.toLowerCase() == "development") {
     DB = process.env.DEV_DATABASE.replace(
       "<PASSWORD>",
       process.env.DEV_DATABASE_PASSWORD

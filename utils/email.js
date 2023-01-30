@@ -16,7 +16,7 @@ module.exports = class Email {
   }
 
   newTransport() {
-    if (process.env.NODE_ENV == "production") {
+    if (process.env.NODE_ENV.toLowerCase() == "production") {
       const transporter = nodemailer.createTransport({
         host: process.env.JMJCOOP_HOST,
         port: process.env.JMJCOOP_PORT,

@@ -53,9 +53,9 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500; // internal server error
   err.status = err.status || "error";
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV.toLowerCase() === "development") {
     sendErrorDev(err, req, res);
-  } else if (process.env.NODE_ENV === "production") {
+  } else if (process.env.NODE_ENV.toLowerCase() === "production") {
     let error = Object.assign({}, err);
     error.message = err.message;
 

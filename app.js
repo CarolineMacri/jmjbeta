@@ -49,7 +49,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // development middleware
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV.toLowerCase() === "development") {
   app.use(morgan("dev"));
 }
 
