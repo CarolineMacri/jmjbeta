@@ -137,8 +137,9 @@ function orderEnrollments(enrollments) {
   ]);
 
   enrollments.forEach((e) => {
-    const isRegistration = e.class.course.name.includes('Registration');
-    if (!isRegistration) timeMap.set(e.class.hour, e);
+    // const isRegistration = e.class.course.name.includes('Registration');
+    // if (!isRegistration) timeMap.set(e.class.hour, e);
+    timeMap.set(e.class.hour, e);
   });
 
   return [...timeMap.values()];

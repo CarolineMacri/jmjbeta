@@ -22,6 +22,7 @@ router.get(
 router.get(
   "/family/:parentId/:selectedYear?",
   authController.protect,
+  authController.restrictTo("admin"),
   viewsController.getFamily
 );
 router.get(
@@ -113,7 +114,8 @@ router.get(
   viewsController.updatePassword
 );
 
-router.get("/years", viewsController.getYears);
+router.get("/years", authController.protect,
+authController.restrictTo("admin"),viewsController.getYears);
 
 router.get(
   "/users/:selectedYear?",
