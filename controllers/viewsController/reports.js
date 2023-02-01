@@ -167,3 +167,37 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
     parent,
   });
 });
+
+exports.reportPayments = catchAsync(async (req, res, next) => {
+  let { selectedYear, teacher } = req.params;
+  console.log("in report Pyments-----------------------------------------")
+  const years = await Year.find();
+
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+
+  var pipeline1 = [];
+  if (teacher) {
+    pipeline1 = pipeline1.concat([
+      { $match: { _id: mongoose.Types.ObjectId(teacher) } },
+    ]);
+  }
+
+  const pipeline =
+    pipelines.teacherPaymentParent(selectedYear);
+
+  pipeline1 = pipeline1.concat(pipeline);
+
+  const teachers = await User.aggregate(pipeline1);
+  console.log(teachers)
+
+  res.status(200).render('reports/payments', {
+    title: 'Payments',
+    teachers,
+    years,
+    selectedYear,
+    teacher,
+  });
+});

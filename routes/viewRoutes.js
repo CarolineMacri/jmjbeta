@@ -147,4 +147,11 @@ router.get(
   viewsController.reportInvoices
 );
 
+router.get(
+  "/reports/payments/:selectedYear/:teacher?",
+  authController.protect,
+  authController.restrictTo("admin"),
+  viewsController.reportPayments
+);
+
 module.exports = router;

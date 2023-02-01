@@ -1,0 +1,31 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      section.page__content-row
+        include ../_yearSelector
+      section.report-payments
+
+      .report__title
+        h1.payments-title(id=teacher) +JMJ+ Homeschool Co-op Payments
+
+      for teacher in teachers
+
+        .report-payments-box
+          .report-payments-teacher
+            h2= teacher.name
+
+          for parent in teacher.parents
+            .report-payments-parent
+              p= parent.name+ "  - $" + parent.total
+            .report-payments-checks
+              for payment in parent.payments
+                .report-payments-record
+                  .report-payments-record-check-number
+                    p="Check Number: " + payment.checkNumber
+                  .report-payments-record-amount
+                    p='$' + payment.amount
+                 
+          .report-payments-teacher   
+          h2= "Grand Total:  $" + teacher.grandTotal

@@ -9,3 +9,7 @@ export const changeReportInvoicesYear = (year, parentId) => {
 export const changeReportClassListsYear = (year, teacherId) => {
   location.assign(`/reports/classLists/${year}/${teacherId}`);
 };
+
+export const changeReportPaymentsYear = (year, teacherId) => {
+  location.assign(`/reports/payments/${year}/${teacherId}`);
+};

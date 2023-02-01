@@ -23,6 +23,7 @@ import {addTeacher, existsTeacher } from './components/teachers/actions';
 import { changeReportChildrenByGradeYear } from './reports';
 import { changeReportInvoicesYear } from './reports';
 import { changeReportClassListsYear } from './reports';
+import { changeReportPaymentsYear } from './reports';
 import {
   changeChildrenYear,
   fillChildForm,
@@ -49,6 +50,7 @@ const userProfileForm = document.querySelector('.user-profile__form');
 
 const reportChildrenByGrade = document.querySelector('.reportChildrenByGrade');
 const reportInvoices = document.querySelector('.report-invoices');
+const reportPayments = document.querySelector('.report-payments');
 const reportClassLists = document.querySelector('.report-class-lists');
 
 //values
@@ -109,6 +111,15 @@ if (reportInvoices) {
   yearSelect.addEventListener('change', (e) => {
     const newYear = yearSelect.value;
     changeReportInvoicesYear(newYear, parentId);
+  });
+}
+
+if (reportPayments) {
+  const yearSelect = document.getElementById('year-select');
+  const teacherId = document.querySelector('.payments-title').id;
+  yearSelect.addEventListener('change', (e) => {
+    const newYear = yearSelect.value;
+    changeReportPaymentsYear(newYear, teacherId);
   });
 }
 
