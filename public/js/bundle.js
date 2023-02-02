@@ -16414,10 +16414,9 @@ function index(a) {
               case 0:
                 e.preventDefault();
                 email = document.getElementById("email").value;
-                _context2.next = 4;
-                return (0, _actions.forgotMyPassword)(email);
+                alert('this function is temporarily disable'); // await forgotMyPassword(email);
 
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }

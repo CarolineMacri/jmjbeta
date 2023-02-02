@@ -10,6 +10,10 @@ router.get(
   "/resetPassword/:resetPasswordToken",
   viewsController.getResetPassword
 );
+router.get(
+    "/class_grid/:selectedYear?",
+    viewsController.getClassGrid
+  );
 
 router.use(authController.isLoggedIn);
 
@@ -73,11 +77,11 @@ router.get(
   authController.protect,
   viewsController.getClassProfile
 );
-router.get(
-  "/class_grid/:selectedYear?",
-  authController.protect,
-  viewsController.getClassGrid
-);
+// router.get(
+//   "/class_grid/:selectedYear?",
+//   authController.protect,
+//   viewsController.getClassGrid
+// );
 router.get(
   "/class_fees/:selectedYear?",
   authController.protect,
