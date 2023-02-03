@@ -13,7 +13,11 @@ router.get(
 router.get(
     "/class_grid/:selectedYear?",
     viewsController.getClassGrid
-  );
+);
+router.get(
+  "/reports/courses/:selectedYear?",
+  viewsController.reportCourses
+);
 
 router.use(authController.isLoggedIn);
 
@@ -156,13 +160,6 @@ router.get(
   authController.protect,
   authController.restrictTo("admin"),
   viewsController.reportPayments
-);
-
-router.get(
-  "/reports/courses/:selectedYear",
-  authController.protect,
-  authController.restrictTo("admin"),
-  viewsController.reportCourses
 );
 
 module.exports = router;

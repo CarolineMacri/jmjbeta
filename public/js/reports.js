@@ -13,3 +13,7 @@ export const changeReportClassListsYear = (year, teacherId) => {
 export const changeReportPaymentsYear = (year, teacherId) => {
   location.assign(`/reports/payments/${year}/${teacherId}`);
 };
+
+export const changeReportCoursesYear = (year) => {
+  location.assign(`/reports/courses/${year}`);
+};

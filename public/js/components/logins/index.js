@@ -30,7 +30,7 @@ function index(a) {
     forgotPasswordLink.addEventListener("click", async (e) => {
       e.preventDefault();
       const email = document.getElementById("email").value;
-      alert ('this function is temporarily disable')
+      alert ('this function is temporarily disabled')
       // await forgotMyPassword(email);
     });
   }

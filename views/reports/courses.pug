@@ -5,12 +5,16 @@ block content
     .container
       section.page__content-row
         include ../_yearSelector
-      section.report-invoices.report
-
       section.report-courses
+
         .report__title
           h1.courses-title +JMJ +Homeschool Courses
-          for course in courses
+
+          for cl in classes
+          
+            -var course=cl.course
+            -var teacher= cl.teacher
+          
             .report-courses-box
               .report-courses-course
                 h2= course.name

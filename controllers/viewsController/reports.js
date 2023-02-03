@@ -191,7 +191,6 @@ exports.reportPayments = catchAsync(async (req, res, next) => {
   pipeline1 = pipeline1.concat(pipeline);
 
   const teachers = await User.aggregate(pipeline1);
-  console.log(teachers);
 
   res.status(200).render('reports/payments', {
     title: 'Payments',
@@ -212,18 +211,16 @@ exports.reportCourses = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  var pipeline1 = [];
+  var pipeline = [];
 
-  const pipeline = pipelines.teacherPaymentParent(selectedYear);
+  pipeline = pipeline.concat(pipelines.classCourseTeacher(selectedYear));
 
-  pipeline1 = pipeline1.concat(pipeline);
-
-  const teachers = await User.aggregate(pipeline1);
-  const courses = await Course.find();
+  
+  const classes = await Class.aggregate(pipeline);
 
   res.status(200).render('reports/courses', {
     title: 'Courses',
-    courses,
+    classes,
     years,
     selectedYear,
   });

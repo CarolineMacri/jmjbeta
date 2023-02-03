@@ -24,6 +24,7 @@ import { changeReportChildrenByGradeYear } from './reports';
 import { changeReportInvoicesYear } from './reports';
 import { changeReportClassListsYear } from './reports';
 import { changeReportPaymentsYear } from './reports';
+import { changeReportCoursesYear } from './reports';
 import {
   changeChildrenYear,
   fillChildForm,
@@ -52,6 +53,7 @@ const reportChildrenByGrade = document.querySelector('.reportChildrenByGrade');
 const reportInvoices = document.querySelector('.report-invoices');
 const reportPayments = document.querySelector('.report-payments');
 const reportClassLists = document.querySelector('.report-class-lists');
+const reportCourses = document.querySelector('.report-courses');
 
 //values
 
@@ -129,6 +131,15 @@ if (reportClassLists) {
   yearSelect.addEventListener('change', (e) => {
     const newYear = yearSelect.value;
     changeReportClassListsYear(newYear, teacherId);
+  });
+}
+
+if (reportCourses) {
+  const yearSelect = document.getElementById('year-select');
+  
+  yearSelect.addEventListener('change', (e) => {
+    const newYear = yearSelect.value;
+    changeReportCoursesYear(newYear);
   });
 }
 

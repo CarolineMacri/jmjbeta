@@ -177,7 +177,7 @@ exports.teacherPaymentParent = (year) => {
       },
     },
     { $unwind: { path: '$payment' } },
-    { $match: { 'payment.year': year } }
+    { $match: { 'payment.year': year } },
   ]);
 
   // parent for each payment
@@ -211,7 +211,7 @@ exports.teacherPaymentParent = (year) => {
       $group: {
         _id: { teacher: '$teacher', parent: '$parent' },
         teacher: { $first: '$teacher' },
-        parent: {$first: '$parent'},
+        parent: { $first: '$parent' },
         payments: {
           $push: {
             checkNumber: '$checkNumber',
@@ -242,6 +242,52 @@ exports.teacherPaymentParent = (year) => {
     },
     { $sort: { name: 1 } },
   ]);
+
+  return pipeline;
+};
+
+exports.classCourseTeacher = (year) => {
+  var pipeline = [];
+
+  // get teacher for each class
+  pipeline = pipeline.concat([
+   { $match: { "year": year } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'teacher',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $unwind: { path: '$teacher' } },
+  ]);
+
+  // course for each class
+  pipeline = pipeline.concat([
+    {
+      $lookup: {
+        from: 'courses',
+        localField: 'course',
+        foreignField: '_id',
+        as: 'course',
+      },
+    },
+    { $unwind: { path: '$course' } },
+  ]);
+ 
+  //group a repeated classes show up once
+  pipeline = pipeline.concat([
+    {
+      $group: {
+        _id: { teacher: '$teacher._id', course: '$course._id' },
+        teacher: { $first: '$teacher' },
+        course: { $first: '$course' },
+      },
+    },
+    { $sort: { 'course.name': 1 } },
+  ]);
+  console.log(pipeline);
 
   return pipeline;
 };
