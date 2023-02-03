@@ -114,7 +114,7 @@ router.get("/myProfile", authController.protect, viewsController.getMyProfile);
 router.get(
   "/updatePassword",
   authController.protect,
-  viewsController.updatePassword
+  viewsController.updatePassword 
 );
 
 router.get("/years", authController.protect,
@@ -156,6 +156,13 @@ router.get(
   authController.protect,
   authController.restrictTo("admin"),
   viewsController.reportPayments
+);
+
+router.get(
+  "/reports/courses/:selectedYear",
+  authController.protect,
+  authController.restrictTo("admin"),
+  viewsController.reportCourses
 );
 
 module.exports = router;

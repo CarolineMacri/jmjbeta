@@ -1,0 +1,67 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      section.page__content-row
+        include ../_yearSelector
+      section.report-invoices.report
+
+      section.report-courses
+        .report__title
+          h1.courses-title +JMJ +Homeschool Courses
+          for course in courses
+            .report-courses-box
+              .report-courses-course
+                h2= course.name
+              .report-courses-courses
+                .report-courses-row
+                  .report-courses-column
+                    .report-courses-record
+                      .report-courses-record-item__right
+                        p Grade Levels:
+                      .report-courses-record-item
+                        p= course.grade.min + '-' + course.grade.max
+                    .report-courses-record
+                      .report-courses-record-item__right
+                        p Class Size:
+                      .report-courses-record-item
+                        p= course.classSize.min + '-' + course.classSize.max
+                  .report-courses-column
+                    .report-courses-record
+                      .report-courses-record-item__right
+                        p Class Fee:
+                      .report-courses-record-item
+                        p= `$ ${course.classFee}`
+                    .report-courses-record
+                      .report-courses-record-item__right
+                        p Materials Fee:
+                      .report-courses-record-item
+                        p=`$ ${course.semesterMaterialsFee[1]}`
+                br
+                .report-courses-row
+                  .report-courses-record
+                    if course.materials
+                      .report-courses-record-item
+                        p Materials:
+                      .report-courses-record-item__last
+                        p=course.materials
+                .report-courses-row
+                  .report-courses-record
+                     if course.texts
+                      .report-courses-record-item
+                        p Texts:
+                      .report-courses-record-item__last
+                        p=course.texts
+                .report-courses-row
+                  .report-courses-record
+                    if course.notes
+                      .report-courses-record-item
+                        p Notes:
+                      .report-courses-record-item__last
+                        p=course.notes
+                br      
+                .report-courses-row  
+                  .report-courses-record    
+                    br
+                    p=course.description

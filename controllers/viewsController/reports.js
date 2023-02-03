@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const catchAsync = require('../../utils/catchAsync');
 const Child = require('../../models/childModel');
 const Class = require('../../models/classModel');
+const Course = require('../../models/courseModel');
 const User = require('../../models/userModel');
 const Year = require('../../models/yearModel');
 const { Grades } = require('../../models/courseModel');
@@ -170,7 +171,7 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
 
 exports.reportPayments = catchAsync(async (req, res, next) => {
   let { selectedYear, teacher } = req.params;
-  console.log("in report Pyments-----------------------------------------")
+  console.log('in report Pyments-----------------------------------------');
   const years = await Year.find();
 
   if (!selectedYear) {
@@ -185,13 +186,12 @@ exports.reportPayments = catchAsync(async (req, res, next) => {
     ]);
   }
 
-  const pipeline =
-    pipelines.teacherPaymentParent(selectedYear);
+  const pipeline = pipelines.teacherPaymentParent(selectedYear);
 
   pipeline1 = pipeline1.concat(pipeline);
 
   const teachers = await User.aggregate(pipeline1);
-  console.log(teachers)
+  console.log(teachers);
 
   res.status(200).render('reports/payments', {
     title: 'Payments',
@@ -199,5 +199,32 @@ exports.reportPayments = catchAsync(async (req, res, next) => {
     years,
     selectedYear,
     teacher,
+  });
+});
+
+exports.reportCourses = catchAsync(async (req, res, next) => {
+  let { selectedYear } = req.params;
+
+  const years = await Year.find();
+
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+
+  var pipeline1 = [];
+
+  const pipeline = pipelines.teacherPaymentParent(selectedYear);
+
+  pipeline1 = pipeline1.concat(pipeline);
+
+  const teachers = await User.aggregate(pipeline1);
+  const courses = await Course.find();
+
+  res.status(200).render('reports/courses', {
+    title: 'Courses',
+    courses,
+    years,
+    selectedYear,
   });
 });
