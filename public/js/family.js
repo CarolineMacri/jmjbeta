@@ -5,13 +5,13 @@ export const changeFamilyYear = (id, year) => {
   location.assign(`/family/${id}/${year}`);
 };
 
-export const addFamily = async (parentId) => {
+export const addFamily = async (parentId, year) => {
   try {
     const url = `/api/v1/families`;
 
     const method = 'POST';
 
-    const data = { parent: parentId };
+    const data = { parent: parentId, year: year };
 
     const res = await axios({
       method,

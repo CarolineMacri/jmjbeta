@@ -16,14 +16,11 @@ const familySchema = new mongoose.Schema(
       ref: "User",
       justOne: true,
     },
-    yearEnrollmentStatus: {
-      type: Map,
-      of: {
-        type: String,
-        enum: Object.keys(EnrollmentStatuses),
-        default: Object.keys(EnrollmentStatuses)[0],
-      },
-    },
+    year: String,
+    saved: Boolean,
+    submitted: Boolean,
+    enrolled: Boolean,
+    enrollmentOrder: Number
   },
   {
     toJSON: { virtuals: true },

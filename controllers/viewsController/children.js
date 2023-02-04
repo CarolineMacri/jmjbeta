@@ -16,7 +16,7 @@ exports.getChildren = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const family = await Family.findOne({ parent: parentId });
+  const family = await Family.findOne({ parent: parentId, year:selectedYear});
 
   let children = await Child.find({ family: family.id, year: selectedYear });
   children = children.sort(gradeSort);

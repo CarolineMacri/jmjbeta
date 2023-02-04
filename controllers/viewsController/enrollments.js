@@ -19,6 +19,7 @@ exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
   // used aggregation pipeline to let the database do the work
 
   const enrollments = await Family.aggregate()
+    .match({year: selectedYear})
     .lookup({
       from: 'users',
       localField: 'parent',
@@ -88,7 +89,7 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
   //console.log(gradeCourseMap);
-  const family = await Family.findOne({ parent: parentId });
+  const family = await Family.findOne({ parent: parentId, year: selectedYear});
 
   let children = await Child.find({ family: family.id, year: selectedYear })
     .select('firstName sex grade _id')

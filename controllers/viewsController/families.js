@@ -14,7 +14,7 @@ exports.getFamily = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
     res.status(308).redirect(`${parentId}/${selectedYear}`);
   } else {
-    const family = await Family.findOne({ parent: parentId });
+    const family = await Family.findOne({ parent: parentId, year: selectedYear});
 
     let children = await Child.find({ family: family.id, year: selectedYear })
       .select('firstName sex grade _id')
@@ -66,6 +66,7 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
   // used aggregation pipeline to let the database do the work
 
   families = await Family.aggregate()
+    .match({year:selectedYear})
     .lookup({
       from: 'users',
       localField: 'parent',

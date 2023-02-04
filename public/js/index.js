@@ -337,11 +337,11 @@ if (users) {
     updateUser(id, data).then((newId) => {
       if (roles.includes('parent')) {
         if (id == 'new') {
-          addFamily(newId)
+          addFamily(newId, selectedYear)
         } else {
           existsFamily(id).then((exists) => {
             if (!exists) {
-              addFamily(newId);
+              addFamily(newId, selectedYear);
             }
           });
         }
