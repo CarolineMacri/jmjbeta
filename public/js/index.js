@@ -145,15 +145,16 @@ if (reportCourses) {
 
 if (children) {
   // year  selector
-  const yearSelect = document.getElementById('year-select');
-
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
-    const id = window.location.pathname.split('/')[2];
-
-    changeChildrenYear(id, newYear);
-  });
-
+  const yearSelect = document.getElementById('year-select'); 
+  if (yearSelect) {
+    yearSelect.addEventListener('change', (e) => {
+      const newYear = yearSelect.value;
+      const id = window.location.pathname.split('/')[2];
+  
+      changeChildrenYear(id, newYear);
+  
+    })
+  }
   // add event listners for each child
   const childrenRows = document
     .querySelector('.children')
@@ -169,11 +170,12 @@ if (children) {
     const deleteButton = dataCells.item(numCells - 1);
 
     editButton.addEventListener('click', function () {
-      fillChildForm(dataRow);
+        fillChildForm(dataRow); 
     });
 
     deleteButton.addEventListener('click', function () {
-      deleteChildModal(dataRow);
+      if (yearSelect) { deleteChildModal(dataRow) }
+      else{alert('you do not have permission to delete this Child')}
     });
   }
 

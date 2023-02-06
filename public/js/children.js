@@ -1,18 +1,18 @@
 import axios from "axios";
 import { showAlert } from "./alerts";
 
-export const changeChildrenYear = (parentId, year) => {
+export const changeChildrenYear = (parentId, year) => { 
   location.assign(`/children/${parentId}/${year}`);
 };
 
 export const toggleModal = () => {
   document
     .querySelector(".form-modal__window")
-    .classList.toggle("form-modal__show");
-};
+    .classList.toggle("form-modal__show"); 
+}; 
 
 export const modalOnClick = (event) => {
-  if ((event.target = document.querySelector(".form-modal__window"))) {
+  if ((event.target = document.querySelector(".form-modal__window"))) { 
     toggleModal();
   }
 };

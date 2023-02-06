@@ -126482,127 +126482,137 @@ if (reportCourses) {
 }
 
 if (children) {
-  // year  selector
+  var i;
+
+  (function () {
+    // year  selector
+    var yearSelect = document.getElementById('year-select');
+
+    if (yearSelect) {
+      yearSelect.addEventListener('change', function (e) {
+        var newYear = yearSelect.value;
+        var id = window.location.pathname.split('/')[2];
+        (0, _children.changeChildrenYear)(id, newYear);
+      });
+    } // add event listners for each child
+
+
+    var childrenRows = document.querySelector('.children').getElementsByTagName('tr');
+    var numRows = childrenRows.length;
+
+    var _loop = function _loop() {
+      var dataRow = childrenRows[i];
+      var dataCells = dataRow.getElementsByTagName('td');
+      var numCells = dataCells.length;
+      var editButton = dataCells.item(numCells - 2);
+      var deleteButton = dataCells.item(numCells - 1);
+      editButton.addEventListener('click', function () {
+        (0, _children.fillChildForm)(dataRow);
+      });
+      deleteButton.addEventListener('click', function () {
+        if (yearSelect) {
+          (0, _children.deleteChildModal)(dataRow);
+        } else {
+          alert('you do not have permission to delete this Child');
+        }
+      });
+    };
+
+    for (i = 1; i <= numRows - 2; i++) {
+      _loop();
+    }
+
+    var addNewRow = childrenRows[numRows - 1];
+    var addNewCells = addNewRow.getElementsByTagName('td');
+    var addNewButton = addNewCells.item(0);
+    addNewButton.addEventListener('click', function () {
+      (0, _children.fillChildForm)(addNewRow);
+    });
+    var cancel = document.getElementById('cancel');
+    cancel.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+    });
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    });
+    childProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fN = document.getElementById('firstName');
+      var firstName = fN.value;
+      var id = childProfileForm.id;
+      var grades = document.getElementsByName('grade');
+      var g;
+      var grade = '';
+
+      var _iterator = _createForOfIteratorHelper(grades),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          g = _step.value;
+
+          if (g.checked) {
+            grade = g.value;
+            break;
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var sexes = document.getElementsByName('sex');
+      var s;
+      var sex = '';
+
+      var _iterator2 = _createForOfIteratorHelper(sexes),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          s = _step2.value;
+
+          if (s.checked) {
+            sex = s.value;
+            break;
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      var family = document.querySelector('.family__title').id;
+      var year = yearSelect.value;
+      var data = {
+        firstName: firstName,
+        grade: grade,
+        sex: sex,
+        family: family,
+        year: year
+      };
+      (0, _children.updateChild)(id, data);
+    });
+  })();
+}
+
+if (users) {
   var _yearSelect7 = document.getElementById('year-select');
 
   _yearSelect7.addEventListener('change', function (e) {
     var newYear = _yearSelect7.value;
-    var id = window.location.pathname.split('/')[2];
-    (0, _children.changeChildrenYear)(id, newYear);
-  }); // add event listners for each child
-
-
-  var childrenRows = document.querySelector('.children').getElementsByTagName('tr');
-  var numRows = childrenRows.length;
-
-  var _loop = function _loop() {
-    var dataRow = childrenRows[i];
-    var dataCells = dataRow.getElementsByTagName('td');
-    var numCells = dataCells.length;
-    var editButton = dataCells.item(numCells - 2);
-    var deleteButton = dataCells.item(numCells - 1);
-    editButton.addEventListener('click', function () {
-      (0, _children.fillChildForm)(dataRow);
-    });
-    deleteButton.addEventListener('click', function () {
-      (0, _children.deleteChildModal)(dataRow);
-    });
-  };
-
-  for (var i = 1; i <= numRows - 2; i++) {
-    _loop();
-  }
-
-  var addNewRow = childrenRows[numRows - 1];
-  var addNewCells = addNewRow.getElementsByTagName('td');
-  var addNewButton = addNewCells.item(0);
-  addNewButton.addEventListener('click', function () {
-    (0, _children.fillChildForm)(addNewRow);
-  });
-  var cancel = document.getElementById('cancel');
-  cancel.addEventListener('click', function (e) {
-    e.preventDefault();
-    document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
-  });
-  var cancelDelete = document.getElementById('cancelDelete');
-  cancelDelete.addEventListener('click', function (e) {
-    e.preventDefault();
-    document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
-  });
-  childProfileForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var fN = document.getElementById('firstName');
-    var firstName = fN.value;
-    var id = childProfileForm.id;
-    var grades = document.getElementsByName('grade');
-    var g;
-    var grade = '';
-
-    var _iterator = _createForOfIteratorHelper(grades),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        g = _step.value;
-
-        if (g.checked) {
-          grade = g.value;
-          break;
-        }
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-
-    var sexes = document.getElementsByName('sex');
-    var s;
-    var sex = '';
-
-    var _iterator2 = _createForOfIteratorHelper(sexes),
-        _step2;
-
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        s = _step2.value;
-
-        if (s.checked) {
-          sex = s.value;
-          break;
-        }
-      }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
-    }
-
-    var family = document.querySelector('.family__title').id;
-    var year = _yearSelect7.value;
-    var data = {
-      firstName: firstName,
-      grade: grade,
-      sex: sex,
-      family: family,
-      year: year
-    };
-    (0, _children.updateChild)(id, data);
-  });
-}
-
-if (users) {
-  var _yearSelect8 = document.getElementById('year-select');
-
-  _yearSelect8.addEventListener('change', function (e) {
-    var newYear = _yearSelect8.value;
     var id = window.location.pathname.split('/')[2];
     (0, _users.changeUsersYear)(newYear);
   }); // add event listners for each child
 
 
   var usersRows = document.querySelector('.users').getElementsByTagName('tr');
-  var _numRows = usersRows.length;
+  var numRows = usersRows.length;
 
   var _loop2 = function _loop2() {
     var dataRow = usersRows[i];
@@ -126618,34 +126628,26 @@ if (users) {
     });
   };
 
-  for (var i = 1; i <= _numRows - 2; i++) {
+  for (var i = 1; i <= numRows - 2; i++) {
     _loop2();
   }
 
-  var _addNewRow = usersRows[_numRows - 1];
-
-  var _addNewCells = _addNewRow.getElementsByTagName('td');
-
-  var _addNewButton = _addNewCells.item(0);
-
-  _addNewButton.addEventListener('click', function () {
-    (0, _users.fillUserForm)(_addNewRow);
+  var addNewRow = usersRows[numRows - 1];
+  var addNewCells = addNewRow.getElementsByTagName('td');
+  var addNewButton = addNewCells.item(0);
+  addNewButton.addEventListener('click', function () {
+    (0, _users.fillUserForm)(addNewRow);
   });
-
-  var _cancel = document.getElementById('cancel');
-
-  _cancel.addEventListener('click', function (e) {
+  var cancel = document.getElementById('cancel');
+  cancel.addEventListener('click', function (e) {
     e.preventDefault();
     document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
   });
-
-  var _cancelDelete = document.getElementById('cancelDelete');
-
-  _cancelDelete.addEventListener('click', function (e) {
+  var cancelDelete = document.getElementById('cancelDelete');
+  cancelDelete.addEventListener('click', function (e) {
     e.preventDefault();
     document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
   });
-
   userProfileForm.addEventListener('submit', function (e) {
     e.preventDefault();
     var lN = document.getElementById('lastName');
