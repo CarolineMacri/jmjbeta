@@ -10,12 +10,21 @@ exports.getChildren = catchAsync(async (req, res, next) => {
 
   var years = await Year.find();
 
-  // coming from the sidenav family, without a  year, therefore limit to current year
-  if (!selectedYear) {
-    selectedYear = await Year.findOne({ current: true });
-    years = [selectedYear];
-    selectedYear = selectedYear.year;
-  }
+  // if coming from the sidenav family, without a  year, therefore limit to current year
+  var years = selectedYear
+    ? await Year.find()
+    : await Year.findCurrentYearOnly();
+  selectedYear = selectedYear
+    ? selectedYear
+    : await Year.getCurrentYearValue();
+  // console.log('test years', testYears);
+  // console.log('test selected year', testSelectedYear);
+
+  // if (!selectedYear) {
+  //   selectedYear = await Year.findOne({ current: true });
+  //   years = [selectedYear];
+  //   selectedYear = selectedYear.year;
+  // }
 
   const family = await Family.findOne({ parent: parentId, year: selectedYear });
 

@@ -1,14 +1,13 @@
 extends base
 
 block content   
+  include ./mixins/test
+  
   .page__content.children
     div      
       section 
         include _familyTitle
-        if (years.length == 1)
-            h1.family__title(id=family.id)= selectedYear
-        else    
-          include _yearSelector
+        include _yearSelector
       
       table.children   
         tr
