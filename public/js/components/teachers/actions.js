@@ -33,6 +33,7 @@ export const updateTeacher = async (teacher) => {
 
 export const addTeacher = async (teacherId) => {
   try {
+    alert('teacher did not exist')
     const url = `/api/v1/teachers`;
 
     const method = 'POST';
@@ -58,7 +59,8 @@ export const addTeacher = async (teacherId) => {
 
 export const existsTeacher = async (teacherId) => {
   try {
-    const url = `/api/v1/teachers/${teacherId}`;
+    alert('checking for existing teacher record')
+    const url = `/api/v1/teachers/`;
     const method = 'GET';
     const data = { teacher: teacherId };
     const res = await axios({

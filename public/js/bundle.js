@@ -17583,19 +17583,20 @@ var addTeacher = /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
+            alert('teacher did not exist');
             url = "/api/v1/teachers";
             method = 'POST';
             data = {
               teacher: teacherId
             };
-            _context2.next = 6;
+            _context2.next = 7;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: data
             });
 
-          case 6:
+          case 7:
             res = _context2.sent;
 
             if (res.data.status == 'success') {
@@ -17605,20 +17606,20 @@ var addTeacher = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context2.next = 13;
+            _context2.next = 14;
             break;
 
-          case 10:
-            _context2.prev = 10;
+          case 11:
+            _context2.prev = 11;
             _context2.t0 = _context2["catch"](0);
             (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
 
-          case 13:
+          case 14:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 10]]);
+    }, _callee2, null, [[0, 11]]);
   }));
 
   return function addTeacher(_x2) {
@@ -17636,43 +17637,44 @@ var existsTeacher = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            url = "/api/v1/teachers/".concat(teacherId);
+            alert('checking for existing teacher record');
+            url = "/api/v1/teachers/";
             method = 'GET';
             data = {
               teacher: teacherId
             };
-            _context3.next = 6;
+            _context3.next = 7;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: data
             });
 
-          case 6:
+          case 7:
             res = _context3.sent;
 
             if (!(res.data.status == 'success')) {
-              _context3.next = 9;
+              _context3.next = 10;
               break;
             }
 
             return _context3.abrupt("return", res.data.results != 0);
 
-          case 9:
-            _context3.next = 14;
+          case 10:
+            _context3.next = 15;
             break;
 
-          case 11:
-            _context3.prev = 11;
+          case 12:
+            _context3.prev = 12;
             _context3.t0 = _context3["catch"](0);
             (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
-          case 14:
+          case 15:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 11]]);
+    }, _callee3, null, [[0, 12]]);
   }));
 
   return function existsTeacher(_x3) {

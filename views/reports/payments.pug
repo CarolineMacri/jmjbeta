@@ -15,16 +15,16 @@ block content
         .report-payments-box
           .report-payments-teacher
             h2= teacher.name
-
+        
           for parent in teacher.parents
             .report-payments-parent
               p= parent.name+ "  - $" + parent.total
             .report-payments-checks
               for payment in parent.payments
                 .report-payments-record
-                  .report-payments-record-check-number
+                  .report-payments-record-check
                     p="Check Number: " + payment.checkNumber
-                  .report-payments-record-amount
+                  .report-payments-record-payment
                     p='$' + payment.amount
                  
           .report-payments-teacher   

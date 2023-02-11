@@ -162,6 +162,205 @@ exports.userFamilyChildEnrollmentClassCourseTeacher = (year) => {
   return pipeline;
 };
 
+exports.teachersWithFamilyEnrollmentsAndPayments = (year) => {
+  // this will start with teachers
+
+  var pipeline = [];
+
+  //get user information for teachers from the specified year
+  pipeline = pipeline.concat([
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'teacher',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $match: JSON.parse(`{"yearRoles.${year}":"teacher"}`) },
+    {
+      $unwind: {
+        path: '$teacher',
+      },
+    },
+  ]);
+
+  // get all the classes the teacher is teaching this year
+  // along with the course discription
+  pipeline = pipeline.concat([
+    {
+      $lookup: {
+        from: 'classes',
+        localField: 'teacher._id',
+        foreignField: 'teacher',
+        as: 'class',
+      },
+    },
+    {
+      $unwind: {
+        path: '$class',
+      },
+    },
+    {
+      $match: {
+        'class.year': year,
+      },
+    },
+    {
+      $lookup: {
+        from: 'courses',
+        localField: 'class.course',
+        foreignField: '_id',
+        as: 'course',
+      },
+    },
+    {
+      $unwind: {
+        path: '$course',
+      },
+    },
+  ]);
+
+  // get all of the enrollments
+  pipeline = pipeline.concat([
+    {
+      $lookup: {
+        from: 'enrollments',
+        localField: 'class._id',
+        foreignField: 'class',
+        as: 'enrollment',
+      },
+    },
+    {
+      $unwind: {
+        path: '$enrollment',
+      },
+    },
+  ]);
+
+  // get all the children and family info of the enrollees
+  pipeline = pipeline.concat([
+    {
+      $lookup: {
+        from: 'children',
+        localField: 'enrollment.child',
+        foreignField: '_id',
+        as: 'child',
+      },
+    },
+    {
+      $unwind: {
+        path: '$child',
+      },
+    },
+    {
+      $lookup: {
+        from: 'families',
+        localField: 'child.family',
+        foreignField: '_id',
+        as: 'family',
+      },
+    },
+    {
+      $unwind: {
+        path: '$family',
+      },
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'family.parent',
+        foreignField: '_id',
+        as: 'parent',
+      },
+    },
+    {
+      $unwind: {
+        path: '$parent',
+      },
+    },
+  ]);
+
+  // inital group to get teacher parent combo with array of enrolled children
+  // sorted by parent names
+  pipeline = pipeline.concat([
+    {
+      $group: {
+        _id: {
+          teacherId: '$teacher._id',
+          parentId: '$parent._id',
+        },
+        teacher: {
+          $first: '$teacher',
+        },
+        parent: {
+          $first: '$parent',
+        },
+        enrollments: {
+          $push: {
+            course: '$course',
+            child: '$child',
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        'parent.lastName': 1,
+        'parent.firstName': 1,
+      },
+    },
+  ]);
+
+  //get an array of payments that match both parent and teacher
+  pipeline = pipeline.concat([
+    {
+      $lookup: {
+        from: 'payments',
+        let: {
+          parent: '$parent',
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ['$$parent._id', '$parent'],
+              },
+            },
+          },
+        ],
+        localField: 'teacher._id',
+        foreignField: 'teacher',
+        as: 'payments',
+      },
+    },]);
+  
+    // final grouping of families under teacher, sorted by teacher name
+    pipeline = pipeline.concat([
+    {
+      $group: {
+        _id: '$teacher._id',
+        teacher: {
+          $first: '$teacher',
+        },
+        families: {
+          $push: {
+            parent: '$parent',
+            enrollments: '$enrollments',
+            payments: '$payments',
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        'teacher.lastName': 1,
+        'teacher.firstName': 1,
+      },
+    },
+  ]);
+};
+
 exports.teacherPaymentParent = (year) => {
   var pipeline = [];
 
@@ -251,7 +450,7 @@ exports.classCourseTeacher = (year) => {
 
   // get teacher for each class
   pipeline = pipeline.concat([
-   { $match: { "year": year } },
+    { $match: { year: year } },
     {
       $lookup: {
         from: 'users',
@@ -275,7 +474,7 @@ exports.classCourseTeacher = (year) => {
     },
     { $unwind: { path: '$course' } },
   ]);
- 
+
   //group a repeated classes show up once
   pipeline = pipeline.concat([
     {

@@ -6,7 +6,7 @@ block content
       section 
         include _familyTitle
         if (years.length == 1)
-            h1.family__title= selectedYear
+            h1.family__title(id=family.id)= selectedYear
         else    
           include _yearSelector
       
