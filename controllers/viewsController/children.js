@@ -1,11 +1,12 @@
-const catchAsync = require("../../utils/catchAsync");
+const catchAsync = require('../../utils/catchAsync');
+
+const Course = require('../../models/courseModel');
+const Year = require('../../models/yearModel');
+const Family = require('../../models/familyModel');
+const Child = require('../../models/childModel');
 
 exports.getChildren = catchAsync(async (req, res, next) => {
   let { parentId, selectedYear } = req.params;
-
-  const Year = require("../../models/yearModel");
-  const Family = require("../../models/familyModel");
-  const Child = require("../../models/childModel");
 
   var years = await Year.find();
 
@@ -16,13 +17,13 @@ exports.getChildren = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const family = await Family.findOne({ parent: parentId, year:selectedYear});
+  const family = await Family.findOne({ parent: parentId, year: selectedYear });
 
   let children = await Child.find({ family: family.id, year: selectedYear });
   children = children.sort(gradeSort);
 
-  res.status(200).render("children", {
-    title: "children",
+  res.status(200).render('children', {
+    title: 'children',
     family: family,
     children: children,
     years: years,
@@ -31,25 +32,6 @@ exports.getChildren = catchAsync(async (req, res, next) => {
 });
 
 const gradeSort = function (child2, child1) {
-  gradeArray = [
-    "Infant",
-    "PreK3",
-    "PreK4",
-    "K",
-    "1st",
-    "2nd",
-    "3rd",
-    "4th",
-    "5th",
-    "6th",
-    "7th",
-    "8th",
-    "9th",
-    "10th",
-    "11th",
-    "12th",
-    "Adult",
-  ];
-
+  const gradeArray = Object.values(Course.Grades);
   return gradeArray.indexOf(child2.grade) - gradeArray.indexOf(child1.grade);
 };
