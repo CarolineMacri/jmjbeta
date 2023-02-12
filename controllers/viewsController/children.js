@@ -11,20 +11,8 @@ exports.getChildren = catchAsync(async (req, res, next) => {
   var years = await Year.find();
 
   // if coming from the sidenav family, without a  year, therefore limit to current year
-  var years = selectedYear
-    ? await Year.find()
-    : await Year.findCurrentYearOnly();
-  selectedYear = selectedYear
-    ? selectedYear
-    : await Year.getCurrentYearValue();
-  // console.log('test years', testYears);
-  // console.log('test selected year', testSelectedYear);
-
-  // if (!selectedYear) {
-  //   selectedYear = await Year.findOne({ current: true });
-  //   years = [selectedYear];
-  //   selectedYear = selectedYear.year;
-  // }
+  years = selectedYear ? await Year.find() : await Year.findCurrentYearOnly();
+  selectedYear = selectedYear ? selectedYear : await Year.getCurrentYearValue();
 
   const family = await Family.findOne({ parent: parentId, year: selectedYear });
 
@@ -46,19 +34,33 @@ const gradeSort = function (child2, child1) {
 };
 
 exports.getChildrenTable = catchAsync(async (req, res, next) => {
-  const years = await Year.find().sort({ year: -1 });
+  let { parentId, selectedYear } = req.params;
 
-  res.status(200).render("children/children_table", {
-    title: "years",
-    years,
+  var years = await Year.find();
+
+  // if coming from the sidenav family, without a  year, therefore limit to current year
+  years = selectedYear ? await Year.find() : await Year.findCurrentYearOnly();
+  selectedYear = selectedYear ? selectedYear : await Year.getCurrentYearValue();
+
+  const family = await Family.findOne({ parent: parentId, year: selectedYear });
+
+  let children = await Child.find({ family: family.id, year: selectedYear });
+  children = children.sort(gradeSort);
+
+  res.status(200).render('children/children_table', {
+    title: 'children',
+    family: family,
+    children: children,
+    years: years,
+    selectedYear,
   });
 });
 
 exports.getChildProfile = catchAsync(async (req, res, next) => {
-    const years = await Year.find().sort({ year: -1 });
-  
-    res.status(200).render("children/child_profile", {
-      title: "years",
-      years,
-    });
+  const years = await Year.find().sort({ year: -1 });
+
+  res.status(200).render('children/children_profile', {
+    title: 'years',
+    years,
   });
+});
