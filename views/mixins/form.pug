@@ -1,0 +1,25 @@
+mixin formHeader(text)
+    .form__row
+        .form__header-text= text
+        .form__header-background.family-form__header-image
+
+mixin input(label, name, size)     
+    .form__row.form__item
+        label.form__label(for=name)= label
+        .form__row
+           input.form__input(id= name type='text' name= name size=size value=label required)    
+
+mixin submitCancel()
+    .form__row
+        input#update.form__button.form__item--center(type='submit' value="Update") 
+        button#cancel.form__button.form__cancel  cancel 
+
+mixin deleteModal(name)
+    section.page__content-row(class=`${name}-delete`)
+        .delete-modal__window
+            .delete-modal__content(class=`${name}-delete__modal`)
+                p(class=`${name}-delete__warning`) &#9888
+                p Are you sure you want to delete
+                p firstName sex grade
+                button(id=`delete${name.charAt(0).toUpperCase()+ name.slice(1)}`).button-ok OK
+                button#cancelDelete.button-cancel cancel
