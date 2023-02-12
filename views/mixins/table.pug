@@ -1,0 +1,26 @@
+mixin table(arrayName, array, headers, keys) 
+ 
+    //- arrayName = 'children'
+    //- array = [child1, child2, child3]
+    //- headers = ['First Name', 'Sex', 'Grade']
+    //- keys = ['firstName', 'sex', 'grade']
+
+    data
+    table(class=arrayName) 
+        tr
+            for h in headers
+                th= h
+     
+            for e in array
+                tr(id= e.id)
+                    for key in keys
+                        td= e[key]
+            
+                    td.button
+                        .edit &#9998
+                    td.button
+                        .delete &#10006
+
+        tr#new
+            td.button 
+                .new &#10010

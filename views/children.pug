@@ -2,33 +2,20 @@ extends base
 
 block content   
   include ./mixins/test
+  include ./mixins/table
   
   .page__content.children
+ 
     div      
       section 
         include _familyTitle
         include _yearSelector
       
-      table.children   
-        tr
-          th First Name
-          th Sex
-          th Grade
-          
-        for child in children
-          tr(id= child.id)
-            td= child.firstName
-            td= child.sex
-            td= child.grade
-            td.button
-             .edit &#9998
-            td.button
-             .delete &#10006
-
-        tr#new
-          td.button 
-            .new &#10010
-
+      +table('children',
+              children,
+              ['First Name', 'Sex', 'Grade'],
+              ['firstName','sex', 'grade'])
+      
       section.child-profile.form-modal__window
         form.form.form__outline-box.child-profile__form.form-modal__content
           .form__row
