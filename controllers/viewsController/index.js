@@ -6,6 +6,7 @@ Object.assign(
   require("./enrollments"),
   require("./families"),
   require("./login"),
+  require("./news"),
   require("./payments"),
   require("./registrations"),
   require("./reports"),

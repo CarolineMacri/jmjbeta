@@ -8,6 +8,11 @@ nav.side-nav
   - var isParent = user.currentRoles.includes('parent')
   - var isTeacher = user.currentRoles.includes('teacher')
   
+  if isAdmin
+    .side-nav__section 
+      h3.side-nav__heading TESTING----
+      a.side-nav__item(href=`/new_profile`) New Profile
+      a.side-nav__item(href=`/news_table`) New Table
   if isParent
     .side-nav__section
       h3.side-nav__heading Family

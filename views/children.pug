@@ -5,11 +5,11 @@ block content
   include ./mixins/radio
   include ./mixins/form
   
-  .page__content.children
+  .page__content
  
     div      
       section 
-        include _familyTitle
+        h1.children__title(id=family.id)= family.parent.lastName
         include _yearSelector
       
       +table('children',

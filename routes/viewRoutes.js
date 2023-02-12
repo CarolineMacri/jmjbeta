@@ -38,6 +38,7 @@ router.get(
   viewsController.getChildren
 );
 
+
 router.get(
   "/courses_table/:selectedYear?/:ownerId?",
   authController.protect,
@@ -48,6 +49,23 @@ router.get(
   authController.protect,
   viewsController.getCourseProfile
 );
+
+//---------------------------------------------for testing purposes---------------------------------------------
+router.get(
+  "/news_table",
+  authController.protect,
+  viewsController.getNewsTable
+);
+router.get(
+  "/new_profile",
+  authController.protect,
+  viewsController.getNewProfile
+);
+//---------------------------------------------for testing purposes---------------------------------------------
+
+
+
+
 
 router.get(
   "/enrollments_table/:selectedYear?",

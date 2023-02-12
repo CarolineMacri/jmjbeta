@@ -17,7 +17,7 @@ mixin table(arrayName, array, headers, keys)
                         td= e[key]
             
                     td.button
-                        .edit &#9998
+                         a.edit(href=`/${arrayName}_profile/${e.id}/${selectedYear}`) &#9998
                     td.button
                         .delete &#10006
 

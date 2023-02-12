@@ -1,0 +1,61 @@
+extends ../base
+
+block content   
+    .page__content
+        div
+            section
+                if hasOwner 
+                    h1.courses__title(id= owner._id)= `${owner.firstName}  ${owner.lastName} Courses`
+                else    
+                    h1.courses__title  Courses
+                include ../_yearSelector
+        
+            table.courses
+                tr
+                    th Course
+                    th Grades
+                    th Fee
+                for course in courses    
+                    tr(id=course.id)
+                        td= course.name
+                        td= `${course.grade.min} - ${course.grade.max}`
+                        -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
+                        td= `$${formatter.format(course.classFee)}`
+                        td.button
+                            if hasOwner
+                                a.edit(href=`/course_profile/${course.id}/${selectedYear}/${owner.id}`) &#9998
+                            else
+                                a.edit(href=`/course_profile/${course.id}/${selectedYear}`) &#9998
+                        td.button
+                            .delete &#10006
+                
+                tr#new
+                    td.button
+                        .new
+                            if hasOwner
+                                a(href=`/course_profile/new/${selectedYear}/${owner.id}`) &#10010
+                            else
+                                a(href=`/course_profile/new/${selectedYear}`) &#10010
+
+
+            section.course-delete.page__content-row
+                .delete-modal__window
+                    .delete-modal__content.course-delete__modal
+                        p.course-delete__warning &#9888
+                        p Are you sure you want to delete
+                        p course
+                        button#deleteCourse.button-ok OK
+                        button#cancelDelete.button-cancel cancel
+            
+        
+            
+               
+                
+                   
+
+                
+                            
+                   
+               
+                   
+            

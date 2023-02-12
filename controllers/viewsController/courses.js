@@ -34,7 +34,7 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
     //console.log(owner);
   }
 
-  res.status(200).render("courses/course_table", {
+  res.status(200).render("courses/courses_table", {
     title: `Courses ${selectedYear}`,
     courses,
     years,
