@@ -62,6 +62,18 @@ router.get(
   viewsController.getNewProfile
 );
 //---------------------------------------------for testing purposes---------------------------------------------
+//---------------------------------------------for testing purposes---------------------------------------------
+router.get(
+  "/children_table",
+  authController.protect,
+  viewsController.getChildrenTable
+);
+router.get(
+  "/child_profile",
+  authController.protect,
+  viewsController.getChildProfile
+);
+//---------------------------------------------for testing purposes---------------------------------------------
 
 
 
