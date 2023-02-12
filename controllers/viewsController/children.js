@@ -44,3 +44,21 @@ const gradeSort = function (child2, child1) {
   const gradeArray = Object.values(Course.Grades);
   return gradeArray.indexOf(child2.grade) - gradeArray.indexOf(child1.grade);
 };
+
+exports.getChildrenTable = catchAsync(async (req, res, next) => {
+  const years = await Year.find().sort({ year: -1 });
+
+  res.status(200).render("children/children_table", {
+    title: "years",
+    years,
+  });
+});
+
+exports.getChildProfile = catchAsync(async (req, res, next) => {
+    const years = await Year.find().sort({ year: -1 });
+  
+    res.status(200).render("children/child_profile", {
+      title: "years",
+      years,
+    });
+  });
