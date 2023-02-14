@@ -1,17 +1,9 @@
-import {
-  changeChildrenYear,
-  updateChild,
-  deleteChildModal
-}
-  from './actions';
-
+import { changeChildrenYear, updateChild, deleteChildModal } from './actions';
 function index(a) {
-  alert(' children index');
   const children = document.querySelector('.children');
   const childProfileForm = document.querySelector('.child-profile__form');
 
   if (children) {
-    alert('in children');
     // year  selector
     const yearSelect = document.getElementById('year-select');
     if (yearSelect) {
@@ -69,45 +61,6 @@ function index(a) {
         .querySelector('.delete-modal__window')
         .classList.toggle('delete-modal__show');
     });
-
-    childProfileForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const fN = document.getElementById('firstName');
-      const firstName = fN.value;
-      const id = childProfileForm.id;
-      const grades = document.getElementsByName('grade');
-      var g;
-      var grade = '';
-      for (g of grades) {
-        if (g.checked) {
-          grade = g.value;
-
-          break;
-        }
-      }
-      const sexes = document.getElementsByName('sex');
-      var s;
-      var sex = '';
-      for (s of sexes) {
-        if (s.checked) {
-          sex = s.value;
-          break;
-        }
-      }
-      const family = document.querySelector('.family__title').id;
-
-      const year = yearSelect.value;
-
-      const data = {
-        firstName,
-        grade,
-        sex,
-        family,
-        year,
-      };
-
-      updateChild(id, data);
-    });
   }
 
   if (childProfileForm) {
@@ -119,24 +72,26 @@ function index(a) {
       const firstName = fN.value;
       const id = childProfileForm.id;
       const grades = document.getElementsByName('grade');
+
       var g;
       var grade = '';
       for (g of grades) {
         if (g.checked) {
           grade = g.value;
-
           break;
         }
       }
+
       const sexes = document.getElementsByName('sex');
       var s;
-      var sex = '';
+      var sex;
       for (s of sexes) {
         if (s.checked) {
           sex = s.value;
           break;
         }
       }
+
       const familyId = childProfileForm.dataset.familyId;
 
       const data = {

@@ -14517,7 +14517,6 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function index(a) {
-  alert(' children index');
   var children = document.querySelector('.children');
   var childProfileForm = document.querySelector('.child-profile__form');
 
@@ -14525,8 +14524,7 @@ function index(a) {
     var i;
 
     (function () {
-      alert('in children'); // year  selector
-
+      // year  selector
       var yearSelect = document.getElementById('year-select');
 
       if (yearSelect) {
@@ -14576,66 +14574,6 @@ function index(a) {
         e.preventDefault();
         document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
       });
-      childProfileForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var fN = document.getElementById('firstName');
-        var firstName = fN.value;
-        var id = childProfileForm.id;
-        var grades = document.getElementsByName('grade');
-        var g;
-        var grade = '';
-
-        var _iterator = _createForOfIteratorHelper(grades),
-            _step;
-
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            g = _step.value;
-
-            if (g.checked) {
-              grade = g.value;
-              break;
-            }
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-
-        var sexes = document.getElementsByName('sex');
-        var s;
-        var sex = '';
-
-        var _iterator2 = _createForOfIteratorHelper(sexes),
-            _step2;
-
-        try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            s = _step2.value;
-
-            if (s.checked) {
-              sex = s.value;
-              break;
-            }
-          }
-        } catch (err) {
-          _iterator2.e(err);
-        } finally {
-          _iterator2.f();
-        }
-
-        var family = document.querySelector('.family__title').id;
-        var year = yearSelect.value;
-        var data = {
-          firstName: firstName,
-          grade: grade,
-          sex: sex,
-          family: family,
-          year: year
-        };
-        (0, _actions.updateChild)(id, data);
-      });
     })();
   }
 
@@ -14650,12 +14588,12 @@ function index(a) {
       var g;
       var grade = '';
 
-      var _iterator3 = _createForOfIteratorHelper(grades),
-          _step3;
+      var _iterator = _createForOfIteratorHelper(grades),
+          _step;
 
       try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          g = _step3.value;
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          g = _step.value;
 
           if (g.checked) {
             grade = g.value;
@@ -14663,21 +14601,21 @@ function index(a) {
           }
         }
       } catch (err) {
-        _iterator3.e(err);
+        _iterator.e(err);
       } finally {
-        _iterator3.f();
+        _iterator.f();
       }
 
       var sexes = document.getElementsByName('sex');
       var s;
-      var sex = '';
+      var sex;
 
-      var _iterator4 = _createForOfIteratorHelper(sexes),
-          _step4;
+      var _iterator2 = _createForOfIteratorHelper(sexes),
+          _step2;
 
       try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          s = _step4.value;
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          s = _step2.value;
 
           if (s.checked) {
             sex = s.value;
@@ -14685,9 +14623,9 @@ function index(a) {
           }
         }
       } catch (err) {
-        _iterator4.e(err);
+        _iterator2.e(err);
       } finally {
-        _iterator4.f();
+        _iterator2.f();
       }
 
       var familyId = childProfileForm.dataset.familyId;
@@ -14895,8 +14833,7 @@ var _actions = require("./actions");
 /* eslint-disable */
 // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
-  alert('courses index'); // DOM elements
-
+  // DOM elements
   var courses = document.querySelector('.courses');
   var courseProfile = document.querySelector('.course-profile');
 
@@ -126545,7 +126482,6 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 (0, _index.index)();
-alert('after import children');
 (0, _index2.index)();
 (0, _index3.index)();
 (0, _index4.index)();

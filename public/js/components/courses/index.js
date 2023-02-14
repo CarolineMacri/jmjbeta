@@ -3,7 +3,6 @@
 import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
 
 function index(a) {
-  alert('courses index');
   // DOM elements
   const courses = document.querySelector('.courses');
   const courseProfile = document.querySelector('.course-profile');

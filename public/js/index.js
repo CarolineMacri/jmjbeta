@@ -1,5 +1,4 @@
-/* eslint-disable */
-import 'core-js/stable';
+/* eslint-disable */import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import { changeFamilyYear, addFamily, existsFamily } from './family';
@@ -7,7 +6,6 @@ import { changeFamiliesYear, deleteFamily } from './families';
 
 import { index as children } from './components/children/index';
 children();
-alert('after import children'); 
 
 import { index as courses } from './components/courses/index';
 courses();

@@ -6,4 +6,4 @@ mixin radioColumn(name, items, value)
             -var itemValue = item.replace(' ', '')
                 .form__radio-item   
                     input(id=itemValue type='radio' name=name value=itemValue checked=( item == value) required)
-                    label.form__label-radio(for=itemValue)= item
+                    label.form__label-radio(for=name)= item
