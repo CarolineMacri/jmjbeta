@@ -64,12 +64,12 @@ router.get(
 //---------------------------------------------for testing purposes---------------------------------------------
 //---------------------------------------------for testing purposes---------------------------------------------
 router.get(
-  "/children_table/:parentId",
+  "/children_table/:parentId/:selectedYear?",
   authController.protect,
   viewsController.getChildrenTable
 );
 router.get(
-  "/children_profile/:parentId",
+  "/child_profile/:childId/:familyId?",
   authController.protect,
   viewsController.getChildProfile
 );

@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const catchAsync = require('../../utils/catchAsync');
 
 const Course = require('../../models/courseModel');
@@ -57,10 +59,26 @@ exports.getChildrenTable = catchAsync(async (req, res, next) => {
 });
 
 exports.getChildProfile = catchAsync(async (req, res, next) => {
-  const years = await Year.find().sort({ year: -1 });
+  let { childId, familyId } = req.params;
+  
+  var child = {};
 
-  res.status(200).render('children/children_profile', {
-    title: 'years',
-    years,
+  const family = await Family.findOne({ '_id': mongoose.Types.ObjectId(familyId) })  
+  
+  if(childId == 'new') {
+    child = new Child();
+    child.family = mongoose.Types.ObjectId(familyId);  
+    child.year = family.year;
+  } 
+  else {
+    child = await Child.findOne({
+      _id: mongoose.Types.ObjectId(childId),
+    });
+    console.log(child);
+  }
+
+  res.status(200).render('children/child_profile', {
+    title: 'Child',
+    child,
   });
 });

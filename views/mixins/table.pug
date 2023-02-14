@@ -1,12 +1,12 @@
-mixin table(arrayName, array, headers, keys) 
+mixin table(singularName, array, headers, keys, newUrl) 
  
-    //- arrayName = 'children'
+    //- singularName = 'child'
     //- array = [child1, child2, child3]
     //- headers = ['First Name', 'Sex', 'Grade']
     //- keys = ['firstName', 'sex', 'grade']
 
     data
-    table(class=arrayName) 
+    table(class=pluralize(singularName)) 
         tr
             for h in headers
                 th= h
@@ -17,10 +17,11 @@ mixin table(arrayName, array, headers, keys)
                         td= e[key]
             
                     td.button
-                         a.edit(href=`/${arrayName}_profile/${e.id}/${selectedYear}`) &#9998
+                        a.edit(href=`/${singularName}_profile/${e.id}`) &#9998
                     td.button
                         .delete &#10006
 
         tr#new
             td.button 
-                .new &#10010
+                .new 
+                    a(href=newUrl) &#10010

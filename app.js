@@ -18,6 +18,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 //-- helpers
 const compression = require("compression");
 const pluralize = require("pluralize");
+const camelcase = require("camelcase-es5");
 
 // UITLS
 const AppError = require("./utils/appError");
@@ -46,6 +47,9 @@ const app = express();
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+//-------test to use pluralize in the front end pug
+app.locals.pluralize = pluralize; 
+app.locals.camelcase = camelcase;
 
 // development middleware
 if (process.env.NODE_ENV.toLowerCase() === "development") {

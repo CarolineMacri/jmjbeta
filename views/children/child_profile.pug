@@ -1,0 +1,28 @@
+extends ../base
+
+block content   
+  include ../mixins/radio
+  include ../mixins/form
+
+  .page__content.child-profile(data-is-new=(child.isNew?'new':'old'))
+      section
+        form.form.form__outline-box.child-profile__form(id= `${child.id}` data-family-id=child.family)
+         
+          +formHeader(`Child`)
+
+          +input('First Name', child.firstName, 15) 
+              
+          .form__outline-box--bottom
+            .form__row.form__item.form__label Sex
+            .form__row.form__item  
+              +radioColumn ('sex', ['M', 'F'], child.sex)      
+          
+          div
+            .form__row.form__label.form__item Grade
+            .form__row.form__item
+              +radioColumn('grade',['Infant', 'Toddler', 'PreK 3', 'PreK 4', 'K'],child.grade)
+              +radioColumn('grade',['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'], child.grade)
+              +radioColumn('grade',['9th', '10th', '11th', '12th', 'Adult'], child.grade)
+
+            +submitCancel()        
+            

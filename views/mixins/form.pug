@@ -3,11 +3,11 @@ mixin formHeader(text)
         .form__header-text= text
         .form__header-background.family-form__header-image
 
-mixin input(label, name, size)     
+mixin input(label, value, size)     
     .form__row.form__item
-        label.form__label(for=name)= label
+        label.form__label(for=camelcase(label))= label
         .form__row
-           input.form__input(id= name type='text' name= name size=size value=label required)    
+           input.form__input(id= camelcase(label) type='text'  name=camelcase(label) size=size value=value required)    
 
 mixin submitCancel()
     .form__row

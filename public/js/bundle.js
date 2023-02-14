@@ -14315,7 +14315,393 @@ var deleteFamily = /*#__PURE__*/function () {
 }();
 
 exports.deleteFamily = deleteFamily;
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"components/courses/actions.js":[function(require,module,exports) {
+},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"components/children/actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deleteChild = exports.deleteChildModal = exports.updateChild = exports.modalOnClick = exports.changeChildrenYear = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var changeChildrenYear = function changeChildrenYear(parentId, year) {
+  location.assign("/children_table/".concat(parentId, "/").concat(year));
+};
+
+exports.changeChildrenYear = changeChildrenYear;
+
+var modalOnClick = function modalOnClick(event) {
+  if (event.target = document.querySelector(".form-modal__window")) {
+    toggleModal();
+  }
+};
+
+exports.modalOnClick = modalOnClick;
+
+var updateChild = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(childId, data) {
+    var url, method, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            url = "/api/v1/children".concat(childId == "new" ? "" : "/" + childId);
+            method = childId == "new" ? "POST" : "PATCH";
+            _context.next = 5;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: data
+            });
+
+          case 5:
+            res = _context.sent;
+
+            if (res.data.status == "success") {
+              (0, _alerts.showAlert)("success", "Child ".concat(res.data.data.child.firstName, " ").concat(childId == "new" ? "added" : "updated", " successfully"));
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context.next = 12;
+            break;
+
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](0);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
+
+          case 12:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 9]]);
+  }));
+
+  return function updateChild(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.updateChild = updateChild;
+
+var deleteChildModal = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
+    var childId, _map, _map2, childFirstName, childSex, childGrade, x, y, deleteModal, paragraphs, deleteChildButton;
+
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            childId = row.id;
+            _map = _toConsumableArray(row.children).map(function (e) {
+              return e.innerHTML;
+            }), _map2 = _slicedToArray(_map, 5), childFirstName = _map2[0], childSex = _map2[1], childGrade = _map2[2], x = _map2[3], y = _map2[4];
+            deleteModal = document.querySelector(".delete-modal__window");
+            paragraphs = deleteModal.getElementsByTagName("p");
+            paragraphs.item(2).innerHTML = childFirstName.toUpperCase() + "   " + childGrade + " grade";
+            deleteChildButton = document.getElementById("deleteChild");
+            deleteChildButton.addEventListener("click", function () {
+              deleteChild(childId, childFirstName);
+            });
+            deleteModal.classList.toggle("delete-modal__show");
+
+          case 8:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function deleteChildModal(_x3) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.deleteChildModal = deleteChildModal;
+
+var deleteChild = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(childId, childFirstName) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            url = "/api/v1/children/".concat(childId);
+            _context3.next = 4;
+            return (0, _axios.default)({
+              method: "DELETE",
+              url: url
+            });
+
+          case 4:
+            res = _context3.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)("success", "".concat(childFirstName, " deleted"));
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context3.next = 11;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](0);
+            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 8]]);
+  }));
+
+  return function deleteChild(_x4, _x5) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.deleteChild = deleteChild;
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/children/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _actions = require("./actions");
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function index(a) {
+  alert(' children index');
+  var children = document.querySelector('.children');
+  var childProfileForm = document.querySelector('.child-profile__form');
+
+  if (children) {
+    var i;
+
+    (function () {
+      alert('in children'); // year  selector
+
+      var yearSelect = document.getElementById('year-select');
+
+      if (yearSelect) {
+        yearSelect.addEventListener('change', function (e) {
+          var newYear = yearSelect.value;
+          var id = window.location.pathname.split('/')[2];
+          (0, _actions.changeChildrenYear)(id, newYear);
+        });
+      } // add event listners for each child
+
+
+      var childrenRows = document.querySelector('.children').getElementsByTagName('tr');
+      var numRows = childrenRows.length;
+
+      var _loop = function _loop() {
+        var dataRow = childrenRows[i];
+        var dataCells = dataRow.getElementsByTagName('td');
+        var numCells = dataCells.length;
+        var editButton = dataCells.item(numCells - 2);
+        var deleteButton = dataCells.item(numCells - 1);
+        editButton.addEventListener('click', function () {
+          fillChildForm(dataRow);
+        });
+        deleteButton.addEventListener('click', function () {
+          if (yearSelect) {
+            (0, _actions.deleteChildModal)(dataRow);
+          } else {
+            alert('you do not have permission to delete this Child');
+          }
+        });
+      };
+
+      for (i = 1; i <= numRows - 2; i++) {
+        _loop();
+      }
+
+      var addNewRow = childrenRows[numRows - 1];
+      var addNewCells = addNewRow.getElementsByTagName('td');
+      var addNewButton = addNewCells.item(0);
+      var cancel = document.getElementById('cancel');
+      cancel.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
+      });
+      var cancelDelete = document.getElementById('cancelDelete');
+      cancelDelete.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+      });
+      childProfileForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var fN = document.getElementById('firstName');
+        var firstName = fN.value;
+        var id = childProfileForm.id;
+        var grades = document.getElementsByName('grade');
+        var g;
+        var grade = '';
+
+        var _iterator = _createForOfIteratorHelper(grades),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            g = _step.value;
+
+            if (g.checked) {
+              grade = g.value;
+              break;
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
+        var sexes = document.getElementsByName('sex');
+        var s;
+        var sex = '';
+
+        var _iterator2 = _createForOfIteratorHelper(sexes),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            s = _step2.value;
+
+            if (s.checked) {
+              sex = s.value;
+              break;
+            }
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+
+        var family = document.querySelector('.family__title').id;
+        var year = yearSelect.value;
+        var data = {
+          firstName: firstName,
+          grade: grade,
+          sex: sex,
+          family: family,
+          year: year
+        };
+        (0, _actions.updateChild)(id, data);
+      });
+    })();
+  }
+
+  if (childProfileForm) {
+    alert('in child profile form');
+    childProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fN = document.getElementById('firstName');
+      var firstName = fN.value;
+      var id = childProfileForm.id;
+      var grades = document.getElementsByName('grade');
+      var g;
+      var grade = '';
+
+      var _iterator3 = _createForOfIteratorHelper(grades),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          g = _step3.value;
+
+          if (g.checked) {
+            grade = g.value;
+            break;
+          }
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      var sexes = document.getElementsByName('sex');
+      var s;
+      var sex = '';
+
+      var _iterator4 = _createForOfIteratorHelper(sexes),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          s = _step4.value;
+
+          if (s.checked) {
+            sex = s.value;
+            break;
+          }
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+
+      var familyId = childProfileForm.dataset.familyId;
+      var data = {
+        firstName: firstName,
+        grade: grade,
+        sex: sex,
+        familyId: familyId
+      };
+      (0, _actions.updateChild)(id, data);
+    });
+  }
+}
+},{"./actions":"components/children/actions.js"}],"components/courses/actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14509,7 +14895,8 @@ var _actions = require("./actions");
 /* eslint-disable */
 // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 function index(a) {
-  // DOM elements
+  alert('courses index'); // DOM elements
+
   var courses = document.querySelector('.courses');
   var courseProfile = document.querySelector('.course-profile');
 
@@ -17827,227 +18214,7 @@ var changeReportCoursesYear = function changeReportCoursesYear(year) {
 };
 
 exports.changeReportCoursesYear = changeReportCoursesYear;
-},{}],"children.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.deleteChildModal = exports.updateChild = exports.fillChildForm = exports.modalOnClick = exports.toggleModal = exports.changeChildrenYear = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _alerts = require("./alerts");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var changeChildrenYear = function changeChildrenYear(parentId, year) {
-  location.assign("/children/".concat(parentId, "/").concat(year));
-};
-
-exports.changeChildrenYear = changeChildrenYear;
-
-var toggleModal = function toggleModal() {
-  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
-};
-
-exports.toggleModal = toggleModal;
-
-var modalOnClick = function modalOnClick(event) {
-  if (event.target = document.querySelector(".form-modal__window")) {
-    toggleModal();
-  }
-};
-
-exports.modalOnClick = modalOnClick;
-
-var fillChildForm = function fillChildForm(row) {
-  document.querySelector(".child-profile__form").id = row.id;
-
-  var _map = _toConsumableArray(row.children).map(function (e) {
-    return e.innerHTML;
-  }),
-      _map2 = _slicedToArray(_map, 5),
-      childFirstName = _map2[0],
-      childSex = _map2[1],
-      childGrade = _map2[2],
-      x = _map2[3],
-      y = _map2[4];
-
-  document.getElementById("firstName").value = childFirstName.includes("<div") ? "" : childFirstName;
-  document.getElementById("update").value = childFirstName.includes("<div") ? "Add" : "Update";
-  var sexRadios = document.getElementsByName("sex");
-  setChecked(sexRadios, childSex);
-  var gradeRadios = document.getElementsByName("grade");
-  setChecked(gradeRadios, childGrade);
-  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
-
-  function setChecked(radioButtons, checkedValue) {
-    radioButtons.forEach(function (btn) {
-      var isChecked = btn.value == checkedValue;
-      btn.checked = isChecked;
-    });
-  }
-};
-
-exports.fillChildForm = fillChildForm;
-
-var updateChild = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(parentId, data) {
-    var url, method, res;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            url = "/api/v1/children".concat(parentId == "new" ? "" : "/" + parentId);
-            method = parentId == "new" ? "POST" : "PATCH";
-            _context.next = 5;
-            return (0, _axios.default)({
-              method: method,
-              url: url,
-              data: data
-            });
-
-          case 5:
-            res = _context.sent;
-
-            if (res.data.status == "success") {
-              (0, _alerts.showAlert)("success", "Child ".concat(res.data.data.child.firstName, " ").concat(parentId == "new" ? "added" : "updated", " successfully"));
-              window.setTimeout(function () {
-                location.reload();
-              }, 500);
-            }
-
-            _context.next = 12;
-            break;
-
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
-
-          case 12:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[0, 9]]);
-  }));
-
-  return function updateChild(_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-exports.updateChild = updateChild;
-
-var deleteChildModal = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(row) {
-    var childId, _map3, _map4, childFirstName, childSex, childGrade, x, y, deleteModal, paragraphs, deleteChildButton;
-
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            childId = row.id;
-            _map3 = _toConsumableArray(row.children).map(function (e) {
-              return e.innerHTML;
-            }), _map4 = _slicedToArray(_map3, 5), childFirstName = _map4[0], childSex = _map4[1], childGrade = _map4[2], x = _map4[3], y = _map4[4];
-            deleteModal = document.querySelector(".delete-modal__window");
-            paragraphs = deleteModal.getElementsByTagName("p");
-            paragraphs.item(2).innerHTML = childFirstName.toUpperCase() + "   " + childGrade + " grade";
-            deleteChildButton = document.getElementById("deleteChild");
-            deleteChildButton.addEventListener("click", function () {
-              deleteChild(childId, childFirstName);
-            });
-            deleteModal.classList.toggle("delete-modal__show");
-
-          case 8:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function deleteChildModal(_x3) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-exports.deleteChildModal = deleteChildModal;
-
-var deleteChild = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(childId, childFirstName) {
-    var url, res;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.prev = 0;
-            url = "/api/v1/children/".concat(childId);
-            _context3.next = 4;
-            return (0, _axios.default)({
-              method: "DELETE",
-              url: url
-            });
-
-          case 4:
-            res = _context3.sent;
-
-            if (res.status == 204) {
-              (0, _alerts.showAlert)("success", "".concat(childFirstName, " deleted"));
-              window.setTimeout(function () {
-                location.reload();
-              }, 500);
-            }
-
-            _context3.next = 11;
-            break;
-
-          case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
-
-          case 11:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3, null, [[0, 8]]);
-  }));
-
-  return function deleteChild(_x4, _x5) {
-    return _ref3.apply(this, arguments);
-  };
-}();
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"users.js":[function(require,module,exports) {
+},{}],"users.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -126347,25 +126514,25 @@ var _family = require("./family");
 
 var _families = require("./families");
 
-var _index = require("./components/courses/index");
+var _index = require("./components/children/index");
 
-var _index2 = require("./components/logins/index");
+var _index2 = require("./components/courses/index");
 
-var _index3 = require("./components/classes/index");
+var _index3 = require("./components/logins/index");
 
-var _index4 = require("./components/enrollments/index");
+var _index4 = require("./components/classes/index");
 
-var _index5 = require("./components/payments/index");
+var _index5 = require("./components/enrollments/index");
 
-var _index6 = require("./components/registrations/index");
+var _index6 = require("./components/payments/index");
 
-var _index7 = require("./components/teachers/index");
+var _index7 = require("./components/registrations/index");
+
+var _index8 = require("./components/teachers/index");
 
 var _actions = require("./components/teachers/actions");
 
 var _reports = require("./reports");
-
-var _children = require("./children");
 
 var _users = require("./users");
 
@@ -126378,17 +126545,20 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 (0, _index.index)();
+alert('after import children');
 (0, _index2.index)();
 (0, _index3.index)();
 (0, _index4.index)();
 (0, _index5.index)();
 (0, _index6.index)();
 (0, _index7.index)();
+(0, _index8.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');
-var families = document.querySelector('.families');
-var children = document.querySelector('.children');
-var childProfileForm = document.querySelector('.child-profile__form');
+var families = document.querySelector('.families'); // const children = document.querySelector('.children');
+// const children = document.querySelector('.children');
+// const childProfileForm = document.querySelector('.child-profile__form');
+
 var users = document.querySelector('.users');
 var userProfileForm = document.querySelector('.user-profile__form');
 var reportChildrenByGrade = document.querySelector('.reportChildrenByGrade');
@@ -126481,127 +126651,91 @@ if (reportCourses) {
     var newYear = _yearSelect6.value;
     (0, _reports.changeReportCoursesYear)(newYear);
   });
-}
+} // if (children) {
+//   // year  selector
+//   const yearSelect = document.getElementById('year-select');
+//   if (yearSelect) {
+//     yearSelect.addEventListener('change', (e) => {
+//       const newYear = yearSelect.value;
+//       const id = window.location.pathname.split('/')[2];
+//       changeChildrenYear(id, newYear);
+//     })
+//   }
+//   // add event listners for each child
+//   const childrenRows = document
+//     .querySelector('.children')
+//     .getElementsByTagName('tr');
+//   const numRows = childrenRows.length;
+//   for (var i = 1; i <= numRows - 2; i++) {
+//     const dataRow = childrenRows[i];
+//     const dataCells = dataRow.getElementsByTagName('td');
+//     const numCells = dataCells.length;
+//     const editButton = dataCells.item(numCells - 2);
+//     const deleteButton = dataCells.item(numCells - 1);
+//     editButton.addEventListener('click', function () {
+//         fillChildForm(dataRow);
+//     });
+//     deleteButton.addEventListener('click', function () {
+//       if (yearSelect) { deleteChildModal(dataRow) }
+//       else{alert('you do not have permission to delete this Child')}
+//     });
+//   }
+//   const addNewRow = childrenRows[numRows - 1];
+//   const addNewCells = addNewRow.getElementsByTagName('td');
+//   const addNewButton = addNewCells.item(0);
+//   addNewButton.addEventListener('click', function () {
+//     fillChildForm(addNewRow);
+//   });
+//   const cancel = document.getElementById('cancel');
+//   cancel.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     document
+//       .querySelector('.form-modal__window')
+//       .classList.toggle('form-modal__show');
+//   });
+//   const cancelDelete = document.getElementById('cancelDelete');
+//   cancelDelete.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     document
+//       .querySelector('.delete-modal__window')
+//       .classList.toggle('delete-modal__show');
+//   });
+//   childProfileForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     const fN = document.getElementById('firstName');
+//     const firstName = fN.value;
+//     const id = childProfileForm.id;
+//     const grades = document.getElementsByName('grade');
+//     var g;
+//     var grade = '';
+//     for (g of grades) {
+//       if (g.checked) {
+//         grade = g.value;
+//         break;
+//       }
+//     }
+//     const sexes = document.getElementsByName('sex');
+//     var s;
+//     var sex = '';
+//     for (s of sexes) {
+//       if (s.checked) {
+//         sex = s.value;
+//         break;
+//       }
+//     }
+//     const family = document.querySelector('.family__title').id;
+//     const year = yearSelect.value;
+//     const data = {
+//       firstName,
+//       grade,
+//       sex,
+//       family,
+//       year,
+//     };
+//     updateChild(id, data);
+//   });
+// }
 
-if (children) {
-  var i;
-
-  (function () {
-    // year  selector
-    var yearSelect = document.getElementById('year-select');
-
-    if (yearSelect) {
-      yearSelect.addEventListener('change', function (e) {
-        var newYear = yearSelect.value;
-        var id = window.location.pathname.split('/')[2];
-        (0, _children.changeChildrenYear)(id, newYear);
-      });
-    } // add event listners for each child
-
-
-    var childrenRows = document.querySelector('.children').getElementsByTagName('tr');
-    var numRows = childrenRows.length;
-
-    var _loop = function _loop() {
-      var dataRow = childrenRows[i];
-      var dataCells = dataRow.getElementsByTagName('td');
-      var numCells = dataCells.length;
-      var editButton = dataCells.item(numCells - 2);
-      var deleteButton = dataCells.item(numCells - 1);
-      editButton.addEventListener('click', function () {
-        (0, _children.fillChildForm)(dataRow);
-      });
-      deleteButton.addEventListener('click', function () {
-        if (yearSelect) {
-          (0, _children.deleteChildModal)(dataRow);
-        } else {
-          alert('you do not have permission to delete this Child');
-        }
-      });
-    };
-
-    for (i = 1; i <= numRows - 2; i++) {
-      _loop();
-    }
-
-    var addNewRow = childrenRows[numRows - 1];
-    var addNewCells = addNewRow.getElementsByTagName('td');
-    var addNewButton = addNewCells.item(0);
-    addNewButton.addEventListener('click', function () {
-      (0, _children.fillChildForm)(addNewRow);
-    });
-    var cancel = document.getElementById('cancel');
-    cancel.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
-    });
-    var cancelDelete = document.getElementById('cancelDelete');
-    cancelDelete.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
-    });
-    childProfileForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var fN = document.getElementById('firstName');
-      var firstName = fN.value;
-      var id = childProfileForm.id;
-      var grades = document.getElementsByName('grade');
-      var g;
-      var grade = '';
-
-      var _iterator = _createForOfIteratorHelper(grades),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          g = _step.value;
-
-          if (g.checked) {
-            grade = g.value;
-            break;
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      var sexes = document.getElementsByName('sex');
-      var s;
-      var sex = '';
-
-      var _iterator2 = _createForOfIteratorHelper(sexes),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          s = _step2.value;
-
-          if (s.checked) {
-            sex = s.value;
-            break;
-          }
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-
-      var family = document.querySelector('.family__title').id;
-      var year = yearSelect.value;
-      var data = {
-        firstName: firstName,
-        grade: grade,
-        sex: sex,
-        family: family,
-        year: year
-      };
-      (0, _children.updateChild)(id, data);
-    });
-  })();
-}
 
 if (users) {
   var _yearSelect7 = document.getElementById('year-select');
@@ -126616,7 +126750,7 @@ if (users) {
   var usersRows = document.querySelector('.users').getElementsByTagName('tr');
   var numRows = usersRows.length;
 
-  var _loop2 = function _loop2() {
+  var _loop = function _loop() {
     var dataRow = usersRows[i];
     var dataCells = dataRow.getElementsByTagName('td');
     var numCells = dataCells.length;
@@ -126631,7 +126765,7 @@ if (users) {
   };
 
   for (var i = 1; i <= numRows - 2; i++) {
-    _loop2();
+    _loop();
   }
 
   var addNewRow = usersRows[numRows - 1];
@@ -126666,21 +126800,21 @@ if (users) {
     var r;
     var roles = [];
 
-    var _iterator3 = _createForOfIteratorHelper(role),
-        _step3;
+    var _iterator = _createForOfIteratorHelper(role),
+        _step;
 
     try {
-      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-        r = _step3.value;
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        r = _step.value;
 
         if (r.checked) {
           roles.push(r.value);
         }
       }
     } catch (err) {
-      _iterator3.e(err);
+      _iterator.e(err);
     } finally {
-      _iterator3.f();
+      _iterator.f();
     }
 
     var yearRoles = {};
@@ -126724,7 +126858,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./components/registrations/index":"components/registrations/index.js","./components/teachers/index":"components/teachers/index.js","./components/teachers/actions":"components/teachers/actions.js","./reports":"reports.js","./children":"children.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./components/children/index":"components/children/index.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./components/registrations/index":"components/registrations/index.js","./components/teachers/index":"components/teachers/index.js","./components/teachers/actions":"components/teachers/actions.js","./reports":"reports.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

@@ -1,5 +1,47 @@
 extends ../base
 
 block content   
-    h1 PUT child table CONTENT HERE
-    h1= `CHILDREN ${children[0]}`
+  include ../mixins/table
+  include ../mixins/radio
+  include ../mixins/form
+
+  .page__content
+ 
+    div      
+      section 
+        h1.children__title(id=family.id)= family.parent.lastName
+        include ../_yearSelector
+
+        -var newUrl=`/child_profile/new/${family.id}`
+      
+        +table('child',
+              children,
+              ['First Name', 'Sex', 'Grade'],
+              ['firstName','sex', 'grade'],
+              newUrl)
+      
+      
+        +deleteModal('child')
+
+    //-   section.child-profile.form-modal__window
+    //-     form.form.form__outline-box.child-profile__form.form-modal__content
+         
+    //-       +formHeader(`Child - ${selectedYear}`)
+
+    //-       .form__outline-box--bottom
+    //-         +input('First Name', 'firstName', 15) 
+              
+    //-       .form__outline-box--bottom
+    //-         .form__row.form__item.form__label Sex
+    //-         .form__row.form__item  
+    //-           +radioColumn ('sex', ['M', 'F'])      
+          
+    //-       div
+    //-         .form__row.form__label.form__item Grade
+    //-         .form__row.form__item
+    //-           +radioColumn('grade',['Infant', 'Toddler', 'PreK 3', 'PreK 4', 'K'])
+    //-           +radioColumn('grade',['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'])
+    //-           +radioColumn('grade',['9th', '10th', '11th', '12th', 'Adult'])
+
+    //-         +submitCancel()        
+            
