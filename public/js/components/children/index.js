@@ -1,7 +1,7 @@
 import { changeChildrenYear, updateChild, deleteChildModal } from './actions';
 function index(a) {
   const children = document.querySelector('.children');
-  const childProfileForm = document.querySelector('.child-profile__form');
+  const childProfile = document.querySelector('.child-profile');
 
   if (children) {
     // year  selector
@@ -63,16 +63,18 @@ function index(a) {
     });
   }
 
-  if (childProfileForm) {
-    alert('in child profile form');
+  if (childProfile) {
+    const childProfileForm = document.querySelector(".child-profile__form");
+
     childProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
+      const isNew = childProfile.dataset.isNew == 'new';
+      const childId = childProfileForm.id;
       const fN = document.getElementById('firstName');
       const firstName = fN.value;
-      const id = childProfileForm.id;
-      const grades = document.getElementsByName('grade');
-
+      
+      const grades = document.getElementsByName('grade'); 
       var g;
       var grade = '';
       for (g of grades) {
@@ -92,16 +94,22 @@ function index(a) {
         }
       }
 
-      const familyId = childProfileForm.dataset.familyId;
+      const family = childProfileForm.dataset.familyId;
+      const year = childProfileForm.dataset.selectedYear;
 
-      const data = {
+      const child = {
         firstName,
         grade,
-        sex,
-        familyId,
+        sex,   
       };
+      if (isNew) {
+        child.family = family;
+        child.isNew = isNew;
+        child.year = year;
+      }
 
-      updateChild(id, data);
+      alert(JSON.stringify(child));
+      updateChild(childId, child);
     });
   }
 }

@@ -36,7 +36,7 @@ block content
             for child in family.children
               .card__item= child.firstName + " - " + child.grade
             if isAdmin  
-              a.card__button(href=`/children/${family.parent._id}/${selectedYear}`) Edit Children
+              a.card__button(href=`/children_table/${family.parent._id}/${selectedYear}`) Edit Children
               
 
     

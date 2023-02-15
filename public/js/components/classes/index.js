@@ -50,6 +50,7 @@ function index(a) {
 
   if (classProfile) {
     const classProfileForm = document.querySelector(".class-profile__form");
+    
     classProfileForm.addEventListener("submit", (e) => {
       e.preventDefault();
 

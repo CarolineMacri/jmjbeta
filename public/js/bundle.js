@@ -14360,7 +14360,7 @@ var changeChildrenYear = function changeChildrenYear(parentId, year) {
 exports.changeChildrenYear = changeChildrenYear;
 
 var modalOnClick = function modalOnClick(event) {
-  if (event.target = document.querySelector(".form-modal__window")) {
+  if (event.target = document.querySelector('.form-modal__window')) {
     toggleModal();
   }
 };
@@ -14368,46 +14368,50 @@ var modalOnClick = function modalOnClick(event) {
 exports.modalOnClick = modalOnClick;
 
 var updateChild = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(childId, data) {
-    var url, method, res;
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(childId, child) {
+    var isNewChild, method, url, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            url = "/api/v1/children".concat(childId == "new" ? "" : "/" + childId);
-            method = childId == "new" ? "POST" : "PATCH";
-            _context.next = 5;
+            isNewChild = child.isNew == true;
+            method = isNewChild ? 'POST' : 'PATCH';
+            url = "/api/v1/children".concat(isNewChild ? '' : '/' + childId);
+            alert(url);
+            alert(child.isNew);
+            alert(method);
+            _context.prev = 6;
+            _context.next = 9;
             return (0, _axios.default)({
               method: method,
               url: url,
-              data: data
+              data: child
             });
 
-          case 5:
+          case 9:
             res = _context.sent;
 
-            if (res.data.status == "success") {
-              (0, _alerts.showAlert)("success", "Child ".concat(res.data.data.child.firstName, " ").concat(childId == "new" ? "added" : "updated", " successfully"));
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "Child ".concat(res.data.data.child.firstName, " ").concat(childId == 'new' ? 'added' : 'updated', " successfully"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
             }
 
-            _context.next = 12;
+            _context.next = 16;
             break;
 
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
+          case 13:
+            _context.prev = 13;
+            _context.t0 = _context["catch"](6);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 12:
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[6, 13]]);
   }));
 
   return function updateChild(_x, _x2) {
@@ -14429,14 +14433,14 @@ var deleteChildModal = /*#__PURE__*/function () {
             _map = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 5), childFirstName = _map2[0], childSex = _map2[1], childGrade = _map2[2], x = _map2[3], y = _map2[4];
-            deleteModal = document.querySelector(".delete-modal__window");
-            paragraphs = deleteModal.getElementsByTagName("p");
-            paragraphs.item(2).innerHTML = childFirstName.toUpperCase() + "   " + childGrade + " grade";
-            deleteChildButton = document.getElementById("deleteChild");
-            deleteChildButton.addEventListener("click", function () {
+            deleteModal = document.querySelector('.delete-modal__window');
+            paragraphs = deleteModal.getElementsByTagName('p');
+            paragraphs.item(2).innerHTML = childFirstName.toUpperCase() + '   ' + childGrade + ' grade';
+            deleteChildButton = document.getElementById('deleteChild');
+            deleteChildButton.addEventListener('click', function () {
               deleteChild(childId, childFirstName);
             });
-            deleteModal.classList.toggle("delete-modal__show");
+            deleteModal.classList.toggle('delete-modal__show');
 
           case 8:
           case "end":
@@ -14464,7 +14468,7 @@ var deleteChild = /*#__PURE__*/function () {
             url = "/api/v1/children/".concat(childId);
             _context3.next = 4;
             return (0, _axios.default)({
-              method: "DELETE",
+              method: 'DELETE',
               url: url
             });
 
@@ -14472,7 +14476,7 @@ var deleteChild = /*#__PURE__*/function () {
             res = _context3.sent;
 
             if (res.status == 204) {
-              (0, _alerts.showAlert)("success", "".concat(childFirstName, " deleted"));
+              (0, _alerts.showAlert)('success', "".concat(childFirstName, " deleted"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -14484,7 +14488,7 @@ var deleteChild = /*#__PURE__*/function () {
           case 8:
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -14518,7 +14522,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 function index(a) {
   var children = document.querySelector('.children');
-  var childProfileForm = document.querySelector('.child-profile__form');
+  var childProfile = document.querySelector('.child-profile');
 
   if (children) {
     var i;
@@ -14577,13 +14581,14 @@ function index(a) {
     })();
   }
 
-  if (childProfileForm) {
-    alert('in child profile form');
+  if (childProfile) {
+    var childProfileForm = document.querySelector(".child-profile__form");
     childProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
+      var isNew = childProfile.dataset.isNew == 'new';
+      var childId = childProfileForm.id;
       var fN = document.getElementById('firstName');
       var firstName = fN.value;
-      var id = childProfileForm.id;
       var grades = document.getElementsByName('grade');
       var g;
       var grade = '';
@@ -14628,14 +14633,22 @@ function index(a) {
         _iterator2.f();
       }
 
-      var familyId = childProfileForm.dataset.familyId;
-      var data = {
+      var family = childProfileForm.dataset.familyId;
+      var year = childProfileForm.dataset.selectedYear;
+      var child = {
         firstName: firstName,
         grade: grade,
-        sex: sex,
-        familyId: familyId
+        sex: sex
       };
-      (0, _actions.updateChild)(id, data);
+
+      if (isNew) {
+        child.family = family;
+        child.isNew = isNew;
+        child.year = year;
+      }
+
+      alert(JSON.stringify(child));
+      (0, _actions.updateChild)(childId, child);
     });
   }
 }

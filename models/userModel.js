@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
     registrationYears: [{ type: String }],
     yearRoles: {
       type: Map,
-      of: [{ type: String, enum: ["parent", "teacher", "admin","sysadmin"] }],
+      of: [{ type: String, enum: ["parent", "teacher", "admin","sysAdmin"] }],
     },
     password: {
       type: String,

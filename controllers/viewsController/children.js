@@ -59,26 +59,34 @@ exports.getChildrenTable = catchAsync(async (req, res, next) => {
 });
 
 exports.getChildProfile = catchAsync(async (req, res, next) => {
-  let { childId, familyId } = req.params;
+  let { childId, familyId, selectedYear } = req.params;
   
-  var child = {};
-
   const family = await Family.findOne({ '_id': mongoose.Types.ObjectId(familyId) })  
   
+  var child = {};
+  
   if(childId == 'new') {
-    child = new Child();
-    child.family = mongoose.Types.ObjectId(familyId);  
-    child.year = family.year;
+    child = new Child(
+      {
+        year: family.year,
+        family: family.id,
+        firstName: 'child name',
+        sex: 'M',
+        grade: 'K'
+      }
+    );
   } 
   else {
     child = await Child.findOne({
-      _id: mongoose.Types.ObjectId(childId),
+      _id: childId,
     });
-    console.log(child);
   }
+  console.log(child);
+  console.log(`is new: ${child.isNew}`) 
 
   res.status(200).render('children/child_profile', {
     title: 'Child',
     child,
+    selectedYear
   });
 });

@@ -12,7 +12,7 @@ block content
         h1.children__title(id=family.id)= family.parent.lastName
         include ../_yearSelector
 
-        -var newUrl=`/child_profile/new/${family.id}`
+        -var newUrl=`/child_profile/new/${family.id}/${selectedYear}`
       
         +table('child',
               children,

@@ -69,7 +69,7 @@ router.get(
   viewsController.getChildrenTable
 );
 router.get(
-  "/child_profile/:childId/:familyId?",
+  "/child_profile/:childId/:familyId?/:selectedYear?",
   authController.protect,
   viewsController.getChildProfile
 );

@@ -6,7 +6,7 @@ block content
 
   .page__content.child-profile(data-is-new=(child.isNew?'new':'old'))
       section
-        form.form.form__outline-box.child-profile__form(id= `${child.id}` data-family-id=child.family)
+        form.form.form__outline-box.child-profile__form(id= `${child.id}` data-family-id=child.family  data-selected-year=selectedYear )
          
           +formHeader(`Child`)
 
@@ -24,5 +24,5 @@ block content
               +radioColumn('grade',['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'], child.grade)
               +radioColumn('grade',['9th', '10th', '11th', '12th', 'Adult'], child.grade)
 
-            +submitCancel()        
+            +submitCancel(child.isNew)        
             

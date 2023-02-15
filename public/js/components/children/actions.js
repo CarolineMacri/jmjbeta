@@ -1,34 +1,35 @@
-import axios from "axios"; 
-import { showAlert } from "../../alerts";
+import axios from 'axios';
+import { showAlert } from '../../alerts';
 
-export const changeChildrenYear = (parentId, year) => { 
+export const changeChildrenYear = (parentId, year) => {
   location.assign(`/children_table/${parentId}/${year}`);
 };
 
-
 export const modalOnClick = (event) => {
-  if ((event.target = document.querySelector(".form-modal__window"))) { 
+  if ((event.target = document.querySelector('.form-modal__window'))) {
     toggleModal();
   }
 };
 
-export const updateChild = async (childId, data) => {
+export const updateChild = async (childId, child) => {
+  const isNewChild = child.isNew == true;
+  const method = isNewChild ? 'POST' : 'PATCH';
+  const url = `/api/v1/children${isNewChild ? '' : '/' + childId}`; 
+  alert(url)
+  alert(child.isNew)
+  alert(method)
   try {
-    const url = `/api/v1/children${childId == "new" ? "" : "/" + childId}`;
-
-    const method = childId == "new" ? "POST" : "PATCH";
-
     const res = await axios({
       method,
       url,
-      data,
+      data: child,
     });
 
-    if (res.data.status == "success") {
+    if (res.data.status == 'success') {
       showAlert(
-        "success",
+        'success',
         `Child ${res.data.data.child.firstName} ${
-          childId == "new" ? "added" : "updated"
+          childId == 'new' ? 'added' : 'updated'
         } successfully`
       );
       window.setTimeout(() => {
@@ -36,7 +37,7 @@ export const updateChild = async (childId, data) => {
       }, 500);
     }
   } catch (err) {
-    showAlert("error", err.response.data.message);
+    showAlert('error', err.response.data.message);
   }
 };
 
@@ -47,19 +48,19 @@ export const deleteChildModal = async (row) => {
     (e) => e.innerHTML
   );
 
-  const deleteModal = document.querySelector(".delete-modal__window");
+  const deleteModal = document.querySelector('.delete-modal__window');
 
-  const paragraphs = deleteModal.getElementsByTagName("p");
+  const paragraphs = deleteModal.getElementsByTagName('p');
   paragraphs.item(2).innerHTML =
-    childFirstName.toUpperCase() + "   " + childGrade + " grade";
+    childFirstName.toUpperCase() + '   ' + childGrade + ' grade';
 
-  const deleteChildButton = document.getElementById("deleteChild");
+  const deleteChildButton = document.getElementById('deleteChild');
 
-  deleteChildButton.addEventListener("click", function () {
+  deleteChildButton.addEventListener('click', function () {
     deleteChild(childId, childFirstName);
   });
 
-  deleteModal.classList.toggle("delete-modal__show");
+  deleteModal.classList.toggle('delete-modal__show');
 };
 
 export const deleteChild = async (childId, childFirstName) => {
@@ -67,17 +68,17 @@ export const deleteChild = async (childId, childFirstName) => {
     const url = `/api/v1/children/${childId}`;
 
     const res = await axios({
-      method: "DELETE",
+      method: 'DELETE',
       url,
     });
 
     if (res.status == 204) {
-      showAlert("success", `${childFirstName} deleted`);
+      showAlert('success', `${childFirstName} deleted`);
       window.setTimeout(() => {
         location.reload();
       }, 500);
     }
   } catch (err) {
-    showAlert("error", err.response.data.message);
+    showAlert('error', err.response.data.message);
   }
-}; 
+};

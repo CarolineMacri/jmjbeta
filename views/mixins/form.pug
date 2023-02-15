@@ -9,9 +9,9 @@ mixin input(label, value, size)
         .form__row
            input.form__input(id= camelcase(label) type='text'  name=camelcase(label) size=size value=value required)    
 
-mixin submitCancel()
+mixin submitCancel(isNew)
     .form__row
-        input#update.form__button.form__item--center(type='submit' value="Update") 
+        input#update.form__button.form__item--center(type='submit' value=isNew?"Add":"Update") 
         button#cancel.form__button.form__cancel  cancel 
 
 mixin deleteModal(name)
