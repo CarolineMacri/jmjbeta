@@ -27,5 +27,6 @@ block content
             //- +submitCancel(child.isNew)
             .form__row
               input#update.form__button.form__item--center(type='submit' value=child.isNew?"Add":"Update") 
-              button#cancel.form__button.form__cancel  cancel         
+              //- button#cancel.form__button.form__cancel  cancel  
+              a.form__button.form__cancel(href=`/children_table/${parentId}/${(child.isNew?selectedYear:child.year)}`) X       
             

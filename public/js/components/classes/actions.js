@@ -14,7 +14,7 @@ export const updateClass = async (classId, cl, selectedYear) => {
   const method = isNewClass ? "POST" : "PATCH";
 
   try {
-    var url = `/api/v1/classes${isNewClass ? "" : "/" + classId}`;
+    var url = `/api/v1/classes${isNewClass ? "" : "/" + classId}`; 
 
     const res = await axios({
       method,
