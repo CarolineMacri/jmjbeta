@@ -14377,41 +14377,38 @@ var updateChild = /*#__PURE__*/function () {
             isNewChild = child.isNew == true;
             method = isNewChild ? 'POST' : 'PATCH';
             url = "/api/v1/children".concat(isNewChild ? '' : '/' + childId);
-            alert(url);
-            alert(child.isNew);
-            alert(method);
-            _context.prev = 6;
-            _context.next = 9;
+            _context.prev = 3;
+            _context.next = 6;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: child
             });
 
-          case 9:
+          case 6:
             res = _context.sent;
 
             if (res.data.status == 'success') {
               (0, _alerts.showAlert)('success', "Child ".concat(res.data.data.child.firstName, " ").concat(childId == 'new' ? 'added' : 'updated', " successfully"));
               window.setTimeout(function () {
-                location.reload();
+                location.replace("/child_profile/".concat(res.data.data.child._id));
               }, 500);
             }
 
-            _context.next = 16;
+            _context.next = 13;
             break;
 
-          case 13:
-            _context.prev = 13;
-            _context.t0 = _context["catch"](6);
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](3);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 16:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[6, 13]]);
+    }, _callee, null, [[3, 10]]);
   }));
 
   return function updateChild(_x, _x2) {

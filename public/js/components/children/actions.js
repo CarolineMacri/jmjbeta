@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { showAlert } from '../../alerts';
+import axios from 'axios';import { showAlert } from '../../alerts';
 
 export const changeChildrenYear = (parentId, year) => {
   location.assign(`/children_table/${parentId}/${year}`);
@@ -14,10 +13,8 @@ export const modalOnClick = (event) => {
 export const updateChild = async (childId, child) => {
   const isNewChild = child.isNew == true;
   const method = isNewChild ? 'POST' : 'PATCH';
-  const url = `/api/v1/children${isNewChild ? '' : '/' + childId}`; 
-  alert(url)
-  alert(child.isNew)
-  alert(method)
+  const url = `/api/v1/children${isNewChild ? '' : '/' + childId}`;
+
   try {
     const res = await axios({
       method,
@@ -32,8 +29,9 @@ export const updateChild = async (childId, child) => {
           childId == 'new' ? 'added' : 'updated'
         } successfully`
       );
+
       window.setTimeout(() => {
-        location.reload();
+        location.replace(`/child_profile/${res.data.data.child._id}`);
       }, 500);
     }
   } catch (err) {

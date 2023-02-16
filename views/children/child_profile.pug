@@ -24,5 +24,8 @@ block content
               +radioColumn('grade',['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'], child.grade)
               +radioColumn('grade',['9th', '10th', '11th', '12th', 'Adult'], child.grade)
 
-            +submitCancel(child.isNew)        
+            //- +submitCancel(child.isNew)
+            .form__row
+              input#update.form__button.form__item--center(type='submit' value=child.isNew?"Add":"Update") 
+              button#cancel.form__button.form__cancel  cancel         
             

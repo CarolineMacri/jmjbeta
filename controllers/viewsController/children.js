@@ -81,9 +81,7 @@ exports.getChildProfile = catchAsync(async (req, res, next) => {
       _id: childId,
     });
   }
-  console.log(child);
-  console.log(`is new: ${child.isNew}`) 
-
+  
   res.status(200).render('children/child_profile', {
     title: 'Child',
     child,
