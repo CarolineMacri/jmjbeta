@@ -135,6 +135,14 @@ userSchema.statics.setAllUserPasswords = async function (password) {
     { password: newPassword }
   );
 };
+userSchema.statics.setOneUserPassword = async function (email, password) {
+  const newPassword = await bcrypt.hash(password, 12);
+
+  const res = await this.updateOne(
+    { email: email },
+    { password: newPassword }
+  );
+};
 
 userSchema.methods.createPasswordResetToken = async function () {
   const resetToken = crypto.randomBytes(32).toString("hex");

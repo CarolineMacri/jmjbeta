@@ -16440,7 +16440,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var login = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
-    var res, id, familyUrl;
+    var res, id, currentRoles, homeUrl;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -16458,31 +16458,38 @@ var login = /*#__PURE__*/function () {
 
           case 3:
             res = _context.sent;
-            id = res.data.data.user._id; //ODO : pick default page based on  admin views)
-
-            familyUrl = "/family/".concat(id);
+            id = res.data.data.user._id;
+            currentRoles = res.data.data.user.currentRoles;
+            homeUrl = '/splash'; //ODO : pick default page based on  admin views)
+            // if (currentRoles.includes('parent')) {
+            //   homeUrl = `/family/${id}`;
+            // }
+            // //else if user is teacher
+            // else if (currentRoles.includes('teacher')) {
+            //   homeUrl = `/teacher/${id}`;
+            // }
 
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', 'Logged in successfully');
               window.setTimeout(function () {
-                location.assign(familyUrl);
+                location.assign(homeUrl);
               }, 3000);
             }
 
-            _context.next = 12;
+            _context.next = 13;
             break;
 
-          case 9:
-            _context.prev = 9;
+          case 10:
+            _context.prev = 10;
             _context.t0 = _context["catch"](0);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 12:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[0, 10]]);
   }));
 
   return function login(_x, _x2) {

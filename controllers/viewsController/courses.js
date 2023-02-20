@@ -8,8 +8,9 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
   let { selectedYear, ownerId } = req.params;
   
   const years = await Year.find();
+  console.log(selectedYear)
 
-  if (!selectedYear) {
+  if (!selectedYear ||  selectedYear=="undefined") {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
