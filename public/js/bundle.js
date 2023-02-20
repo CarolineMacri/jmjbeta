@@ -16908,8 +16908,6 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -16950,8 +16948,7 @@ var updateClass = /*#__PURE__*/function () {
 
             if (res.data.status == "success") {
               _cl = res.data.data.class;
-              (0, _alerts.showAlert)("success", "".concat(_cl.location, " - ").concat(_cl.hour, " class ").concat(classId == "new" ? " added " : " updated ", " successfully"));
-              _cl = (_readOnlyError("cl"), res.data.data.class);
+              (0, _alerts.showAlert)("success", "".concat(_cl.location, " - ").concat(_cl.hour, " class ").concat(isNewClass ? " added " : " updated ", " successfully"));
               window.setTimeout(function () {
                 location.replace("/class_profile/".concat(_cl.id, "/").concat(selectedYear));
               }, 500);
@@ -17460,7 +17457,7 @@ var updatePayment = /*#__PURE__*/function () {
             res = _context.sent;
 
             if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "Check ".concat(payment.checkNumber, " : $").concat(payment.amount, " ").concat(paymentId == 'new' ? ' added ' : ' updated ', " successfully"));
+              (0, _alerts.showAlert)('success', "Check ".concat(payment.checkNumber, " : $").concat(payment.amount, " ").concat(isNewPayment ? ' added ' : ' updated ', " successfully"));
               payment = res.data.data.payment;
               window.setTimeout(function () {
                 if (hasParent) location.replace("/payment_profile/".concat(payment.id, "/").concat(selectedYear, "/").concat(payment.parent));else location.replace("/payment_profile/".concat(payment.id, "/").concat(selectedYear));
@@ -17629,7 +17626,7 @@ function index(a) {
         e.preventDefault();
         var year = paymentProfile.dataset.selectedYear;
         var isNew = paymentProfile.dataset.isNew == 'new';
-        var hasParent = paymentProfile.hasParent == 'true';
+        var hasParent = paymentProfile.dataset.hasParent == 'true';
         var paymentId = paymentProfileForm.id;
         var parent = document.getElementById("parent").value;
         var teacher = document.getElementById('teacher').value;

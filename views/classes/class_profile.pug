@@ -58,5 +58,5 @@ block content
                                     option(selected=(numSessions==cl.semesterSessions['2']) value=numSessions)=numSessions
 
                 .form__row
-                    input.form__button.form__item--center(type='submit')
+                    input.form__button.form__item--center(type='submit' value=cl.isNew?"Add":"Update")
                     a.form__button.form__cancel(href=`/classes_table/${selectedYear}`) X

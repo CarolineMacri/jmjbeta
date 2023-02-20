@@ -24,15 +24,16 @@ export const updateClass = async (classId, cl, selectedYear) => {
 
     if (res.data.status == "success") {
       const cl = res.data.data.class;
+      
       showAlert(
         "success",
         `${cl.location} - ${cl.hour} class ${
-          classId == "new" ? " added " : " updated "
+          isNewClass ? " added " : " updated "
         } successfully`
       );
-      cl = res.data.data.class;
       window.setTimeout(() => {
         location.replace(`/class_profile/${cl.id}/${selectedYear}`);
+        
       }, 500);
     }
   } catch (err) {

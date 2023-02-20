@@ -51,7 +51,7 @@ function index(a) {
         e.preventDefault();
         const year = paymentProfile.dataset.selectedYear;
         const isNew = paymentProfile.dataset.isNew == 'new';
-        const hasParent = paymentProfile.hasParent == 'true';
+        const hasParent = paymentProfile.dataset.hasParent == 'true';
         const paymentId = paymentProfileForm.id;
         const parent = document.getElementById("parent").value;
         const teacher = document.getElementById('teacher').value;

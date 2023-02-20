@@ -1,8 +1,8 @@
 extends ../base
 
 block content
-
-    .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') data-selected-year=selectedYear )
+    h1= hasParent
+    .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') data-selected-year=selectedYear data-has-parent=(hasParent?'true':'false') )
          
         section
             form.form.form__outline-box.payment-profile__form(id=payment._id ) 
@@ -51,7 +51,7 @@ block content
                     input#amount.form__input.form__input--inline(type='text', name=`amount`, size='5', pattern='[0-9]{1,4}.[0-9]{2}', value=`${formatter.format(payment.amount)}`) 
             
                 .form__row
-                    input.form__button.form__item--center(type='submit')
+                    input.form__button.form__item--center(type='submit' value=payment.isNew?"Add":"Update")
                     if (hasParent) 
                         a.form__button.form__cancel(href=`/payments_table/${payment.year}/${payment.parent._id}`) X
                     else    

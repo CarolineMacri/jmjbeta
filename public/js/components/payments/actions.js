@@ -26,7 +26,7 @@ export const updatePayment = async (
       showAlert(
         'success',
         `Check ${payment.checkNumber} : $${payment.amount} ${
-          paymentId == 'new' ? ' added ' : ' updated '
+          isNewPayment? ' added ' : ' updated '
         } successfully`
       );
       payment = res.data.data.payment;
