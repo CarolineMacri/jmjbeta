@@ -130,7 +130,7 @@ block content
                             label.form__label(for='texts') Required texts:
                             textarea#texts.form__input(name='texts', rows='2', cols='30')=course.texts
                 .form__row
-                    input.form__button.form__item--center(type='submit')
+                    input.form__button.form__item--center(type='submit' value=course.isNew?"Add":"Update")
                     if hasOwner
                         a.form__button.form__cancel(href=`/courses_table/${selectedYear}/${ownerId}`) X
                     else

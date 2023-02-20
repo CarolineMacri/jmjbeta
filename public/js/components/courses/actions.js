@@ -28,7 +28,7 @@ export const updateCourse = async (
       showAlert(
         "success",
         `${course.name} ${
-          courseId == "new" ? " added " : " updated "
+          isNewCourse ? " added " : " updated "
         } successfully`
       );
       course = res.data.data.course;

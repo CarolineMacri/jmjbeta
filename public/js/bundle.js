@@ -14716,7 +14716,7 @@ var updateCourse = /*#__PURE__*/function () {
             res = _context.sent;
 
             if (res.data.status == "success") {
-              (0, _alerts.showAlert)("success", "".concat(course.name, " ").concat(courseId == "new" ? " added " : " updated ", " successfully"));
+              (0, _alerts.showAlert)("success", "".concat(course.name, " ").concat(isNewCourse ? " added " : " updated ", " successfully"));
               course = res.data.data.course;
               window.setTimeout(function () {
                 if (hasOwner) location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear, "/").concat(course.owner));else location.replace("/course_profile/".concat(course.id, "/").concat(selectedYear));
