@@ -1,8 +1,11 @@
 const catchAsync = require("../../utils/catchAsync");
 const User = require("../../models/userModel");
+const Year = require("../../models/yearModel");
 
 exports.getLogin = catchAsync(async (req, res, next) => {
-  res.status(200).render("login/login", {
+  const currentYear = await Year.getCurrentYearValue();
+  res.locals.currentYear = currentYear;
+  res.status(200).render("login/login", { 
     title: "Login",
   });
 });
@@ -47,11 +50,3 @@ exports.setAllUserPasswords = catchAsync(async (req, res, next) => {
     email
   });
 });
-
-// exports.setUserPassword = catchAsync(async (req, res, next) => {
-//   let { email } = req.params;
-//   const response = User.setOneUserPassword(email,"pass1234");
-//   res.status(200).render("login/pw", {
-//     title: "SET One PASSWORD",
-//   });
-// });

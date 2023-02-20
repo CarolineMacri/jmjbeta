@@ -1,5 +1,4 @@
-const express = require('express');
-const viewsController = require('../controllers/viewsController/index');
+const express = require('express');const viewsController = require('../controllers/viewsController/index');
 const authController = require('../controllers/authController');
 
 const router = express.Router();
@@ -7,7 +6,6 @@ const router = express.Router();
 router.get('/', viewsController.getHome);
 router.get('/login', viewsController.getLogin);
 
-router.get('/splash', authController.protect, viewsController.getSplash);
 router.get(
   '/resetPassword/:resetPasswordToken',
   viewsController.getResetPassword
@@ -17,6 +15,7 @@ router.get('/reports/courses/:selectedYear?', viewsController.reportCourses);
 
 router.use(authController.isLoggedIn);
 
+router.get('/splash', authController.protect, viewsController.getSplash);
 router.get(
   '/families/:selectedYear?',
   authController.protect,

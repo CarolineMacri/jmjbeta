@@ -5,11 +5,14 @@ const mongoose = require("mongoose");
 //NPM modules
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const logger = require("../utils/logger");
 const Email = require("../utils/email");
+
+//Mongoose models
+const User = require("../models/userModel");
+const Year = require("../models/yearModel");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -203,6 +206,10 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   req.user = currentUser;
   res.locals.user = currentUser;
+
+  // get the current year for this
+  const currentYear = await Year.getCurrentYearValue();
+  res.locals.currentYear = currentYear;
   next();
 });
 
