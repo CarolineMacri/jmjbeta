@@ -171,7 +171,7 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
 
 exports.reportPayments = catchAsync(async (req, res, next) => {
   let { selectedYear, teacher } = req.params;
-  console.log('in report Pyments-----------------------------------------');
+  //console.log('in report Pyments-----------------------------------------');
   const years = await Year.find();
 
   if (!selectedYear) {
@@ -215,7 +215,6 @@ exports.reportCourses = catchAsync(async (req, res, next) => {
 
   pipeline = pipeline.concat(pipelines.classCourseTeacher(selectedYear));
 
-  
   const classes = await Class.aggregate(pipeline);
 
   res.status(200).render('reports/courses', {

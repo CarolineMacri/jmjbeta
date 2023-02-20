@@ -16460,14 +16460,7 @@ var login = /*#__PURE__*/function () {
             res = _context.sent;
             id = res.data.data.user._id;
             currentRoles = res.data.data.user.currentRoles;
-            homeUrl = '/splash'; //ODO : pick default page based on  admin views)
-            // if (currentRoles.includes('parent')) {
-            //   homeUrl = `/family/${id}`;
-            // }
-            // //else if user is teacher
-            // else if (currentRoles.includes('teacher')) {
-            //   homeUrl = `/teacher/${id}`;
-            // }
+            homeUrl = '/splash';
 
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', 'Logged in successfully');

@@ -16,18 +16,9 @@ export const login = async (email, password) => {
     const currentRoles = res.data.data.user.currentRoles;
 
     var homeUrl = '/splash';
-    //ODO : pick default page based on  admin views)
-
-    // if (currentRoles.includes('parent')) {
-    //   homeUrl = `/family/${id}`;
-    // }
-    // //else if user is teacher
-    // else if (currentRoles.includes('teacher')) {
-    //   homeUrl = `/teacher/${id}`;
-    // }
-
+    
     if (res.data.status === 'success') {
-      showAlert('success', 'Logged in successfully');
+      showAlert('success', 'Logged in successfully'); 
       window.setTimeout(() => {
         location.assign(homeUrl);
       }, 3000);

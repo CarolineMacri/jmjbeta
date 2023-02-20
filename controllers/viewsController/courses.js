@@ -3,7 +3,7 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
   const Year = require("../../models/yearModel");
   const Course = require("../../models/courseModel");
   const User = require("../../models/userModel");
-  const Teacher = require("../../models/teacherModel");
+  const Teacher = require("../../models/teacherModel"); 
 
   let { selectedYear, ownerId } = req.params;
   
