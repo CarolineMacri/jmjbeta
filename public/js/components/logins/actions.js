@@ -18,7 +18,7 @@ export const login = async (email, password) => {
     var homeUrl = '/splash';
     
     if (res.data.status === 'success') {
-      showAlert('success', 'Logged in successfully'); 
+      showAlert('success', 'Logged in successfully');  
       window.setTimeout(() => {
         location.assign(homeUrl);
       }, 3000);
