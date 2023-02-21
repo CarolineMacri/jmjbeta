@@ -99,6 +99,7 @@ exports.getPaymentProfile = catchAsync(async (req, res, next) => {
         as: 'parent',
       })
       .addFields({ parent: { $first: '$parent' } })
+      .project({ 'parent.password': 0 })
       .lookup({
         from: 'users',
         localField: 'teacher',

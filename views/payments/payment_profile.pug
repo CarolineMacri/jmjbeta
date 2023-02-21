@@ -1,9 +1,9 @@
 extends ../base
 
 block content
-    h1=(JSON.stringify(payment.parent._id))
     
     .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') data-selected-year=selectedYear data-has-parent=(hasParent?'true':'false') )
+        //- h3=(JSON.stringify(payment.parent))
          
         section
             form.form.form__outline-box.payment-profile__form(id=payment._id ) 
@@ -18,9 +18,9 @@ block content
                     select#parent(name='parent')
                         for parent in parents
                             if (payment.isNew)
-                                option(value=parent.id)=`${parent.lastName}, ${parent.firstName}`
+                                option(value=parent._id)=`${parent.lastName}, ${parent.firstName}`
                             else
-                                option(selected=(parent.id==payment.parent.id) value=parent.id)=`${parent.lastName}, ${parent.firstName}`
+                                option(selected=(parent._id==payment.parent._id) value=parent.id)=`${parent.lastName}, ${parent.firstName}`
                 
                 .form__column.form__dropdown-group
                     .form__item
