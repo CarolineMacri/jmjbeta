@@ -33,7 +33,7 @@ export const updatePayment = async (
       window.setTimeout(() => {
         if (hasParent)
           location.replace(
-            `/payment_profile/${payment.id}/${selectedYear}/${payment.parent}`
+            `/payment_profile/${payment.id}/${selectedYear}/${payment.parent._id}`
           );
         else location.replace(`/payment_profile/${payment.id}/${selectedYear}`);
       }, 500);
