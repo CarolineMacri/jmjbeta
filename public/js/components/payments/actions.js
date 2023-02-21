@@ -31,10 +31,12 @@ export const updatePayment = async (
       );
       payment = res.data.data.payment;
       window.setTimeout(() => {
-        if (hasParent)
+        if (hasParent) {
+          const parentId = isNewPayment ? payment.parent : payment.parent._id;
           location.replace(
-            `/payment_profile/${payment.id}/${selectedYear}/${payment.parent._id}`
+            `/payment_profile/${payment.id}/${selectedYear}/${parentId}`
           );
+        }
         else location.replace(`/payment_profile/${payment.id}/${selectedYear}`);
       }, 500);
     }
