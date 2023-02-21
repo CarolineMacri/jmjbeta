@@ -1,6 +1,7 @@
 extends ../base
 
 block content
+    h1=(JSON.stringify(payment.parent._id))
     
     .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') data-selected-year=selectedYear data-has-parent=(hasParent?'true':'false') )
          
