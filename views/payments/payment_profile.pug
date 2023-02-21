@@ -3,7 +3,9 @@ extends ../base
 block content
     
     .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') data-selected-year=selectedYear data-has-parent=(hasParent?'true':'false') )
-        //- h3=(JSON.stringify(payment.parent))
+        h3=(`${JSON.stringify(payment.teacher._id)} payment.teacher._id`)
+        h3=(`${JSON.stringify(payment.parent._id)} payment.parent._id`)
+
          
         section
             form.form.form__outline-box.payment-profile__form(id=payment._id ) 
@@ -28,7 +30,7 @@ block content
                         //select#teacher(name='teacher' data-teacher-id=teacher._id)
                         select#teacher(name='teacher')
                             for teacher in teachers
-                                option(selected=(teacher.id==payment.teacher.id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+                                option(selected=(teacher.id==payment.teacher._id) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
 
                 .form__column.form__item
                     label.form__label(for='semester') Semester *
