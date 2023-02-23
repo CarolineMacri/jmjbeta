@@ -8,7 +8,7 @@ nav.side-nav
   - var isParent = user.currentRoles.includes('parent')
   - var isTeacher = user.currentRoles.includes('teacher')
   - var isSysAdmin = user.currentRoles.includes('sysAdmin')
-  
+  - var selectedYear = selectedYear?selectedYear:currentYear  
   if isAdmin
     .side-nav__section 
       h3.side-nav__heading TESTING----
