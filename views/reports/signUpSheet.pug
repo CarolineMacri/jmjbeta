@@ -1,0 +1,67 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      section.page__content-row
+        include ../_yearSelector
+     
+
+      section.report-sign-up-sheet
+      .report-title
+        h1= 'JMJ Co-op Sign Up Sheet ' + selectedYear  
+        
+        for time in times  
+          .report-sign-up-sheet-box
+            .report-sign-up-sheet-record
+              .report-sign-up-sheet-time
+                h2= time
+              .report-sign-up-sheet-family-name
+                div Family Name 
+              .report-sign-up-sheet-record-child-name
+                div Child Name
+              .report-sign-up-sheet-record-child-name
+                div Child Name
+              .report-sign-up-sheet-record-child-name
+                div Child Name
+              .report-sign-up-sheet-record-child-name
+                div Child Name
+              .report-sign-up-sheet-record-child-name
+                div Child Name
+              .report-sign-up-sheet-record-child-name
+                div Child Name
+              .report-sign-up-sheet-record-child-name
+                div Child Name
+              
+
+            for cl in classes  
+              .report-sign-up-sheet-record
+                if (cl.hour == time)
+                  .report-sign-up-sheet-cl
+                    div= cl.course.name + " - " + cl.time
+                    div= cl.teacher.lastName + ", " + cl.teacher.firstName
+                    div= cl.course.grade.min + '-' + cl.course.grade.max
+                    div= cl.course.notes 
+                  .report-sign-up-sheet-fees
+                    .item
+                      -var classCost = cl.course.classFee * cl.semesterSessions[1]
+                      .title Class:
+                      .cost= `$${classCost}.00`
+                    .item
+                      -var materialsCost = cl.course.semesterMaterialsFee[1] 
+                      .title Materials:
+                      .cost= `$${materialsCost}.00`
+                    .item
+                      .title
+                      hr.cost
+                    .item
+                      .title Total:
+                      .cost= `$${materialsCost + classCost}.00`
+                  .report-sign-up-sheet-record-box
+                  .report-sign-up-sheet-record-box
+                  .report-sign-up-sheet-record-box
+                  .report-sign-up-sheet-record-box
+                  .report-sign-up-sheet-record-box
+                  .report-sign-up-sheet-record-box
+                  .report-sign-up-sheet-record-box
+            

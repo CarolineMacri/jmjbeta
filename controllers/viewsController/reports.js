@@ -224,3 +224,50 @@ exports.reportCourses = catchAsync(async (req, res, next) => {
     selectedYear,
   });
 });
+
+exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
+  let { selectedYear } = req.params;
+
+  const years = await Year.find();
+
+  if (!selectedYear) {
+    selectedYear = await Year.getCurrentYearValue();
+  }
+
+  var pipeline = [];
+
+  // pipeline = pipeline.concat(pipelines.classCourseTeacher(selectedYear));
+
+  // const classes = await Class.aggregate(pipeline);
+
+  const classes = await Class.find({ year: selectedYear })
+    .select('semesterSessions time')
+    .sort('time')
+    .populate({
+      path: 'teacher',
+      justOne: true,
+      select: 'firstName lastName -_id',
+    })
+    .populate({
+      path: 'course',
+      justOne: true,
+      select: 'name semesterMaterialsFee grade notes classFee',
+    })
+
+    classes.sort((a, b) => ('' + a.course.name).localeCompare(b.course.name));
+   
+    
+  
+
+
+  const times = await Class.Times;
+  console.log(classes[0]);
+
+  res.status(200).render('reports/signUpSheet', {
+    title: 'Sign Up Sheet',
+    classes,
+    times,
+    years,
+    selectedYear,
+  });
+});

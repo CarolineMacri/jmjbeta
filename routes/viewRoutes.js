@@ -188,4 +188,11 @@ router.get(
   viewsController.reportPayments
 );
 
+router.get(
+  '/reports/signUpSheet/:selectedYear?',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewsController.reportSignUpSheet
+);
+
 module.exports = router;
