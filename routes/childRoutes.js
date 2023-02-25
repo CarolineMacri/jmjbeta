@@ -1,5 +1,6 @@
 const express = require("express");
 const childController = require("../controllers/childController");
+const authController = require("../controllers/authController");
 
 //ROUTES
 const router = express.Router();
@@ -7,11 +8,11 @@ const router = express.Router();
 router
   .route("/")
   .get(childController.getAllChildren)
-  .post(childController.createChild);
+  .post(childController.validateParent,childController.createChild);
 router
   .route("/:id")
-  .get(childController.getChild)
-  .patch(childController.updateChild)
-  .delete(childController.deleteChild);
+  .get(authController.protect,childController.validateParent,childController.getChild)
+  .patch(authController.protect,childController.validateParent, childController.updateChild)
+  .delete(authController.protect,childController.validateParent,childController.deleteChild);
 
 module.exports = router;
