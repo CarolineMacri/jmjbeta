@@ -29,7 +29,7 @@ import { index as teachers } from './components/teachers/index';
 teachers();
 
 import { addTeacher, existsTeacher } from './components/teachers/actions';
-import { changeReportChildrenByGradeYear } from './reports';
+import { changeReportChildrenYear } from './reports';
 import { changeReportInvoicesYear } from './reports';
 import { changeReportClassListsYear } from './reports';
 import { changeReportPaymentsYear } from './reports';
@@ -58,7 +58,7 @@ const families = document.querySelector('.families');
 
 const users = document.querySelector('.users');
 const userProfileForm = document.querySelector('.user-profile__form');
-const reportChildrenByGrade = document.querySelector('.report-children-by-grade')
+const reportChildren = document.querySelector('.report-children')
 const reportInvoices = document.querySelector('.report-invoices');
 const reportPayments = document.querySelector('.report-payments');
 const reportClassLists = document.querySelector('.report-class-lists');
@@ -107,12 +107,12 @@ if (families) {
   }
 }
 
-if (reportChildrenByGrade) {
+if (reportChildren) {
   const yearSelect = document.getElementById('year-select');
   yearSelect.addEventListener('change', (e) => {
     const newYear = yearSelect.value;
 
-    changeReportChildrenByGradeYear(newYear);
+    changeReportChildrenYear(newYear);
   });
 }
 if (reportInvoices) {

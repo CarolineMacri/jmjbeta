@@ -18130,13 +18130,13 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeReportCoursesYear = exports.changeReportPaymentsYear = exports.changeReportClassListsYear = exports.changeReportInvoicesYear = exports.changeReportChildrenByGradeYear = void 0;
+exports.changeReportCoursesYear = exports.changeReportPaymentsYear = exports.changeReportClassListsYear = exports.changeReportInvoicesYear = exports.changeReportChildrenYear = void 0;
 
-var changeReportChildrenByGradeYear = function changeReportChildrenByGradeYear(year) {
+var changeReportChildrenYear = function changeReportChildrenYear(year) {
   location.assign("/reports/childrenByGrade/".concat(year));
 };
 
-exports.changeReportChildrenByGradeYear = changeReportChildrenByGradeYear;
+exports.changeReportChildrenYear = changeReportChildrenYear;
 
 var changeReportInvoicesYear = function changeReportInvoicesYear(year, parentId) {
   location.assign("/reports/invoices/".concat(year, "/").concat(parentId));
@@ -126507,7 +126507,7 @@ var families = document.querySelector('.families'); // const children = document
 
 var users = document.querySelector('.users');
 var userProfileForm = document.querySelector('.user-profile__form');
-var reportChildrenByGrade = document.querySelector('.report-children-by-grade');
+var reportChildren = document.querySelector('.report-children');
 var reportInvoices = document.querySelector('.report-invoices');
 var reportPayments = document.querySelector('.report-payments');
 var reportClassLists = document.querySelector('.report-class-lists');
@@ -126548,12 +126548,12 @@ if (families) {
   }
 }
 
-if (reportChildrenByGrade) {
+if (reportChildren) {
   var _yearSelect2 = document.getElementById('year-select');
 
   _yearSelect2.addEventListener('change', function (e) {
     var newYear = _yearSelect2.value;
-    (0, _reports.changeReportChildrenByGradeYear)(newYear);
+    (0, _reports.changeReportChildrenYear)(newYear);
   });
 }
 
