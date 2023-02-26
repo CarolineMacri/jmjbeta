@@ -3,7 +3,7 @@ const Family = require('../models/familyModel');
 const User = require('../models/userModel');
 const factory = require('./controllerFactory');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 
 
 exports.getChild = factory.getOne(Child);
