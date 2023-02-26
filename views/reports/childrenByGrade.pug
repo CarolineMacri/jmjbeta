@@ -6,19 +6,19 @@ block content
       section.page__content-row
         include ../_yearSelector
 
-      section.report-invoices 
+      section.report-children-by-grade
       .report__title
-        h1.invoices-title Children By Grade Level
+        h1.report-children-by-grade-title Children By Grade Level
         
       each list, grade in gradeLists
       
-        .report-invoices-box
-          .report-invoices-family 
+        .report-children-by-grade-box
+          .report-children-by-grade-family 
             h2=`${grade} - ${list.length}`
 
           each child in list
-            .report-invoices-record
-              .report-invoices-record-student
+            .report-children-by-grade-record
+              .report-children-by-grade-record-student
                 p=child
             
           

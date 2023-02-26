@@ -46,7 +46,7 @@ import {
   updateUser,
   deleteUserModal,
 } from './users';
-import { ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb'; 
 //import { fill } from 'core-js/core/array';
 
 const family = document.querySelector('.family');
@@ -58,8 +58,7 @@ const families = document.querySelector('.families');
 
 const users = document.querySelector('.users');
 const userProfileForm = document.querySelector('.user-profile__form');
-
-const reportChildrenByGrade = document.querySelector('.reportChildrenByGrade');
+const reportChildrenByGrade = document.querySelector('.report-children-by-grade')
 const reportInvoices = document.querySelector('.report-invoices');
 const reportPayments = document.querySelector('.report-payments');
 const reportClassLists = document.querySelector('.report-class-lists');
@@ -110,7 +109,6 @@ if (families) {
 
 if (reportChildrenByGrade) {
   const yearSelect = document.getElementById('year-select');
-
   yearSelect.addEventListener('change', (e) => {
     const newYear = yearSelect.value;
 
@@ -127,6 +125,7 @@ if (reportInvoices) {
 }
 
 if (reportPayments) {
+  alert('report payments')
   const yearSelect = document.getElementById('year-select');
   const teacherId = document.querySelector('.payments-title').id;
   yearSelect.addEventListener('change', (e) => {

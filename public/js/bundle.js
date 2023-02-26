@@ -126507,7 +126507,7 @@ var families = document.querySelector('.families'); // const children = document
 
 var users = document.querySelector('.users');
 var userProfileForm = document.querySelector('.user-profile__form');
-var reportChildrenByGrade = document.querySelector('.reportChildrenByGrade');
+var reportChildrenByGrade = document.querySelector('.report-children-by-grade');
 var reportInvoices = document.querySelector('.report-invoices');
 var reportPayments = document.querySelector('.report-payments');
 var reportClassLists = document.querySelector('.report-class-lists');
@@ -126569,6 +126569,8 @@ if (reportInvoices) {
 }
 
 if (reportPayments) {
+  alert('report payments');
+
   var _yearSelect4 = document.getElementById('year-select');
 
   var teacherId = document.querySelector('.payments-title').id;
