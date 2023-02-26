@@ -11,6 +11,10 @@ const yearSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  registrationCloseDate: {
+    type: Date,
+    required: [true, "registration close date required"],
+  },
 });
 
 yearSchema.statics.setCurrentYear = async function (year) {
