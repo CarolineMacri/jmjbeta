@@ -2,24 +2,24 @@ extends baseReport
 
 block content   
   main
-    .container.report-children-by-grade
+    .container
       section.page__content-row
         include ../_yearSelector
 
-      section
-      .report__title
-        h1.report-children-by-grade-title Children By Grade Level
+      section.report-children-by-grade
+        .report__title
+          h1.report-children-by-grade-title Children By Grade Level
+          
+        each list, grade in gradeLists
         
-      each list, grade in gradeLists
-      
-        .report-children-by-grade-box
-          .report-children-by-grade-family 
-            h2=`${grade} - ${list.length}`
+          .report-children-by-grade-box
+            .report-children-by-grade-family 
+              h2=`${grade} - ${list.length}`
 
-          each child in list
-            .report-children-by-grade-record
-              .report-children-by-grade-record-student
-                p=child
-            
+            each child in list
+              .report-children-by-grade-record
+                .report-children-by-grade-record-student
+                  p=child
+              
           
         
