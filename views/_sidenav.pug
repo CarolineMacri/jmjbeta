@@ -21,7 +21,8 @@ nav.side-nav
       h3.side-nav__heading Family
       a.side-nav__item(href=selectedYear?`/family/${user.id}/${selectedYear}`:`/family/${user.id}`) Overview
       a.side-nav__item(href=`/children_table/${user.id}`) Add/Edit Children
-      a.side-nav__item(href=`/enrollment_profile/${user.id}`) Add/Edit Enrollments 
+      a.side-nav__item TODO sign up sheet
+      //- a.side-nav__item(href=`/enrollment_profile/${user.id}`) Add/Edit Enrollments 
       a.side-nav__item(href=`/reports/invoices/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Invoice
   if isTeacher
     .side-nav__section
