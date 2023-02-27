@@ -1,5 +1,4 @@
-import { changeChildrenYear, updateChild, deleteChildModal } from './actions';
-function index(a) {
+import { changeChildrenYear, updateChild, deleteChildModal } from './actions';function index(a) {
   const children = document.querySelector('.children');
   const childProfile = document.querySelector('.child-profile');
 
@@ -64,7 +63,7 @@ function index(a) {
   }
 
   if (childProfile) {
-    const childProfileForm = document.querySelector(".child-profile__form");
+    const childProfileForm = document.querySelector('.child-profile__form');
 
     childProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -73,14 +72,18 @@ function index(a) {
       const childId = childProfileForm.id;
       const fN = document.getElementById('firstName');
       const firstName = fN.value;
+
+      // there will only be a radio box if grade level is editable
+      const grades = document.getElementsByName('grade');
       
-      const grades = document.getElementsByName('grade'); 
-      var g;
-      var grade = '';
-      for (g of grades) {
-        if (g.checked) {
-          grade = g.value;
-          break;
+      if (grades) {
+        var g;
+        var grade = '';
+        for (g of grades) {
+          if (g.checked) {
+            grade = g.value;
+            break;
+          }
         }
       }
 
@@ -99,9 +102,11 @@ function index(a) {
 
       const child = {
         firstName,
-        grade,
-        sex,   
+        sex,
       };
+      if (grades.length) {
+        child.grade = grade;
+      }
       if (isNew) {
         child.family = family;
         child.isNew = isNew;

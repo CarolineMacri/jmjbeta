@@ -1,4 +1,5 @@
-import axios from 'axios';import { showAlert } from '../../alerts';
+import axios from 'axios';
+import { showAlert } from '../../alerts';
 
 export const changeChildrenYear = (parentId, year) => {
   location.assign(`/children_table/${parentId}/${year}`);

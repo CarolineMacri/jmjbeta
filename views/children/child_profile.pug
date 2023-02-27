@@ -4,29 +4,40 @@ block content
   include ../mixins/radio
   include ../mixins/form
 
+  - var isAdmin = user.currentRoles.includes('admin' || 'sysAdmin')
+
+  //- h2= `Admin = ${isAdmin}`
+  //- h2= `RegistrationOpen = ${isRegistrationOpen}`
+
   .page__content.child-profile(data-is-new=(child.isNew?'new':'old'))
       section
         form.form.form__outline-box.child-profile__form(id= `${child.id}` data-family-id=child.family  data-selected-year=selectedYear )
          
-          +formHeader(`Child`)
+          +formHeader(lastName)
 
           +input('First Name', child.firstName, 15) 
               
           .form__outline-box--bottom
             .form__row.form__item.form__label Sex
             .form__row.form__item  
-              +radioColumn ('sex', ['M', 'F'], child.sex)      
-          
-          div
-            .form__row.form__label.form__item Grade
-            .form__row.form__item
-              +radioColumn('grade',['Infant', 'Toddler', 'PreK 3', 'PreK 4', 'K'],child.grade)
-              +radioColumn('grade',['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'], child.grade)
-              +radioColumn('grade',['9th', '10th', '11th', '12th', 'Adult'], child.grade)
+              +radioColumn ('sex', ['M', 'F'], child.sex)    
 
-            //- +submitCancel(child.isNew)
-            .form__row
-              input#update.form__button.form__item--center(type='submit' value=child.isNew?"Add":"Update") 
-              //- button#cancel.form__button.form__cancel  cancel  
-              a.form__button.form__cancel(href=`/children_table/${parentId}/${(child.isNew?selectedYear:child.year)}`) X       
-            
+          .form__outline-box--bottom      
+            if (isAdmin || isRegistrationOpen)
+              div
+                .form__row.form__label.form__item Grade
+                .form__row.form__item
+                  +radioColumn('grade',['Infant', 'Toddler', 'PreK 3', 'PreK 4', 'K'],child.grade)
+                  +radioColumn('grade',['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'], child.grade)
+                  +radioColumn('grade',['9th', '10th', '11th', '12th', 'Adult'], child.grade)
+            else 
+              div 
+                .form__row.form__label.form__item= `Grade*: ${child.grade}`
+                p.form__row.form__item= `*grade levels cannot be changed after close of registration`
+
+          //- +submitCancel(child.isNew)
+          .form__row
+            input#update.form__button.form__item--center(type='submit' value=child.isNew?"Add":"Update") 
+            //- button#cancel.form__button.form__cancel  cancel  
+            a.form__button.form__cancel(href=`/children_table/${parentId}/${(child.isNew?selectedYear:child.year)}`) X       
+          

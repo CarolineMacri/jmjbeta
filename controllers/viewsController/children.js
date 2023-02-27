@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const catchAsync = require('../../utils/catchAsync');
+const mongoose = require('mongoose');const catchAsync = require('../../utils/catchAsync');
 
 const Course = require('../../models/courseModel');
 const Year = require('../../models/yearModel');
@@ -43,53 +41,61 @@ exports.getChildrenTable = catchAsync(async (req, res, next) => {
   // if coming from the sidenav family, without a  year, therefore limit to current year
   years = selectedYear ? await Year.find() : await Year.findCurrentYearOnly();
   selectedYear = selectedYear ? selectedYear : await Year.getCurrentYearValue();
+  const isRegistrationOpen = await Year.isRegistrationOpen();
 
   const family = await Family.findOne({ parent: parentId, year: selectedYear });
 
-  let children = await Child.find({ family: family.id, year: selectedYear });
-  children = children.sort(gradeSort);
-
+  var children = [];
+  if (family) {
+    children = await Child.find({ family: family.id, year: selectedYear });
+    children = children.sort(gradeSort);
+  }
   res.status(200).render('children/children_table', {
     title: 'children',
     family: family,
     children: children,
     years: years,
     selectedYear,
+    isRegistrationOpen,
   });
 });
 
 exports.getChildProfile = catchAsync(async (req, res, next) => {
   let { childId, familyId, selectedYear } = req.params;
-   
+
   var child = {};
-  var parentId = ''
+  var parentId = '';
   var family = {};
-  if(childId == 'new') {
-    family = await Family.findOne({ '_id': mongoose.Types.ObjectId(familyId) }) 
-    parentId = family.parent._id
-    child = new Child(
-      {
-        year: family.year,
-        family: family.id,
-        firstName: 'child name',
-        sex: 'M',
-        grade: 'K'
-      }
-    );
-  } 
-  else {
+  if (childId == 'new') {
+    family = await Family.findOne({ _id: mongoose.Types.ObjectId(familyId) });
+    parentId = family.parent._id;
+    child = new Child({
+      year: family.year,
+      family: family.id,
+      firstName: 'child name',
+      sex: 'M',
+      grade: 'K',
+    });
+  } else {
     child = await Child.findOne({
       _id: childId,
     });
-    family = await Family.findOne({ '_id': mongoose.Types.ObjectId(child.family) })
-    parentId = family.parent._id; 
-      
+    family = await Family.findOne({
+      _id: mongoose.Types.ObjectId(child.family),
+    });
+    parentId = family.parent._id;
   }
-  
+
+  console.log('family.parent' + family.parent);
+
+  const isRegistrationOpen = await Year.isRegistrationOpen();
+
   res.status(200).render('children/child_profile', {
     title: 'Child',
     child,
     selectedYear,
-    parentId
+    parentId,
+    lastName: family.parent.lastName,
+    isRegistrationOpen,
   });
 });

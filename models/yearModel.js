@@ -53,9 +53,13 @@ yearSchema.statics.setCurrentYear = async function (year) {
 yearSchema.statics.findCurrentYearOnly = async function () {
   return await this.find({ current: true });
 };
+yearSchema.statics.isRegistrationOpen = async function () {
+  const yearDoc = await this.findOne({ current: true });
+  return yearDoc.isRegistrationOpen
+};
 yearSchema.statics.getCurrentYearValue = async function () {
-  const yearRecord = await this.findOne({ current: true });
-  return yearRecord.year;
+  const yearDoc = await this.findOne({ current: true });
+  return yearDoc.year;
 };
 
 const Year = mongoose.model('Year', yearSchema);

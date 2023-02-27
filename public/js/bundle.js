@@ -14579,33 +14579,37 @@ function index(a) {
   }
 
   if (childProfile) {
-    var childProfileForm = document.querySelector(".child-profile__form");
+    var childProfileForm = document.querySelector('.child-profile__form');
     childProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var isNew = childProfile.dataset.isNew == 'new';
       var childId = childProfileForm.id;
       var fN = document.getElementById('firstName');
-      var firstName = fN.value;
+      var firstName = fN.value; // there will only be a radio box if grade level is editable
+
       var grades = document.getElementsByName('grade');
-      var g;
-      var grade = '';
 
-      var _iterator = _createForOfIteratorHelper(grades),
-          _step;
+      if (grades) {
+        var g;
+        var grade = '';
 
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          g = _step.value;
+        var _iterator = _createForOfIteratorHelper(grades),
+            _step;
 
-          if (g.checked) {
-            grade = g.value;
-            break;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            g = _step.value;
+
+            if (g.checked) {
+              grade = g.value;
+              break;
+            }
           }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
         }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
       }
 
       var sexes = document.getElementsByName('sex');
@@ -14634,9 +14638,12 @@ function index(a) {
       var year = childProfileForm.dataset.selectedYear;
       var child = {
         firstName: firstName,
-        grade: grade,
         sex: sex
       };
+
+      if (grades.length) {
+        child.grade = grade;
+      }
 
       if (isNew) {
         child.family = family;

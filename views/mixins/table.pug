@@ -1,4 +1,4 @@
-mixin table(singularName, array, headers, keys, newUrl) 
+mixin table(singularName, array, headers, keys, newUrl, permitted) 
  
     //- singularName = 'child'
     //- array = [child1, child2, child3]
@@ -18,10 +18,11 @@ mixin table(singularName, array, headers, keys, newUrl)
             
                     td.button
                         a.edit(href=`/${singularName}_profile/${e.id}`) &#9998
-                    td.button
-                        .delete &#10006
-
-        tr#new
-            td.button 
-                .new 
-                    a(href=newUrl) &#10010
+                    if permitted    
+                        td.button
+                            .delete &#10006
+        if permitted
+            tr#new
+                td.button 
+                    .new 
+                        a(href=newUrl) &#10010
