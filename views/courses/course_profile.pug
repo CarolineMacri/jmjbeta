@@ -65,7 +65,7 @@ block content
 
                 .form__row
                     .form__column.form__outline-box
-                        .form__label Years
+                        .form__label Years:
                             for year in years 
                                 .form__column
                                     .form__item
@@ -79,10 +79,9 @@ block content
                                         else    
                                             .form__label= year.year            
    
-                   
-                
-                    .form__column
-                        .form__item.form__column.form__outline-box
+                    .form__column.form__outline-box
+                        //- .form__item.form__column.form__outline-box
+                        .form__item
                             if isAdmin
                                 label.form__label(for='classFee') Class Fee *  $
                                 select#classFee(name='classFee')

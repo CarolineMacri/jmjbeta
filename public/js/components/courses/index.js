@@ -77,7 +77,7 @@ function index(a) {
         isNew,
       };
 
-      const owner = document.getElementById('owner'); 
+      const owner = document.getElementById('owner');
       if (owner) {
         course.owner=owner.value
       }
