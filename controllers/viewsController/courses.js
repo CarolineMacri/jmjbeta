@@ -1,21 +1,21 @@
-const catchAsync = require("../../utils/catchAsync");
+const catchAsync = require('../../utils/catchAsync');
 exports.getCoursesTable = catchAsync(async (req, res, next) => {
-  const Year = require("../../models/yearModel");
-  const Course = require("../../models/courseModel");
-  const User = require("../../models/userModel");
-  const Teacher = require("../../models/teacherModel"); 
+  const Year = require('../../models/yearModel');
+  const Course = require('../../models/courseModel');
+  const User = require('../../models/userModel');
+  const Teacher = require('../../models/teacherModel'); 
 
   let { selectedYear, ownerId } = req.params;
-  
-  const years = await Year.find();
-  console.log(selectedYear)
 
-  if (!selectedYear ||  selectedYear=="undefined") {
+  const years = await Year.find();
+
+  if (!selectedYear || selectedYear == 'undefined') {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
+  const isCourseEditingAllowed = await Year.isCourseEditingAllowed();
 
-  const hasOwner = ownerId != " " && typeof ownerId != "undefined";
+  const hasOwner = ownerId != ' ' && typeof ownerId != 'undefined';
 
   var courses = {};
   var owner = {};
@@ -27,7 +27,7 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
       years: selectedYear,
       owner: ownerId,
     }).populate({
-      path: "owner",
+      path: 'owner',
       justOne: true,
     });
     // get owner
@@ -35,43 +35,45 @@ exports.getCoursesTable = catchAsync(async (req, res, next) => {
     //console.log(owner);
   }
 
-  res.status(200).render("courses/courses_table", {
+  res.status(200).render('courses/courses_table', {
     title: `Courses ${selectedYear}`,
     courses,
     years,
     selectedYear,
     owner,
     hasOwner,
+    isCourseEditingAllowed
   });
 });
 
 exports.getCourseProfile = catchAsync(async (req, res, next) => {
-  const Year = require("../../models/yearModel");
-  const Course = require("../../models/courseModel");
-  const User = require("../../models/userModel");
+  const Year = require('../../models/yearModel');
+  const Course = require('../../models/courseModel');
+  const User = require('../../models/userModel');
 
   let { courseId, selectedYear, ownerId } = req.params;
   //console.log(courseId, selectedYear, ownerId);
 
-  const hasOwner = typeof ownerId != "undefined";
+  const hasOwner = typeof ownerId != 'undefined';
 
   var course = {};
 
-  if (courseId == "new") {
+  if (courseId == 'new') {
     course = new Course();
     course.years.push(selectedYear);
   } else {
-    course = await Course.findOne({ _id: courseId });
+    course = await Course.findOne({ _id: courseId }); 
   }
 
   const teachers = await User.find()
     .where(`yearRoles.${selectedYear}`)
-    .equals("teacher")
-    .sort("lastName");
+    .equals('teacher')
+    .sort('lastName');
 
   const years = await Year.find();
+  const isCourseEditingAllowed = await Year.isCourseEditingAllowed();
 
-  res.status(200).render("courses/course_profile", {
+  res.status(200).render('courses/course_profile', {
     title: `${course.name}`,
     course,
     selectedYear,
@@ -80,5 +82,6 @@ exports.getCourseProfile = catchAsync(async (req, res, next) => {
     grades: Object.values(Course.Grades),
     hasOwner,
     ownerId,
+    isCourseEditingAllowed
   });
 });

@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');const catchAsync = require('../../utils/catchAsync');
+const mongoose = require('mongoose');
+const catchAsync = require('../../utils/catchAsync');
 
 const Course = require('../../models/courseModel');
 const Year = require('../../models/yearModel');

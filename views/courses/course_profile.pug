@@ -18,50 +18,84 @@ block content
             form.form.form__outline-box.course-profile__form(id=course.id) 
 
                 +formHeader('Course')
+                if (!isAdmin && !isCourseEditingAllowed) 
+                    h2= `Course Editing is closed for ${selectedYear}`
                 
-                .form__column.form__dropdown-group
-                    .form__item
-                        if isAdmin
+                if isAdmin
+                    .form__column.form__dropdown-group
+                        .form__item
                             label.form__label(for='owner') Owner 
                             select#owner(name='owner' data-teacher-id=ownerId)
                                 for teacher in teachers
                                     option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
-                        else  
-                            for teacher in teachers
-                                if (teacher.id==ownerId)  
-                                    .form__label= `Owner: ${teacher.lastName}, ${teacher.firstName}`
+                else  
+                    for teacher in teachers
+                        if (teacher.id==ownerId)  
+                            .form__row.form__item
+                                .form__label= `Owner:`
+                                .form__label.form__item= `${teacher.lastName}, ${teacher.firstName}`
 
-                +input('Course Name', course.name, 30)
+                if (isAdmin || isCourseEditingAllowed)
+                    +input('Course Name', course.name, 30)
+                else 
+                    .form__row.form__item
+                        .form__label= `Course Name:`    
+                        .form__label.form__item= `${course.name}`    
 
                                                    
                 //- .form__column.form__outline-box
                 .form__outline-box.form__row    
                     .form__label.form__item Materials
-                        
+
                     for semester in ['1','2']
-                        
-                        .form__item
+                        if (isAdmin || isCourseEditingAllowed)
+                            .form__item
                             label.form__label(for=`semesterMaterialsFee${semester}`)= `Semester ${semester}*`
                             input.form__input.form__input--inline(id=`semesterMaterialsFee${semester}` type='text', name=`semesterMaterialsFee${semester}`, size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.semesterMaterialsFee[semester])}`) 
-
+                        else   
+                            .form__item 
+                            .form__label= `Semester ${semester}: ${formatter.format(course.semesterMaterialsFee[semester])}` 
+                            
                 div
-                    .form__row
-                        .form__item.form__dropdown-group
-                            label.form__label(for='description') Description *
-                            textarea#description.form__input(name='description', rows='5',  cols='70' required='')=course.description
-                    
-                    .form__row
-                        .form__item.form__dropdown-group
-                            label.form__label(for='notes') Notes 
-                            input#notes.form__input(name='notes', type='text' size='42' value=course.notes)
-                    .form__row
-                        .form__item.form__dropdown-group
-                            label.form__label(for='materials') Required Materials:
-                            textarea#materials.form__input(name='materials', rows='2', cols='30')=course.materials
-                        .form__item.form__dropdown-group
-                            label.form__label(for='texts') Required texts:
-                            textarea#texts.form__input(name='texts', rows='2', cols='30')=course.texts
+                    if (isAdmin || isCourseEditingAllowed)
+                        .form__row
+                            .form__item.form__dropdown-group
+                                label.form__label(for='description') Description *
+                                textarea#description.form__input(name='description', rows='5',  cols='70' required='')=course.description
+                    else
+                        .form__row.form__item     
+                            .form__label Description: 
+                            .form__label.form__item= course.description   
 
+                    if (isAdmin || isCourseEditingAllowed)
+                        .form__row
+                            .form__item.form__dropdown-group
+                                label.form__label(for='notes') Notes 
+                                input#notes.form__input(name='notes', type='text' size='42' value=course.notes)
+                    else
+                        .form__row.form__item
+                            .form__label Notes: 
+                            .form__label.form__item= course.notes   
+
+                    if (isAdmin || isCourseEditingAllowed)        
+                        .form__row
+                            .form__item.form__dropdown-group
+                                label.form__label(for='materials') Required Materials:
+                                textarea#materials.form__input(name='materials', rows='2', cols='30')=course.materials
+                    else             
+                        .form__row.form__item
+                            .form__label Required Materials: 
+                            .form__label.form__item= course.materials
+
+                    if (isAdmin || isCourseEditingAllowed)        
+                        .form__row        
+                            .form__item.form__dropdown-group
+                                label.form__label(for='texts') Required texts:
+                                textarea#texts.form__input(name='texts', rows='2', cols='30')=course.texts
+                    else                
+                        .form__row.form__item
+                            .form__label Required Texts: 
+                            .form__label.form__item= course.texts
 
                 .form__row
                     .form__column.form__outline-box
@@ -162,7 +196,8 @@ block content
                                     .form__label= `Class Size Max: ${course.classSize.max}`
 
                 .form__row
-                    input.form__button.form__item--center(type='submit' value=course.isNew?"Add":"Update")
+                    if (isAdmin || isCourseEditingAllowed)        
+                        input.form__button.form__item--center(type='submit' value=course.isNew?"Add":"Update")
                     if hasOwner
                         a.form__button.form__cancel(href=`/courses_table/${selectedYear}/${ownerId}`) X
                     else
