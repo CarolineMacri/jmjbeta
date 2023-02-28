@@ -14710,16 +14710,16 @@ var updateCourse = /*#__PURE__*/function () {
             isNewCourse = course.isNew == true;
             method = isNewCourse ? "POST" : "PATCH";
             _context.prev = 2;
-            url = "/api/v1/courses".concat(isNewCourse ? "" : "/" + course.id); //console.log(`updating  ${course.name} name`);
-
-            _context.next = 6;
+            url = "/api/v1/courses".concat(isNewCourse ? "" : "/" + course.id);
+            console.log("updating  ".concat(course.name, " name"));
+            _context.next = 7;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: course
             });
 
-          case 6:
+          case 7:
             res = _context.sent;
 
             if (res.data.status == "success") {
@@ -14730,20 +14730,20 @@ var updateCourse = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context.next = 13;
+            _context.next = 14;
             break;
 
-          case 10:
-            _context.prev = 10;
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](2);
             (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
-          case 13:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[2, 10]]);
+    }, _callee, null, [[2, 11]]);
   }));
 
   return function updateCourse(_x, _x2, _x3, _x4) {
@@ -14898,20 +14898,9 @@ function index(a) {
       var hasOwner = courseProfile.dataset.hasOwner == 'true';
       var courseId = courseProfileForm.id;
       var name = document.getElementById('courseName').value;
-      var owner = document.getElementById('owner').value;
-      var courseYears = getChecked('years');
-      var classFee = document.getElementById('classFee').value;
       var semesterMaterialsFee = {
         1: document.getElementById('semesterMaterialsFee1').value,
         2: document.getElementById('semesterMaterialsFee2').value
-      };
-      var grade = {
-        min: document.getElementById('gradeMin').value,
-        max: document.getElementById('gradeMax').value
-      };
-      var classSize = {
-        min: document.getElementById('classSizeMin').value,
-        max: document.getElementById('classSizeMax').value
       };
       var description = document.getElementById('description').value;
       var notes = document.getElementById('notes').value;
@@ -14920,19 +14909,50 @@ function index(a) {
       var course = {
         id: courseId,
         name: name,
-        owner: owner,
-        years: courseYears,
-        classFee: classFee,
-        grade: grade,
-        classSize: classSize,
         description: description,
         notes: notes,
         materials: materials,
         texts: texts,
         semesterMaterialsFee: semesterMaterialsFee,
         isNew: isNew
-      }; // alert ('before adding update course to event listener')
+      };
+      var owner = document.getElementById('owner');
 
+      if (owner) {
+        course.owner = owner.value;
+      }
+
+      var courseYears = getChecked('years');
+
+      if (courseYears.length) {
+        course.years = courseYears;
+      }
+
+      var classFee = document.getElementById('classFee');
+
+      if (classFee) {
+        course.classFee = classFee.value;
+      }
+
+      var gradeMin = document.getElementById('gradeMin');
+
+      if (gradeMin) {
+        course.grade = {
+          min: document.getElementById('gradeMin').value,
+          max: document.getElementById('gradeMax').value
+        };
+      }
+
+      var classSizeMin = document.getElementById('classSizeMin');
+
+      if (classSizeMin) {
+        course.classSize = {
+          min: document.getElementById('classSizeMin').value,
+          max: document.getElementById('classSizeMax').value
+        };
+      }
+
+      alert(JSON.stringify(course));
       (0, _actions.updateCourse)(courseId, course, selectedYear, hasOwner);
     });
   }

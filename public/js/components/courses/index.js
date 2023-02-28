@@ -1,6 +1,6 @@
 /* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
-import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
 
+import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
 function index(a) {
   // DOM elements
   const courses = document.querySelector('.courses');
@@ -17,7 +17,7 @@ function index(a) {
     // add event listners for each course
     const coursesRows = document
       .querySelector('.courses')
-      .getElementsByTagName('tr');
+      .getElementsByTagName('tr'); 
 
     const numRows = coursesRows.length;
 
@@ -55,35 +55,20 @@ function index(a) {
       const hasOwner = courseProfile.dataset.hasOwner == 'true';
       const courseId = courseProfileForm.id;
       const name = document.getElementById('courseName').value;
-      const owner = document.getElementById('owner').value;
-      const courseYears = getChecked('years');
-      const classFee = document.getElementById('classFee').value;
 
       const semesterMaterialsFee = {
         1: document.getElementById('semesterMaterialsFee1').value,
         2: document.getElementById('semesterMaterialsFee2').value,
       };
-      const grade = {
-        min: document.getElementById('gradeMin').value,
-        max: document.getElementById('gradeMax').value,
-      };
-      const classSize = {
-        min: document.getElementById('classSizeMin').value,
-        max: document.getElementById('classSizeMax').value,
-      };
+      
       const description = document.getElementById('description').value;
       const notes = document.getElementById('notes').value;
       const materials = document.getElementById('materials').value;
       const texts = document.getElementById('texts').value;
 
-      const course = { 
+      const course = {
         id: courseId,
-        name,
-        owner,
-        years: courseYears, 
-        classFee,
-        grade,
-        classSize,
+        name,        
         description,
         notes,
         materials,
@@ -91,7 +76,39 @@ function index(a) {
         semesterMaterialsFee,
         isNew,
       };
-      // alert ('before adding update course to event listener')
+
+      const owner = document.getElementById('owner'); 
+      if (owner) {
+        course.owner=owner.value
+      }
+
+      const courseYears = getChecked('years');
+      if (courseYears.length) {
+        course.years = courseYears;
+      }
+
+      const classFee = document.getElementById('classFee')
+      if (classFee) {
+        course.classFee = classFee.value
+      }
+
+      const gradeMin = document.getElementById('gradeMin')
+      if (gradeMin) {
+        course.grade = {
+          min: document.getElementById('gradeMin').value,
+          max: document.getElementById('gradeMax').value,
+        };
+      }
+      const classSizeMin = document.getElementById('classSizeMin')
+      if (classSizeMin) {
+        course.classSize = {
+          min: document.getElementById('classSizeMin').value,
+          max: document.getElementById('classSizeMax').value,
+        };
+      } 
+
+      alert(JSON.stringify(course));
+      
       updateCourse(courseId, course, selectedYear, hasOwner);
     });
   }

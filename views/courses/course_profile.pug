@@ -4,6 +4,7 @@ block content
     include ../mixins/form
     
     - var isAdmin = user.currentRoles.includes('admin' || 'sysAdmin')
+    - var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
 
     .page__content.course-profile(data-selected-year=selectedYear data-is-new=(course.isNew?'new':'old') data-has-owner=(hasOwner?'true':'false') )
         section
@@ -18,115 +19,41 @@ block content
 
                 +formHeader('Course')
                 
-                +input('Course Name', course.name, 35)
-               
-                //- .form__column.form__item
-                //-     label.form__label(for='courseName') Name *
-                //-     input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
-                
                 .form__column.form__dropdown-group
                     .form__item
-                        label.form__label(for='owner') Owner * 
-                        select#owner(name='owner' data-teacher-id=ownerId)
+                        if isAdmin
+                            label.form__label(for='owner') Owner 
+                            select#owner(name='owner' data-teacher-id=ownerId)
+                                for teacher in teachers
+                                    option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
+                        else  
                             for teacher in teachers
-                                option(selected=(teacher.id==ownerId) value=teacher.id)=`${teacher.lastName}, ${teacher.firstName}`
-                                           
-                .form__row
-                    .form__column.form__outline-box
-                        .form__label Years
-                        
-                            for year in years 
-                                .form__column
-                                    .form__item
-                                        if (course.years.includes(year.year))
-                                            input(id=year.id type="checkbox" name='years' value=year.year checked)
-                                        else
-                                            input(id=year.id type="checkbox" name='years' value=year.year)
-                                        
-                                        label.form__label(for=year.id)=year.year
-   
-                            -var formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
-                
-                    .form__column
-                        .form__item.form__column.form__outline-box
-                            label.form__label(for='classFee') Class Fee *  $
-                            select#classFee(name='classFee')
-                                -var classFees = ['5.00','7.50','0.00']
-                                -var nonStandardFee = !(classFees.includes(formatter.format(course.classFee)))
-                                
-                                for classFee in classFees
-                                    if (classFee==course.classFee)
-                                        option( selected)=classFee
-                                    else
-                                        option()=classFee
-                                if nonStandardFee 
-                                    option()=formatter.format(course.classFee)
-                                   
-                        .form__column.form__outline-box
-                            .form__label.form__item Materials
-                            
-                        
-                            //- for materialsFee in course.materialsFee
-                            //-     -var semester = materialsFee.semester 
-                            //-     -var amount = materialsFee.amount
-                            //-     -var matId = `materialsFeeAmount${semester}`
+                                if (teacher.id==ownerId)  
+                                    .form__label= `Owner: ${teacher.lastName}, ${teacher.firstName}`
 
-                            //-     .form__item
-                            //-         label.form__label(for=`${matId}`)= `Semester ${semester}*`
-                            //-         input.form__input.form__input--inline(id=`${matId}` type='text', name=`${matId}`, size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(amount)}`) 
-                            for semester in ['1','2']
-                                
-                                .form__item
-                                    label.form__label(for=`semesterMaterialsFee${semester}`)= `Semester ${semester}*`
-                                    input.form__input.form__input--inline(id=`semesterMaterialsFee${semester}` type='text', name=`semesterMaterialsFee${semester}`, size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.semesterMaterialsFee[semester])}`) 
-                .form__outline-box--bottom.form__row
-                    .form__column.form__outline-box
-                        .form__dropdown-group
-                            .form__item
-                                label.form__label(for='gradeMin') Grade Min *
-                                select#gradeMin(name='gradeMin') 
-                                    for grade in grades
-                                        if (grade==course.grade.min)
-                                            option( selected)=grade
-                                        else     
-                                            option()=grade 
-                            .form__item
-                                label.form__label(for='gradeMax') Grade Max *
-                                select#gradeMax(name='gradeMax')
-                                    for grade in grades 
-                                        if (grade==course.grade.max)
-                                            option(selected)=grade
-                                        else     
-                                            option()=grade 
-                                    
-                    .form__column
-                        .form__dropdown-group.form__outline-box
-                            .form__item
-                                -var classSize = ['4','5','6']
-                                label.form__label(for='classSizeMin') Class Size Min * 
-                                select#classSizeMin(name='classSizeMin')
-                                    for size in classSize 
-                                        if (course.classSize.min == size)
-                                            option(selected)=size
-                                        else    
-                                            option()=size
-                            .form__item
-                                -var classSize = ['12','10','8', '6']
-                                label.form__label(for='classSizeMax') Class Size Max * 
-                                    select#classSizeMax(name='classSizeMax')
-                                        for size in classSize 
-                                            if (course.classSize.max == size)
-                                                option(selected)=size
-                                            else    
-                                                option()=size
+                +input('Course Name', course.name, 30)
+
+                                                   
+                //- .form__column.form__outline-box
+                .form__outline-box.form__row    
+                    .form__label.form__item Materials
+                        
+                    for semester in ['1','2']
+                        
+                        .form__item
+                            label.form__label(for=`semesterMaterialsFee${semester}`)= `Semester ${semester}*`
+                            input.form__input.form__input--inline(id=`semesterMaterialsFee${semester}` type='text', name=`semesterMaterialsFee${semester}`, size='5', pattern='[0-9]{1,2}.[0-9]{2}', value=`${formatter.format(course.semesterMaterialsFee[semester])}`) 
+
                 div
-                    .form__row.form__dropdown-group
-                        label.form__label(for='description') Description *
-                        textarea#description.form__input(name='description', rows='5',  cols='70' required='')=course.description
+                    .form__row
+                        .form__item.form__dropdown-group
+                            label.form__label(for='description') Description *
+                            textarea#description.form__input(name='description', rows='5',  cols='70' required='')=course.description
                     
-                    .form__row.form__dropdown-group
-                        label.form__label(for='notes') Notes 
-                        input#notes.form__input(name='notes', type='text' size='42' value=course.notes)
+                    .form__row
+                        .form__item.form__dropdown-group
+                            label.form__label(for='notes') Notes 
+                            input#notes.form__input(name='notes', type='text' size='42' value=course.notes)
                     .form__row
                         .form__item.form__dropdown-group
                             label.form__label(for='materials') Required Materials:
@@ -134,6 +61,100 @@ block content
                         .form__item.form__dropdown-group
                             label.form__label(for='texts') Required texts:
                             textarea#texts.form__input(name='texts', rows='2', cols='30')=course.texts
+
+
+                .form__row
+                    .form__column.form__outline-box
+                        .form__label Years
+                            for year in years 
+                                .form__column
+                                    .form__item
+                                        if isAdmin
+                                            if (course.years.includes(year.year))
+                                                input(id=year.id type="checkbox" name='years' value=year.year checked)
+                                            else
+                                                input(id=year.id type="checkbox" name='years' value=year.year)
+                                            
+                                            label.form__label(for=year.id)=year.year
+                                        else    
+                                            .form__label= year.year            
+   
+                   
+                
+                    .form__column
+                        .form__item.form__column.form__outline-box
+                            if isAdmin
+                                label.form__label(for='classFee') Class Fee *  $
+                                select#classFee(name='classFee')
+                                    -var classFees = ['5.00','7.50','0.00']
+                                    -var nonStandardFee = !(classFees.includes(formatter.format(course.classFee)))
+                                    
+                                    for classFee in classFees
+                                        if (classFee==course.classFee)
+                                            option( selected)=classFee
+                                        else
+                                            option()=classFee
+                                    if nonStandardFee 
+                                        option()=formatter.format(course.classFee)
+                            else    
+                                .form__label= `Class Fee: $${formatter.format(course.classFee)}`            
+
+
+                .form__outline-box--bottom.form__row
+                    .form__column.form__outline-box
+                        .form__dropdown-group
+                            .form__item
+                                if isAdmin
+                                    label.form__label(for='gradeMin') Grade Min *
+                                    select#gradeMin(name='gradeMin') 
+                                        for grade in grades
+                                            if (grade==course.grade.min)
+                                                option( selected)=grade
+                                            else     
+                                                option()=grade 
+                                else 
+                                    .form__label= `Grade Min: ${course.grade.min}`      
+
+                            .form__item
+                                if isAdmin
+                                    label.form__label(for='gradeMax') Grade Max *
+                                    select#gradeMax(name='gradeMax')
+                                        for grade in grades 
+                                            if (grade==course.grade.max)
+                                                option(selected)=grade
+                                            else     
+                                                option()=grade 
+                                else 
+                                    .form__label= `Grade Max: ${course.grade.max}`      
+
+                    .form__column
+                        .form__dropdown-group.form__outline-box
+                            .form__item
+                                if isAdmin
+                                    -var classSize = ['4','5','6']
+                                    label.form__label(for='classSizeMin') Class Size Min * 
+                                    select#classSizeMin(name='classSizeMin')
+                                        for size in classSize 
+                                            if (course.classSize.min == size)
+                                                option(selected)=size
+                                            else    
+                                                option()=size
+                                else    
+                                    .form__label= `Class Size Min: ${course.classSize.min}`
+
+                            .form__item
+                                if isAdmin 
+                                    -var classSize = ['12','10','8', '6']
+                                    label.form__label(for='classSizeMax') Class Size Max * 
+                                        select#classSizeMax(name='classSizeMax')
+                                            for size in classSize 
+                                                if (course.classSize.max == size)
+                                                    option(selected)=size
+                                                else    
+                                                    option()=size
+                                else
+                                    .form__label= `Class Size Max: ${course.classSize.max}`
+
                 .form__row
                     input.form__button.form__item--center(type='submit' value=course.isNew?"Add":"Update")
                     if hasOwner
