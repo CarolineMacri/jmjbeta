@@ -83,18 +83,25 @@ block content
                         //- .form__item.form__column.form__outline-box
                         .form__item
                             if isAdmin
-                                label.form__label(for='classFee') Class Fee *  $
-                                select#classFee(name='classFee')
+                            
+                                label.form__label(for='classFee') Class Fee *
+                                input#classFee.form__input(list='classFees' name='classFee' value= formatter.format(course.classFee))
+
+                                datalist#classFees  
                                     -var classFees = ['5.00','7.50','0.00']
-                                    -var nonStandardFee = !(classFees.includes(formatter.format(course.classFee)))
-                                    
                                     for classFee in classFees
-                                        if (classFee==course.classFee)
-                                            option( selected)=classFee
-                                        else
-                                            option()=classFee
-                                    if nonStandardFee 
-                                        option()=formatter.format(course.classFee)
+                                        option(value= (classFee))
+                                //- select#classFee(name='classFee')
+                                //-     -var classFees = ['5.00','7.50','0.00']
+                                //-     -var nonStandardFee = !(classFees.includes(formatter.format(course.classFee)))
+                                    
+                                //-     for classFee in classFees
+                                //-         if (classFee==course.classFee)
+                                //-             option( selected)=classFee
+                                //-         else
+                                //-             option()=classFee
+                                //-     if nonStandardFee 
+                                //-         option()=formatter.format(course.classFee)
                             else    
                                 .form__label= `Class Fee: $${formatter.format(course.classFee)}`            
 
