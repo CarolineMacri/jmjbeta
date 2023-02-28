@@ -1,6 +1,10 @@
 extends ../base
 
-block content   
+block content
+    include ../mixins/form
+    
+    - var isAdmin = user.currentRoles.includes('admin' || 'sysAdmin')
+
     .page__content.course-profile(data-selected-year=selectedYear data-is-new=(course.isNew?'new':'old') data-has-owner=(hasOwner?'true':'false') )
         section
             if (!hasOwner)
@@ -11,13 +15,14 @@ block content
                 
         section
             form.form.form__outline-box.course-profile__form(id=course.id) 
-                .form__row
-                    .form__header-text Course
-                    .form__header-background.family-form__header-image
+
+                +formHeader('Course')
+                
+                +input('Course Name', course.name, 35)
                
-                .form__column.form__item
-                    label.form__label(for='courseName') Name *
-                    input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
+                //- .form__column.form__item
+                //-     label.form__label(for='courseName') Name *
+                //-     input#courseName.form__input.form__input--inline(type='text', name='courseName', size='30', value= `${course.name}` required='')
                 
                 .form__column.form__dropdown-group
                     .form__item

@@ -14900,33 +14900,23 @@ function index(a) {
       var name = document.getElementById('courseName').value;
       var owner = document.getElementById('owner').value;
       var courseYears = getChecked('years');
-      var classFee = document.getElementById('classFee').value; //     // const materialsFee = [
-      //     //   {
-      //     //     semester: 1,
-      //     //     amount: document.getElementById('materialsFeeAmount1').value,
-      //     //   },
-      //     //   {
-      //     //     semester: 2,
-      //     //     amount: document.getElementById('materialsFeeAmount2').value,
-      //     //   },
-      //     // ];
-
+      var classFee = document.getElementById('classFee').value;
       var semesterMaterialsFee = {
-        1: document.getElementById("semesterMaterialsFee1").value,
-        2: document.getElementById("semesterMaterialsFee2").value
+        1: document.getElementById('semesterMaterialsFee1').value,
+        2: document.getElementById('semesterMaterialsFee2').value
       };
       var grade = {
-        min: document.getElementById("gradeMin").value,
-        max: document.getElementById("gradeMax").value
+        min: document.getElementById('gradeMin').value,
+        max: document.getElementById('gradeMax').value
       };
       var classSize = {
-        min: document.getElementById("classSizeMin").value,
-        max: document.getElementById("classSizeMax").value
+        min: document.getElementById('classSizeMin').value,
+        max: document.getElementById('classSizeMax').value
       };
-      var description = document.getElementById("description").value;
-      var notes = document.getElementById("notes").value;
-      var materials = document.getElementById("materials").value;
-      var texts = document.getElementById("texts").value;
+      var description = document.getElementById('description').value;
+      var notes = document.getElementById('notes').value;
+      var materials = document.getElementById('materials').value;
+      var texts = document.getElementById('texts').value;
       var course = {
         id: courseId,
         name: name,

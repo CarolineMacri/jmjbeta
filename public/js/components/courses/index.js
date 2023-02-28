@@ -1,5 +1,4 @@
 /* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
-
 import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
 
 function index(a) {
@@ -60,50 +59,40 @@ function index(a) {
       const courseYears = getChecked('years');
       const classFee = document.getElementById('classFee').value;
 
-      //     // const materialsFee = [
-      //     //   {
-      //     //     semester: 1,
-      //     //     amount: document.getElementById('materialsFeeAmount1').value,
-      //     //   },
-      //     //   {
-      //     //     semester: 2,
-      //     //     amount: document.getElementById('materialsFeeAmount2').value,
-      //     //   },
-      //     // ];
-          const semesterMaterialsFee = {
-            1: document.getElementById("semesterMaterialsFee1").value,
-            2: document.getElementById("semesterMaterialsFee2").value,
-          };
-          const grade = {
-            min: document.getElementById("gradeMin").value,
-            max: document.getElementById("gradeMax").value,
-          };
-          const classSize = {
-            min: document.getElementById("classSizeMin").value,
-            max: document.getElementById("classSizeMax").value,
-          };
-          const description = document.getElementById("description").value;
-          const notes = document.getElementById("notes").value;
-          const materials = document.getElementById("materials").value;
-          const texts = document.getElementById("texts").value;
+      const semesterMaterialsFee = {
+        1: document.getElementById('semesterMaterialsFee1').value,
+        2: document.getElementById('semesterMaterialsFee2').value,
+      };
+      const grade = {
+        min: document.getElementById('gradeMin').value,
+        max: document.getElementById('gradeMax').value,
+      };
+      const classSize = {
+        min: document.getElementById('classSizeMin').value,
+        max: document.getElementById('classSizeMax').value,
+      };
+      const description = document.getElementById('description').value;
+      const notes = document.getElementById('notes').value;
+      const materials = document.getElementById('materials').value;
+      const texts = document.getElementById('texts').value;
 
-          const course = {
-            id: courseId,
-            name,
-            owner,
-            years: courseYears,
-            classFee,
-            grade,
-            classSize,
-            description,
-            notes,
-            materials,
-            texts,
-            semesterMaterialsFee,
-            isNew,
-          };
-          // alert ('before adding update course to event listener')
-          updateCourse(courseId, course, selectedYear, hasOwner);
+      const course = { 
+        id: courseId,
+        name,
+        owner,
+        years: courseYears, 
+        classFee,
+        grade,
+        classSize,
+        description,
+        notes,
+        materials,
+        texts,
+        semesterMaterialsFee,
+        isNew,
+      };
+      // alert ('before adding update course to event listener')
+      updateCourse(courseId, course, selectedYear, hasOwner);
     });
   }
 }
