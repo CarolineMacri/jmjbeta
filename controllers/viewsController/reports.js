@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
 const catchAsync = require('../../utils/catchAsync');
+const logger = require('../../utils/logger');
 const Child = require('../../models/childModel');
 const Class = require('../../models/classModel');
 const Course = require('../../models/courseModel');
+const Family = require('../../models/familyModel');
 const User = require('../../models/userModel');
 const Year = require('../../models/yearModel');
 const { Grades } = require('../../models/courseModel');
@@ -23,6 +25,10 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
     path: 'family',
     justOne: true,
   });
+
+  console.log('--------------------------------------------------------')
+  console.log(children);
+  logger.log(children)
 
   children.sort;
   const gradeLists = new Object();
@@ -226,13 +232,18 @@ exports.reportCourses = catchAsync(async (req, res, next) => {
 });
 
 exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
-  let { selectedYear } = req.params;
+  //let { selectedYear } = req.params;
 
   const years = await Year.find();
 
-  if (!selectedYear) {
-    selectedYear = await Year.getCurrentYearValue();
-  }
+  //if (!selectedYear) {
+  const selectedYear = await Year.getCurrentYearValue();
+  //}
+  const families = await Family.find({ year: selectedYear })
+
+  const gradeCourseMap = await Course.getGradeCourseMap('2022-2023');
+   
+  //families.forEach(family => { console.log(parent)})
 
   var pipeline = [];
 
@@ -240,7 +251,7 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
 
   // const classes = await Class.aggregate(pipeline);
 
-  const classes = await Class.find({ year: selectedYear })
+  const classes = await Class.find({ year: '2022-2023' })
     .select('semesterSessions time')
     .sort('time')
     .populate({
@@ -252,22 +263,19 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
       path: 'course',
       justOne: true,
       select: 'name semesterMaterialsFee grade notes classFee',
-    })
+    });
 
-    classes.sort((a, b) => ('' + a.course.name).localeCompare(b.course.name));
-   
-    
-  
-
+  classes.sort((a, b) => ('' + a.course.name).localeCompare(b.course.name));
 
   const times = await Class.Times;
-  console.log(classes[0]);
 
   res.status(200).render('reports/signUpSheet', {
     title: 'Sign Up Sheet',
     classes,
     times,
     years,
+    families,
     selectedYear,
+    gradeCourseMap
   });
 });

@@ -1,4 +1,5 @@
-const express = require('express');const viewsController = require('../controllers/viewsController/index');
+const express = require('express');
+const viewsController = require('../controllers/viewsController/index');
 const authController = require('../controllers/authController');
 
 const router = express.Router();
@@ -189,7 +190,7 @@ router.get(
 );
 
 router.get(
-  '/reports/signUpSheet/:selectedYear?',
+  '/reports/signUpSheet',
   authController.protect,
   authController.restrictTo('admin'),
   viewsController.reportSignUpSheet

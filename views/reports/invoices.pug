@@ -7,28 +7,28 @@ block content
         include ../_yearSelector
       section.report-invoices
 
-      .report__title
-        h1.invoices-title(id=parent) +JMJ+ Homeschool Co-op Invoices
+        .report__title
+          h1.invoices-title(id=parent) +JMJ+ Homeschool Co-op Invoices
 
-      for family in families
+        for family in families
 
-        .report-invoices-box
-          .report-invoices-family
-            h2= family.parent 
+          .report-invoices-box
+            .report-invoices-family
+              h2= family.parent 
 
-          for teacher in family.teachers
-            .report-invoices-teacher
-              p= teacher.name+ "  - $" + teacher.total
-            .report-invoices-classes
-              for cl in teacher.classes
-                .report-invoices-record
-                  .report-invoices-record-student
-                    p=cl.student
-                  .report-invoices-record-class
-                    p=cl.class
-                  .report-invoices-record-price
-                    p="Classes: $" + cl.price
-                  .report-invoices-record-materials
-                    p="Materials: $" + cl.materials + " " 
-          .report-invoices-teacher   
-          h2= "Grand Total:  $" + family.grandTotal
+            for teacher in family.teachers
+              .report-invoices-teacher
+                p= teacher.name+ "  - $" + teacher.total
+              .report-invoices-classes
+                for cl in teacher.classes
+                  .report-invoices-record
+                    .report-invoices-record-student
+                      p=cl.student
+                    .report-invoices-record-class
+                      p=cl.class
+                    .report-invoices-record-price
+                      p="Classes: $" + cl.price
+                    .report-invoices-record-materials
+                      p="Materials: $" + cl.materials + " " 
+            .report-invoices-teacher   
+            h2= "Grand Total:  $" + family.grandTotal

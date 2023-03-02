@@ -7,25 +7,25 @@ block content
         include ../_yearSelector
       section.report-payments
 
-      .report__title
-        h1.payments-title(id=teacher) +JMJ+ Homeschool Co-op Payments
+        .report__title
+          h1.payments-title(id=teacher) +JMJ+ Homeschool Co-op Payments
 
-      for teacher in teachers
+        for teacher in teachers
 
-        .report-payments-box
-          .report-payments-teacher
-            h2= teacher.name
-        
-          for parent in teacher.parents
-            .report-payments-parent
-              p= parent.name+ "  - $" + parent.total
-            .report-payments-checks
-              for payment in parent.payments
-                .report-payments-record
-                  .report-payments-record-check
-                    p="Check Number: " + payment.checkNumber
-                  .report-payments-record-payment
-                    p='$' + payment.amount
-                 
-          .report-payments-teacher   
-          h2= "Grand Total:  $" + teacher.grandTotal
+          .report-payments-box
+            .report-payments-teacher
+              h2= teacher.name
+          
+            for parent in teacher.parents
+              .report-payments-parent
+                p= parent.name+ "  - $" + parent.total
+              .report-payments-checks
+                for payment in parent.payments
+                  .report-payments-record
+                    .report-payments-record-check
+                      p="Check Number: " + payment.checkNumber
+                    .report-payments-record-payment
+                      p='$' + payment.amount
+                  
+            .report-payments-teacher   
+            h2= "Grand Total:  $" + teacher.grandTotal

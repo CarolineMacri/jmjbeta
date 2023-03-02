@@ -7,25 +7,34 @@ block content
         include ../_yearSelector
       section.report-class-lists
     
-      .report__title
-        h1.class-lists-title(id=teacher) +JMJ+ Homeschool Co-op Class Lists
+        .report__title
+          h1.class-lists-title(id=teacher) +JMJ+ Homeschool Co-op Class Lists
 
-      each [hour, locations] of classMap   
-        .report-class-lists-hour
-          each [location, cl] of locations
-            if (Object.entries(cl)!=0)
-              if (cl.enrollments.length>0)
+        each [hour, locations] of classMap   
+          .report-class-lists-hour
+            each [location, cl] of locations
+              if (Object.entries(cl)!=0)
+                if (cl.enrollments.length)
+                  .report-class-lists-box
+                    .report-class-lists-course
+                      .report-class-lists-course-name
+                        h2=cl.className
+                      .report-class-lists-course-hour
+                        h2=hour
+                      .report-class-lists-course-location
+                        h2=location
+                    .report-class-lists-enrollments
+          
+                      for e in cl.enrollments
+                        h3.report-class-lists-enrollment=e     
+              else  
                 .report-class-lists-box
-                  .report-class-lists-course
-                    .report-class-lists-course-name
-                      h2=cl.className
-                    .report-class-lists-course-hour
-                      h2=hour
-                    .report-class-lists-course-location
-                      h2=location
-                  .report-class-lists-enrollments
+                    .report-class-lists-course
+                      .report-class-lists-course-name
+                        h2 Class Not Scheduled for
+                      .report-class-lists-course-hour
+                        h2=hour
+                      .report-class-lists-course-location
+                        h2=location          
         
-                    for e in cl.enrollments
-                      h3.report-class-lists-enrollment=e     
-      
-      
+        

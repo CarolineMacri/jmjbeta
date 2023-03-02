@@ -8,30 +8,21 @@ block content
      
 
       section.report-sign-up-sheet
-      .report-title
-        h1= 'JMJ Co-op Sign Up Sheet ' + selectedYear  
-        
-        for time in times  
-          .report-sign-up-sheet-box
-            .report-sign-up-sheet-record
-              .report-sign-up-sheet-time
-                h2= time
-              .report-sign-up-sheet-family-name
-                div Family Name 
-              .report-sign-up-sheet-record-child-name
-                div Child Name
-              .report-sign-up-sheet-record-child-name
-                div Child Name
-              .report-sign-up-sheet-record-child-name
-                div Child Name
-              .report-sign-up-sheet-record-child-name
-                div Child Name
-              .report-sign-up-sheet-record-child-name
-                div Child Name
-              .report-sign-up-sheet-record-child-name
-                div Child Name
-              .report-sign-up-sheet-record-child-name
-                div Child Name
+        .report-title
+          h1= 'JMJ Co-op Sign Up Sheet ' + selectedYear  
+
+        for family in families
+          for time in times  
+            .report-sign-up-sheet-box
+              .report-sign-up-sheet-record
+                .report-sign-up-sheet-time
+                  h2= time
+                .report-sign-up-sheet-family-name
+                  div= family.parent.lastName
+                for child in family.children  
+                  .report-sign-up-sheet-record-child-name
+                    div= child.firstName + " - " + child.grade
+                  
               
 
             for cl in classes  
@@ -57,11 +48,12 @@ block content
                     .item
                       .title Total:
                       .cost= `$${materialsCost + classCost}.00`
-                  .report-sign-up-sheet-record-box
-                  .report-sign-up-sheet-record-box
-                  .report-sign-up-sheet-record-box
-                  .report-sign-up-sheet-record-box
-                  .report-sign-up-sheet-record-box
-                  .report-sign-up-sheet-record-box
-                  .report-sign-up-sheet-record-box
-            
+                  for child in family.children
+                    -var courses = gradeCourseMap.get(child.grade)     
+                    if courses.includes(cl.course.name)
+                      .report-sign-up-sheet-record-box
+                    else 
+                      .report-sign-up-sheet-record-box.report-sign-up-sheet-record-box__filled
+                      
+
+                  
