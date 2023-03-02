@@ -21,9 +21,10 @@ const Times = Object.freeze({
   9: "9AM",
   10: "10AM",
   11: "11AM",
-  12: "12PM",
-  13: "1PM",
-  14: "2PM",
+  // 12: "12PM",
+  // 13: "1PM",
+  // 14: "2PM",
+  12: "other"
 });
 
 // project modules

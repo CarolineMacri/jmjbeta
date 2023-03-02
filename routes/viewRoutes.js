@@ -197,9 +197,9 @@ router.get(
 );
 
 router.get(
-  '/reports/signUpSheet',
+  '/reports/signUpSheet/:parentId',
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'sysAdmin', 'parent'),
   viewsController.reportSignUpSheet
 );
 

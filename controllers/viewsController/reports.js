@@ -26,10 +26,6 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
     justOne: true,
   });
 
-  console.log('--------------------------------------------------------')
-  console.log(children);
-  logger.log(children)
-
   children.sort;
   const gradeLists = new Object();
   Object.values(Grades).forEach((v) => {
@@ -232,26 +228,18 @@ exports.reportCourses = catchAsync(async (req, res, next) => {
 });
 
 exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
-  //let { selectedYear } = req.params;
+  let { parentId } = req.params;
 
   const years = await Year.find();
 
   //if (!selectedYear) {
   const selectedYear = await Year.getCurrentYearValue();
   //}
-  const families = await Family.find({ year: selectedYear })
+  const family = await Family.findOne({ parent: parentId });
 
-  const gradeCourseMap = await Course.getGradeCourseMap('2022-2023');
-   
-  //families.forEach(family => { console.log(parent)})
+  const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
-  var pipeline = [];
-
-  // pipeline = pipeline.concat(pipelines.classCourseTeacher(selectedYear));
-
-  // const classes = await Class.aggregate(pipeline);
-
-  const classes = await Class.find({ year: '2022-2023' })
+  const classes = await Class.find({ year: selectedYear })
     .select('semesterSessions time')
     .sort('time')
     .populate({
@@ -268,14 +256,15 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
   classes.sort((a, b) => ('' + a.course.name).localeCompare(b.course.name));
 
   const times = await Class.Times;
+  console.log('-------------------------' + JSON.stringify(classes));
 
   res.status(200).render('reports/signUpSheet', {
     title: 'Sign Up Sheet',
     classes,
     times,
     years,
-    families,
+    family,
     selectedYear,
-    gradeCourseMap
+    gradeCourseMap,
   });
 });
