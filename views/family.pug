@@ -3,40 +3,44 @@ extends base
 block content   
 
  section.family.page__content
-  
-  include _familyTitle
+
+  if (family)
+    include _familyTitle
   include _yearSelector
 
-  .family__parents
-    
-    .card.card__outline-box
-      .card__column
-        .card__header-background
-        .card__outline-box--bottom
-          .card__item= family.parent.firstName + ' ' + family.parent.lastName
-        .card__outline-box--bottom
-          .card__item= family.parent.email? family.parent.email : "---"
-        div
-          .card__item= family.parent.cellPhone? family.parent.cellPhone : "---"
-
-  .family__children
-    for child in children
+  if (!family)
+    h1.family__title= `${user.lastName} family not registered in ${selectedYear}` 
+  else  
+    .family__parents
+      
       .card.card__outline-box
         .card__column
           .card__header-background
-          .card__header-text= child.firstName
           .card__outline-box--bottom
-            .card__item--center= "Gender: " + child.sex
-            .card__item--center= "Grade: "  + child.grade
-          .card__outline-box--bottom.class__group
-            for enrollment in child.enrollments
-              
-              .card__item
-                .class
-                  .class__time= enrollment.class.hour
-                  .class__name= enrollment.class.course.name
-          
-      
-     
+            .card__item= family.parent.firstName + ' ' + family.parent.lastName
+          .card__outline-box--bottom
+            .card__item= family.parent.email? family.parent.email : "---"
+          div
+            .card__item= family.parent.cellPhone? family.parent.cellPhone : "---"
 
-    
+    .family__children
+      for child in children
+        .card.card__outline-box
+          .card__column
+            .card__header-background
+            .card__header-text= child.firstName
+            .card__outline-box--bottom
+              .card__item--center= "Gender: " + child.sex
+              .card__item--center= "Grade: "  + child.grade
+            .card__outline-box--bottom.class__group
+              for enrollment in child.enrollments
+                
+                .card__item
+                  .class
+                    .class__time= enrollment.class.hour
+                    .class__name= enrollment.class.course.name
+            
+        
+      
+
+      

@@ -14,39 +14,47 @@ exports.getFamily = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
     res.status(308).redirect(`${parentId}/${selectedYear}`);
   } else {
-    const family = await Family.findOne({ parent: parentId, year: selectedYear});
-
-    let children = await Child.find({ family: family.id, year: selectedYear })
-      .select('firstName sex grade _id')
-      .populate({
-        path: 'enrollments',
-        select: 'class course -child',
-        populate: {
-          path: 'class',
-          select: 'time hour location course _id',
-          justOne: true,
-          populate: { path: 'course', select: 'name _id', justOne: true },
-        },
-      });
-
-    children.forEach((child) => {
-      //console.log(child.name)
-      child.enrollments.forEach((enrollment) => {
-        //console.log(enrollment)
-      });
+    const family = await Family.findOne({
+      parent: parentId,
+      year: selectedYear,
     });
 
-    children = children.sort(gradeSort);
+    var children;
 
-    children.forEach((child) => {
-      child.enrollments = orderEnrollments(child.enrollments);
-    });
+    if (family) {
+
+      children = await Child.find({ family: family.id, year: selectedYear })
+        .select('firstName sex grade _id')
+        .populate({
+          path: 'enrollments',
+          select: 'class course -child',
+          populate: {
+            path: 'class',
+            select: 'time hour location course _id',
+            justOne: true,
+            populate: { path: 'course', select: 'name _id', justOne: true },
+          },
+        });
+
+      children.forEach((child) => {
+        //console.log(child.name)
+        child.enrollments.forEach((enrollment) => {
+          //console.log(enrollment)
+        });
+      });
+
+      children = children.sort(gradeSort);
+
+      children.forEach((child) => {
+        child.enrollments = orderEnrollments(child.enrollments);
+      });
+    }
 
     //res.status(200).render("family", {
     res.status(200).render(`family`, {
       title: 'family',
       family: family,
-      children: children,
+      children: children?children:null,
       years: years,
       selectedYear,
     });
@@ -66,7 +74,7 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
   // used aggregation pipeline to let the database do the work
 
   families = await Family.aggregate()
-    .match({year:selectedYear})
+    .match({ year: selectedYear })
     .lookup({
       from: 'users',
       localField: 'parent',

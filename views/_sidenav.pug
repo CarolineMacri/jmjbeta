@@ -4,7 +4,7 @@ nav.side-nav
     a.side-nav__item(href='/myProfile') My Profile
     a.side-nav__item(href='/updatePassword') Update Password
 
-  - var isAdmin = user.currentRoles.includes('admin')
+  - var isAdmin = user.currentRoles.includes('admin' || 'sysadmin')
   - var isParent = user.currentRoles.includes('parent')
   - var isTeacher = user.currentRoles.includes('teacher')
   - var isSysAdmin = user.currentRoles.includes('sysAdmin')
@@ -45,11 +45,12 @@ nav.side-nav
       a.side-nav__item(href='#') Create class schedule
   .side-nav__section
     h3.side-nav__heading Reports
-    a.side-nav__item(href=`/reports/childrenByGrade/${selectedYear}` target="_blank" rel="noopener noreferrer") Children by Grade
-    a.side-nav__item(href=`/reports/classLists/${selectedYear}` target="_blank" rel="noopener noreferrer") Class Listings
-    a.side-nav__item(href=`/reports/invoices/${selectedYear}`  target="_blank" rel="noopener noreferrer") Invoices
-    a.side-nav__item(href=`/reports/payments/${selectedYear}`  target="_blank" rel="noopener noreferrer") Payments
-    a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Scheduled Courses
-    a.side-nav__item(href=`/reports/signUpSheet`  target="_blank" rel="noopener noreferrer") Sign Up Sheet
+    if (isAdmin)
+      a.side-nav__item(href=`/reports/childrenByGrade/${selectedYear}` target="_blank" rel="noopener noreferrer") Children by Grade
+      a.side-nav__item(href=`/reports/classLists/${selectedYear}` target="_blank" rel="noopener noreferrer") Class Listings
+      a.side-nav__item(href=`/reports/invoices/${selectedYear}`  target="_blank" rel="noopener noreferrer") Invoices
+      a.side-nav__item(href=`/reports/payments/${selectedYear}`  target="_blank" rel="noopener noreferrer") Payments
+      a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Scheduled Courses
+      a.side-nav__item(href=`/reports/signUpSheet`  target="_blank" rel="noopener noreferrer") Sign Up Sheet
  
     a.side-nav__item(href=`/class_grid/${selectedYear}`) Class Grid 
