@@ -17,10 +17,13 @@ block content
 
           +input('First Name', child.firstName, 15) 
               
-          .form__outline-box--bottom
-            .form__row.form__item.form__label Sex
-            .form__row.form__item  
-              +radioColumn ('sex', ['M', 'F'], child.sex)    
+          if (isAdmin || isRegistrationOpen)
+            .form__outline-box--bottom
+              .form__row.form__item.form__label Sex
+              .form__row.form__item  
+                  +radioColumn ('sex', ['M', 'F'], child.sex)  
+          else 
+            .form__row.form__label.form__item= `Sex: ${child.sex}`  
 
           .form__outline-box--bottom      
             if (isAdmin || isRegistrationOpen)
@@ -32,8 +35,8 @@ block content
                   +radioColumn('grade',['9th', '10th', '11th', '12th', 'Adult'], child.grade)
             else 
               div 
-                .form__row.form__label.form__item= `Grade*: ${child.grade}`
-                p.form__row.form__item= `*grade levels cannot be changed after close of registration`
+                .form__row.form__label.form__item= `Grade: ${child.grade}`
+
 
           //- +submitCancel(child.isNew)
           .form__row

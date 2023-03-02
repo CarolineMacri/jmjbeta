@@ -1,5 +1,4 @@
-const express = require('express');
-const viewsController = require('../controllers/viewsController/index');
+const express = require('express');const viewsController = require('../controllers/viewsController/index');
 const authController = require('../controllers/authController');
 
 const router = express.Router();
@@ -11,8 +10,6 @@ router.get(
   '/resetPassword/:resetPasswordToken',
   viewsController.getResetPassword
 );
-router.get('/class_grid/:selectedYear?', viewsController.getClassGrid);
-router.get('/reports/courses/:selectedYear?', viewsController.reportCourses);
 
 router.use(authController.isLoggedIn);
 
@@ -174,6 +171,16 @@ router.get(
   authController.protect,
   authController.restrictTo('admin'),
   viewsController.reportClassLists
+);
+router.get( 
+  '/class_grid/:selectedYear?',
+  authController.protect,
+  viewsController.getClassGrid
+);
+router.get(
+  '/reports/courses/:selectedYear?',
+  authController.protect,
+  viewsController.reportCourses
 );
 router.get(
   '/reports/invoices/:selectedYear/:parent?',
