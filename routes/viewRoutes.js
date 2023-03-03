@@ -1,4 +1,5 @@
-const express = require('express');const viewsController = require('../controllers/viewsController/index');
+const express = require('express');
+const viewsController = require('../controllers/viewsController/index');
 const authController = require('../controllers/authController');
 
 const router = express.Router();
@@ -49,8 +50,9 @@ router.get(
   authController.protect,
   viewsController.getNewProfile
 );
+router.get('/new_page', authController.protect, viewsController.getNewPage);
 //---------------------------------------------for testing purposes---------------------------------------------
-//---------------------------------------------for testing purposes---------------------------------------------
+
 router.get(
   '/children_table/:parentId/:selectedYear?',
   authController.protect,
@@ -61,7 +63,6 @@ router.get(
   authController.protect,
   viewsController.getChildProfile
 );
-//---------------------------------------------for testing purposes---------------------------------------------
 
 router.get(
   '/enrollments_table/:selectedYear?',
@@ -95,11 +96,7 @@ router.get(
   authController.protect,
   viewsController.getClassProfile
 );
-// router.get(
-//   "/class_grid/:selectedYear?",
-//   authController.protect,
-//   viewsController.getClassGrid
-// );
+
 router.get(
   '/class_fees/:selectedYear?',
   authController.protect,
@@ -172,7 +169,7 @@ router.get(
   authController.restrictTo('admin'),
   viewsController.reportClassLists
 );
-router.get( 
+router.get(
   '/class_grid/:selectedYear?',
   authController.protect,
   viewsController.getClassGrid

@@ -9,13 +9,13 @@ nav.side-nav
   - var isTeacher = user.currentRoles.includes('teacher')
   - var isSysAdmin = user.currentRoles.includes('sysAdmin')
   - var selectedYear = selectedYear?selectedYear:currentYear  
-  if isAdmin
+  if isSysAdmin
     .side-nav__section 
       h3.side-nav__heading TESTING----
-      a.side-nav__item(href=`/new_profile`) New Profile
-      a.side-nav__item(href=`/news_table`) New Table
-      a.side-nav__item(href=`/child_profile`) Test Child Profile
-      a.side-nav__item(href=`/children_table/${user.id}`) Test Children Table
+      // a.side-nav__item(href=`/new_profile`) New Profile
+      // a.side-nav__item(href=`/news_table`) New Table
+      a.side-nav__item(href=`/new_page`) New Page
+     
   if isParent
     .side-nav__section
       h3.side-nav__heading Family

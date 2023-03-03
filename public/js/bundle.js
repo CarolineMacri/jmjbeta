@@ -18141,7 +18141,105 @@ function index(a) {
     });
   }
 }
-},{"./actions":"components/teachers/actions.js"}],"reports.js":[function(require,module,exports) {
+},{"./actions":"components/teachers/actions.js"}],"components/test/actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.emailReport = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var emailReport = function emailReport(userId) {
+  alert("call to api/v1/user/emailReport/".concat(userId));
+}; // export const updateChild = async (childId, child) => {
+//   const isNewChild = child.isNew == true;
+//   const method = isNewChild ? 'POST' : 'PATCH';
+//   const url = `/api/v1/children${isNewChild ? '' : '/' + childId}`;
+//   try {
+//     const res = await axios({
+//       method,
+//       url,
+//       data: child,
+//     });
+//     if (res.data.status == 'success') {
+//       showAlert(
+//         'success',
+//         `Child ${res.data.data.child.firstName} ${
+//           childId == 'new' ? 'added' : 'updated'
+//         } successfully`
+//       );
+//       window.setTimeout(() => {
+//         location.replace(`/child_profile/${res.data.data.child._id}`);
+//       }, 500);
+//     }
+//   } catch (err) {
+//     showAlert('error', err.response.data.message);
+//   }
+// };
+// export const deleteChildModal = async (row) => {
+//   const childId = row.id;
+//   const [childFirstName, childSex, childGrade, x, y] = [...row.children].map(
+//     (e) => e.innerHTML
+//   );
+//   const deleteModal = document.querySelector('.delete-modal__window');
+//   const paragraphs = deleteModal.getElementsByTagName('p');
+//   paragraphs.item(2).innerHTML =
+//     childFirstName.toUpperCase() + '   ' + childGrade + ' grade';
+//   const deleteChildButton = document.getElementById('deleteChild');
+//   deleteChildButton.addEventListener('click', function () {
+//     deleteChild(childId, childFirstName);
+//   });
+//   deleteModal.classList.toggle('delete-modal__show');
+// };
+// export const deleteChild = async (childId, childFirstName) => {
+//   try {
+//     const url = `/api/v1/children/${childId}`;
+//     const res = await axios({
+//       method: 'DELETE',
+//       url,
+//     });
+//     if (res.status == 204) {
+//       showAlert('success', `${childFirstName} deleted`);
+//       window.setTimeout(() => {
+//         location.reload();
+//       }, 500);
+//     }
+//   } catch (err) {
+//     showAlert('error', err.response.data.message);
+//   }
+// };
+
+
+exports.emailReport = emailReport;
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/test/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _actions = require("./actions");
+
+function index(a) {
+  alert(' in test');
+  var newPage = document.querySelector(".new_page");
+
+  if (newPage) {
+    var emailReportButton = document.getElementById('emailReport');
+    var userId = emailReportButton.dataset.userId;
+    emailReportButton.addEventListener('click', function () {
+      (0, _actions.emailReport)(userId);
+    });
+  }
+}
+},{"./actions":"components/test/actions.js"}],"reports.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -126494,6 +126592,8 @@ var _index7 = require("./components/registrations/index");
 
 var _index8 = require("./components/teachers/index");
 
+var _index9 = require("./components/test/index");
+
 var _actions = require("./components/teachers/actions");
 
 var _reports = require("./reports");
@@ -126516,6 +126616,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index6.index)();
 (0, _index7.index)();
 (0, _index8.index)();
+alert('importing test');
+(0, _index9.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');
 var families = document.querySelector('.families'); // const children = document.querySelector('.children');
@@ -126823,7 +126925,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./components/children/index":"components/children/index.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./components/registrations/index":"components/registrations/index.js","./components/teachers/index":"components/teachers/index.js","./components/teachers/actions":"components/teachers/actions.js","./reports":"reports.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./components/children/index":"components/children/index.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./components/registrations/index":"components/registrations/index.js","./components/teachers/index":"components/teachers/index.js","./components/test/index":"components/test/index.js","./components/teachers/actions":"components/teachers/actions.js","./reports":"reports.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
