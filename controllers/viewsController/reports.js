@@ -1,4 +1,9 @@
+//CORE modules
+const fs = require('fs');
+const path = require("path");
+
 const mongoose = require('mongoose');
+const pug = require('pug');
 
 const catchAsync = require('../../utils/catchAsync');
 const logger = require('../../utils/logger');
@@ -41,6 +46,15 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
   Object.values(gradeLists).forEach((list) => {
     list.sort();
   });
+  console.log(__dirname)
+
+  const html = pug.renderFile (path.join(__dirname,'../../views/reports/childrenByGrade.pug'), {
+    title: 'Children By Grade',
+    gradeLists,
+    years,
+    selectedYear,
+  })
+  fs.writeFileSync(path.join(__dirname,'../../attachments/childrenByGrade.html'),html)
 
   res.status(200).render('reports/childrenByGrade', {
     title: 'Children By Grade',
