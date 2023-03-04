@@ -7,7 +7,7 @@ const factory = require('./controllerFactory');
 
 // UTILS
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 
 exports.getCourse = factory.getOne(Course);
 exports.getAllCourses = factory.getAll(Course);
