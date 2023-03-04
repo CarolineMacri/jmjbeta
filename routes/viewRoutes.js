@@ -182,7 +182,7 @@ router.get(
 router.get(
   '/reports/invoices/:selectedYear/:parent?',
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'sysAdin','parent'),
   viewsController.reportInvoices
 );
 

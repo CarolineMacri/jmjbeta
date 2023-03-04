@@ -6,6 +6,7 @@
 /mongodb/accessData
 /mongodb/playgrounds
 /mongodb/backup json
+/mongodb/dump
 /dump
 stderr.log
 stdout.log

@@ -28,7 +28,7 @@ registrations();
 import { index as teachers } from './components/teachers/index';
 teachers();
 
-alert('importing test')
+//alert('importing test')
 import { index as test } from './components/test/index';
 test();
 

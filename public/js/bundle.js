@@ -18263,7 +18263,7 @@ exports.index = index;
 var _actions = require("./actions");
 
 function index(a) {
-  alert(' in test');
+  //alert(' in test')
   var newPage = document.querySelector(".new_page");
 
   if (newPage) {
@@ -126650,8 +126650,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index5.index)();
 (0, _index6.index)();
 (0, _index7.index)();
-(0, _index8.index)();
-alert('importing test');
+(0, _index8.index)(); //alert('importing test')
+
 (0, _index9.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');

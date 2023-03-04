@@ -1,7 +1,7 @@
 import { emailReport } from './actions';
 
 function index(a) {
-  alert(' in test')
+  //alert(' in test')
   const newPage = document.querySelector(".new_page");
 
   if (newPage) {
