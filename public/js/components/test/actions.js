@@ -1,21 +1,31 @@
 import axios from 'axios';
 import { showAlert } from '../../alerts';
 
-export const emailReport = (userId) => {
-  alert (`call to api/v1/user/emailReport/${userId}`)
-};
+export const emailReport = async (userId) => {
+  alert(`call to api/v1/user/emailReport/${userId}`)
+  
+  const url = `api/v1/users/emailReport/${userId}`;
+  const method = 'POST';
+    try {
+      const res = await axios({
+        method,
+        url,
+      });
 
-// export const updateChild = async (childId, child) => {
-//   const isNewChild = child.isNew == true;
-//   const method = isNewChild ? 'POST' : 'PATCH';
-//   const url = `/api/v1/children${isNewChild ? '' : '/' + childId}`;
+      if (res.data.status == 'success') {
+        showAlert(
+          'success',
+          'report emailed successfully'
+        )
+      }
+  } 
+  catch (err) {
+      showAlert('error', err.response.data.message);
+    }
+  };
 
-//   try {
-//     const res = await axios({
-//       method,
-//       url,
-//       data: child,
-//     });
+
+
 
 //     if (res.data.status == 'success') {
 //       showAlert(

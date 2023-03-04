@@ -17,6 +17,8 @@ router.use(authController.protect);
 router.patch("/updateMe", userController.updateMe);
 router.patch("/updateMyPassword", authController.updatePassword);
 
+router.post("/emailReport/:id", userController.emailReport);
+
 router.use(authController.restrictTo("admin"));
 
 router

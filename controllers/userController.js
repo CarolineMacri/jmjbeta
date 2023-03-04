@@ -1,12 +1,27 @@
 const User = require("../models/userModel");
 const factory = require("./controllerFactory");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const Email = require("../utils/Email");
 
 exports.getUser = factory.getOne(User);
 exports.getAllUsers = factory.getAll(User);
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
 exports.createUser = factory.createOne(User);
+
+exports.emailReport = catchAsync(async (req, res, next) => {
+  console.log(req.body);
+  const userId = req.params.id
+  const user = await User.findById(userId);
+  await new Email(user, '', '').sendReport();
+  return next(
+    new AppError(
+      `sending email to ${user.firstName} has not been implemented`,
+      400
+    )
+  );
+})
 
 // update currently authenticated user to change name and email address
 exports.updateMe = catchAsync(async (req, res, next) => {

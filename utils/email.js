@@ -73,7 +73,7 @@ module.exports = class Email {
       subject,
       html,
       text: htmlToText(html),
-      attachments:[this.attachment]
+      attachments: [{ path: 'C:\\Users\\Caroline\\projects\\jmjbeta\\attachments\\childrenByGrade.html' }]
     };
 
     // create a transport and send email
@@ -95,6 +95,7 @@ module.exports = class Email {
   }
 
   async sendReport() {
+    console.log('----------- in send report');
     await this.send('report', `Here is you report`);
   }
 };

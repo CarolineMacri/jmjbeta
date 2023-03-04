@@ -18155,19 +18155,54 @@ var _alerts = require("../../alerts");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var emailReport = function emailReport(userId) {
-  alert("call to api/v1/user/emailReport/".concat(userId));
-}; // export const updateChild = async (childId, child) => {
-//   const isNewChild = child.isNew == true;
-//   const method = isNewChild ? 'POST' : 'PATCH';
-//   const url = `/api/v1/children${isNewChild ? '' : '/' + childId}`;
-//   try {
-//     const res = await axios({
-//       method,
-//       url,
-//       data: child,
-//     });
-//     if (res.data.status == 'success') {
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var emailReport = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(userId) {
+    var url, method, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            alert("call to api/v1/user/emailReport/".concat(userId));
+            url = "api/v1/users/emailReport/".concat(userId);
+            method = 'POST';
+            _context.prev = 3;
+            _context.next = 6;
+            return (0, _axios.default)({
+              method: method,
+              url: url
+            });
+
+          case 6:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', 'report emailed successfully');
+            }
+
+            _context.next = 13;
+            break;
+
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](3);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 13:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[3, 10]]);
+  }));
+
+  return function emailReport(_x) {
+    return _ref.apply(this, arguments);
+  };
+}(); //     if (res.data.status == 'success') {
 //       showAlert(
 //         'success',
 //         `Child ${res.data.data.child.firstName} ${
