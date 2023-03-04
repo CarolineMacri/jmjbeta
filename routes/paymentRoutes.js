@@ -1,8 +1,12 @@
 const express = require("express");
 const paymentController = require("../controllers/paymentController");
+const authController = require("../controllers/authController");
 
 //ROUTES
 const router = express.Router();
+
+router.use(authController.protect)
+router.use(authController.restrictTo('sysAdmin', 'admin'))
 
 router
   .route("/")
