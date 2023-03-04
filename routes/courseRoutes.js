@@ -16,7 +16,7 @@ router
 router
   .route("/:id")
   .get(courseController.validateOwner, courseController.getCourse)
-  .patch(courseController.validateOwner, courseController.updateCourse)
+  .patch(courseController.validateOwner, courseController.filterCourse,courseController.updateCourse)
   .delete(authController.restrictTo('sysAdmin','admin'), courseController.deleteCourse);
 
 module.exports = router;
