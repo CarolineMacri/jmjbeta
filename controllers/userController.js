@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const factory = require("./controllerFactory");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-const Email = require("../utils/Email");
+const Email = require("../utils/email");
 
 exports.getUser = factory.getOne(User);
 exports.getAllUsers = factory.getAll(User);
