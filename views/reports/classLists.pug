@@ -10,11 +10,15 @@ block content
         .report__title
           h1.class-lists-title(id=teacher) +JMJ+ Homeschool Co-op Class Lists
 
+        -var excludedHours = ['8AM','12PM', 'other'];   
+
         each [hour, locations] of classMap   
-          .report-class-lists-hour
-            each [location, cl] of locations
-              if (Object.entries(cl)!=0)
-                if (cl.enrollments.length)
+          if (!excludedHours.includes(hour))
+            .report-class-lists-hour
+              each [location, cl] of locations
+              
+                if (Object.entries(cl)!=0)
+                  
                   .report-class-lists-box
                     .report-class-lists-course
                       .report-class-lists-course-name
@@ -24,17 +28,19 @@ block content
                       .report-class-lists-course-location
                         h2=location
                     .report-class-lists-enrollments
-          
+                    if (cl.enrollments.length)
                       for e in cl.enrollments
-                        h3.report-class-lists-enrollment=e     
-              else  
-                .report-class-lists-box
-                    .report-class-lists-course
-                      .report-class-lists-course-name
-                        h2 Class Not Scheduled for
-                      .report-class-lists-course-hour
-                        h2=hour
-                      .report-class-lists-course-location
-                        h2=location          
-        
-        
+                        h3.report-class-lists-enrollment=e 
+                    else  
+                        h3.report-class-lists-enrollment NO ENROLLMENTS      
+                //- else  
+                //-   .report-class-lists-box
+                //-       .report-class-lists-course
+                //-         .report-class-lists-course-name
+                //-           h2 Class Not Scheduled for
+                //-         .report-class-lists-course-hour
+                //-           h2=hour
+                //-         .report-class-lists-course-location
+                //-           h2=location          
+          
+          
