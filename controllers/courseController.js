@@ -44,19 +44,23 @@ exports.validateOwner = catchAsync(async (req, res, next) => {
 
 exports.filterCourse = catchAsync(async (req, res, next) => {
   console.log('-----berfore-----------' + JSON.stringify(req.body));
-  
-  const filteredBody = filterObj(
-    req.body,
-    'id',
-    'name',
-    'description',
-    'notes',
-    'semesterMaterialsFee',
-    'texts',
-    'materials'
-  );
-  console.log('-----after-----------' + JSON.stringify(filteredBody));
 
-  req.body = filteredBody;
+  const isAdmin = req.user.currentRoles.includes('admin' || 'sysAdmin');
+
+  if (!isAdmin) {
+    const filteredBody = filterObj(
+      req.body,
+      'id',
+      'name',
+      'description',
+      'notes',
+      'semesterMaterialsFee',
+      'texts',
+      'materials'
+    );
+    console.log('-----after-----------' + JSON.stringify(filteredBody));
+
+    req.body = filteredBody;
+  }
   next();
 })

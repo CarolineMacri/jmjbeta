@@ -10,62 +10,66 @@ block content
         .report__title
           h1.courses-title +JMJ +Homeschool Courses
 
+          -var excludedCourses = ['Lunch',"Mass", "Family Registration"]
+
           for cl in classes
           
             -var course=cl.course
             -var teacher= cl.teacher
-          
-            .report-courses-box
-              .report-courses-course
-                h2= course.name
-              .report-courses-courses
-                .report-courses-row
-                  .report-courses-column
+
+            if (!excludedCourses.includes(course.name))
+              .report-courses-box
+                .report-courses-course
+                  h2= `${course.name}` 
+                    span.report-courses-teacher= ` ${teacher.lastName}, ${teacher.firstName}`
+                .report-courses-courses
+                  .report-courses-row
+                    .report-courses-column
+                      .report-courses-record
+                        .report-courses-record-item__right
+                          p Grade Levels:
+                        .report-courses-record-item
+                          p= course.grade.min + '-' + course.grade.max
+                      .report-courses-record
+                        .report-courses-record-item__right
+                          p Class Size:
+                        .report-courses-record-item
+                          p= course.classSize.min + '-' + course.classSize.max
+                    .report-courses-column
+                      .report-courses-record
+                        .report-courses-record-item__right
+                          p Class Fee:
+                        .report-courses-record-item
+                          p= `$ ${course.classFee}`
+                      .report-courses-record
+                        .report-courses-record-item__right
+                          p Materials Fee:
+                        .report-courses-record-item
+                          p=`$ ${course.semesterMaterialsFee[1]}`
+                  br
+                  .report-courses-row
                     .report-courses-record
-                      .report-courses-record-item__right
-                        p Grade Levels:
-                      .report-courses-record-item
-                        p= course.grade.min + '-' + course.grade.max
+                      if course.materials
+                        .report-courses-record-item
+                          p Materials:
+                        .report-courses-record-item__last
+                          p=course.materials
+                  .report-courses-row
                     .report-courses-record
-                      .report-courses-record-item__right
-                        p Class Size:
-                      .report-courses-record-item
-                        p= course.classSize.min + '-' + course.classSize.max
-                  .report-courses-column
+                      if course.texts
+                        .report-courses-record-item
+                          p Texts:
+                        .report-courses-record-item__last
+                          p=course.texts
+                  .report-courses-row
                     .report-courses-record
-                      .report-courses-record-item__right
-                        p Class Fee:
-                      .report-courses-record-item
-                        p= `$ ${course.classFee}`
-                    .report-courses-record
-                      .report-courses-record-item__right
-                        p Materials Fee:
-                      .report-courses-record-item
-                        p=`$ ${course.semesterMaterialsFee[1]}`
-                br
-                .report-courses-row
-                  .report-courses-record
-                    if course.materials
-                      .report-courses-record-item
-                        p Materials:
-                      .report-courses-record-item__last
-                        p=course.materials
-                .report-courses-row
-                  .report-courses-record
-                     if course.texts
-                      .report-courses-record-item
-                        p Texts:
-                      .report-courses-record-item__last
-                        p=course.texts
-                .report-courses-row
-                  .report-courses-record
-                    if course.notes
-                      .report-courses-record-item
-                        p Notes:
-                      .report-courses-record-item__last
-                        p=course.notes
-                br      
-                .report-courses-row  
-                  .report-courses-record    
-                    br
-                    p=course.description
+                      if course.notes
+                        .report-courses-record-item
+                          p Notes:
+                        .report-courses-record-item__last
+                          p=course.notes
+                  br      
+                  .report-courses-row  
+                    .report-courses-record    
+                      br
+                      p=course.description

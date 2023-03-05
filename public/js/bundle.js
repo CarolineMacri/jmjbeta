@@ -14952,7 +14952,6 @@ function index(a) {
         };
       }
 
-      alert(JSON.stringify(course));
       (0, _actions.updateCourse)(courseId, course, selectedYear, hasOwner);
     });
   }

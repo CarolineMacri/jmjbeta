@@ -32,7 +32,9 @@ block content
                             p.class-grid__course=cl.course.name 
                             p
                             if (cl.course.name=="Mass")
-                                h3(style='color:red; font-weight:bold')= `(St. Anne's Chapel) - please make every effort to atten this special Mass offered just for out JMJ co-op family`
+                                h3(style='color:red; font-weight:bold')= `(St. Anne's Chapel) - please make every effort to attend this special Mass offered just for our JMJ co-op family`
+                            else if (cl.course.name=="Lunch")
+                                h3(style='color:red; font-weight:bold')= Cafeteria   
                             else 
                                 p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
                                 

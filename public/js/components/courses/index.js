@@ -106,8 +106,6 @@ function index(a) {
           max: document.getElementById('classSizeMax').value,
         };
       } 
-
-      alert(JSON.stringify(course));
       
       updateCourse(courseId, course, selectedYear, hasOwner);
     });
