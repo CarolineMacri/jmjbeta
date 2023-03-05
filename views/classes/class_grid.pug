@@ -9,17 +9,33 @@ block content
                 
                 
                 
+                -var locDescription = {'Classroom 1': 'Farthest down hall', "Classroom 2": 'Middle', "Classroom 3":'Closest to Entry','Wysznyski Hall': 'Front Section'}
                 div.grid-container.class-grid(style=gridStyle)
                     for loc in locations
-                        h5.class-grid__location(style=`grid-area:${loc.replace(/ /g,'')}`)=loc
+                        h5.class-grid__location(style=`grid-area:${loc.replace(/ /g,'')}`)=`${loc} ${locDescription[loc]?'(' + locDescription[loc] + ')':''}` 
+                        
+
+
+                    -var displayHours = {'8AM' : "8:15-8:45",'9AM' : "9:00-10:00",'10AM': "10:00-11:00",'11AM':"11:00-12:00",'12PM':"12:00-12:30","1PM" :"12:30-1:30","other":"other"} 
+
                     for hour in hours
-                        h5.class-grid__hour(style=`grid-area:time-${hour}`)=hour
+                        h5.class-grid__hour(style=`grid-area:time-${hour}`)= displayHours[hour]
 
                     for cl in classes
-                        .div.class-grid__item(style=cl.style)
+                        if (cl.course.name=="Mass")
+                            -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length}; grid-row-start:2`
+                        else if (cl.course.name=="Lunch")
+                            -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length}; grid-row-start:6`
+                        else 
+                            -var extraStyle = cl.style
+                        .div.class-grid__item(style=extraStyle)
                             p.class-grid__course=cl.course.name 
                             p
-                            p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
+                            if (cl.course.name=="Mass")
+                                h3(style='color:red; font-weight:bold')= `(St. Anne's Chapel) - please make every effort to atten this special Mass offered just for out JMJ co-op family`
+                            else 
+                                p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
+                                
                    
                    
                 

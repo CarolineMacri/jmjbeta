@@ -59,15 +59,18 @@ export const addTeacher = async (teacherId) => {
 
 export const existsTeacher = async (teacherId) => {
   try {
-    alert('checking for existing teacher record')
-    const url = `/api/v1/teachers/`;
+    alert('checking for existing teacher record' + teacherId)
+    const url = `/api/v1/teachers`;
     const method = 'GET';
-    const data = { teacher: teacherId };
+    const data = {
+      teacher: teacherId
+    };
     const res = await axios({
       method,
       url,
       data,
     });
+    alert(res.data.results);
     if (res.data.status == 'success') { 
       return res.data.results != 0;
     }

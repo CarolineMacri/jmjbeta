@@ -6,16 +6,15 @@ const authController = require("../controllers/authController");
 const router = express.Router();
 
 router.use(authController.protect)
-router.use(authController.restrictTo('sysAdmin', 'admin', 'teacher'))
 
 router
   .route("/")
-  .get(teacherController.getAllTeachers)
-  .post(teacherController.createTeacher);
+  .get(authController.restrictTo('sysAdmin', 'admin'),teacherController.getAllTeachers)
+  .post(authController.restrictTo('sysAdmin', 'admin'),teacherController.createTeacher);
 router
   .route("/:id")
-  .get(teacherController.getTeacher)
-  .patch(teacherController.updateTeacher)
-  .delete(teacherController.deleteTeacher);
+  .get(authController.restrictTo('sysAdmin', 'admin'),teacherController.getTeacher)
+  .patch(authController.restrictTo('sysAdmin', 'admin', 'teacher'), teacherController.updateTeacher)
+  .delete(authController.restrictTo('sysAdmin', 'admin'),teacherController.deleteTeacher);
 
 module.exports = router;

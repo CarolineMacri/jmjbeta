@@ -184,14 +184,22 @@ block content
 
                             .form__item
                                 if isAdmin 
-                                    -var classSize = ['12','10','8', '6']
-                                    label.form__label(for='classSizeMax') Class Size Max * 
-                                        select#classSizeMax(name='classSizeMax')
-                                            for size in classSize 
-                                                if (course.classSize.max == size)
-                                                    option(selected)=size
-                                                else    
-                                                    option()=size
+                                    label.form__label(for='classSizeMax') Class Size Max *
+                                    input#classSizeMax.form__input(list='classSizesMax' name='classSizeMax' value= course.classSize.max)
+
+                                    datalist#classSizesMax  
+                                        -var classSizesMax  = ['6','8','12','16']
+                                        for classSizeMax in classSizesMax
+                                            option(value= (classSizeMax))
+
+                                    //- -var classSize = ['12','10','8', '6','16']
+                                    //- label.form__label(for='classSizeMax') Class Size Max * 
+                                    //-     select#classSizeMax(name='classSizeMax')
+                                    //-         for size in classSize 
+                                    //-             if (course.classSize.max == size)
+                                    //-                 option(selected)=size
+                                    //-             else    
+                                    //-                 option()=size
                                 else
                                     .form__label= `Class Size Max: ${course.classSize.max}`
 

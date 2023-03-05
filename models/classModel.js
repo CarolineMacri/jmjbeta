@@ -4,27 +4,28 @@ const Locations = Object.freeze({
   class1: "Classroom 1",
   class2: "Classroom 2",
   class3: "Classroom 3",
+  conf: "Conference Room",
+  wysz: "Wysznyski Hall",
   cafe1: "Cafeteria 1",
   cafe2: "Cafeteria 2",
   cafe3: "Cafeteria 3",
   cafe4: "Cafeteria 4",
   cafe5: "Cafeteria 5",
   cafe6: "Cafeteria 6",
-  music: "Music Room",
-  conf: "Conference Room",
-  wysz: "Wysznyski Hall",
   wysz2: "Wysznyski Hall 2",
+  music: "Music Room",
   stage: "Stage",
 });
 
 const Times = Object.freeze({
+  8: "8AM",
   9: "9AM",
   10: "10AM",
   11: "11AM",
-  // 12: "12PM",
-  // 13: "1PM",
+  12: "12PM",
+  13: "1PM",
   // 14: "2PM",
-  12: "other"
+  14: "other"
 });
 
 // project modules
@@ -56,7 +57,7 @@ const classSchema = new mongoose.Schema(
       required: true,
       default: Object.values(Locations)[0],
     },
-    time: { type: Number, min: 9, max: 15, required: true },
+    time: { type: Number, min: 8, max: 15, required: true },
     year: { type: String, required: true },
   },
   {

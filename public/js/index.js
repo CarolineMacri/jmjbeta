@@ -351,7 +351,8 @@ if (users) {
 
     updateUser(id, data).then((newId) => {
       if (roles.includes('parent')) {
-        if (id == 'new') {
+        alert('im a parent')
+        if (id == 'new') { 
           addFamily(newId, selectedYear);
         } else {
           existsFamily(id).then((exists) => {
@@ -363,7 +364,10 @@ if (users) {
       }
 
       if (roles.includes('teacher')) {
+        
+        alert('im a teacher')
         if (id == 'new') {
+          alert( 'adding (id=' + id + ' teacher')
           addTeacher(newId);
         } else {
           existsTeacher(id).then((exists) => {

@@ -17988,8 +17988,8 @@ var existsTeacher = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            alert('checking for existing teacher record');
-            url = "/api/v1/teachers/";
+            alert('checking for existing teacher record' + teacherId);
+            url = "/api/v1/teachers";
             method = 'GET';
             data = {
               teacher: teacherId
@@ -18003,29 +18003,30 @@ var existsTeacher = /*#__PURE__*/function () {
 
           case 7:
             res = _context3.sent;
+            alert(res.data.results);
 
             if (!(res.data.status == 'success')) {
-              _context3.next = 10;
+              _context3.next = 11;
               break;
             }
 
             return _context3.abrupt("return", res.data.results != 0);
 
-          case 10:
-            _context3.next = 15;
+          case 11:
+            _context3.next = 16;
             break;
 
-          case 12:
-            _context3.prev = 12;
+          case 13:
+            _context3.prev = 13;
             _context3.t0 = _context3["catch"](0);
             (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
-          case 15:
+          case 16:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 12]]);
+    }, _callee3, null, [[0, 13]]);
   }));
 
   return function existsTeacher(_x3) {
@@ -126935,6 +126936,8 @@ if (users) {
 
     (0, _users.updateUser)(id, data).then(function (newId) {
       if (roles.includes('parent')) {
+        alert('im a parent');
+
         if (id == 'new') {
           (0, _family.addFamily)(newId, selectedYear);
         } else {
@@ -126947,7 +126950,10 @@ if (users) {
       }
 
       if (roles.includes('teacher')) {
+        alert('im a teacher');
+
         if (id == 'new') {
+          alert('adding (id=' + id + ' teacher');
           (0, _actions.addTeacher)(newId);
         } else {
           (0, _actions.existsTeacher)(id).then(function (exists) {

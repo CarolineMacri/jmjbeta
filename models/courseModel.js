@@ -52,7 +52,7 @@ const courseSchema = new mongoose.Schema(
       1: { type: Number, default: 0 },
       2: { type: Number, default: 0 },
     },
-    classFee: Number,
+    classFee: { type: Number, default: 5.00 },
     classSize: {
       min: { type: Number, default: 4 },
       max: { type: Number, default: 12 },
