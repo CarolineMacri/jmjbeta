@@ -69,6 +69,7 @@ module.exports = class Email {
         subject,
       }
     );
+  
 
     //2) define the email options
     const mailOptions = {
