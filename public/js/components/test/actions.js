@@ -22,7 +22,17 @@ export const emailReport = async (userId) => {
   catch (err) {
       showAlert('error', err.response.data.message);
     }
-  };
+};
+  
+export const resetPasswords = async (selectedMemberIds) => {
+  alert("you clicked reset Passwords")
+  
+}
+export const selectAllMembers = (members) => {
+  
+  alert("you selected" + members)
+
+}
 
 
 

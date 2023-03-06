@@ -1,7 +1,15 @@
 extends ../base
 
 block content 
-     section.new_page
-          h1 PUT Test Code here
-          
-          p#emailReport.form__button(data-user-id=user._id) emailReport signUpSheet
+	section.new_page.page__content
+		h1 PUT Test Code here
+		
+		p#emailReport.form__button(data-user-id=user._id) emailReport signUpSheet
+
+		select#members(name='members' multiple size=Math.min(members.length,12))
+			for member in members
+				option(value=member.id name='member' )=`${member.lastName}, ${member.firstName}`
+		
+		p#resetPasswords.form__button Reset Selected Passwords
+		p#selectAllMembers.form__button Select All Members
+		

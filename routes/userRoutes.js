@@ -19,7 +19,9 @@ router.patch("/updateMyPassword", authController.updatePassword);
 
 router.post("/emailReport/:id", userController.emailReport);
 
-router.use(authController.restrictTo("admin"));
+router.use(authController.restrictTo("admin", "sysAdmin"));
+
+router.patch("/adminResetPassword/:id", authController.adminResetPassword);
 
 router
   .route("/")
@@ -27,8 +29,8 @@ router
   .post(userController.createUser);
 router
   .route("/:id")
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get( userController.getUser)
+  .patch( userController.updateUser)
+  .delete( userController.deleteUser);
 
 module.exports = router;

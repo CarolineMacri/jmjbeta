@@ -16764,10 +16764,12 @@ function index(a) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 e.preventDefault();
-                email = document.getElementById("email").value;
-                alert('this function is temporarily disabled'); // await forgotMyPassword(email);
+                email = document.getElementById("email").value; //alert ('this function is temporarily disabled')
 
-              case 3:
+                _context2.next = 4;
+                return (0, _actions.forgotMyPassword)(email);
+
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -18147,7 +18149,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.emailReport = void 0;
+exports.selectAllMembers = exports.resetPasswords = exports.emailReport = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -18202,7 +18204,36 @@ var emailReport = /*#__PURE__*/function () {
   return function emailReport(_x) {
     return _ref.apply(this, arguments);
   };
-}(); //     if (res.data.status == 'success') {
+}();
+
+exports.emailReport = emailReport;
+
+var resetPasswords = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(selectedMemberIds) {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            alert("you clicked reset Passwords");
+
+          case 1:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function resetPasswords(_x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.resetPasswords = resetPasswords;
+
+var selectAllMembers = function selectAllMembers(members) {
+  alert("you selected" + members);
+}; //     if (res.data.status == 'success') {
 //       showAlert(
 //         'success',
 //         `Child ${res.data.data.child.firstName} ${
@@ -18251,7 +18282,7 @@ var emailReport = /*#__PURE__*/function () {
 // };
 
 
-exports.emailReport = emailReport;
+exports.selectAllMembers = selectAllMembers;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/test/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -18268,9 +18299,25 @@ function index(a) {
 
   if (newPage) {
     var emailReportButton = document.getElementById('emailReport');
+    var resetPasswordsButton = document.getElementById('resetPasswords');
+    var selectAllMembersButton = document.getElementById('selectAllMembers');
     var userId = emailReportButton.dataset.userId;
     emailReportButton.addEventListener('click', function () {
       (0, _actions.emailReport)(userId);
+    });
+    resetPasswordsButton.addEventListener('click', function () {
+      var selectedMembers = document.getElementsByName('member');
+      var selectedMemberIds = Array.from(selectedMembers).filter(function (el) {
+        return el.selected;
+      }).map(function (el) {
+        return el.value;
+      });
+      (0, _actions.resetPasswords)(selectedMemberIds);
+    });
+    selectAllMembersButton.addEventListener('click', function () {
+      selectedMembers.forEach(function (el) {
+        el.selected = true;
+      });
     });
   }
 }

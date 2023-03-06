@@ -1,6 +1,7 @@
 //NODE modules
 const { promisify } = require("util");
 const mongoose = require("mongoose");
+const randomize = require("randomatic")
 
 //NPM modules
 const crypto = require("crypto");
@@ -230,6 +231,8 @@ exports.restrictTo = (...restrictedRoles) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //console.log("/n/n/n ----------------------------------- /n" + req.body.email);
   const user = await User.findOne({ email: req.body.email });
+  const currentYear = await Year.getCurrentYearValue();
+  res.locals.currentYear = currentYear; //need this for the footer//
 
   if (!user) {
     return next(new AppError("There is no user with that email", 404));
@@ -276,6 +279,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     passwordResetExpires: { $gt: Date.now() },
   });
 
+  const currentYear = await Year.getCurrentYearValue();
+  res.locals.currentYear = currentYear;
+
   if (!user) {
     return next(new AppError("Token is invalid or has expired", 400));
   }
@@ -299,4 +305,22 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   createSendToken(user, 200, req, res);
+});
+
+exports.adminResetPassword = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  const randomPassword = randomize('Aa0!', 13);
+
+  const ok = await User.setOneUserPassword(user.email, randomPassword);
+
+  if (!ok) {
+    return next(new AppError(`Password not updated for ${user.email}`));
+  }
+
+  const data = {};
+  data.user = user;
+  res.status(200).json({
+    status: 'success',
+    data
+  })
 });
