@@ -29,8 +29,10 @@ module.exports = class Email {
       transporter.verify(function (error, success) {
         if (error) {
           console.log('Transporter' + error);
+          logger.log('Transporter' + error);
         } else {
           console.log('JMJ coop is ready to take our messages');
+          logger.log('JMJ coop is ready to take our messages');
         }
       });
       return transporter;
@@ -48,8 +50,10 @@ module.exports = class Email {
     transporter.verify(function (error, success) {
       if (error) {
         console.log('Transporter' + error);
+        logger.log('Transporter' + error);
       } else {
         console.log('Mailtrap is ready to take our messages');
+        logger.log('Mailtrap is ready to take our messages');
       }
     });
     return transporter;
@@ -87,6 +91,7 @@ module.exports = class Email {
 
   async sendPasswordReset() {
     console.log('---------------------------------IN Passowrd reset');
+    logger.log('---------------------------------IN Passowrd reset');
 
     await this.send(
       'passwordReset',
