@@ -60,7 +60,7 @@ exports.getPaymentsTable = catchAsync(async (req, res, next) => {
 });
 
 exports.getPaymentProfile = catchAsync(async (req, res, next) => {
-  const Payment = require('../../models/paymentModel');
+  const Payment = require('../../models/paymentModel'); 
   const User = require('../../models/userModel');
 
   let { paymentId, selectedYear, parentId } = req.params;

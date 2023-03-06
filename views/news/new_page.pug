@@ -6,7 +6,7 @@ block content
 		
 		p#emailReport.form__button(data-user-id=user._id) emailReport signUpSheet
 
-		select#members(name='members' multiple size=Math.min(members.length,12))
+		select#members(name='selectAllMembers' multiple size=Math.min(members.length,12))
 			for member in members
 				option(value=member.id name='member' )=`${member.lastName}, ${member.firstName}`
 		

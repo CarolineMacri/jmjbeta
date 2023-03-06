@@ -1,19 +1,20 @@
 //NODE modules
-const { promisify } = require("util");
-const mongoose = require("mongoose");
-const randomize = require("randomatic")
+
+const { promisify } = require('util');
+const mongoose = require('mongoose');
+const randomize = require('randomatic');
 
 //NPM modules
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-const logger = require("../utils/logger");
-const Email = require("../utils/email");
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const logger = require('../utils/logger');
+const Email = require('../utils/email');
 
 //Mongoose models
-const User = require("../models/userModel");
-const Year = require("../models/yearModel");
+const User = require('../models/userModel');
+const Year = require('../models/yearModel');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -33,12 +34,12 @@ const createSendToken = (user, statusCode, req, res) => {
   // cookie can only be sent on an https connection
   // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // because it will only work in https
 
-  res.cookie("jwt", token, cookieOptions);
+  res.cookie('jwt', token, cookieOptions);
 
   user.password = undefined; //doesn't show up in response
 
   res.status(statusCode).json({
-    status: "success",
+    status: 'success',
     token,
     data: {
       user,
@@ -67,7 +68,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordChangedAt,
   });
 
-  const url = `${req.protocol}://${req.get("host")}/me`;
+  const url = `${req.protocol}://${req.get('host')}/me`;
 
   await new Email(newUser, url).sendWelcome();
 
@@ -76,20 +77,20 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async function (req, res, next) {
   logger.log(
-    "in authcontroller login and mongoose connections = " +
+    'in authcontroller login and mongoose connections = ' +
       JSON.stringify(mongoose.connections.length)
   );
 
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new AppError("Please provide username and password", 400));
+    return next(new AppError('Please provide username and password', 400));
   }
 
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ email }).select('+password');
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Incorrect email or password", 401));
+    return next(new AppError('Incorrect email or password', 401));
   }
 
   // temporary
@@ -100,13 +101,13 @@ exports.login = catchAsync(async function (req, res, next) {
 });
 
 exports.logout = (req, res) => {
-  res.cookie("jwt", "loggedout", {
+  res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
   });
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
   });
 };
 
@@ -147,14 +148,14 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.headers.authorization.startsWith('Bearer')
   ) {
-    token = req.headers.authorization.split(" ")[1];
+    token = req.headers.authorization.split(' ')[1];
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
 
-  if (!token || token === "null") {
+  if (!token || token === 'null') {
     // return next(
     //   new AppError('You are not logged in! Please log in to get access', 401)
     // );
@@ -162,10 +163,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     res
       .status(308)
       .set(
-        "Content-Security-Policy",
+        'Content-Security-Policy',
         "connect-src 'self' https://cdnjs.cloudflare.com"
       )
-      .redirect("/login");
+      .redirect('/login');
   }
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -174,24 +175,24 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (!currentUser) {
     return next(
-      new AppError("The user belonging to the token no longer exists", 401)
+      new AppError('The user belonging to the token no longer exists', 401)
     );
   }
 
   if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
       new AppError(
-        "User changed the password recentl!  Please log in again.",
+        'User changed the password recentl!  Please log in again.',
         401
       )
     );
   }
 
-  // check to see if user is registered for this school 
+  // check to see if user is registered for this school
   var isCurrentlyRegistered = await currentUser.isCurrentlyRegistered();
   if (!isCurrentlyRegistered) {
     return next(
-      new AppError("User is not currently registered for this school year", 401)
+      new AppError('User is not currently registered for this school year', 401)
     );
   }
   currentUser.currentlyRegistered = true;
@@ -200,7 +201,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   var currentRoles = await currentUser.getCurrentRoles();
   if (!currentRoles) {
     return next(
-      new AppError("User is has no roles set for this school year", 401)
+      new AppError('User is has no roles set for this school year', 401)
     );
   }
   currentUser.currentRoles = currentRoles;
@@ -221,7 +222,7 @@ exports.restrictTo = (...restrictedRoles) => {
     );
     if (okRoles.length === 0) {
       return next(
-        new AppError("You do not have permission to perform this action", 403)
+        new AppError('You do not have permission to perform this action', 403)
       );
     }
     next();
@@ -235,7 +236,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   res.locals.currentYear = currentYear; //need this for the footer//
 
   if (!user) {
-    return next(new AppError("There is no user with that email", 404));
+    return next(new AppError('There is no user with that email', 404));
   }
 
   const resetToken = await user.createPasswordResetToken();
@@ -244,15 +245,15 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const newUser = await User.findOne({ email: req.body.email });
   //("/n/n/n ----------------------------------- /n" + newUser.email + "   " + newUser.passwordResetToken);
   const resetUrl = `${req.protocol}://${req.get(
-    "host"
+    'host'
   )}/resetPassword/${resetToken}`;
 
   // Send it to the user's email
   try {
     await new Email(user, resetUrl).sendPasswordReset();
     res.status(200).json({
-      status: "success",
-      message: "Token sent to email",
+      status: 'success',
+      message: 'Token sent to email',
     });
   } catch (err) {
     user.passwordResetToken = undefined;
@@ -261,7 +262,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     return next(
       new AppError(
-        "There was an error sending the email. Try again later!",
+        'There was an error sending the email. Try again later!',
         500
       )
     );
@@ -270,9 +271,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   const hashedToken = crypto
-    .createHash("sha256")
+    .createHash('sha256')
     .update(req.params.token)
-    .digest("hex");
+    .digest('hex');
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
@@ -283,7 +284,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   res.locals.currentYear = currentYear;
 
   if (!user) {
-    return next(new AppError("Token is invalid or has expired", 400));
+    return next(new AppError('Token is invalid or has expired', 400));
   }
 
   user.password = req.body.password;
@@ -296,9 +297,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select("+password");
+  const user = await User.findById(req.user.id).select('+password');
   if (!(await user.correctPassword(req.body.password, user.password))) {
-    return next(new AppError("Invalid passowrd", 401));
+    return next(new AppError('Invalid passowrd', 401));
   }
   user.password = req.body.newPassword;
   user.passwordConfirm = req.body.newPasswordConfirm;
@@ -308,19 +309,22 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 });
 
 exports.adminResetPassword = catchAsync(async (req, res, next) => {
+  console.log(
+    '-------------------------------in admin reset password -------------------------------'
+  );
   const user = await User.findById(req.params.id);
   const randomPassword = randomize('Aa0!', 13);
 
-  const ok = await User.setOneUserPassword(user.email, randomPassword);
+  const x = await User.setOneUserPassword(user.email, randomPassword);
+  
 
-  if (!ok) {
-    return next(new AppError(`Password not updated for ${user.email}`));
-  }
+  const updatedUser = await User.findById(req.params.id);
+
 
   const data = {};
-  data.user = user;
+  data.user = updatedUser;
   res.status(200).json({
     status: 'success',
     data
-  })
+  });
 });

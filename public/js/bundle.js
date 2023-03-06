@@ -18149,7 +18149,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectAllMembers = exports.resetPasswords = exports.emailReport = void 0;
+exports.resetPassword = exports.emailReport = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -18208,81 +18208,52 @@ var emailReport = /*#__PURE__*/function () {
 
 exports.emailReport = emailReport;
 
-var resetPasswords = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(selectedMemberIds) {
+var resetPassword = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(selectedMemberId) {
+    var url, method, res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            alert("you clicked reset Passwords");
+            url = "api/v1/users/adminResetPassword/".concat(selectedMemberId);
+            method = 'PATCH';
+            _context2.prev = 2;
+            _context2.next = 5;
+            return (0, _axios.default)({
+              method: method,
+              url: url
+            });
 
-          case 1:
+          case 5:
+            res = _context2.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "Password successfully randomized ".concat(res.data.data.user.lastName));
+            } //}
+
+
+            _context2.next = 12;
+            break;
+
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2["catch"](2);
+            (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
+
+          case 12:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[2, 9]]);
   }));
 
-  return function resetPasswords(_x2) {
+  return function resetPassword(_x2) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-exports.resetPasswords = resetPasswords;
-
-var selectAllMembers = function selectAllMembers(members) {
-  alert("you selected" + members);
-}; //     if (res.data.status == 'success') {
-//       showAlert(
-//         'success',
-//         `Child ${res.data.data.child.firstName} ${
-//           childId == 'new' ? 'added' : 'updated'
-//         } successfully`
-//       );
-//       window.setTimeout(() => {
-//         location.replace(`/child_profile/${res.data.data.child._id}`);
-//       }, 500);
-//     }
-//   } catch (err) {
-//     showAlert('error', err.response.data.message);
-//   }
-// };
-// export const deleteChildModal = async (row) => {
-//   const childId = row.id;
-//   const [childFirstName, childSex, childGrade, x, y] = [...row.children].map(
-//     (e) => e.innerHTML
-//   );
-//   const deleteModal = document.querySelector('.delete-modal__window');
-//   const paragraphs = deleteModal.getElementsByTagName('p');
-//   paragraphs.item(2).innerHTML =
-//     childFirstName.toUpperCase() + '   ' + childGrade + ' grade';
-//   const deleteChildButton = document.getElementById('deleteChild');
-//   deleteChildButton.addEventListener('click', function () {
-//     deleteChild(childId, childFirstName);
-//   });
-//   deleteModal.classList.toggle('delete-modal__show');
-// };
-// export const deleteChild = async (childId, childFirstName) => {
-//   try {
-//     const url = `/api/v1/children/${childId}`;
-//     const res = await axios({
-//       method: 'DELETE',
-//       url,
-//     });
-//     if (res.status == 204) {
-//       showAlert('success', `${childFirstName} deleted`);
-//       window.setTimeout(() => {
-//         location.reload();
-//       }, 500);
-//     }
-//   } catch (err) {
-//     showAlert('error', err.response.data.message);
-//   }
-// };
-
-
-exports.selectAllMembers = selectAllMembers;
+exports.resetPassword = resetPassword;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/test/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -18295,7 +18266,7 @@ var _actions = require("./actions");
 
 function index(a) {
   //alert(' in test')
-  var newPage = document.querySelector(".new_page");
+  var newPage = document.querySelector('.new_page');
 
   if (newPage) {
     var emailReportButton = document.getElementById('emailReport');
@@ -18307,14 +18278,14 @@ function index(a) {
     });
     resetPasswordsButton.addEventListener('click', function () {
       var selectedMembers = document.getElementsByName('member');
-      var selectedMemberIds = Array.from(selectedMembers).filter(function (el) {
-        return el.selected;
-      }).map(function (el) {
-        return el.value;
+      selectedMembers.forEach(function (el) {
+        if (el.selected) if (confirm("Are you sure you want reset password for".concat(el.innerHTML.toUpperCase(), "?"))) {
+          (0, _actions.resetPassword)(el.value);
+        }
       });
-      (0, _actions.resetPasswords)(selectedMemberIds);
     });
     selectAllMembersButton.addEventListener('click', function () {
+      var selectedMembers = document.getElementsByName('member');
       selectedMembers.forEach(function (el) {
         el.selected = true;
       });

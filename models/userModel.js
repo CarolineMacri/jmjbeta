@@ -142,6 +142,8 @@ userSchema.statics.setOneUserPassword = async function (email, password) {
     { email: email },
     { password: newPassword }
   );
+  console.log('set the user password')
+  return;
 };
 
 userSchema.methods.createPasswordResetToken = async function () {

@@ -1,97 +1,42 @@
-import axios from 'axios';
-import { showAlert } from '../../alerts';
+import axios from 'axios';import { showAlert } from '../../alerts';
 
 export const emailReport = async (userId) => {
-  alert(`call to api/v1/user/emailReport/${userId}`)
-  
+  alert(`call to api/v1/user/emailReport/${userId}`);
+
   const url = `api/v1/users/emailReport/${userId}`;
   const method = 'POST';
-    try {
-      const res = await axios({
-        method,
-        url,
-      });
+  try {
+    const res = await axios({
+      method,
+      url,
+    });
 
-      if (res.data.status == 'success') {
-        showAlert(
-          'success',
-          'report emailed successfully'
-        )
-      }
-  } 
-  catch (err) {
-      showAlert('error', err.response.data.message);
+    if (res.data.status == 'success') {
+      showAlert('success', 'report emailed successfully');
     }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
 };
-  
-export const resetPasswords = async (selectedMemberIds) => {
-  alert("you clicked reset Passwords")
-  
-}
-export const selectAllMembers = (members) => {
-  
-  alert("you selected" + members)
 
-}
+export const resetPassword = async (selectedMemberId) => {
+  const url = `api/v1/users/adminResetPassword/${selectedMemberId}`;
+  const method = 'PATCH';
+  try {
+    const res = await axios({
+      method,
+      url,
+    });
 
+    if (res.data.status == 'success') {
+      showAlert(
+        'success',
+        `Password successfully randomized ${res.data.data.user.lastName}`
+      );
+    }
 
-
-
-//     if (res.data.status == 'success') {
-//       showAlert(
-//         'success',
-//         `Child ${res.data.data.child.firstName} ${
-//           childId == 'new' ? 'added' : 'updated'
-//         } successfully`
-//       );
-
-//       window.setTimeout(() => {
-//         location.replace(`/child_profile/${res.data.data.child._id}`);
-//       }, 500);
-//     }
-//   } catch (err) {
-//     showAlert('error', err.response.data.message);
-//   }
-// };
-
-// export const deleteChildModal = async (row) => {
-//   const childId = row.id;
-
-//   const [childFirstName, childSex, childGrade, x, y] = [...row.children].map(
-//     (e) => e.innerHTML
-//   );
-
-//   const deleteModal = document.querySelector('.delete-modal__window');
-
-//   const paragraphs = deleteModal.getElementsByTagName('p');
-//   paragraphs.item(2).innerHTML =
-//     childFirstName.toUpperCase() + '   ' + childGrade + ' grade';
-
-//   const deleteChildButton = document.getElementById('deleteChild');
-
-//   deleteChildButton.addEventListener('click', function () {
-//     deleteChild(childId, childFirstName);
-//   });
-
-//   deleteModal.classList.toggle('delete-modal__show');
-// };
-
-// export const deleteChild = async (childId, childFirstName) => {
-//   try {
-//     const url = `/api/v1/children/${childId}`;
-
-//     const res = await axios({
-//       method: 'DELETE',
-//       url,
-//     });
-
-//     if (res.status == 204) {
-//       showAlert('success', `${childFirstName} deleted`);
-//       window.setTimeout(() => {
-//         location.reload();
-//       }, 500);
-//     }
-//   } catch (err) {
-//     showAlert('error', err.response.data.message);
-//   }
-// };
+    //}
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
