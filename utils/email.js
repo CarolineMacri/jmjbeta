@@ -77,7 +77,6 @@ module.exports = class Email {
       subject,
       html,
       text: htmlToText(html),
-      attachments: [{ path: 'C:\\Users\\Caroline\\projects\\jmjbeta\\attachments\\childrenByGrade.html' }]
     };
 
     // create a transport and send email
