@@ -20,7 +20,7 @@
   "author": "Caroline Macri <fishknit1@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bcryptjs": "^2.4.3",
     "camelcase-es5": "^5.3.2-es5",
     "compression": "^1.7.4",
