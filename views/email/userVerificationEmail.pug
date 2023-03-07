@@ -3,7 +3,7 @@ extends baseEmail
 block content
   
   h2 Please verify your JMJ co-op family information 
-  h2= currentYear
+   
   p= `${user.lastName}, ${user.firstName}`
   p= user.email
   p= user.cellPhone
@@ -23,5 +23,7 @@ block content
       
         td=child.sex
         td=child.grade
+
+        
   
   
