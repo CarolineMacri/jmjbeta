@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const mongoose = require("mongoose");
+const Family = require("../models/familyModel");
 const factory = require("./controllerFactory");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
@@ -11,17 +13,16 @@ exports.deleteUser = factory.deleteOne(User);
 exports.createUser = factory.createOne(User);
 
 exports.emailRegistrationVerification = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  const userId = req.params.id
-  const user = await User.findById(userId);
-  console.log(user);
-  await new Email(user, '', '').sendRegistrationVerification();
-  return next(
-    new AppError(
-      `sending email to ${user.firstName} has not been implemented`,
-      400
-    )
-  );
+
+  const userId = req.params.id;
+  const currentYear = res.locals.currentYear;
+  const user = await User.findById(userId)
+  const family = await Family.findOne({ "parent": mongoose.Types.ObjectId(userId), "year": currentYear }).populate('children')
+
+  await new Email(user, '', '').sendRegistrationVerification(family.children);
+  res.status(200).json({
+    status: "success",   
+  });
 })
 
 // update currently authenticated user to change name and email address

@@ -1,5 +1,4 @@
-const catchAsync = require('../../utils/catchAsync');
-const Year = require('../../models/yearModel');
+const catchAsync = require('../../utils/catchAsync');const Year = require('../../models/yearModel');
 const User = require('../../models/userModel');
 
 exports.getNewsTable = catchAsync(async (req, res, next) => {
@@ -21,8 +20,8 @@ exports.getNewProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.getNewPage = catchAsync(async (req, res, next) => {
- 
-  const members = await User.find().sort({lastName:1, firstName: 1})
+  const fieldName = `yearRoles.${res.locals.currentYear}`;
+  const members = await User.find().exists(fieldName, true).sort('lastName');
 
   res.status(200).render('news/new_page', {
     title: 'New Page',

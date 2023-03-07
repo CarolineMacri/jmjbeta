@@ -102,17 +102,17 @@ module.exports = class Email {
     await transporter.sendMail(mailOptions)
   }
 
-  async sendRegistrationVerification() { 
-    console.log ('--------' + this.user)
+  async sendRegistrationVerification(children) { 
+    
     const html = pug.renderFile(
       path.join(__dirname + '/../views/email/userVerificationEmail.pug'),
-      
       {
         user: this.user,
-        subject: 'Registration Verification'
+        subject: 'Registration Verification',
+        children
       }
     );
-    console.log(html)
+
     await this.sendHtml(html, 'Registration Verification')
   }
 

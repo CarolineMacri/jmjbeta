@@ -2,9 +2,26 @@ extends baseEmail
 
 block content
   
-  h1 Please verify
-  p= user.firstName
+  h2 Please verify your JMJ co-op family information 
+  h2= currentYear
+  p= `${user.lastName}, ${user.firstName}`
   p= user.email
   p= user.cellPhone
+  table
+    tr
+      th.align-left Name
+      th.align-left Sex
+      th.align-left Grade
+
+    for child in children
+      -var isInitial = (child.firstName.length <2)
+      tr
+        if (isInitial)
+          td.red= '*' + child.firstName + ' (need name)'
+        else  
+          td=child.firstName  
+      
+        td=child.sex
+        td=child.grade
   
   
