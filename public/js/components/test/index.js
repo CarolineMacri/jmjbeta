@@ -1,5 +1,4 @@
-import {
-  emailReport,
+import {  emailReport,
   resetPassword,
   emailRegistrationVerification,
 } from './actions';
@@ -52,7 +51,6 @@ function index(a) {
               `Are you want to send registration verification email for ${el.innerHTML.toUpperCase()}?`
             )
           ) {
-            alert('sending email')
             emailRegistrationVerification(el.value);
           }
       });

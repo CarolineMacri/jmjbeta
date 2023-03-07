@@ -1,4 +1,5 @@
-import { changeChildrenYear, updateChild, deleteChildModal } from './actions';function index(a) {
+import { changeChildrenYear, updateChild, deleteChildModal } from './actions';
+function index(a) {
   const children = document.querySelector('.children');
   const childProfile = document.querySelector('.child-profile');
 
@@ -75,7 +76,7 @@ import { changeChildrenYear, updateChild, deleteChildModal } from './actions';fu
 
       // there will only be a radio box if grade level is editable
       const grades = document.getElementsByName('grade');
-      
+
       if (grades) {
         var g;
         var grade = '';
@@ -113,7 +114,6 @@ import { changeChildrenYear, updateChild, deleteChildModal } from './actions';fu
         child.year = year;
       }
 
-      alert(JSON.stringify(child));
       updateChild(childId, child);
     });
   }

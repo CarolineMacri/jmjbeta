@@ -1,4 +1,4 @@
-/* eslint-disable */import 'core-js/stable';
+/* eslint-disable */ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import { changeFamilyYear, addFamily, existsFamily } from './family';
@@ -28,7 +28,6 @@ registrations();
 import { index as teachers } from './components/teachers/index';
 teachers();
 
-//alert('importing test')
 import { index as test } from './components/test/index';
 test();
 
@@ -50,7 +49,7 @@ import {
   updateUser,
   deleteUserModal,
 } from './users';
-import { ObjectId } from 'mongodb'; 
+import { ObjectId } from 'mongodb';
 //import { fill } from 'core-js/core/array';
 
 const family = document.querySelector('.family');
@@ -62,7 +61,7 @@ const families = document.querySelector('.families');
 
 const users = document.querySelector('.users');
 const userProfileForm = document.querySelector('.user-profile__form');
-const reportChildren = document.querySelector('.report-children')
+const reportChildren = document.querySelector('.report-children');
 const reportInvoices = document.querySelector('.report-invoices');
 const reportPayments = document.querySelector('.report-payments');
 const reportClassLists = document.querySelector('.report-class-lists');
@@ -129,7 +128,6 @@ if (reportInvoices) {
 }
 
 if (reportPayments) {
-  alert('report payments')
   const yearSelect = document.getElementById('year-select');
   const teacherId = document.querySelector('.payments-title').id;
   yearSelect.addEventListener('change', (e) => {
@@ -351,8 +349,7 @@ if (users) {
 
     updateUser(id, data).then((newId) => {
       if (roles.includes('parent')) {
-        alert('im a parent')
-        if (id == 'new') { 
+        if (id == 'new') {
           addFamily(newId, selectedYear);
         } else {
           existsFamily(id).then((exists) => {
@@ -364,10 +361,8 @@ if (users) {
       }
 
       if (roles.includes('teacher')) {
-        
-        alert('im a teacher')
         if (id == 'new') {
-          alert( 'adding (id=' + id + ' teacher')
+          alert('adding (id=' + id + ' teacher');
           addTeacher(newId);
         } else {
           existsTeacher(id).then((exists) => {
