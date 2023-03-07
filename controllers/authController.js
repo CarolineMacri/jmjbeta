@@ -1,5 +1,4 @@
 //NODE modules
-
 const { promisify } = require('util');
 const mongoose = require('mongoose');
 const randomize = require('randomatic');
@@ -235,6 +234,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const currentYear = await Year.getCurrentYearValue();
   res.locals.currentYear = currentYear; //need this for the footer//
 
+  if (user.yearRoles.get(currentYear).includes('parent')) {
+    return next(new AppError('This function currently limited to teachers and administrators', 400));
+  }
+
   if (!user) {
     return next(new AppError('There is no user with that email', 404));
   }
@@ -316,15 +319,13 @@ exports.adminResetPassword = catchAsync(async (req, res, next) => {
   const randomPassword = randomize('Aa0!', 13);
 
   const x = await User.setOneUserPassword(user.email, randomPassword);
-  
 
   const updatedUser = await User.findById(req.params.id);
-
 
   const data = {};
   data.user = updatedUser;
   res.status(200).json({
     status: 'success',
-    data
+    data,
   });
 });
