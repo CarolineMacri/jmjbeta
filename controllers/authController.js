@@ -234,7 +234,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const currentYear = await Year.getCurrentYearValue();
   res.locals.currentYear = currentYear; //need this for the footer//
 
-  if (user.yearRoles.get(currentYear).includes('parent')) {
+  if (!(user.yearRoles.get(currentYear).includes('teacher') || user.yearRoles.get(currentYear).includes('admin')) ) { 
     return next(new AppError('This function currently limited to teachers and administrators', 400));
   }
 
