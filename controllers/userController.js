@@ -10,11 +10,12 @@ exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
 exports.createUser = factory.createOne(User);
 
-exports.emailReport = catchAsync(async (req, res, next) => {
+exports.emailRegistrationVerification = catchAsync(async (req, res, next) => {
   console.log(req.body);
   const userId = req.params.id
   const user = await User.findById(userId);
-  await new Email(user, '', '').sendReport();
+  console.log(user);
+  await new Email(user, '', '').sendRegistrationVerification();
   return next(
     new AppError(
       `sending email to ${user.firstName} has not been implemented`,

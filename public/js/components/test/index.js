@@ -1,4 +1,4 @@
-import { emailReport, resetPassword, selectAllMembers } from './actions';
+import { emailReport, resetPassword, sendRegistrationVerification } from './actions';
 function index(a) {
   //alert(' in test')
   const newPage = document.querySelector('.new_page');
@@ -7,6 +7,7 @@ function index(a) {
     const emailReportButton = document.getElementById('emailReport');
     const resetPasswordsButton = document.getElementById('resetPasswords');
     const selectAllMembersButton = document.getElementById('selectAllMembers');
+    const sendRegistrationVerificationButton = document.getElementById('sendRegistrationVerification');
 
     const userId = emailReportButton.dataset.userId;
 
@@ -30,11 +31,20 @@ function index(a) {
 
     selectAllMembersButton.addEventListener('click', function () {
       const selectedMembers = document.getElementsByName('member');
-
+      
       selectedMembers.forEach((el) => {
         el.selected = true;
       });
     });
+    
+    sendRegistrationVerificationButton.addEventListener('click', function () {
+      const selectedMembers = document.getElementsByName('member');
+      selectedMembers.forEach((el) => {
+        if (el.selected){
+          sendRegistrationVerification(el.value);   
+      }
+      });
+    })
   }
 }
 

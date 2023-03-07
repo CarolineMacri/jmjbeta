@@ -1,4 +1,6 @@
-const nodemailer = require('nodemailer');const pug = require('pug');
+const nodemailer = require('nodemailer');
+const pug = require('pug');
+const path = require('path');
 const { htmlToText } = require('html-to-text');
 
 // UTILS
@@ -13,6 +15,7 @@ module.exports = class Email {
     this.url = url;
     this.from = process.env.EMAIL_FROM;
     this.attachment = attachment;
+    this.user = user;
   }
 
   newTransport() {
@@ -69,7 +72,6 @@ module.exports = class Email {
         subject,
       }
     );
-  
 
     //2) define the email options
     const mailOptions = {
@@ -83,6 +85,35 @@ module.exports = class Email {
     // create a transport and send email
     const transporter = this.newTransport();
     await transporter.sendMail(mailOptions);
+  }
+
+  async sendHtml(html, subject) {
+    //2) define the email options
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      html,
+      text: htmlToText(html),
+    };
+
+    // create a transport and send email
+    const transporter = this.newTransport();
+    await transporter.sendMail(mailOptions)
+  }
+
+  async sendRegistrationVerification() { 
+    console.log ('--------' + this.user)
+    const html = pug.renderFile(
+      path.join(__dirname + '/../views/email/userVerificationEmail.pug'),
+      
+      {
+        user: this.user,
+        subject: 'Registration Verification'
+      }
+    );
+    console.log(html)
+    await this.sendHtml(html, 'Registration Verification')
   }
 
   async sendWelcome() {

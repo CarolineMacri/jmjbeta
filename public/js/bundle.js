@@ -18149,7 +18149,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.resetPassword = exports.emailReport = void 0;
+exports.resetPassword = exports.sendRegistrationVerification = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -18161,15 +18161,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var emailReport = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(userId) {
+var sendRegistrationVerification = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(user) {
     var url, method, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            alert("call to api/v1/user/emailReport/".concat(userId));
-            url = "api/v1/users/emailReport/".concat(userId);
+            alert("call to api/v1/user/emailReport/".concat(user.id));
+            url = "api/v1/users/emailReport/".concat(user.id);
             method = 'POST';
             _context.prev = 3;
             _context.next = 6;
@@ -18201,12 +18201,12 @@ var emailReport = /*#__PURE__*/function () {
     }, _callee, null, [[3, 10]]);
   }));
 
-  return function emailReport(_x) {
+  return function sendRegistrationVerification(_x) {
     return _ref.apply(this, arguments);
   };
 }();
 
-exports.emailReport = emailReport;
+exports.sendRegistrationVerification = sendRegistrationVerification;
 
 var resetPassword = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(selectedMemberId) {
@@ -18272,6 +18272,7 @@ function index(a) {
     var emailReportButton = document.getElementById('emailReport');
     var resetPasswordsButton = document.getElementById('resetPasswords');
     var selectAllMembersButton = document.getElementById('selectAllMembers');
+    var sendRegistrationVerificationButton = document.getElementById('sendRegistrationVerification');
     var userId = emailReportButton.dataset.userId;
     emailReportButton.addEventListener('click', function () {
       (0, _actions.emailReport)(userId);
@@ -18288,6 +18289,14 @@ function index(a) {
       var selectedMembers = document.getElementsByName('member');
       selectedMembers.forEach(function (el) {
         el.selected = true;
+      });
+    });
+    sendRegistrationVerificationButton.addEventListener('click', function () {
+      var selectedMembers = document.getElementsByName('member');
+      selectedMembers.forEach(function (el) {
+        if (el.selected) {
+          (0, _actions.sendRegistrationVerification)(el.value);
+        }
       });
     });
   }

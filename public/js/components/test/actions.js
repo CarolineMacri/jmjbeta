@@ -1,9 +1,9 @@
 import axios from 'axios';import { showAlert } from '../../alerts';
 
-export const emailReport = async (userId) => {
-  alert(`call to api/v1/user/emailReport/${userId}`);
+export const sendRegistrationVerification = async (user) => {
+  alert(`call to api/v1/user/emailReport/${user.id}`);
 
-  const url = `api/v1/users/emailReport/${userId}`;
+  const url = `api/v1/users/emailReport/${user.id}`;
   const method = 'POST';
   try {
     const res = await axios({
