@@ -14651,7 +14651,6 @@ function index(a) {
         child.year = year;
       }
 
-      alert(JSON.stringify(child));
       (0, _actions.updateChild)(childId, child);
     });
   }
@@ -18295,7 +18294,6 @@ function index(a) {
       var selectedMembers = document.getElementsByName('member');
       selectedMembers.forEach(function (el) {
         if (el.selected) if (confirm("Are you want to send registration verification email for ".concat(el.innerHTML.toUpperCase(), "?"))) {
-          alert('sending email');
           (0, _actions.emailRegistrationVerification)(el.value);
         }
       });
@@ -126678,8 +126676,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index5.index)();
 (0, _index6.index)();
 (0, _index7.index)();
-(0, _index8.index)(); //alert('importing test')
-
+(0, _index8.index)();
 (0, _index9.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');
@@ -126751,8 +126748,6 @@ if (reportInvoices) {
 }
 
 if (reportPayments) {
-  alert('report payments');
-
   var _yearSelect4 = document.getElementById('year-select');
 
   var teacherId = document.querySelector('.payments-title').id;
@@ -126963,8 +126958,6 @@ if (users) {
 
     (0, _users.updateUser)(id, data).then(function (newId) {
       if (roles.includes('parent')) {
-        alert('im a parent');
-
         if (id == 'new') {
           (0, _family.addFamily)(newId, selectedYear);
         } else {
@@ -126977,8 +126970,6 @@ if (users) {
       }
 
       if (roles.includes('teacher')) {
-        alert('im a teacher');
-
         if (id == 'new') {
           alert('adding (id=' + id + ' teacher');
           (0, _actions.addTeacher)(newId);

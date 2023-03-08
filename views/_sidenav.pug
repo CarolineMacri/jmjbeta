@@ -16,7 +16,9 @@ nav.side-nav
       // a.side-nav__item(href=`/news_table`) New Table
       a.side-nav__item(href=`/new_page`) New Page
      
-  if isParent
+
+  //- if isParent
+  if isAdmin
     .side-nav__section
       h3.side-nav__heading Family
       a.side-nav__item(href=`/family/${user.id}/${selectedYear}`) Overview
@@ -31,8 +33,10 @@ nav.side-nav
       h3.side-nav__heading Teacher
       a.side-nav__item(href=`/teacher_profile/${user.id}`) Profile
       a.side-nav__item(href=`/courses_table/${selectedYear}/${user.id}`) Courses
-      a.side-nav__item(href=`/reports/classLists/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Class List Report
-      a.side-nav__item(href=`/reports/payments/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Payments Report
+      //- TEMP
+      if isAdmin
+        a.side-nav__item(href=`/reports/classLists/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Class List Report
+        a.side-nav__item(href=`/reports/payments/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Payments Report
   if isAdmin  
     .side-nav__section
       h3.side-nav__heading Administration
@@ -44,7 +48,7 @@ nav.side-nav
       a.side-nav__item(href=`/payments_table/${selectedYear}`) Payments
       a.side-nav__item(href=`/registrations_table/${selectedYear}`) Registrations 
       a.side-nav__item(href=`/teachers_table/${selectedYear}`) Teachers
-      a.side-nav__item(href='#') Create class schedule
+
   .side-nav__section
     h3.side-nav__heading Reports
     if (isAdmin)
@@ -53,5 +57,4 @@ nav.side-nav
       a.side-nav__item(href=`/reports/invoices/${selectedYear}`  target="_blank" rel="noopener noreferrer") Invoices
       a.side-nav__item(href=`/reports/payments/${selectedYear}`  target="_blank" rel="noopener noreferrer") Payments
       a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Scheduled Courses
- 
-    a.side-nav__item(href=`/class_grid/${selectedYear}`) Class Grid 
+      a.side-nav__item(href=`/class_grid/${selectedYear}`) Class Grid 
