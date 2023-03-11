@@ -123,43 +123,32 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
 });
 
 function orderEnrollments(enrollments) {
-  var tempMap = new Map;
+  const timeMap = new Map;
   const hours = Object.values(Class.Times);
   //exclude mass and lunch from enrollments
   const excludedHours = ['8:00AM','12:00PM']
   hours.forEach((hour) => {
     if (!excludedHours.includes(hour)) {
-      tempMap.set(hour,
-        {
-          class:
-          {
-            hour: hour,
-            course: {
-              name: '---'
-            }
-          }
-        }
-      )
+      timeMap.set(hour,{class:{hour: hour,course: {name: '---'}}})
     }
   });
-  console.log(tempMap);
 
-  const timeMap = new Map([
-    ['9:00AM', { class: { hour: '9:00AM', course: { name: '---' } } }],
-    ['10:00AM', { class: { hour: '10:00AM', course: { name: '---' } } }],
-    ['11:00AM', { class: { hour: '11:00AM', course: { name: '---' } } }],
-    ['12:30PM', { class: { hour: '12:30PM', course: { name: '---' } } }],
-    ['other', { class: { hour: 'other', course: { name: '---' } } }],
-  ]);
-  console.log(timeMap);
+
+  // const timeMap = new Map([
+  //   ['9:00AM', { class: { hour: '9:00AM', course: { name: '---' } } }],
+  //   ['10:00AM', { class: { hour: '10:00AM', course: { name: '---' } } }],
+  //   ['11:00AM', { class: { hour: '11:00AM', course: { name: '---' } } }],
+  //   ['12:30PM', { class: { hour: '12:30PM', course: { name: '---' } } }],
+  //   ['other', { class: { hour: 'other', course: { name: '---' } } }],
+  // ]);
+  
 
   enrollments.forEach((e) => {
-    //   const isRegistration = e.class.course.name.includes('Registration');
-    //   if (!isRegistration) timeMap.set(e.class.hour, e);
     timeMap.set(e.class.hour, e);
   });
 
   return [...timeMap.values()];
+ 
 }
 
 const gradeSort = function (child2, child1) {
