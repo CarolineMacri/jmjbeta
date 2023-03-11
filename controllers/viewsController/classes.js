@@ -119,16 +119,21 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
     });
 
   //const classesWithStyle =
+
   classes.map((cl) => {
-    cl.style = `grid-area:${cl.location.replace(/ /g, "")}-${cl.hour};`;
+    
+    cl.style = `grid-area:${cl.location.replace(/ /g, "")}-${cl.hour.replace(/:/g,"")};`;
     return cl;
   });
 
+
+
   const locations = Object.values(Class.Locations);
   const hours = Object.values(Class.Times);
+  console.log('before calling get Grid Areas')
   const gridStyle = getGridAreas(locations, hours);
-
-  console.log('--------------------------locals' + JSON.stringify(res.locals));
+  console.log(gridStyle)
+  
 
   res.status(200).render("classes/class_grid", {
     title: "Class Grid",
@@ -143,6 +148,9 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
 
 function getGridAreas(locations, times) {
   //initial gridAreas styl
+  console.log('----------------------in get grid areas---------------------------------------------')
+  console.log(locations);
+  console.log(times);
   var gridAreas = "grid-template-areas:";
   //add gridAreas for column names of class locations, including blank at the top left
   locations = ["blank"].concat(locations);
@@ -152,26 +160,28 @@ function getGridAreas(locations, times) {
   });
   // add the columns to the gridArea style
   const columnGridAreas = '"' + locations.join(" ") + '"\n';
+  
   gridAreas = gridAreas.concat(columnGridAreas);
-
   //get rid of the 'blank' location
   locations.shift();
 
   //make the gridareas for each row - the time, then location-time for each locations
   times.forEach((time) => {
+    const strippedTime = time.replace(/:/g,"");
     var gridRowArray = [];
     //beginning of row is the time
-    gridRowArray.push("time-" + time);
+    gridRowArray.push("time-" + strippedTime);
 
     locations.forEach((l) => {
-      gridRowArray.push(l + "-" + time);
+      gridRowArray.push(l + "-" + strippedTime);
     });
 
     var rowGridAreas = '"' + gridRowArray.join(" ") + '"\n';
 
     gridAreas = gridAreas.concat(rowGridAreas);
   });
-  return (gridAreas += ";");
+  return (gridAreas += ";"); 
+
 }
 exports.getClassFees = catchAsync(async (req, res, next) => {
   const Year = require("../../models/yearModel");
@@ -224,35 +234,35 @@ exports.getClassFees = catchAsync(async (req, res, next) => {
   });
 });
 
-function getGridAreas(locations, times) {
-  //initial gridAreas styl
-  var gridAreas = "grid-template-areas:";
-  //add gridAreas for column names of class locations, including blank at the top left
-  locations = ["blank"].concat(locations);
-  //strip spaces out of locations names - css can't have spaces in style names
-  locations = locations.map((l) => {
-    return l.replace(/ /g, "");
-  });
-  // add the columns to the gridArea style
-  const columnGridAreas = '"' + locations.join(" ") + '"\n';
-  gridAreas = gridAreas.concat(columnGridAreas);
+// function getGridAreas(locations, times) {
+//   //initial gridAreas styl
+//   var gridAreas = "grid-template-areas:";
+//   //add gridAreas for column names of class locations, including blank at the top left
+//   locations = ["blank"].concat(locations);
+//   //strip spaces out of locations names - css can't have spaces in style names
+//   locations = locations.map((l) => {
+//     return l.replace(/ /g, "");
+//   });
+//   // add the columns to the gridArea style
+//   const columnGridAreas = '"' + locations.join(" ") + '"\n';
+//   gridAreas = gridAreas.concat(columnGridAreas);
 
-  //get rid of the 'blank' location
-  locations.shift();
+//   //get rid of the 'blank' location
+//   locations.shift();
 
-  //make the gridareas for each row - the time, then location-time for each locations
-  times.forEach((time) => {
-    var gridRowArray = [];
-    //beginning of row is the time
-    gridRowArray.push("time-" + time);
+//   //make the gridareas for each row - the time, then location-time for each locations
+//   times.forEach((time) => {
+//     var gridRowArray = [];
+//     //beginning of row is the time
+//     gridRowArray.push("time-" + time);
 
-    locations.forEach((l) => {
-      gridRowArray.push(l + "-" + time);
-    });
+//     locations.forEach((l) => {
+//       gridRowArray.push(l + "-" + time);
+//     });
 
-    var rowGridAreas = '"' + gridRowArray.join(" ") + '"\n';
+//     var rowGridAreas = '"' + gridRowArray.join(" ") + '"\n';
 
-    gridAreas = gridAreas.concat(rowGridAreas);
-  });
-  return (gridAreas += ";");
-}
+//     gridAreas = gridAreas.concat(rowGridAreas);
+//   });
+//   return (gridAreas += ";");
+// }

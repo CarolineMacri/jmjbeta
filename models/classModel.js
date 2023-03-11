@@ -18,12 +18,12 @@ const Locations = Object.freeze({
 });
 
 const Times = Object.freeze({
-  8: "8AM",
-  9: "9AM",
-  10: "10AM",
-  11: "11AM",
-  12: "12PM",
-  13: "1PM",
+  8: "8:00AM",
+  9: "9:00AM",
+  10: "10:00AM",
+  11: "11:00AM",
+  12: "12:00PM",
+  13: "12:30PM",
   // 14: "2PM",
   14: "other"
 });

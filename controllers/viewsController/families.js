@@ -138,11 +138,11 @@ exports.getFamilies = catchAsync(async (req, res, next) => {
 
 function orderEnrollments(enrollments) {
   const timeMap = new Map([
-    ['9AM', { class: { hour: '9AM', course: { name: '---' } } }],
-    ['10AM', { class: { hour: '10AM', course: { name: '---' } } }],
-    ['11AM', { class: { hour: '11AM', course: { name: '---' } } }],
-    ['1PM', { class: { hour: '1PM', course: { name: '---' } } }],
-    ['2PM', { class: { hour: '2PM', course: { name: '---' } } }],
+    ['9:00AM', { class: { hour: '9:00AM', course: { name: '---' } } }],
+    ['10:00AM', { class: { hour: '10:00AM', course: { name: '---' } } }],
+    ['11:00AM', { class: { hour: '11:00AM', course: { name: '---' } } }],
+    ['12:30PM', { class: { hour: '12:30PM', course: { name: '---' } } }],
+    ['other', { class: { hour: 'other', course: { name: '---' } } }],
   ]);
 
   enrollments.forEach((e) => {

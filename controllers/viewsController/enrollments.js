@@ -19,7 +19,7 @@ exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
   // used aggregation pipeline to let the database do the work
 
   const enrollments = await Family.aggregate()
-    .match({year: selectedYear})
+    .match({ year: selectedYear })
     .lookup({
       from: 'users',
       localField: 'parent',
@@ -89,7 +89,7 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
   //console.log(gradeCourseMap);
-  const family = await Family.findOne({ parent: parentId, year: selectedYear});
+  const family = await Family.findOne({ parent: parentId, year: selectedYear });
 
   let children = await Child.find({ family: family.id, year: selectedYear })
     .select('firstName sex grade _id')
@@ -123,19 +123,41 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
 });
 
 function orderEnrollments(enrollments) {
-  const timeMap = new Map([
-    ['9AM', { class: { hour: '9AM', course: { name: '---' } } }],
-    ['10AM', { class: { hour: '10AM', course: { name: '---' } } }],
-    ['11AM', { class: { hour: '11AM', course: { name: '---' } } }],
-    ['1PM', { class: { hour: '1PM', course: { name: '---' } } }],
-    ['2PM', { class: { hour: '2PM', course: { name: '---' } } }],
-  ]);
+  var tempMap = new Map;
+  const hours = Object.values(Class.Times);
+  //exclude mass and lunch from enrollments
+  const excludedHours = ['8:00AM','12:00PM']
+  hours.forEach((hour) => {
+    if (!excludedHours.includes(hour)) {
+      tempMap.set(hour,
+        {
+          class:
+          {
+            hour: hour,
+            course: {
+              name: '---'
+            }
+          }
+        }
+      )
+    }
+  });
+  console.log(tempMap);
 
-   enrollments.forEach((e) => {
-  //   const isRegistration = e.class.course.name.includes('Registration');
-  //   if (!isRegistration) timeMap.set(e.class.hour, e);
-  timeMap.set(e.class.hour, e);
-});
+  const timeMap = new Map([
+    ['9:00AM', { class: { hour: '9:00AM', course: { name: '---' } } }],
+    ['10:00AM', { class: { hour: '10:00AM', course: { name: '---' } } }],
+    ['11:00AM', { class: { hour: '11:00AM', course: { name: '---' } } }],
+    ['12:30PM', { class: { hour: '12:30PM', course: { name: '---' } } }],
+    ['other', { class: { hour: 'other', course: { name: '---' } } }],
+  ]);
+  console.log(timeMap);
+
+  enrollments.forEach((e) => {
+    //   const isRegistration = e.class.course.name.includes('Registration');
+    //   if (!isRegistration) timeMap.set(e.class.hour, e);
+    timeMap.set(e.class.hour, e);
+  });
 
   return [...timeMap.values()];
 }
