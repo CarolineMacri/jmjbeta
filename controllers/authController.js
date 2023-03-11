@@ -210,7 +210,10 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // get the current year for this
   const currentYear = await Year.getCurrentYearValue();
+  const currentYearDoc = await Year.getCurrentYearDoc();
   res.locals.currentYear = currentYear;
+  res.locals.currentYearDoc = currentYearDoc;
+  
   next();
 });
 
@@ -232,7 +235,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   //console.log("/n/n/n ----------------------------------- /n" + req.body.email);
   const user = await User.findOne({ email: req.body.email });
   const currentYear = await Year.getCurrentYearValue();
+  const currentYearDoc = await Year.getCurrentYearDoc();
   res.locals.currentYear = currentYear; //need this for the footer//
+  res.locals.currentYearDoc = currentYearDoc; //need this for the footer//
 
   if (!(user.yearRoles.get(currentYear).includes('teacher') || user.yearRoles.get(currentYear).includes('admin')) ) { 
     return next(new AppError('This function currently limited to teachers and administrators', 400));
@@ -284,7 +289,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   });
 
   const currentYear = await Year.getCurrentYearValue();
+  const currentYearDoc = await Year.getCurrentYearDoc();
   res.locals.currentYear = currentYear;
+  res.locals.currentYearDoc = currentYearDoc;
 
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));

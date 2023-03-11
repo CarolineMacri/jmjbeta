@@ -5,7 +5,9 @@ const Year = require('../../models/yearModel');
 
 exports.getLogin = catchAsync(async (req, res, next) => {
   const currentYear = await Year.getCurrentYearValue();
+  const currentYearDoc = await Year.getCurrentYearDoc();
   res.locals.currentYear = currentYear;
+  res.locals.currentYearDoc = currentYearDoc;
   res.status(200).render('login/login', {
     title: 'Login',
   });
@@ -13,7 +15,9 @@ exports.getLogin = catchAsync(async (req, res, next) => {
 
 exports.getResetPassword = catchAsync(async (req, res, next) => {
   const currentYear = await Year.getCurrentYearValue();
+  const currentYearDoc = await Year.getCurrentYearDoc();
   res.locals.currentYear = currentYear;
+  res.locals.currentYearDoc = currentYearDoc;
   res.status(200).render('login/resetPassword', {
     title: 'resetPassword',
   });

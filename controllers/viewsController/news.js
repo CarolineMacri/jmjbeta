@@ -20,7 +20,7 @@ exports.getNewProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.getNewPage = catchAsync(async (req, res, next) => {
-  const fieldName = `yearRoles.${res.locals.currentYear}`;
+  const fieldName = `yearRoles.${res.locals.currentYearDoc.year}`;
   const members = await User.find().exists(fieldName, true).sort('lastName');
 
   res.status(200).render('news/new_page', {

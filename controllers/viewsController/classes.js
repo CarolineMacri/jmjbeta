@@ -127,7 +127,6 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
   const locations = Object.values(Class.Locations);
   const hours = Object.values(Class.Times);
   const gridStyle = getGridAreas(locations, hours);
-  res.locals.currentYear = await Year.getCurrentYearValue();
 
   console.log('--------------------------locals' + JSON.stringify(res.locals));
 

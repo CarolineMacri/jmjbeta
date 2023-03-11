@@ -18,15 +18,20 @@ nav.side-nav
      
 
   //- if isParent
-  if isAdmin
+  if isParent
     .side-nav__section
       h3.side-nav__heading Family
       a.side-nav__item(href=`/family/${user.id}/${selectedYear}`) Overview
       a.side-nav__item(href=`/children_table/${user.id}`) Add/Edit Children
-      a.side-nav__item TODO sign up sheet
-      a.side-nav__item(href=`/reports/signUpSheet/${user.id}`  target="_blank" rel="noopener noreferrer") Sign Up Sheet
-
-      //- a.side-nav__item(href=`/enrollment_profile/${user.id}`) Add/Edit Enrollments 
+      
+      if (currentYearDoc.isCoursePreviewOpen)
+        a.side-nav__item(href=`/class_grid/${selectedYear}`) Class Grid 
+        a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Course Descriptions 
+      
+      if (currentYearDoc.isEnrollmentOpen)  
+        a.side-nav__item(href=`/reports/signUpSheet/${user.id}`  target="_blank" rel="noopener noreferrer") Sign Up Sheet
+        a.side-nav__item(href=`/enrollment_profile/${user.id}`) Add/Edit Enrollments 
+      
       a.side-nav__item(href=`/reports/invoices/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Invoice
   if isTeacher
     .side-nav__section
