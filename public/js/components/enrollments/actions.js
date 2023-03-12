@@ -5,14 +5,14 @@ export const changeEnrollmentsYear = (year) => {
   location.assign(`/enrollments_table/${year}`);
 };
 
-export const saveEnrollentSelections = async (enrollments) => {
+export const saveEnrollentSelections = async (enrollments) => { 
   const enrollmentsToAdd = enrollments.filter((e) => {
     return !e._id && e.class;
   });
   const enrollmentsToUpdate = enrollments.filter((e) => {
     return e._id && e.class;
   });
-  const enrollmentsToDelete = enrollments.filter((e) => {
+  const enrollmentsToDelete = enrollments.filter((e) => { 
     return e._id && !e.class;
   });
 
@@ -55,6 +55,7 @@ export const saveEnrollentSelections = async (enrollments) => {
       });
     } catch (err) {
       showAlert("error", err.response.data.message);
+      
     }
   });
 

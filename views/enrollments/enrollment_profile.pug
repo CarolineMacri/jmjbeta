@@ -1,16 +1,21 @@
 extends ../base
   
 block content 
-
- section.enrollment-profile.page__content
+ 
+ section.enrollment-profile(id=family.id).page__content
   h1.enrollments__title Enrollments
+  if (family.enrollmentStatus=='preliminary')
+    h1.enrollments__title(style="color:red; font-weight:bold") If you have not done so, 
+    h1.enrollments__title(style="color:red; font-weight:bold") please print your invoice and mail your payments.
+  if (family.enrollmentStatus=='none')
+    h1.enrollments__title(style="color:red; font-weight:bold") You have not yet submitted any enrollments.
   .page__content-row 
     .page__content(style="align-self:center")
       - var isAdmin = user.currentRoles.includes('admin')
       h2.enrollments__title= `${family.parent.lastName}`
       h2.enrollments__title= selectedYear
       h2.enrollments__title= `Enrollment Status:`
-      h2.enrollments__title(style="color:red;")= "NONE"
+      h2.enrollments__title(style="color:red;")= family.enrollmentStatus.toUpperCase()
     .page__content(style="flex:2; align-self:center")
       h3 
         strong NONE 
@@ -28,48 +33,49 @@ block content
   //- h2.enrollments__title= `Enrollment Status: ` 
   //-   span(style="color:red;")=`${enrollmentStatus}`
 
-  section(style="flex:2")
-    form.form.form__outline-box.form--row.enrollment-profile__form.enrollment-profile--wide
-      .form__row 
-        
-       
-      .form__row
-        button.form__button.btn-save-selections(disabled=isDisabled) Save Selections 
-        input.form__button(type='submit' style="padding:1.5rem;" disabled=isDisabled value='⚠️Submit⚠️') 
-
-      .enrollment__children
-        for child in children
-          -var courses= gradeCourseMap.get(child.grade)
+  if (family.enrollmentStatus == 'none')
+    section(style="flex:2")
+      form.form.form__outline-box.form--row.enrollment-profile__form.enrollment-profile--wide
+        .form__row 
           
-          
-          .card.card__outline-box
-            .card__column
-              
-              .card__header-background
-              .card__header-text= `${child.firstName} - ${child.grade}`
-              
-              .card__outline-box--bottom.class__group
-                for enrollment in child.enrollments
-                  
-                  .card__item.class
-                      
-                    .class__time= enrollment.class.hour
-                  
-                    .class__name
-                      select.form__select--medium(name='enrollment' disabled=isDisabled)
-                        -var enrollmentId = (enrollment.id ? enrollment.id: 'none')                        
-                        option(data-enrollment-id=enrollment.id) NONE 
+          #unsaved-changes.form__warning YOU HAVE UNSAVED CHANGES
+        .form__row
+          button.form__button.btn-save-selections(disabled=isDisabled) Save Selections 
+          input.form__button(type='submit' style="padding:1.5rem;" value='⚠️Submit⚠️') 
 
-                        for c in classes
-                          p=c.hour
-                          if ((c.hour==enrollment.class.hour))
-                            if (courses.includes(c.course.name))
-                              option.form__option(
-                                selected=(enrollment.class.id==c.id) 
-                               
-                                data-enrollment-id=enrollment.id
-                                data-class-id=c.id
-                                data-child-id=child.id)
-                                =`${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
+        .enrollment__children
+          for child in children
+            -var courses= gradeCourseMap.get(child.grade)
+            
+            
+            .card.card__outline-box
+              .card__column
+                
+                .card__header-background
+                .card__header-text= `${child.firstName} - ${child.grade}`
+                
+                .card__outline-box--bottom.class__group
+                  for enrollment in child.enrollments
+                    
+                    .card__item.class
+                        
+                      .class__time= enrollment.class.hour
+                    
+                      .class__name
+                        select.form__select--medium(name='enrollment' disabled=isDisabled)
+                          -var enrollmentId = (enrollment.id ? enrollment.id: 'none')                        
+                          option(data-enrollment-id=enrollment.id) NONE 
+
+                          for c in classes
+                            p=c.hour
+                            if ((c.hour==enrollment.class.hour))
+                              if (courses.includes(c.course.name))
+                                option.form__option(
+                                  selected=(enrollment.class.id==c.id) 
+                                
+                                  data-enrollment-id=enrollment.id
+                                  data-class-id=c.id
+                                  data-child-id=child.id)
+                                  =`${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
 
   

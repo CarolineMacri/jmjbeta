@@ -17349,10 +17349,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.index = index;
 
+var _alerts = require("../../alerts");
+
 var _actions = require("./actions");
 
-/* eslint-disable */
-// import 'core-js/stable';// import 'regenerator-runtime/runtime';
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function index(a) {
   // DOM elements
   var enrollments = document.querySelector('.enrollments');
@@ -17369,6 +17375,21 @@ function index(a) {
   if (enrollmentProfile) {
     var enrollmentProfileForm = document.querySelector('.enrollment-profile__form');
     var saveSelectionsButton = document.querySelector('.btn-save-selections');
+    var enrollmentSelections = document.getElementsByName('enrollment');
+    enrollmentProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var unsavedChanges = document.getElementById('unsaved-changes').style.visibility == 'visible';
+
+      if (unsavedChanges) {
+        (0, _alerts.showAlert)('error', 'You have unsaved changes');
+      } else {
+        var ok = confirm('Are you sure you want to submit your enrollments?\n' + 'You will no long be able to change your selections\n');
+
+        if (ok) {
+          alert('Submitting\n ' + 'Your enrollment status is PRELIMINARY until payments are received');
+        }
+      }
+    });
     saveSelectionsButton.addEventListener('click', function (e) {
       e.preventDefault();
       var enrollmentSelections = document.getElementsByName('enrollment');
@@ -17382,33 +17403,44 @@ function index(a) {
         });
       });
       (0, _actions.saveEnrollentSelections)(enrollmentData);
+      var unsavedChanges = document.getElementById('unsaved-changes');
+      unsavedChanges.style.visibility = 'hidden';
     });
-    enrollmentProfileForm.addEventListener('submit', function (e) {
+
+    var _iterator = _createForOfIteratorHelper(enrollmentSelections),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        selection = _step.value;
+        var selection;
+        selection.addEventListener('change', function (e) {
+          e.preventDefault();
+          var unsavedChanges = document.getElementById('unsaved-changes');
+          unsavedChanges.style.visibility = 'visible';
+        });
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    window.addEventListener('beforeunload', function (e) {
       e.preventDefault();
-      var selectedYear = elementProfile.dataset.selectedYear; //const isNew = classProfile.dataset.isNew == 'new';
-      // const classId = classProfileForm.id;
-      // const course = document.getElementById('course').value;
-      // const teacher = document.getElementById('teacher').value;
-      // const sessions = document.getElementById('sessions').value;
-      // const location = document.getElementById('location').value;
-      // const semester = document.getElementById('semester').value;
-      // const time = document.getElementById('time').value;
-      // const cl = {
-      //   id: classId,
-      //   course,
-      //   teacher,
-      //   sessions,
-      //   location,
-      //   semester,
-      //   time,
-      //   year: selectedYear,
-      //   isNew,
-      // };
-      // console.log(cl);
+
+      if (document.getElementById('unsaved-changes').style.visibility === 'visible') {
+        window.setTimeout(function () {
+          location.reload();
+        }, 500);
+        (0, _alerts.showAlert)('error', 'You have unsaved changes');
+      }
+
+      return 'you are about to leave this page';
     });
   }
 }
-},{"./actions":"components/enrollments/actions.js"}],"components/payments/actions.js":[function(require,module,exports) {
+},{"../../alerts":"alerts.js","./actions":"components/enrollments/actions.js"}],"components/payments/actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

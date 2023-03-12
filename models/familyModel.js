@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 const EnrollmentStatuses = Object.freeze({
-  NONE: "NOT Enrolled",
+  NONE: "none",
   PENDING: "Pending Payments",
   ENROLLED: "Enrolled",
 });
@@ -17,9 +17,12 @@ const familySchema = new mongoose.Schema(
       justOne: true,
     },
     year: String,
-    saved: Boolean,
-    submitted: Boolean,
-    enrolled: Boolean,
+    enrollmentStatus: {
+      type: String,
+      enum: ["none", "preliminary", "final"],
+      default: "none",
+      required: true
+    },
     enrollmentOrder: Number
   },
   {
