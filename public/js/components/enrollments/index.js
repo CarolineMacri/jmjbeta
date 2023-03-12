@@ -77,7 +77,7 @@ function index(a) {
 
     window.addEventListener('beforeunload', (e) => {
       e.preventDefault();
-
+      // this doesn't seem to work that well
       if (
         document.getElementById('unsaved-changes').style.visibility ===
         'visible'
