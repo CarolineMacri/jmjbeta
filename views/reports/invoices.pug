@@ -8,13 +8,14 @@ block content
       section.report-invoices
 
         .report__title
-          h1.invoices-title(id=parent) +JMJ+ Homeschool Co-op Invoices
+          h1.invoices-title(id=parent) +JMJ+ Homeschool Co-op Invoice
 
         for family in families
 
           .report-invoices-box
             .report-invoices-family
-              h2= family.parent 
+              h2(style="color:red;text-align:center") Please make checks to individual intructors 
+              h2= family.parent
 
             for teacher in family.teachers
               .report-invoices-teacher
@@ -31,4 +32,4 @@ block content
                     .report-invoices-record-materials
                       p="Materials: $" + cl.materials + " " 
             .report-invoices-teacher   
-            h2= "Grand Total:  $" + family.grandTotal
+            h2= "Grand Total:  $" + family.grandTotal 
