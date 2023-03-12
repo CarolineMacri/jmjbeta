@@ -1,7 +1,11 @@
 /* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 
 import { showAlert } from '../../alerts';
-import { changeEnrollmentsYear, saveEnrollentSelections } from './actions';
+import {
+  changeEnrollmentsYear,
+  saveEnrollentSelections,
+  submitEnrollments,
+} from './actions';
 
 function index(a) {
   // DOM elements
@@ -25,7 +29,7 @@ function index(a) {
     const saveSelectionsButton = document.querySelector('.btn-save-selections');
     const enrollmentSelections = document.getElementsByName('enrollment');
 
-    enrollmentProfileForm.addEventListener('submit', (e) => {
+    enrollmentProfileForm.addEventListener('submit', (e) => { 
       e.preventDefault();
       const unsavedChanges =
         document.getElementById('unsaved-changes').style.visibility ==
@@ -43,6 +47,8 @@ function index(a) {
             'Submitting\n ' +
               'Your enrollment status is PRELIMINARY until payments are received'
           );
+
+          submitEnrollments(enrollmentProfile.id);
         }
       }
     });

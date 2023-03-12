@@ -1,18 +1,43 @@
-import axios from "axios";
-import { showAlert } from "../../alerts";
+import axios from 'axios';
+import { showAlert } from '../../alerts';
 
 export const changeEnrollmentsYear = (year) => {
   location.assign(`/enrollments_table/${year}`);
 };
 
-export const saveEnrollentSelections = async (enrollments) => { 
+export const submitEnrollments = async (familyId) => {
+  try {
+    var url = `/api/v1/families/${familyId}`;
+    const family = {
+      enrollmentStatus: 'preliminary',
+    };
+    const res = await axios({
+      method: 'PATCH',
+      url,
+      data: family,
+    });
+    if (res.data.status == 'success') {
+      showAlert('success', 'Enrollments submitted successfully');
+    }
+
+    const parentId = res.data.data.family.parent.id;
+    window.setTimeout(() => {
+      location.replace(`/enrollment_profile/${parentId}`);
+    }, 500);
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+
+export const saveEnrollentSelections = async (enrollments) => {
   const enrollmentsToAdd = enrollments.filter((e) => {
     return !e._id && e.class;
   });
   const enrollmentsToUpdate = enrollments.filter((e) => {
     return e._id && e.class;
   });
-  const enrollmentsToDelete = enrollments.filter((e) => { 
+  const enrollmentsToDelete = enrollments.filter((e) => {
     return e._id && !e.class;
   });
 
@@ -21,12 +46,12 @@ export const saveEnrollentSelections = async (enrollments) => {
       var url = `/api/v1/enrollments`;
 
       const res = await axios({
-        method: "POST",
+        method: 'POST',
         url,
         data: e,
       });
     } catch (err) {
-      showAlert("error", err.response.data.message);
+      showAlert('error', err.response.data.message);
     }
   });
 
@@ -35,12 +60,12 @@ export const saveEnrollentSelections = async (enrollments) => {
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({
-        method: "PATCH",
+        method: 'PATCH',
         url,
         data: e,
       });
     } catch (err) {
-      showAlert("error", err.response.data.message);
+      showAlert('error', err.response.data.message);
     }
   });
 
@@ -49,18 +74,17 @@ export const saveEnrollentSelections = async (enrollments) => {
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({
-        method: "DELETE",
+        method: 'DELETE',
         url,
         data: e,
       });
     } catch (err) {
-      showAlert("error", err.response.data.message);
-      
+      showAlert('error', err.response.data.message);
     }
   });
 
   // if you got to here - everything is good
-  showAlert("success", `Enrollment selections saved successfully`);
+  showAlert('success', `Enrollment selections saved successfully`);
 
   window.setTimeout(() => {
     location.replace(`/enrollment_profile/${familyId}/${selectedYear}`);

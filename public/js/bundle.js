@@ -17173,7 +17173,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.saveEnrollentSelections = exports.changeEnrollmentsYear = void 0;
+exports.saveEnrollentSelections = exports.submitEnrollments = exports.changeEnrollmentsYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -17191,12 +17191,65 @@ var changeEnrollmentsYear = function changeEnrollmentsYear(year) {
 
 exports.changeEnrollmentsYear = changeEnrollmentsYear;
 
-var saveEnrollentSelections = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(enrollments) {
-    var enrollmentsToAdd, enrollmentsToUpdate, enrollmentsToDelete;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+var submitEnrollments = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(familyId) {
+    var url, family, res, parentId;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            url = "/api/v1/families/".concat(familyId);
+            family = {
+              enrollmentStatus: 'preliminary'
+            };
+            _context.next = 5;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: url,
+              data: family
+            });
+
+          case 5:
+            res = _context.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', 'Enrollments submitted successfully');
+            }
+
+            parentId = res.data.data.family.parent.id;
+            window.setTimeout(function () {
+              location.replace("/enrollment_profile/".concat(parentId));
+            }, 500);
+            _context.next = 14;
+            break;
+
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context["catch"](0);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 14:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 11]]);
+  }));
+
+  return function submitEnrollments(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.submitEnrollments = submitEnrollments;
+
+var saveEnrollentSelections = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(enrollments) {
+    var enrollmentsToAdd, enrollmentsToUpdate, enrollmentsToDelete;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             enrollmentsToAdd = enrollments.filter(function (e) {
               return !e._id && e.class;
@@ -17208,44 +17261,6 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
               return e._id && !e.class;
             });
             enrollmentsToAdd.forEach( /*#__PURE__*/function () {
-              var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-                var url, res;
-                return regeneratorRuntime.wrap(function _callee$(_context) {
-                  while (1) {
-                    switch (_context.prev = _context.next) {
-                      case 0:
-                        _context.prev = 0;
-                        url = "/api/v1/enrollments";
-                        _context.next = 4;
-                        return (0, _axios.default)({
-                          method: "POST",
-                          url: url,
-                          data: e
-                        });
-
-                      case 4:
-                        res = _context.sent;
-                        _context.next = 10;
-                        break;
-
-                      case 7:
-                        _context.prev = 7;
-                        _context.t0 = _context["catch"](0);
-                        (0, _alerts.showAlert)("error", _context.t0.response.data.message);
-
-                      case 10:
-                      case "end":
-                        return _context.stop();
-                    }
-                  }
-                }, _callee, null, [[0, 7]]);
-              }));
-
-              return function (_x2) {
-                return _ref2.apply(this, arguments);
-              };
-            }());
-            enrollmentsToUpdate.forEach( /*#__PURE__*/function () {
               var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
                 var url, res;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -17253,10 +17268,10 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                     switch (_context2.prev = _context2.next) {
                       case 0:
                         _context2.prev = 0;
-                        url = "/api/v1/enrollments/".concat(e._id);
+                        url = "/api/v1/enrollments";
                         _context2.next = 4;
                         return (0, _axios.default)({
-                          method: "PATCH",
+                          method: 'POST',
                           url: url,
                           data: e
                         });
@@ -17269,7 +17284,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                       case 7:
                         _context2.prev = 7;
                         _context2.t0 = _context2["catch"](0);
-                        (0, _alerts.showAlert)("error", _context2.t0.response.data.message);
+                        (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
 
                       case 10:
                       case "end":
@@ -17283,7 +17298,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 return _ref3.apply(this, arguments);
               };
             }());
-            enrollmentsToDelete.forEach( /*#__PURE__*/function () {
+            enrollmentsToUpdate.forEach( /*#__PURE__*/function () {
               var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
                 var url, res;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -17294,7 +17309,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                         url = "/api/v1/enrollments/".concat(e._id);
                         _context3.next = 4;
                         return (0, _axios.default)({
-                          method: "DELETE",
+                          method: 'PATCH',
                           url: url,
                           data: e
                         });
@@ -17307,7 +17322,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                       case 7:
                         _context3.prev = 7;
                         _context3.t0 = _context3["catch"](0);
-                        (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
+                        (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
                       case 10:
                       case "end":
@@ -17320,23 +17335,61 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
               return function (_x4) {
                 return _ref4.apply(this, arguments);
               };
+            }());
+            enrollmentsToDelete.forEach( /*#__PURE__*/function () {
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(e) {
+                var url, res;
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        _context4.prev = 0;
+                        url = "/api/v1/enrollments/".concat(e._id);
+                        _context4.next = 4;
+                        return (0, _axios.default)({
+                          method: 'DELETE',
+                          url: url,
+                          data: e
+                        });
+
+                      case 4:
+                        res = _context4.sent;
+                        _context4.next = 10;
+                        break;
+
+                      case 7:
+                        _context4.prev = 7;
+                        _context4.t0 = _context4["catch"](0);
+                        (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
+
+                      case 10:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4, null, [[0, 7]]);
+              }));
+
+              return function (_x5) {
+                return _ref5.apply(this, arguments);
+              };
             }()); // if you got to here - everything is good
 
-            (0, _alerts.showAlert)("success", "Enrollment selections saved successfully");
+            (0, _alerts.showAlert)('success', "Enrollment selections saved successfully");
             window.setTimeout(function () {
               location.replace("/enrollment_profile/".concat(familyId, "/").concat(selectedYear));
             }, 500);
 
           case 8:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4);
+    }, _callee5);
   }));
 
-  return function saveEnrollentSelections(_x) {
-    return _ref.apply(this, arguments);
+  return function saveEnrollentSelections(_x2) {
+    return _ref2.apply(this, arguments);
   };
 }();
 
@@ -17387,6 +17440,7 @@ function index(a) {
 
         if (ok) {
           alert('Submitting\n ' + 'Your enrollment status is PRELIMINARY until payments are received');
+          (0, _actions.submitEnrollments)(enrollmentProfile.id);
         }
       }
     });
