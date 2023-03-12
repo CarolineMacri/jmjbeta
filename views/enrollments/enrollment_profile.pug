@@ -3,18 +3,36 @@ extends ../base
 block content 
 
  section.enrollment-profile.page__content
-  - var isAdmin = user.currentRoles.includes('admin')
   h1.enrollments__title Enrollments
-  h2.enrollments__title= `${family.parent.lastName}`
-  h2.enrollments__title= selectedYear
+  .page__content-row 
+    .page__content(style="align-self:center")
+      - var isAdmin = user.currentRoles.includes('admin')
+      h2.enrollments__title= `${family.parent.lastName}`
+      h2.enrollments__title= selectedYear
+      h2.enrollments__title= `Enrollment Status:`
+      h2.enrollments__title(style="color:red;")= "NONE"
+    .page__content(style="flex:2; align-self:center")
+      h3 
+        strong NONE 
+        | - classes selected but not submitted,  class selections are editable 
+      h3 
+        strong PRELIMINARY  
+        | - class selections have been submitted and are no long editable.  An invoice will be generated
+      h3 
+        strong FINAL 
+        | - checks have been received, and enrollments in selected classes are secured.
+
   //- - var enrollmentStatus = family.yearEnrollmentStatus.get(selectedYear)
   
   //- - var isDisabled = (enrollmentStatus != "NONE") && !isAdmin
   //- h2.enrollments__title= `Enrollment Status: ` 
   //-   span(style="color:red;")=`${enrollmentStatus}`
 
-  section
+  section(style="flex:2")
     form.form.form__outline-box.form--row.enrollment-profile__form.enrollment-profile--wide
+      .form__row 
+        
+       
       .form__row
         button.form__button.btn-save-selections(disabled=isDisabled) Save Selections 
         input.form__button(type='submit' style="padding:1.5rem;" disabled=isDisabled value='⚠️Submit⚠️') 
@@ -45,13 +63,13 @@ block content
                         for c in classes
                           p=c.hour
                           if ((c.hour==enrollment.class.hour))
-                           
-                            option.form__option(
-                              selected=(enrollment.class.id==c.id) 
-                              disabled=isDisabled || !courses.includes(c.course.name)
-                              data-enrollment-id=enrollment.id
-                              data-class-id=c.id
-                              data-child-id=child.id)
-                              =`${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
+                            if (courses.includes(c.course.name))
+                              option.form__option(
+                                selected=(enrollment.class.id==c.id) 
+                               
+                                data-enrollment-id=enrollment.id
+                                data-class-id=c.id
+                                data-child-id=child.id)
+                                =`${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
 
   
