@@ -1,0 +1,39 @@
+extends ../base
+
+block content   
+    .page__content.year-profile(data-is-new=(year.isNew?'new':'old'))                
+        section
+                
+            form.form.form__outline-box.year-profile__form(id=year.id style='width:max-content;') 
+                .form__row
+                    .form__header-text Year
+                    .form__header-background.family-form__header-image
+                    
+                .form__row.form__item
+                    label.form__label(for='year') Year *
+                        input#year.form__input.form__input--inline(type='text', name='year', size='9', value= year.year )
+
+                .form__row.form__item
+                    label.form__label(for='registrationCloseDate') Registration Close Date*
+                        
+                        input#registrationCloseDate.form__input.form__input--inline(type='date', name='registrationCloseDate', value=year.registrationCloseDate.toISOString().slice(0,10))
+                    
+                .form__row.form__item    
+                    label.form__label(for='courseEditCloseDate') Course Editing Close Date*
+                        input#courseEditCloseDate.form__input.form__input--inline(type='date', name='courseEditCloseDate',  value= year.courseEditCloseDate.toISOString().slice(0,10) )
+                    
+                .form__row.form__item    
+                    label.form__label(for='coursePreviewOpenDate') Course Preview Open Date*
+                        input#coursePreviewOpenDate.form__input.form__input--inline(type='date', name='coursePreviewOpenDate',  value= year.coursePreviewOpenDate.toISOString().slice(0,10) )
+
+                .form__row.form__item   
+                    label.form__label(for='enrollmentOpenDate') Enrollment Open Date*
+                        input#enrollmentOpenDate.form__input.form__input--inline(type='date', name='enrollmentOpenDate',  value= year.enrollmentOpenDate.toISOString().slice(0,10) )
+                    
+                .form__row.form__item    
+                    label.form__label(for='enrollmentCloseDate') Enrollment Close Date*
+                        input#enrollmentCloseDate.form__input.form__input--inline(type='date', name='enrollmentCloseDate',  value= year.enrollmentCloseDate.toISOString().slice(0,10) )
+                
+                .form__row
+                    input.form__button.form__item--center(type='submit' value=year.isNew?"Add":"Update")
+                    a.form__button.form__cancel(href=`/classes_table/${selectedYear}`) X
