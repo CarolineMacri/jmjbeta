@@ -145,6 +145,12 @@ router.get(
   authController.restrictTo('admin'),
   viewsController.getYearProfile
 );
+router.get(
+  '/years_table',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewsController.getYearsTable
+);
 
 router.get(
   '/users/:selectedYear?',

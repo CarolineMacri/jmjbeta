@@ -10,6 +10,15 @@ exports.getYears = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getYearsTable = catchAsync(async (req, res, next) => {
+  const years = await Year.find().sort('year');
+ 
+  res.status(200).render('years/years_table', {
+    title: 'School Years',
+    years,
+  });
+});
+
 exports.getYearProfile = catchAsync(async (req, res, next) => {
   let { yearId } = req.params;
 
@@ -26,10 +35,7 @@ exports.getYearProfile = catchAsync(async (req, res, next) => {
   console.log(year);
 
   res.status(200).render('years/year_profile', {
-    title:
-      yearId == 'new'
-        ? `New year record`
-        : `${year.year}`,
-    year
+    title: yearId == 'new' ? `New year record` : `${year.year}`,
+    year,
   });
 });

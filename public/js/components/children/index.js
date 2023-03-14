@@ -3,7 +3,7 @@ function index(a) {
   const children = document.querySelector('.children');
   const childProfile = document.querySelector('.child-profile');
 
-  if (children) {
+  if (children) { 
     // year  selector
     const yearSelect = document.getElementById('year-select');
     if (yearSelect) {

@@ -1,6 +1,7 @@
 // npm modules
 const mongoose = require('mongoose');
-const { update } = require('./userModel');
+
+const today = Date.now();
 
 const yearSchema = new mongoose.Schema(
   {
@@ -14,23 +15,24 @@ const yearSchema = new mongoose.Schema(
     },
     registrationCloseDate: {
       type: Date,
-      required: [true, 'registration close date required'],
+      default: today
+
     },
     courseEditCloseDate: {
       type: Date,
-      required: [true, 'Course edit close date required'],
+      default: today
     },
     coursePreviewOpenDate: {
       type: Date,
-      required: [true, 'Course Preview Open Date reqired']
+      default: today
     },
     enrollmentOpenDate: {
       type: Date,
-      required: [true, 'Enrollment Open Date required']
+      default: today
     },
     enrollmentCloseDate: {
       type: Date,
-      required: [true, 'Enrollment Close Date required']
+      default: today
     }
   },
   {

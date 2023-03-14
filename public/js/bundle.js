@@ -18386,7 +18386,359 @@ function index(a) {
     });
   }
 }
-},{"./actions":"components/test/actions.js"}],"reports.js":[function(require,module,exports) {
+},{"./actions":"components/test/actions.js"}],"components/years/actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deleteYear = exports.deleteYearModal = exports.updateYear = exports.changeCurrentYear = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("../../alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var changeCurrentYear = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(year) {
+    var method, url, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            alert("in change ".concat(year, " to current Year"));
+            _context.prev = 1;
+            method = 'PATCH';
+            url = "/api/v1/years/changeCurrentYear/".concat(year);
+            _context.next = 6;
+            return (0, _axios.default)({
+              method: method,
+              url: url
+            });
+
+          case 6:
+            res = _context.sent;
+
+            if (res.data.status = 'success') {
+              (0, _alerts.showAlert)('success', "".concat(year, " is now the current school year"));
+            }
+
+            window.setTimeout(function () {
+              location.replace("/years_table");
+            }, 500);
+            _context.next = 14;
+            break;
+
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context["catch"](1);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 14:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[1, 11]]);
+  }));
+
+  return function changeCurrentYear(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.changeCurrentYear = changeCurrentYear;
+
+var updateYear = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(yearId, year) {
+    var isNewYear, method, url, res;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            alert('in updateYear');
+            isNewYear = year.isNew == true;
+            method = isNewYear ? 'POST' : 'PATCH';
+            url = "/api/v1/years/".concat(isNewYear ? '' : '/' + yearId);
+            _context2.prev = 4;
+            _context2.next = 7;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: year
+            });
+
+          case 7:
+            res = _context2.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "School Year ".concat(res.data.data.year.year, " ").concat(yearId == 'new' ? 'added' : 'updated', " successfully"));
+              window.setTimeout(function () {
+                location.replace("/year_profile/".concat(yearId));
+              }, 500);
+            }
+
+            _context2.next = 14;
+            break;
+
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2["catch"](4);
+            (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
+
+          case 14:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[4, 11]]);
+  }));
+
+  return function updateYear(_x2, _x3) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.updateYear = updateYear;
+
+var deleteYearModal = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(row) {
+    var yearId, _map, _map2, yearValue, current, x, y, deleteModal, paragraphs, deleteYearButton;
+
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            yearId = row.id;
+            _map = _toConsumableArray(row.children).map(function (e) {
+              return e.innerHTML;
+            }), _map2 = _slicedToArray(_map, 4), yearValue = _map2[0], current = _map2[1], x = _map2[2], y = _map2[3];
+            alert(yearValue + yearId);
+            deleteModal = document.querySelector('.delete-modal__window');
+            deleteModal.classList.toggle('delete-modal__show');
+            paragraphs = deleteModal.getElementsByTagName('p');
+            paragraphs.item(2).innerHTML = yearValue;
+            deleteYearButton = document.getElementById('deleteYear');
+            deleteYearButton.addEventListener('click', function () {
+              deleteYear(yearId);
+            });
+            alert('added delete year top button');
+
+          case 10:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function deleteYearModal(_x4) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.deleteYearModal = deleteYearModal;
+
+var deleteYear = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(yearId) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            url = "/api/v1/years/".concat(yearId);
+            _context4.next = 4;
+            return (0, _axios.default)({
+              method: 'DELETE',
+              url: url
+            });
+
+          case 4:
+            res = _context4.sent;
+
+            if (res.status == 204) {
+              (0, _alerts.showAlert)('success', "Year deleted");
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context4.next = 11;
+            break;
+
+          case 8:
+            _context4.prev = 8;
+            _context4.t0 = _context4["catch"](0);
+            (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[0, 8]]);
+  }));
+
+  return function deleteYear(_x5) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.deleteYear = deleteYear;
+},{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/years/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.index = index;
+
+var _alerts = require("../../alerts");
+
+var _actions = require("./actions");
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function index(a) {
+  // DOM elements
+  var years = document.querySelector('.years');
+  var yearProfile = document.querySelector('.year-profile');
+
+  if (years) {
+    var yearRadios = document.getElementsByName('current');
+
+    var _iterator = _createForOfIteratorHelper(yearRadios),
+        _step;
+
+    try {
+      var _loop2 = function _loop2() {
+        radio = _step.value;
+        var newCurrentYear = radio.id;
+        radio.addEventListener('change', function (e) {
+          e.preventDefault();
+          (0, _actions.changeCurrentYear)(newCurrentYear);
+        });
+      };
+
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var radio;
+
+        _loop2();
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    var yearsRows = document.querySelector('.years').getElementsByTagName('tr');
+    var numRows = yearsRows.length;
+
+    var _loop = function _loop() {
+      var dataRow = yearsRows[i];
+      var dataCells = dataRow.getElementsByTagName('td');
+      var numCells = dataCells.length;
+      var deleteButton = dataCells.item(numCells - 1);
+      deleteButton.addEventListener('click', function (e) {
+        (0, _actions.deleteYearModal)(dataRow);
+      });
+
+      var _map = _toConsumableArray(dataRow.children).map(function (e) {
+        return e.innerHTML;
+      }),
+          _map2 = _slicedToArray(_map, 4),
+          yearValue = _map2[0],
+          current = _map2[1],
+          x = _map2[2],
+          y = _map2[3];
+    };
+
+    for (var i = 1; i <= numRows - 2; i++) {
+      _loop();
+    }
+
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
+    });
+  }
+
+  if (yearProfile) {
+    var yearProfileForm = document.querySelector('.year-profile__form');
+    yearProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var isNew = yearProfile.dataset.isNew == 'new';
+      var yearId = yearProfileForm.id;
+      var yearValue = document.getElementById('year').value;
+      var registrationCloseDate = document.getElementById('registrationCloseDate').value;
+      alert('got reg close');
+      var courseEditCloseDate = document.getElementById('courseEditCloseDate').value;
+      var coursePreviewOpenDate = document.getElementById('coursePreviewOpenDate').value;
+      var enrollmentOpenDate = document.getElementById('enrollmentOpenDate').value;
+      var enrollmentCloseDate = document.getElementById('enrollmentCloseDate').value;
+      var year = {
+        id: yearId,
+        year: yearValue,
+        registrationCloseDate: registrationCloseDate,
+        courseEditCloseDate: courseEditCloseDate,
+        coursePreviewOpenDate: coursePreviewOpenDate,
+        enrollmentOpenDate: enrollmentOpenDate,
+        enrollmentCloseDate: enrollmentCloseDate,
+        isNew: isNew
+      };
+      alert(JSON.stringify(year));
+      (0, _actions.updateYear)(yearId, year);
+    });
+  }
+}
+},{"../../alerts":"alerts.js","./actions":"components/years/actions.js"}],"reports.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -126741,6 +127093,8 @@ var _index8 = require("./components/teachers/index");
 
 var _index9 = require("./components/test/index");
 
+var _index10 = require("./components/years/index");
+
 var _actions = require("./components/teachers/actions");
 
 var _reports = require("./reports");
@@ -126764,6 +127118,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 (0, _index7.index)();
 (0, _index8.index)();
 (0, _index9.index)();
+(0, _index10.index)();
 //import { fill } from 'core-js/core/array';
 var family = document.querySelector('.family');
 var families = document.querySelector('.families'); // const children = document.querySelector('.children');
@@ -127070,7 +127425,7 @@ if (users) {
     });
   });
 }
-},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./components/children/index":"components/children/index.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./components/registrations/index":"components/registrations/index.js","./components/teachers/index":"components/teachers/index.js","./components/test/index":"components/test/index.js","./components/teachers/actions":"components/teachers/actions.js","./reports":"reports.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/stable":"../../node_modules/core-js/stable/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./family":"family.js","./families":"families.js","./components/children/index":"components/children/index.js","./components/courses/index":"components/courses/index.js","./components/logins/index":"components/logins/index.js","./components/classes/index":"components/classes/index.js","./components/enrollments/index":"components/enrollments/index.js","./components/payments/index":"components/payments/index.js","./components/registrations/index":"components/registrations/index.js","./components/teachers/index":"components/teachers/index.js","./components/test/index":"components/test/index.js","./components/years/index":"components/years/index.js","./components/teachers/actions":"components/teachers/actions.js","./reports":"reports.js","./users":"users.js","mongodb":"../../node_modules/mongodb/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

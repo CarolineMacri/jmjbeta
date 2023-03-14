@@ -9,6 +9,8 @@ const router = express.Router();
 router.use(authController.protect)
 router.use(authController.restrictTo('sysAdmin', 'admin'))
 
+router.patch("/changeCurrentYear/:year", yearController.changeCurrentYear);
+
 router
   .route("/")
   .get(yearController.getAllYears)

@@ -1,0 +1,40 @@
+extends ../base
+
+block content   
+    .page__content
+        div
+            section
+                
+                h1.years__title School Years
+        .page__content-row   
+            .page__content     
+                table.years
+                        tr
+                            th Year
+                            th Current
+                            
+                        for year in years  
+                            tr(id=year._id)
+                                td= year.year
+                                td(style='text-align:center;font-weight:bold') 
+                                    input(type='radio' name='current' id=year.year checked=year.current)               
+                                td.button
+                                    a.edit(href=`/year_profile/${year._id}`) &#9998
+                                td.button
+                                    .delete &#10006
+                        tr#new
+                            td.button
+                                .new                               
+                                    a(href=`/year_profile/new`) &#10010
+            .page__content 
+                p Here is some stuff 
+                h2 here is some more stuff 
+
+        section.year-delete.page__content-row
+            .delete-modal__window
+                .delete-modal__content.year-delete__modal
+                    p.year-delete__warning &#9888
+                    p Are you sure you want to delete
+                    p year
+                    button#deleteYear.button-ok OK
+                    button#cancelDelete.button-cancel cancel                    

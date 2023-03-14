@@ -30,6 +30,8 @@ teachers();
 
 import { index as test } from './components/test/index';
 test();
+import { index as years } from './components/years/index';
+years();
 
 import { addTeacher, existsTeacher } from './components/teachers/actions';
 import { changeReportChildrenYear } from './reports';
