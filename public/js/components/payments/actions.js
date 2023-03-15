@@ -80,6 +80,30 @@ export const deletePayment = async (paymentId, parentName) => {
       }, 500);
     }
   } catch (err) {
-    showAlert('error', err.respons.data.message);
+    showAlert('error', err.response.data.message);
   }
 };
+
+export const saveFamilyPaymentChanges = async (family) => {
+  //showAlert('error', `function not yet implemented ${JSON.stringify(family)}`);
+  try {
+    const url = `/api/v1/families/${family.id}`;
+    alert(url);
+
+
+    const res = await axios({
+      method: 'PATCH',
+      url,
+      data: family
+    });
+
+    if (res.data.status == 'success') {
+      showAlert('success', `Family enrollment infomration successfully updated`);
+      window.setTimeout(() => {
+        location.reload();
+      }, 500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+}

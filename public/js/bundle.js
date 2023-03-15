@@ -17500,7 +17500,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deletePayment = exports.deletePaymentModal = exports.updatePayment = exports.changePaymentsYear = void 0;
+exports.saveFamilyPaymentChanges = exports.deletePayment = exports.deletePaymentModal = exports.updatePayment = exports.changePaymentsYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -17660,7 +17660,7 @@ var deletePayment = /*#__PURE__*/function () {
           case 8:
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)('error', _context3.t0.respons.data.message);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -17676,6 +17676,56 @@ var deletePayment = /*#__PURE__*/function () {
 }();
 
 exports.deletePayment = deletePayment;
+
+var saveFamilyPaymentChanges = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(family) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            url = "/api/v1/families/".concat(family.id);
+            alert(url);
+            _context4.next = 5;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: url,
+              data: family
+            });
+
+          case 5:
+            res = _context4.sent;
+
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "Family enrollment infomration successfully updated");
+              window.setTimeout(function () {
+                location.reload();
+              }, 500);
+            }
+
+            _context4.next = 12;
+            break;
+
+          case 9:
+            _context4.prev = 9;
+            _context4.t0 = _context4["catch"](0);
+            (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
+
+          case 12:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[0, 9]]);
+  }));
+
+  return function saveFamilyPaymentChanges(_x8) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.saveFamilyPaymentChanges = saveFamilyPaymentChanges;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/payments/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -17686,19 +17736,50 @@ exports.index = index;
 
 var _actions = require("./actions");
 
-/* eslint-disable */
-// import 'core-js/stable';// import 'regenerator-runtime/runtime';
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function index(a) {
   // DOM elements=
   var payments = document.querySelector('.payments');
   var paymentProfile = document.querySelector('.payment-profile');
 
   if (payments) {
+    var familyPaymentForm = document.querySelector('.family-payment__form');
     var yearSelect = document.getElementById('year-select');
     var parentId = document.querySelector('.payments__title').id;
     yearSelect.addEventListener('change', function (e) {
       var newYear = yearSelect.value;
       (0, _actions.changePaymentsYear)(newYear, parentId);
+    });
+    familyPaymentForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var familyId = familyPaymentForm.id;
+      var enrollmentStatuses = document.getElementsByName('Enrollment Status');
+
+      var enrollmentStatus = _toConsumableArray(enrollmentStatuses).find(function (x) {
+        return x.checked;
+      }).value;
+
+      var paymentReceived = {};
+      paymentReceived.date = document.getElementById('paymentReceivedDate').value;
+      paymentReceived.order = document.getElementById('paymentReceivedOrder').value;
+      var family = {};
+      family = {
+        id: familyId,
+        enrollmentStatus: enrollmentStatus,
+        paymentReceived: paymentReceived
+      };
+      (0, _actions.saveFamilyPaymentChanges)(family);
     });
     var paymentsRows = document.querySelector('.payments').getElementsByTagName('tr');
     var numRows = paymentsRows.length;
@@ -17708,7 +17789,7 @@ function index(a) {
       var dataCells = dataRow.getElementsByTagName('td');
       var numCells = dataCells.length;
       var deleteButton = dataCells.item(numCells - 1);
-      deleteButton.addEventListener("click", function () {
+      deleteButton.addEventListener('click', function () {
         (0, _actions.deletePaymentModal)(dataRow);
       });
     };
@@ -17717,10 +17798,10 @@ function index(a) {
       _loop();
     }
 
-    var cancelDelete = document.getElementById("cancelDelete");
-    cancelDelete.addEventListener("click", function (e) {
+    var cancelDelete = document.getElementById('cancelDelete');
+    cancelDelete.addEventListener('click', function (e) {
       e.preventDefault();
-      document.querySelector(".delete-modal__window").classList.toggle("delete-modal__show");
+      document.querySelector('.delete-modal__window').classList.toggle('delete-modal__show');
     });
   }
 
@@ -17728,13 +17809,13 @@ function index(a) {
     var paymentProfileForm = document.querySelector('.payment-profile__form');
 
     if (paymentProfileForm) {
-      paymentProfileForm.addEventListener("submit", function (e) {
+      paymentProfileForm.addEventListener('submit', function (e) {
         e.preventDefault();
         var year = paymentProfile.dataset.selectedYear;
         var isNew = paymentProfile.dataset.isNew == 'new';
         var hasParent = paymentProfile.dataset.hasParent == 'true';
         var paymentId = paymentProfileForm.id;
-        var parent = document.getElementById("parent").value;
+        var parent = document.getElementById('parent').value;
         var teacher = document.getElementById('teacher').value;
         var semester = document.getElementById('semester').value;
         var checkNumber = document.getElementById('checkNumber').value;

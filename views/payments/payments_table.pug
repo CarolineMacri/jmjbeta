@@ -12,10 +12,10 @@ block content
                         -var paymentReceived = family.paymentReceived
                             .page__content-row
                                 .page__content
-                                form.form__outline-box(style="flex:2")
+                                form(id=family._id).family-payment__form.form__outline-box(style="flex:2")
                                     .form__row
                                         .page__content(style="align-items:center")
-                                            h2.payments__title= `Enrollment Status`
+                                            h2.payments__title Enrollment Status
                                             +radioColumn('Enrollment Status',['none', 'preliminary', 'final'], family.enrollmentStatus)
                                         .page__content(style="align-items:center")
                                             h2.payments__title Payment Received 
