@@ -1,18 +1,20 @@
 extends ../base
-
 block content   
+    include ../mixins/radio
     - var isAdmin = user.currentRoles.includes('admin' || 'sysadmin')
     .page__content
         div
             section
+                include ../_yearSelector
                 if hasParent
                     h1.payments__title(id= parent._id)= `${parent.firstName}  ${parent.lastName} Payments`
                     if isAdmin
                         h2.payments__title= `Enrollment Status`
-                         h2.payments__title(style="color:red;")= family.enrollmentStatus.toUpperCase()
+                        .page__content-row(style="justify-content:center")
+                            +radioColumn('Enrollment Status',['none', 'preliminary', 'final'], family.enrollmentStatus)
+
                 else    
                     h1.payments__title  Payments
-                include ../_yearSelector
         table.payments
                 tr
                     th Parent
