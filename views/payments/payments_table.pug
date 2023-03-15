@@ -1,11 +1,15 @@
 extends ../base
 
 block content   
+    - var isAdmin = user.currentRoles.includes('admin' || 'sysadmin')
     .page__content
         div
             section
                 if hasParent
                     h1.payments__title(id= parent._id)= `${parent.firstName}  ${parent.lastName} Payments`
+                    if isAdmin
+                        h2.payments__title= `Enrollment Status`
+                         h2.payments__title(style="color:red;")= family.enrollmentStatus.toUpperCase()
                 else    
                     h1.payments__title  Payments
                 include ../_yearSelector

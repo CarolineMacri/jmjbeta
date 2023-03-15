@@ -3,10 +3,7 @@ extends ../base
 block content
     
     .page__content.payment-profile(data-is-new= (payment.isNew?'new':'old') data-selected-year=selectedYear data-has-parent=(hasParent?'true':'false') )
-        h3=(`${JSON.stringify(payment.teacher._id)} payment.teacher._id`)
-        h3=(`${JSON.stringify(payment.parent._id)} payment.parent._id`)
-
-         
+       
         section
             form.form.form__outline-box.payment-profile__form(id=payment._id ) 
                 .form__row
