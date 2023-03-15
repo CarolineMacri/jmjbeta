@@ -9,12 +9,28 @@ block content
                 if hasParent
                     h1.payments__title(id= parent._id)= `${parent.firstName}  ${parent.lastName} Payments`
                     if isAdmin
-                        h2.payments__title= `Enrollment Status`
-                        .page__content-row(style="justify-content:center")
-                            +radioColumn('Enrollment Status',['none', 'preliminary', 'final'], family.enrollmentStatus)
+                        -var paymentReceived = family.paymentReceived
+                            .page__content-row
+                                .page__content
+                                form.form__outline-box(style="flex:2")
+                                    .form__row
+                                        .page__content(style="align-items:center")
+                                            h2.payments__title= `Enrollment Status`
+                                            +radioColumn('Enrollment Status',['none', 'preliminary', 'final'], family.enrollmentStatus)
+                                        .page__content(style="align-items:center")
+                                            h2.payments__title Payment Received 
+                                            label.form__label(for='paymentReceivedDate') Date
+                                                input#paymentReceivedDate.form__input.form__input--inline(type='date' name='paymentReceivedDate' value=paymentReceived.date.toISOString().slice(0,10))
+                                            label.form__label(for='paymentReceivedOrder') Order 
+                                                input#paymentReceivedOrder.form__input.form__input--inline(style='width:10rem' type='number' name=paymentReceivedOrder value=paymentReceived.order) 
+                                        
+                                    .form__row
+                                        input.form__button.form__item--center(type='submit' value="Save changes")
+                                .page__content        
+                          
 
-                else    
-                    h1.payments__title  Payments
+                    else    
+                        h1.payments__title  Payments
         table.payments
                 tr
                     th Parent
