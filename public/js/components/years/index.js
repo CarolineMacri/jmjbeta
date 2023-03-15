@@ -41,7 +41,6 @@ function index(a) {
       const [yearValue, current, x, y] = [...dataRow.children].map(
         (e) => e.innerHTML
       );
-      
     }
 
     const cancelDelete = document.getElementById('cancelDelete');
@@ -67,7 +66,7 @@ function index(a) {
       const registrationCloseDate = document.getElementById(
         'registrationCloseDate'
       ).value;
-      alert('got reg close');
+
       const courseEditCloseDate = document.getElementById(
         'courseEditCloseDate'
       ).value;
@@ -90,8 +89,6 @@ function index(a) {
         enrollmentCloseDate,
         isNew,
       };
-
-      alert(JSON.stringify(year));
 
       updateYear(yearId, year);
     });

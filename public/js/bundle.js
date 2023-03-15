@@ -18431,17 +18431,16 @@ var changeCurrentYear = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            alert("in change ".concat(year, " to current Year"));
-            _context.prev = 1;
+            _context.prev = 0;
             method = 'PATCH';
             url = "/api/v1/years/changeCurrentYear/".concat(year);
-            _context.next = 6;
+            _context.next = 5;
             return (0, _axios.default)({
               method: method,
               url: url
             });
 
-          case 6:
+          case 5:
             res = _context.sent;
 
             if (res.data.status = 'success') {
@@ -18451,20 +18450,20 @@ var changeCurrentYear = /*#__PURE__*/function () {
             window.setTimeout(function () {
               location.replace("/years_table");
             }, 500);
-            _context.next = 14;
+            _context.next = 13;
             break;
 
-          case 11:
-            _context.prev = 11;
-            _context.t0 = _context["catch"](1);
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](0);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 14:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[1, 11]]);
+    }, _callee, null, [[0, 10]]);
   }));
 
   return function changeCurrentYear(_x) {
@@ -18481,42 +18480,44 @@ var updateYear = /*#__PURE__*/function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            alert('in updateYear');
             isNewYear = year.isNew == true;
             method = isNewYear ? 'POST' : 'PATCH';
             url = "/api/v1/years/".concat(isNewYear ? '' : '/' + yearId);
-            _context2.prev = 4;
-            _context2.next = 7;
+            _context2.prev = 3;
+            _context2.next = 6;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: year
             });
 
-          case 7:
+          case 6:
             res = _context2.sent;
 
             if (res.data.status == 'success') {
-              (0, _alerts.showAlert)('success', "School Year ".concat(res.data.data.year.year, " ").concat(yearId == 'new' ? 'added' : 'updated', " successfully"));
+              (0, _alerts.showAlert)('success', "School Year ".concat(res.data.data.year.year, " ").concat(isNewYear == 'new' ? 'added' : 'updated', " successfully")); // need in case a new year, need to get the id assigned by mongo
+
+              year = res.data.data.year;
+              yearId = year.id;
               window.setTimeout(function () {
                 location.replace("/year_profile/".concat(yearId));
-              }, 500);
+              }, 1000);
             }
 
-            _context2.next = 14;
+            _context2.next = 13;
             break;
 
-          case 11:
-            _context2.prev = 11;
-            _context2.t0 = _context2["catch"](4);
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2["catch"](3);
             (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
 
-          case 14:
+          case 13:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[4, 11]]);
+    }, _callee2, null, [[3, 10]]);
   }));
 
   return function updateYear(_x2, _x3) {
@@ -18538,7 +18539,6 @@ var deleteYearModal = /*#__PURE__*/function () {
             _map = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map2 = _slicedToArray(_map, 4), yearValue = _map2[0], current = _map2[1], x = _map2[2], y = _map2[3];
-            alert(yearValue + yearId);
             deleteModal = document.querySelector('.delete-modal__window');
             deleteModal.classList.toggle('delete-modal__show');
             paragraphs = deleteModal.getElementsByTagName('p');
@@ -18547,9 +18547,8 @@ var deleteYearModal = /*#__PURE__*/function () {
             deleteYearButton.addEventListener('click', function () {
               deleteYear(yearId);
             });
-            alert('added delete year top button');
 
-          case 10:
+          case 8:
           case "end":
             return _context3.stop();
         }
@@ -18718,7 +18717,6 @@ function index(a) {
       var yearId = yearProfileForm.id;
       var yearValue = document.getElementById('year').value;
       var registrationCloseDate = document.getElementById('registrationCloseDate').value;
-      alert('got reg close');
       var courseEditCloseDate = document.getElementById('courseEditCloseDate').value;
       var coursePreviewOpenDate = document.getElementById('coursePreviewOpenDate').value;
       var enrollmentOpenDate = document.getElementById('enrollmentOpenDate').value;
@@ -18733,7 +18731,6 @@ function index(a) {
         enrollmentCloseDate: enrollmentCloseDate,
         isNew: isNew
       };
-      alert(JSON.stringify(year));
       (0, _actions.updateYear)(yearId, year);
     });
   }

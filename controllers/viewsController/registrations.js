@@ -22,7 +22,6 @@ exports.getRegistrationProfile = catchAsync(async (req, res, next) => {
   const User = require('../../models/userModel');
 
   let { selectedYear, registeredUserId } = req.params;
-  console.log('get registration profile', selectedYear, registeredUserId);
 
   const years = await Year.find();
 
@@ -32,12 +31,9 @@ exports.getRegistrationProfile = catchAsync(async (req, res, next) => {
   }
   let registeredUser = await User.findById(registeredUserId);
 
-  const registeredYears = [...registeredUser.yearRoles.keys()].filter((key) => { return registeredUser.yearRoles.get(key) !== null; });
-  registeredYears.forEach((key)=> {
-    console.log('key -  ',registeredUser.yearRoles.get(key));
+  const registeredYears = [...registeredUser.yearRoles.keys()].filter((key) => {
+    return registeredUser.yearRoles.get(key) !== null;
   });
-
-  console.log(registeredYears);
 
   res.status(200).render('registrations/registration_profile', {
     title: `Registrations ${selectedYear}`,
