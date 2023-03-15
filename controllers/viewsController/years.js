@@ -1,5 +1,4 @@
-const catchAsync = require('../../utils/catchAsync');
-const Year = require('../../models/yearModel');
+const catchAsync = require('../../utils/catchAsync');const Year = require('../../models/yearModel');
 
 exports.getYears = catchAsync(async (req, res, next) => {
   const years = await Year.find().sort({ year: -1 });
@@ -12,7 +11,7 @@ exports.getYears = catchAsync(async (req, res, next) => {
 
 exports.getYearsTable = catchAsync(async (req, res, next) => {
   const years = await Year.find().sort('year');
- 
+
   res.status(200).render('years/years_table', {
     title: 'School Years',
     years,
@@ -32,7 +31,6 @@ exports.getYearProfile = catchAsync(async (req, res, next) => {
   else {
     year = await Year.findOne({ _id: yearId });
   }
-  console.log(year);
 
   res.status(200).render('years/year_profile', {
     title: yearId == 'new' ? `New year record` : `${year.year}`,

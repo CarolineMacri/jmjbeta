@@ -15,25 +15,24 @@ const yearSchema = new mongoose.Schema(
     },
     registrationCloseDate: {
       type: Date,
-      default: today
-
+      default: today,
     },
     courseEditCloseDate: {
       type: Date,
-      default: today
+      default: today,
     },
     coursePreviewOpenDate: {
       type: Date,
-      default: today
+      default: today,
     },
     enrollmentOpenDate: {
       type: Date,
-      default: today
+      default: today,
     },
     enrollmentCloseDate: {
       type: Date,
-      default: today
-    }
+      default: today,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -45,29 +44,26 @@ yearSchema.virtual('isRegistrationOpen').get(function () {
   const today = Date.now();
   const close = this.registrationCloseDate.getTime();
 
-  return (today < close);
+  return today < close;
 });
 yearSchema.virtual('isCourseEditingAllowed').get(function () {
   const today = Date.now();
   const close = this.courseEditCloseDate.getTime();
 
-  return (today < close);
+  return today < close;
 });
 yearSchema.virtual('isCoursePreviewOpen').get(function () {
-  const today = Date.now(); 
+  const today = Date.now();
   const open = this.coursePreviewOpenDate.getTime();
 
-  return (today > open);
+  return today > open;
 });
 yearSchema.virtual('isEnrollmentOpen').get(function () {
   const today = Date.now();
   const open = this.enrollmentOpenDate.getTime();
   const close = this.enrollmentCloseDate.getTime();
-  console.log(open)
-  console.log(today)
-  console.log(close)
 
-  return ((open <= today) && (today <= close));
+  return open <= today && today <= close;
 });
 yearSchema.statics.setCurrentYear = async function (year) {
   var res = await this.updateOne({ year: year }, { current: true });
@@ -94,19 +90,19 @@ yearSchema.statics.getCurrentYearDoc = async function () {
 
 yearSchema.statics.isRegistrationOpen = async function () {
   const yearDoc = await this.findOne({ current: true });
-  return yearDoc.isRegistrationOpen
+  return yearDoc.isRegistrationOpen;
 };
 yearSchema.statics.isCourseEditingAllowed = async function () {
   const yearDoc = await this.findOne({ current: true });
-  return yearDoc.isCourseEditingAllowed
+  return yearDoc.isCourseEditingAllowed;
 };
 yearSchema.statics.isCoursePreviewOpen = async function () {
   const yearDoc = await this.findOne({ current: true });
-  return yearDoc.isCoursePreviewOpen
+  return yearDoc.isCoursePreviewOpen;
 };
 yearSchema.statics.isEnrollmentOpen = async function () {
   const yearDoc = await this.findOne({ current: true });
-  return yearDoc.isEnrollmentOpen
+  return yearDoc.isEnrollmentOpen;
 };
 const Year = mongoose.model('Year', yearSchema);
 module.exports = Year;
