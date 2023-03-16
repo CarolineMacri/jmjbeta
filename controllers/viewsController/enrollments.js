@@ -84,7 +84,7 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
-  const classes = await Class.find({ year: selectedYear }).populate('course');
+  const classes = await Class.find({ year: selectedYear }).populate('course').populate('enrollments');
   //console.log(selectedYear);
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 

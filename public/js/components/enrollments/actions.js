@@ -22,13 +22,14 @@ export const submitEnrollments = async (familyId) => {
 
     const parentId = res.data.data.family.parent.id;
     window.setTimeout(() => {
-      location.replace(`/enrollment_profile/${parentId}`);
+      // location.replace(`/enrollment_profile/${parentId}`);
+      // document.location.reload(true)
+      window.location.href = window.location.href;
     }, 500);
   } catch (err) {
     showAlert('error', err.response.data.message);
   }
 };
-
 
 export const saveEnrollentSelections = async (enrollments) => {
   const enrollmentsToAdd = enrollments.filter((e) => {
@@ -85,8 +86,4 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   // if you got to here - everything is good
   showAlert('success', `Enrollment selections saved successfully`);
-
-  window.setTimeout(() => {
-    location.replace(`/enrollment_profile/${familyId}/${selectedYear}`);
-  }, 500);
 };

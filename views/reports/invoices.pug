@@ -3,6 +3,7 @@ extends baseReport
 block content   
   main
     .container
+      -var formatter = new Intl.NumberFormat('en-US', {minimumIntegerDigits: 1,minimumFractionDigits: 2});
       section.page__content-row
         include ../_yearSelector
       section.report-invoices
@@ -19,17 +20,17 @@ block content
 
             for teacher in family.teachers
               .report-invoices-teacher
-                p= teacher.name+ "  - $" + teacher.total
+                p= teacher.name+ "  - $" + formatter.format(teacher.total)
               .report-invoices-classes
                 for cl in teacher.classes
                   .report-invoices-record
-                    .report-invoices-record-student
+                    .report-invoices-record-student(style='flex:1')
                       p=cl.student
-                    .report-invoices-record-class
+                    .report-invoices-record-class(style='flex:4')
                       p=cl.class
-                    .report-invoices-record-price
-                      p="Classes: $" + cl.price
-                    .report-invoices-record-materials
-                      p="Materials: $" + cl.materials + " " 
+                    .report-invoices-record-price(style='flex:2')
+                      p="Classes: $" + formatter.format(cl.price)
+                    .report-invoices-record-materials(style='flex:2')
+                      p="Materials: $" + formatter.format(cl.materials) + " " 
             .report-invoices-teacher   
-            h2= "Grand Total:  $" + family.grandTotal 
+            h2= "Grand Total:  $" + formatter.format(family.grandTotal) 

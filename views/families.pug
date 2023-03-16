@@ -21,12 +21,16 @@ block content
                 .card__outline-box
                   div 
                     a.card__button(href=`/family/${family.parent._id}/${selectedYear}`) Family Overview
+                  div 
+                    a.card__button(href=`/enrollment_profile/${family.parent._id}/${selectedYear}`) Enrollments
                   //- div
                   //-   a.card__button(href=`/users/${selectedYear}`) Edit User
                   div
                     a.card__button(href=`/payments_table/${selectedYear}/${family.parent._id}`) Edit Payments
                   div
                     a.card__button(href=`/reports/signUpSheet/${family.parent._id}`) Sign Up Sheet
+                  div
+                    a.card__button(href=`/reports/invoices/${selectedYear}/${family.parent._id}`) Invoice
                   div
                     a.delete-family.card__button(data-family_id=family._id) Delete this family
 

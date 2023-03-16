@@ -69,6 +69,10 @@ function index(a) {
       saveEnrollentSelections(enrollmentData);
       const unsavedChanges = document.getElementById('unsaved-changes');
       unsavedChanges.style.visibility = 'hidden';
+      //need to update to show if classes are full
+      window.setTimeout(() => {
+        location.reload();
+      }, 500);
     });
 
     for (selection of enrollmentSelections) {

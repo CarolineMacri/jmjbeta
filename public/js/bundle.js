@@ -17219,7 +17219,9 @@ var submitEnrollments = /*#__PURE__*/function () {
 
             parentId = res.data.data.family.parent.id;
             window.setTimeout(function () {
-              location.assign("/enrollment_profile/".concat(parentId)); //window.location.reload();
+              // location.replace(`/enrollment_profile/${parentId}`);
+              // document.location.reload(true)
+              window.location.href = window.location.href;
             }, 500);
             _context.next = 14;
             break;
@@ -17245,7 +17247,7 @@ var submitEnrollments = /*#__PURE__*/function () {
 exports.submitEnrollments = submitEnrollments;
 
 var saveEnrollentSelections = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(enrollments, parentId) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(enrollments) {
     var enrollmentsToAdd, enrollmentsToUpdate, enrollmentsToDelete;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -17294,7 +17296,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 }, _callee2, null, [[0, 7]]);
               }));
 
-              return function (_x4) {
+              return function (_x3) {
                 return _ref3.apply(this, arguments);
               };
             }());
@@ -17332,7 +17334,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 }, _callee3, null, [[0, 7]]);
               }));
 
-              return function (_x5) {
+              return function (_x4) {
                 return _ref4.apply(this, arguments);
               };
             }());
@@ -17370,17 +17372,14 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 }, _callee4, null, [[0, 7]]);
               }));
 
-              return function (_x6) {
+              return function (_x5) {
                 return _ref5.apply(this, arguments);
               };
             }()); // if you got to here - everything is good
 
             (0, _alerts.showAlert)('success', "Enrollment selections saved successfully");
-            window.setTimeout(function () {
-              location.replace("/enrollment_profile/".concat(parentId, "/"));
-            }, 500);
 
-          case 8:
+          case 7:
           case "end":
             return _context5.stop();
         }
@@ -17388,7 +17387,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
     }, _callee5);
   }));
 
-  return function saveEnrollentSelections(_x2, _x3) {
+  return function saveEnrollentSelections(_x2) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -17456,9 +17455,13 @@ function index(a) {
           child: data.childId
         });
       });
-      (0, _actions.saveEnrollentSelections)(enrollmentData, enrollmentProfile.id);
+      (0, _actions.saveEnrollentSelections)(enrollmentData);
       var unsavedChanges = document.getElementById('unsaved-changes');
-      unsavedChanges.style.visibility = 'hidden';
+      unsavedChanges.style.visibility = 'hidden'; //need to update to show if classes are full
+
+      window.setTimeout(function () {
+        location.reload();
+      }, 500);
     });
 
     var _iterator = _createForOfIteratorHelper(enrollmentSelections),
