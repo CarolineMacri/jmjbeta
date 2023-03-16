@@ -6,7 +6,10 @@ block content
             section
                 h1.enrollments__title  Enrollments
                 include ../_yearSelector
-                h2.enrollments__title Enrollment Open:  mm/dd/yy  Enrollment Close: mm/dd/yy  
+                -var options = {weekday: 'long', year:'numeric', month:'long', day:'numeric'}
+                
+                h2.enrollments__title OPEN  
+                h2.enrollments__title= currentYearDoc.enrollmentOpenDate.toISOString().slice(0,10) + ' to ' +  currentYearDoc.enrollmentCloseDate.toISOString().slice(0,10)  
         
            
             table.enrollments
