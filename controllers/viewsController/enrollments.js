@@ -84,8 +84,27 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     selectedYear = await Year.findOne({ current: true });
     selectedYear = selectedYear.year;
   }
-  const classes = await Class.find({ year: selectedYear }).populate('course').populate('enrollments');
-  //console.log(selectedYear);
+  var classes = await Class.find({ year: selectedYear })
+    .populate('course')
+    .populate({
+      path: 'enrollments',
+      populate: {
+        path: 'child',
+        justOne: true,
+        populate: {
+          path: 'family',
+          justOne: true,
+        },
+      },
+    });
+
+  // only final or preliminary count as filling up the class
+  classes.forEach((cl) => {
+    cl.enrollments = cl.enrollments.filter((en) => {
+      return en.child.family.enrollmentStatus != 'none';
+    });
+  });
+
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
   //console.log(gradeCourseMap);
@@ -123,16 +142,15 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
 });
 
 function orderEnrollments(enrollments) {
-  const timeMap = new Map;
+  const timeMap = new Map();
   const hours = Object.values(Class.Times);
   //exclude mass and lunch from enrollments
-  const excludedHours = ['8:00AM','12:00PM']
+  const excludedHours = ['8:00AM', '12:00PM'];
   hours.forEach((hour) => {
     if (!excludedHours.includes(hour)) {
-      timeMap.set(hour,{class:{hour: hour,course: {name: '---'}}})
+      timeMap.set(hour, { class: { hour: hour, course: { name: '---' } } });
     }
   });
-
 
   // const timeMap = new Map([
   //   ['9:00AM', { class: { hour: '9:00AM', course: { name: '---' } } }],
@@ -141,14 +159,12 @@ function orderEnrollments(enrollments) {
   //   ['12:30PM', { class: { hour: '12:30PM', course: { name: '---' } } }],
   //   ['other', { class: { hour: 'other', course: { name: '---' } } }],
   // ]);
-  
 
   enrollments.forEach((e) => {
     timeMap.set(e.class.hour, e);
   });
 
   return [...timeMap.values()];
- 
 }
 
 const gradeSort = function (child2, child1) {

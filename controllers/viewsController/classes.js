@@ -1,4 +1,5 @@
-const pipelines = require('./pipelines');const catchAsync = require('../../utils/catchAsync');
+const pipelines = require('./pipelines');
+const catchAsync = require('../../utils/catchAsync');
 
 exports.getClassesTable = catchAsync(async (req, res, next) => {
   const Year = require('../../models/yearModel');
@@ -109,21 +110,53 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  const classes = await Class.find({ year: selectedYear })
+  var classes = await Class.find({ year: selectedYear })
     .sort({ hour: 1, location: 1 })
     .populate({
       path: 'course',
       justOne: true,
       select: 'name grade classSize',
     })
-    .populate('enrollments');
+    .populate({
+      path: 'enrollments',
+      populate: {
+        path: 'child',
+        justOne: true,
+        populate: {
+          path: 'family',
+          justOne: true,
+        },
+      },
+    });
+
+  // only final or preliminary count as filling up the class
+  // classes.forEach((cl) => {
+  //   cl.enrollments = cl.enrollments.filter((en) => {
+  //     return en.child.family.enrollmentStatus != 'none';
+  //   });
+  // });
+
+  // const classes = await Class.find({ year: selectedYear })
+  //   .sort({ hour: 1, location: 1 })
+  //   .populate({
+  //     path: 'course',
+  //     justOne: true,
+  //     select: 'name grade classSize',
+  //   })
+  //   .populate('enrollments');
 
   classes.map((cl) => {
     cl.style = `grid-area:${cl.location.replace(/ /g, '')}-${cl.hour.replace(
       /:/g,
       ''
     )};`;
+
+    cl.enrollments = cl.enrollments.filter((en) => {
+      return en.child.family.enrollmentStatus != 'none';
+    });
+    
     cl.isFull = cl.enrollments.length >= cl.course.classSize.max;
+    
     cl.slotsLeft = cl.course.classSize.max - cl.enrollments.length;
     return cl;
   });
