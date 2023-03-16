@@ -46,11 +46,11 @@ exports.getTeachersTable = catchAsync(async (req, res, next) => {
   var teachers = await User.find(
     JSON.parse(`{"yearRoles.${selectedYear}":"teacher"}`)
   )
-
     .sort('lastName')
     .populate({ path: 'courses', match: { years: selectedYear } })
     .populate({ path: 'teacher', justOne: true });
 
+  console.log(teachers);
   // user with year role teacher unchecked but without and existing teacher record
   teachers = teachers.filter(teacher => (teacher.teacher.length > 0))
 

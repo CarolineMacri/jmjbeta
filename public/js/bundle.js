@@ -17219,7 +17219,7 @@ var submitEnrollments = /*#__PURE__*/function () {
 
             parentId = res.data.data.family.parent.id;
             window.setTimeout(function () {
-              location.replace("/enrollment_profile/".concat(parentId));
+              location.assign("/enrollment_profile/".concat(parentId)); //window.location.reload();
             }, 500);
             _context.next = 14;
             break;
@@ -17245,7 +17245,7 @@ var submitEnrollments = /*#__PURE__*/function () {
 exports.submitEnrollments = submitEnrollments;
 
 var saveEnrollentSelections = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(enrollments) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(enrollments, parentId) {
     var enrollmentsToAdd, enrollmentsToUpdate, enrollmentsToDelete;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -17294,7 +17294,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 }, _callee2, null, [[0, 7]]);
               }));
 
-              return function (_x3) {
+              return function (_x4) {
                 return _ref3.apply(this, arguments);
               };
             }());
@@ -17332,7 +17332,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 }, _callee3, null, [[0, 7]]);
               }));
 
-              return function (_x4) {
+              return function (_x5) {
                 return _ref4.apply(this, arguments);
               };
             }());
@@ -17370,14 +17370,14 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                 }, _callee4, null, [[0, 7]]);
               }));
 
-              return function (_x5) {
+              return function (_x6) {
                 return _ref5.apply(this, arguments);
               };
             }()); // if you got to here - everything is good
 
             (0, _alerts.showAlert)('success', "Enrollment selections saved successfully");
             window.setTimeout(function () {
-              location.replace("/enrollment_profile/".concat(familyId, "/").concat(selectedYear));
+              location.replace("/enrollment_profile/".concat(parentId, "/"));
             }, 500);
 
           case 8:
@@ -17388,7 +17388,7 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
     }, _callee5);
   }));
 
-  return function saveEnrollentSelections(_x2) {
+  return function saveEnrollentSelections(_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -17456,7 +17456,7 @@ function index(a) {
           child: data.childId
         });
       });
-      (0, _actions.saveEnrollentSelections)(enrollmentData);
+      (0, _actions.saveEnrollentSelections)(enrollmentData, enrollmentProfile.id);
       var unsavedChanges = document.getElementById('unsaved-changes');
       unsavedChanges.style.visibility = 'hidden';
     });

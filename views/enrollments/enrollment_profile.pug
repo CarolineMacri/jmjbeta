@@ -69,13 +69,15 @@ block content
                           for c in classes
                             p=c.hour
                             if ((c.hour==enrollment.class.hour))
+                              -var classFull =(c.enrollments.length >= c.course.classSize.max)
                               if (courses.includes(c.course.name))
                                 option.form__option(
                                   selected=(enrollment.class.id==c.id) 
                                 
                                   data-enrollment-id=enrollment.id
                                   data-class-id=c.id
-                                  data-child-id=child.id)
-                                  =`${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
+                                  data-child-id=child.id
+                                  disabled=classFull)
+                                  =`${classFull?'FULL - ':'' }${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
 
   
