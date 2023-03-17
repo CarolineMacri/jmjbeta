@@ -8,11 +8,13 @@ const enrollmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Class',
       required: true,
+      justOne: true,
     },
     child: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Child',
       required: true,
+      justOne: true,
     },
 
     drop: {

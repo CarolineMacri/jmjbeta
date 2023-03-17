@@ -1,5 +1,4 @@
-const catchAsync = require('../../utils/catchAsync');
-const AppError = require('../../utils/appError');
+const catchAsync = require('../../utils/catchAsync');const AppError = require('../../utils/appError');
 const Year = require('../../models/yearModel');
 const Family = require('../../models/familyModel');
 const Child = require('../../models/childModel');
@@ -136,6 +135,42 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     children,
     classes,
     gradeCourseMap,
+    years,
+    selectedYear,
+  });
+});
+
+exports.getEnrollmentsAdminFamilyTable = catchAsync(async (req, res, next) => {
+  let { parentId, selectedYear } = req.params;
+
+  const years = await Year.find();
+
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+
+  const family = await Family.findOne({ parent: parentId, year: selectedYear });
+
+  let children = await Child.find({ family: family.id, year: selectedYear })
+    .select('firstName grade _id')
+    .populate({
+      path: 'enrollments',
+      populate: {
+        path: 'class',
+        match: { 'semesterSessions.1': { $gt: 0 } },
+        select: 'course _id',
+        justOne: true,
+        populate: { path: 'course', select: 'name', justOne: true },
+      },
+    });
+
+  children = children.sort(gradeSort);
+
+  res.status(200).render('enrollments/enrollments_admin_family_table', {
+    title: `Enrollments ${selectedYear}`,
+    family,
+    children,    
     years,
     selectedYear,
   });

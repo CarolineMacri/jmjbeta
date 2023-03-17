@@ -4,39 +4,44 @@ block content
     .page__content
         div
             section
-                h1.enrollments__title  Enrollments
                 include ../_yearSelector
+                h1.enrollments__title= `${family.parent.lastName}  Enrollments`
+                h1.enrollments__title= `(administrative version)`
                 -var options = {weekday: 'long', year:'numeric', month:'long', day:'numeric'}
                 
-                h2.enrollments__title OPEN  
-                h2.enrollments__title= currentYearDoc.enrollmentOpenDate.toISOString().slice(0,10) + ' to ' +  currentYearDoc.enrollmentCloseDate.toISOString().slice(0,10)  
         
            
             table.enrollments
                 tr
-                    th LastName
-                    th FirstName
-                    th Enrollment Status
+                    th Child
+                    th Grade
+                    th Course
+                    th Drop 
+                    th Drop Date
+                    th Add
+                    th Add Date
                    
-                for family in enrollments    
-                    tr(id=family.parent._id)
-                        td= family.parent.lastName
-                        td= family.parent.firstName
-                        //td= family.yearEnrollmentStatus[selectedYear]
-                        td= family.enrollmentStatus
-                        
-                        
-                        td.button
-                            a.edit(href=`/enrollment_profile/${family.parent._id}/${selectedYear}`) &#9998
-                            //- a.edit(href= "#") &#9998
-                        //- td.button
-                        //-     .delete &#10006
+                for child in children
+                    for enrollment in child.enrollments    
+                        tr(id=enrollment.id)
+                            td= child.firstName
+                            td= child.grade
+                            //td= family.yearEnrollmentStatus[selectedYear]
+                            td= enrollment.class.course.name
+                            td(style='color:red, font-weight:bold')= enrollment.drop.status?"X":''
+                            td= enrollment.drop.date
+                            td(style='color:red, font-weight:bold')= enrollment.add.status?"X":''
+                            td= enrollment.add.date
+                            
+                            
+                            td.button
+                                a.edit(href=`/enrollment_admin_profile/${enrollment.id}`) &#9998
                 
-            //-     tr#new
-            //-         td.button
-            //-             .new
-            //-                 //- a(href=`/enrollment_profile/new/${selectedYear}`) &#10010
-            //-                 a(href=`#`) &#10010
+                tr#new
+                    td.button
+                        .new
+                            a(href=`/enrollment_admin_profile/new`) &#10010
+                            
 
 
             //- section.enrollment-delete.page__content-row
