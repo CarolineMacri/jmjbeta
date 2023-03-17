@@ -5,7 +5,7 @@ header.container.header
   .header__subheadings
     h3.header__h3 Foundation of Faith
     h3.header__h3 Future of Hope
-    //h3= user
+  h1.header__h1(style='color:red; font-weight:bold')= (env =='Development')?env:''
   if user  
     h3.header__user.dropdown.drop= user.lastName + ' \u25BC'
       .dropdown__content

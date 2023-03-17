@@ -33,7 +33,7 @@ const familySchema = new mongoose.Schema(
         default: 0,
       },
     },
-    submitTimestamp:
+    submitDate:
     {
       type: Date,
       default: null

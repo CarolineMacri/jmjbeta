@@ -10,8 +10,9 @@ export const submitEnrollments = async (familyId) => {
     var url = `/api/v1/families/${familyId}`;
     const family = {
       enrollmentStatus: 'preliminary',
+      submitDate : Date.now()
     };
-    const res = await axios({
+    const res = await axios({ 
       method: 'PATCH',
       url,
       data: family,

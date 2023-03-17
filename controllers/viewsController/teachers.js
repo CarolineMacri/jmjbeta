@@ -51,8 +51,8 @@ exports.getTeachersTable = catchAsync(async (req, res, next) => {
     .populate({ path: 'teacher', justOne: true });
 
   console.log(teachers);
-  // user with year role teacher unchecked but without and existing teacher record
-  teachers = teachers.filter(teacher => (teacher.teacher.length > 0))
+  // user with year role teacher unchecked but without an existing teacher record
+  teachers = teachers.filter(teacher => { return (teacher.teacher.length > 0) })
 
   //console.log(teachers[0]);
   res.status(200).render('teachers/teachers_table', { 

@@ -29,7 +29,7 @@ nav.side-nav
         a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Course Descriptions 
       
       if (currentYearDoc.isEnrollmentOpen)  
-        a.side-nav__item(href=`/reports/signUpSheet/${user.id}`  target="_blank" rel="noopener noreferrer") Sign Up Sheet
+        //a.side-nav__item(href=`/reports/signUpSheet/${user.id}`  target="_blank" rel="noopener noreferrer") Sign Up Sheet
         a.side-nav__item(href=`/enrollment_profile/${user.id}`) Add/Edit Enrollments 
       
       a.side-nav__item(href=`/reports/invoices/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Invoice

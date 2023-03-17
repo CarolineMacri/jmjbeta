@@ -17201,7 +17201,8 @@ var submitEnrollments = /*#__PURE__*/function () {
             _context.prev = 0;
             url = "/api/v1/families/".concat(familyId);
             family = {
-              enrollmentStatus: 'preliminary'
+              enrollmentStatus: 'preliminary',
+              submitDate: Date.now()
             };
             _context.next = 5;
             return (0, _axios.default)({

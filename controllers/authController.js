@@ -134,6 +134,8 @@ exports.isLoggedIn = async (req, res, next) => {
 
       // THERE IS A LOGGIN IN USER
       res.locals.user = currentUser; // pug has access to res.locals
+      res.locals.env = process.env.NODE_ENV;
+
       return next();
     } catch (err) {
       return next();
@@ -207,13 +209,14 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   req.user = currentUser;
   res.locals.user = currentUser;
+  res.locals.env = process.env.NODE_ENV;
 
   // get the current year for this
   const currentYear = await Year.getCurrentYearValue();
   const currentYearDoc = await Year.getCurrentYearDoc();
   res.locals.currentYear = currentYear;
   res.locals.currentYearDoc = currentYearDoc;
-  
+
   next();
 });
 
@@ -232,15 +235,24 @@ exports.restrictTo = (...restrictedRoles) => {
 };
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-  //console.log("/n/n/n ----------------------------------- /n" + req.body.email);
   const user = await User.findOne({ email: req.body.email });
   const currentYear = await Year.getCurrentYearValue();
   const currentYearDoc = await Year.getCurrentYearDoc();
   res.locals.currentYear = currentYear; //need this for the footer//
   res.locals.currentYearDoc = currentYearDoc; //need this for the footer//
 
-  if (!(user.yearRoles.get(currentYear).includes('teacher') || user.yearRoles.get(currentYear).includes('admin')) ) { 
-    return next(new AppError('This function currently limited to teachers and administrators', 400));
+  if (
+    !(
+      user.yearRoles.get(currentYear).includes('teacher') ||
+      user.yearRoles.get(currentYear).includes('admin')
+    )
+  ) {
+    return next(
+      new AppError(
+        'This function currently limited to teachers and administrators',
+        400
+      )
+    );
   }
 
   if (!user) {
@@ -251,7 +263,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   const newUser = await User.findOne({ email: req.body.email });
-  //("/n/n/n ----------------------------------- /n" + newUser.email + "   " + newUser.passwordResetToken);
+
   const resetUrl = `${req.protocol}://${req.get(
     'host'
   )}/resetPassword/${resetToken}`;
@@ -319,9 +331,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 });
 
 exports.adminResetPassword = catchAsync(async (req, res, next) => {
-  console.log(
-    '-------------------------------in admin reset password -------------------------------'
-  );
   const user = await User.findById(req.params.id);
   const randomPassword = randomize('Aa0!', 13);
 
