@@ -152,14 +152,6 @@ function orderEnrollments(enrollments) {
     }
   });
 
-  // const timeMap = new Map([
-  //   ['9:00AM', { class: { hour: '9:00AM', course: { name: '---' } } }],
-  //   ['10:00AM', { class: { hour: '10:00AM', course: { name: '---' } } }],
-  //   ['11:00AM', { class: { hour: '11:00AM', course: { name: '---' } } }],
-  //   ['12:30PM', { class: { hour: '12:30PM', course: { name: '---' } } }],
-  //   ['other', { class: { hour: 'other', course: { name: '---' } } }],
-  // ]);
-
   enrollments.forEach((e) => {
     timeMap.set(e.class.hour, e);
   });
@@ -168,25 +160,6 @@ function orderEnrollments(enrollments) {
 }
 
 const gradeSort = function (child2, child1) {
-  gradeArray = [
-    'Infant',
-    'PreK3',
-    'PreK4',
-    'K',
-    '1st',
-    '2nd',
-    '3rd',
-    '4th',
-    '5th',
-    '6th',
-    '7th',
-    '8th',
-    '9th',
-    '10th',
-    '11th',
-    '12th',
-    'Adult',
-  ];
-
+  const gradeArray = Object.values(Course.Grades);
   return gradeArray.indexOf(child2.grade) - gradeArray.indexOf(child1.grade);
 };
