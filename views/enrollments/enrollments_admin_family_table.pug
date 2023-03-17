@@ -28,9 +28,9 @@ block content
                             //td= family.yearEnrollmentStatus[selectedYear]
                             td= enrollment.class.course.name
                             td(style='color:red, font-weight:bold')= enrollment.drop.status?"X":''
-                            td= enrollment.drop.date
+                            td= enrollment.drop.date?enrollment.drop.date.toISOString().slice(0,10):''
                             td(style='color:red, font-weight:bold')= enrollment.add.status?"X":''
-                            td= enrollment.add.date
+                            td= enrollment.add.date?enrollment.add.date.toISOString().slice(0,10):''
                             
                             
                             td.button

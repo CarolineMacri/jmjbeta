@@ -10,9 +10,9 @@ export const submitEnrollments = async (familyId) => {
     var url = `/api/v1/families/${familyId}`;
     const family = {
       enrollmentStatus: 'preliminary',
-      submitDate : Date.now()
+      submitDate: Date.now(),
     };
-    const res = await axios({ 
+    const res = await axios({
       method: 'PATCH',
       url,
       data: family,
@@ -87,4 +87,34 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   // if you got to here - everything is good
   showAlert('success', `Enrollment selections saved successfully`);
+};
+
+export const updateEnrollmentAdmin = async (enrollment, enrollmentId) => {
+  alert('in updateEnrollmentAdmin');
+  const isNewEnrollment = enrollment.isNew;
+  const method = isNewEnrollment ? 'POST' : 'PATCH';
+
+  try {
+    var url = `/api/v1/enrollments${
+      isNewEnrollment ? '' : '/' + enrollmentId
+    } `;
+    alert(url);
+    const res = await axios({
+      method,
+      url,
+      data: enrollment,
+    });
+    if (res.data.status == 'success') {
+      const enrollment = res.data.data.enrollment;
+      showAlert(
+        'success',
+        `Enrollment ${isNewEnrollment ? 'added' : 'updated'} successfully`
+      );
+      window.setTimeout(() => {
+        location.replace(`/enrollment_admin_profile/${enrollment.id}`);
+      }, 500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
 };

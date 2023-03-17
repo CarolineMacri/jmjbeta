@@ -7,7 +7,7 @@ block content
     section
       -var isNew=enrollment.isNew
             
-      form.form.form__outline-box.enrollment-admin-profile__form(id=enrollment.id style='width:max-content;') 
+      form.form.form__outline-box.enrollment-admin-profile__form(id=isNew?'new':enrollment.id style='width:max-content;') 
         
         .form__row
           .form__header-text=`Enrollment for ${enrollment.child.firstName} ${family.parent.lastName}`
@@ -29,15 +29,7 @@ block content
                   select#child(name='child')
                       for child in children
                           option(selected=(enrollment.child.id==child.id) value=child.id)=child.firstName
-            .form__column   
-        
-              //- .form__item
-              //-   label.form__label(for='class') Class
-              //-     input#class.form__input.form__input--inline(type='text', name='class', size='30' value='this should be a select')
-        
-              //- .form__item  
-              //-   label.form__label(for='child') Child
-              //-     input#child.form__input.form__input--inline(type='text', name='child', size='30' value='this should be a select')
+            .form__column    
         
           else 
             .form__item=`${enrollment.class.course.name} - ${enrollment.class.hour}`  

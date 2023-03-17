@@ -17173,7 +17173,7 @@ function index(a) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.saveEnrollentSelections = exports.submitEnrollments = exports.changeEnrollmentsYear = void 0;
+exports.updateEnrollmentAdmin = exports.saveEnrollentSelections = exports.submitEnrollments = exports.changeEnrollmentsYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -17394,6 +17394,61 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
 }();
 
 exports.saveEnrollentSelections = saveEnrollentSelections;
+
+var updateEnrollmentAdmin = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(enrollment, enrollmentId) {
+    var isNewEnrollment, method, url, res, _enrollment;
+
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            alert('in updateEnrollmentAdmin');
+            isNewEnrollment = enrollment.isNew;
+            method = isNewEnrollment ? 'POST' : 'PATCH';
+            _context6.prev = 3;
+            url = "/api/v1/enrollments".concat(isNewEnrollment ? '' : '/' + enrollmentId, " ");
+            alert(url);
+            _context6.next = 8;
+            return (0, _axios.default)({
+              method: method,
+              url: url,
+              data: enrollment
+            });
+
+          case 8:
+            res = _context6.sent;
+
+            if (res.data.status == 'success') {
+              _enrollment = res.data.data.enrollment;
+              (0, _alerts.showAlert)('success', "Enrollment ".concat(isNewEnrollment ? 'added' : 'updated', " successfully"));
+              window.setTimeout(function () {
+                location.replace("/enrollment_admin_profile/".concat(_enrollment.id));
+              }, 500);
+            }
+
+            _context6.next = 15;
+            break;
+
+          case 12:
+            _context6.prev = 12;
+            _context6.t0 = _context6["catch"](3);
+            (0, _alerts.showAlert)('error', _context6.t0.response.data.message);
+
+          case 15:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[3, 12]]);
+  }));
+
+  return function updateEnrollmentAdmin(_x6, _x7) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.updateEnrollmentAdmin = updateEnrollmentAdmin;
 },{"axios":"../../node_modules/axios/index.js","../../alerts":"alerts.js"}],"components/enrollments/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -17416,6 +17471,7 @@ function index(a) {
   // DOM elements
   var enrollments = document.querySelector('.enrollments');
   var enrollmentProfile = document.querySelector('.enrollment-profile');
+  var enrollmentAdminProfile = document.querySelector('.enrollment-admin-profile');
 
   if (enrollments) {
     var yearSelect = document.getElementById('year-select');
@@ -17495,6 +17551,33 @@ function index(a) {
       }
 
       return 'you are about to leave this page';
+    });
+  }
+
+  if (enrollmentAdminProfile) {
+    var enrollmentAdminProfileForm = document.querySelector('.enrollment-admin-profile__form');
+    enrollmentAdminProfileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var enrollmentId = enrollmentAdminProfileForm.id;
+      var enrollment = {};
+
+      if (enrollmentId == 'new') {
+        enrollment.class = document.getElementById('class').value;
+        enrollment.child = document.getElementById('child').value;
+      }
+
+      enrollment.drop = {
+        status: document.getElementById('dropStatus').checked,
+        date: document.getElementById('dropDate').value,
+        reason: document.getElementById('dropReason').value
+      };
+      enrollment.add = {
+        status: document.getElementById('addStatus').checked,
+        date: document.getElementById('addDate').value,
+        reason: document.getElementById('addReason').value
+      };
+      enrollment.isNew = enrollmentId == 'new';
+      alert('temporarily disabled until DROPPED classes are properly handled.'); //updateEnrollmentAdmin(enrollment, enrollmentId)
     });
   }
 }

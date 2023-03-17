@@ -1,10 +1,10 @@
 /* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
-
 import { showAlert } from '../../alerts';
 import {
   changeEnrollmentsYear,
   saveEnrollentSelections,
   submitEnrollments,
+  updateEnrollmentAdmin
 } from './actions';
 
 function index(a) {
@@ -12,6 +12,9 @@ function index(a) {
 
   const enrollments = document.querySelector('.enrollments');
   const enrollmentProfile = document.querySelector('.enrollment-profile');
+  const enrollmentAdminProfile = document.querySelector(
+    '.enrollment-admin-profile'
+  );
 
   if (enrollments) {
     const yearSelect = document.getElementById('year-select');
@@ -29,7 +32,7 @@ function index(a) {
     const saveSelectionsButton = document.querySelector('.btn-save-selections');
     const enrollmentSelections = document.getElementsByName('enrollment');
 
-    enrollmentProfileForm.addEventListener('submit', (e) => { 
+    enrollmentProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const unsavedChanges =
         document.getElementById('unsaved-changes').style.visibility ==
@@ -40,12 +43,12 @@ function index(a) {
       } else {
         const ok = confirm(
           'Are you sure you want to submit your enrollments?\n' +
-            'You will no long be able to change your selections\n'
+          'You will no long be able to change your selections\n'
         );
         if (ok) {
           alert(
             'Submitting\n ' +
-              'Your enrollment status is PRELIMINARY until payments are received'
+            'Your enrollment status is PRELIMINARY until payments are received'
           );
 
           submitEnrollments(enrollmentProfile.id);
@@ -99,6 +102,40 @@ function index(a) {
       }
       return 'you are about to leave this page';
     });
+  }
+
+  if (enrollmentAdminProfile) {
+    const enrollmentAdminProfileForm = document.querySelector(
+      '.enrollment-admin-profile__form'
+    );
+
+    enrollmentAdminProfileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const enrollmentId = enrollmentAdminProfileForm.id;
+      var enrollment = {};
+      if (enrollmentId == 'new') {
+        enrollment.class = document.getElementById('class').value;
+        enrollment.child = document.getElementById('child').value;
+      }
+        
+      enrollment.drop = {
+        status: document.getElementById('dropStatus').checked,
+        date: document.getElementById('dropDate').value,
+        reason: document.getElementById('dropReason').value
+      }
+      enrollment.add = {
+        status: document.getElementById('addStatus').checked,
+        date: document.getElementById('addDate').value,
+        reason: document.getElementById('addReason').value
+      }
+      enrollment.isNew = enrollmentId == 'new'
+      
+      alert('temporarily disabled until DROPPED classes are properly handled.');
+     
+      //updateEnrollmentAdmin(enrollment, enrollmentId)
+    });
+  
   }
 }
 
