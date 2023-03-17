@@ -12,7 +12,7 @@ block content
                 
                 .form__row.form__dropdown-group
                     .form__item
-                        label.form__label(for='owner') Course * 
+                        label.form__label(for='course') Course * 
                         select#course(name='course')
                             for course in courses
                                 option(selected=(course.id==cl.course.id) value=course.id)=course.name

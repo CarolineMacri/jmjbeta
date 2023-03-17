@@ -9,16 +9,15 @@ block content
                 h1.enrollments__title= `(administrative version)`
                 -var options = {weekday: 'long', year:'numeric', month:'long', day:'numeric'}
                 
-        
-           
+
             table.enrollments
                 tr
                     th Child
                     th Grade
                     th Course
-                    th Drop 
+                    th Dropped? 
                     th Drop Date
-                    th Add
+                    th Added?
                     th Add Date
                    
                 for child in children
@@ -40,7 +39,8 @@ block content
                 tr#new
                     td.button
                         .new
-                            a(href=`/enrollment_admin_profile/new`) &#10010
+                            a(href=`/enrollment_admin_profile/new/${family.id}`) &#10010
+                        
                             
 
 

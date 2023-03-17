@@ -75,6 +75,11 @@ router.get(
   viewsController.getEnrollmentProfile
 );
 router.get(
+  '/enrollment_admin_profile/:enrollmentId/:familyId?',
+  authController.protect,
+  viewsController.getEnrollmentAdminProfile
+);
+router.get(
   '/enrollments_admin_family_table/:parentId/:selectedYear?',
   authController.protect,
   viewsController.getEnrollmentsAdminFamilyTable

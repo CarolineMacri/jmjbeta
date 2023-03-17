@@ -1,9 +1,11 @@
-const catchAsync = require('../../utils/catchAsync');const AppError = require('../../utils/appError');
-const Year = require('../../models/yearModel');
-const Family = require('../../models/familyModel');
+const catchAsync = require('../../utils/catchAsync');
+const AppError = require('../../utils/appError');
 const Child = require('../../models/childModel');
 const Class = require('../../models/classModel');
 const Course = require('../../models/courseModel');
+const Enrollment = require('../../models/enrollmentModel');
+const Family = require('../../models/familyModel');
+const Year = require('../../models/yearModel');
 
 exports.getEnrollmentsTable = catchAsync(async (req, res, next) => {
   let { selectedYear } = req.params;
@@ -140,6 +142,76 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getEnrollmentAdminProfile = catchAsync(async (req, res, next) => {
+  let { enrollmentId, familyId } = req.params;
+
+  var enrollment = {};
+  var children = {};
+  var family = {};
+  var classes = {};
+
+  if (enrollmentId == 'new') {
+    family = await Family.findById(familyId).populate('parent');
+    const year = family.year;
+
+    // need children an classes for pick list for new enrollment
+    children = await Child.find({ family: familyId });
+    classes = await Class.find({ year: year }).populate({ path: 'course' });
+    classes = classes.sort((cl1, cl2) => {
+      const str1 = cl1.course.name;
+      const str2 = cl2.course.name;
+      return str1.localeCompare(str2);
+    });
+
+    enrollment = new Enrollment({
+      child: children[0],
+      class: classes[0],
+    });
+
+    //enrollment = await enrollment.save();
+
+    enrollment = await enrollment.populate({
+      path: 'class',
+      justOne: true,
+      populate: {
+        path: 'course',
+        justOne: true,
+      },
+    });
+    enrollment.isNew = true;
+  } else {
+    enrollment = await Enrollment.findById(enrollmentId)
+      .populate({
+        path: 'child',
+        justOne: true,
+        populate: {
+          path: 'family',
+          justOne: true,
+        },
+      })
+      .populate({
+        path: 'class',
+        justOne: true,
+        populate: {
+          path: 'course',
+          justOne: true,
+        },
+      });
+    enrollment.isNew = false;
+
+    family = await Family.findById(enrollment.child.family.id).populate(
+      'parent'
+    );
+  }
+  res.status(200).render('enrollments/enrollment_admin_profile', {
+    title: `Enrollment: ${enrollment.child.firstName}`,
+    enrollment,
+    family,
+    children,
+    classes,
+  });
+});
+
 exports.getEnrollmentsAdminFamilyTable = catchAsync(async (req, res, next) => {
   let { parentId, selectedYear } = req.params;
 
@@ -170,7 +242,7 @@ exports.getEnrollmentsAdminFamilyTable = catchAsync(async (req, res, next) => {
   res.status(200).render('enrollments/enrollments_admin_family_table', {
     title: `Enrollments ${selectedYear}`,
     family,
-    children,    
+    children,
     years,
     selectedYear,
   });

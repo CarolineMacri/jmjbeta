@@ -1,83 +1,79 @@
 extends ../base
   
 block content 
- 
- section.enrollment-profile(id=family.id).page__content
-  h1.enrollments__title Enrollments
-  if (family.enrollmentStatus=='preliminary')
-    h1.enrollments__title(style="color:red; font-weight:bold") If you have not done so, 
-    h1.enrollments__title(style="color:red; font-weight:bold") please print your invoice and mail your payments.
-  if (family.enrollmentStatus=='none')
-    h1.enrollments__title(style="color:red; font-weight:bold") You have not yet submitted any enrollments.
-  .page__content-row 
-    .page__content(style="align-self:center")
-      - var isAdmin = user.currentRoles.includes('admin')
-      h2.enrollments__title= `${family.parent.lastName}`
-      h2.enrollments__title= selectedYear
-      h2.enrollments__title= `Enrollment Status:`
-      h2.enrollments__title(style="color:red;")= family.enrollmentStatus.toUpperCase()
-    .page__content(style="flex:2; align-self:center")
-      h3 
-        strong NONE 
-        | - classes selected but not submitted,  class selections are editable 
-      h3 
-        strong PRELIMINARY  
-        | - class selections have been submitted and are no long editable.  An invoice will be generated
-      h3 
-        strong FINAL 
-        | - checks have been received, and enrollments in selected classes are secured.
-
-  //- - var enrollmentStatus = family.yearEnrollmentStatus.get(selectedYear)
-  
-  //- - var isDisabled = (enrollmentStatus != "NONE") && !isAdmin
-  //- h2.enrollments__title= `Enrollment Status: ` 
-  //-   span(style="color:red;")=`${enrollmentStatus}`
-
-  if (family.enrollmentStatus == 'none')
-    section(style="flex:2")
-      form.form.form__outline-box.form--row.enrollment-profile__form.enrollment-profile--wide
-        .form__row 
-          
-          #unsaved-changes.form__warning YOU HAVE UNSAVED CHANGES
+  .page__content.enrollment-admin-profile(data-is-new=(enrollment.isNew?'new':'old'))  
+                
+           
+    section
+      -var isNew=enrollment.isNew
+            
+      form.form.form__outline-box.enrollment-admin-profile__form(id=enrollment.id style='width:max-content;') 
+        
         .form__row
-          button.form__button.btn-save-selections(disabled=isDisabled) Save Selections 
-          input.form__button(type='submit' style="padding:1.5rem;" value='⚠️Submit⚠️') 
-
-        .enrollment__children
-          for child in children
-            -var courses= gradeCourseMap.get(child.grade)
+          .form__header-text=`Enrollment for ${enrollment.child.firstName} ${family.parent.lastName}`
+          .form__header-background.family-form__header-image
+        
+        .form__row.form__item.form__outline-box--bottom
+        
+          if isNew
+            .form__row.form__dropdown-group
+              .form__item
+                  label.form__label(for='class') Class * 
+                  select#class(name='class')
+                      for cl in classes
+                          option(selected=(enrollment.class.id==cl.id) value=cl.id)=cl.course.name.padEnd(25,' ') + ' - ' + cl.hour
             
-            
-            .card.card__outline-box
-              .card__column
-                
-                .card__header-background
-                .card__header-text= `${child.firstName} - ${child.grade}`
-                
-                .card__outline-box--bottom.class__group
-                  for enrollment in child.enrollments
-                    
-                    .card__item.class
-                        
-                      .class__time= enrollment.class.hour
-                    
-                      .class__name
-                        select.form__select--medium(name='enrollment' disabled=isDisabled)
-                          -var enrollmentId = (enrollment.id ? enrollment.id: 'none')                        
-                          option(data-enrollment-id=enrollment.id) NONE 
+            .form__row.form__dropdown-group
+              .form__item
+                  label.form__label(for='child') Child * 
+                  select#child(name='child')
+                      for child in children
+                          option(selected=(enrollment.child.id==child.id) value=child.id)=child.firstName
+            .form__column   
+        
+              //- .form__item
+              //-   label.form__label(for='class') Class
+              //-     input#class.form__input.form__input--inline(type='text', name='class', size='30' value='this should be a select')
+        
+              //- .form__item  
+              //-   label.form__label(for='child') Child
+              //-     input#child.form__input.form__input--inline(type='text', name='child', size='30' value='this should be a select')
+        
+          else 
+            .form__item=`${enrollment.class.course.name} - ${enrollment.class.hour}`  
 
-                          for c in classes
-                            p=c.hour
-                            if ((c.hour==enrollment.class.hour))
-                              -var classFull =(c.enrollments.length >= c.course.classSize.max)
-                              if (courses.includes(c.course.name))
-                                option.form__option(
-                                  selected=(enrollment.class.id==c.id) 
-                                
-                                  data-enrollment-id=enrollment.id
-                                  data-class-id=c.id
-                                  data-child-id=child.id
-                                  disabled=classFull)
-                                  =`${classFull?'FULL - ':'' }${c.course.name} (${c.course.grade.min}-${c.course.grade.max}) - ${c.hour}`
+        .form__column.form__item.form__outline-box--bottom
+          .form__row
+            .form__item
+              label.form__label(for='dropStatus') Dropped?
+                input#dropStatus.form__input.form__input--inline(type='checkbox', name='dropStatus', checked=enrollment.drop.status)
+              
+            .form__item    
+              label.form__label(for='dropDate') Drop Date
+                input#dropDate.form__input.form__input--inline(type='date', name='dropDate',  value= enrollment.drop.date?enrollment.drop.date.toISOString().slice(0,10):"" )
 
-  
+          .form__item
+            label.form__label(for='dropReason') Reason
+              input#dropReason.form__input.form__input--inline(type='text', name='dropReason', size='30', value= enrollment.drop.reason)    
+        
+        .form__column.form__item.form__outline-box--bottom
+          .form__row
+            .form__item
+              label.form__label(for='addStatus') Added? 
+                input#addStatus.form__input.form__input--inline(type='checkbox', name='addStatus', checked=enrollment.add.status)
+              
+            .form__item    
+              label.form__label(for='addDate') Add Date
+                input#addDate.form__input.form__input--inline(type='date', name='addDate',  value= enrollment.add.date?enrollment.add.date.toISOString().slice(0,10):"" )
+          
+          .form__item
+            label.form__label(for='addReason') Reason
+              input#addReason.form__input.form__input--inline(type='text', name='addReason', size='30', value= enrollment.add.reason)   
+        
+        
+        .form__row
+          input.form__button.form__item--center(type='submit' value=isNew?"Add":"Update")
+          a.form__button.form__cancel(href=`/enrollments_admin_family_table/${family.parent.id}`) X
+
+
+
