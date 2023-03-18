@@ -112,7 +112,7 @@ function index(a) {
     enrollmentAdminProfileForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      const enrollmentId = enrollmentAdminProfileForm.id; 
+      const enrollmentId = enrollmentAdminProfileForm.id;
       var enrollment = {};
       if (enrollmentId == 'new') {
         enrollment.class = document.getElementById('class').value;
