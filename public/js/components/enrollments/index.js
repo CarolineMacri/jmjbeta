@@ -117,7 +117,7 @@ function index(a) {
       if (enrollmentId == 'new') {
         enrollment.class = document.getElementById('class').value;
         enrollment.child = document.getElementById('child').value;
-      }
+      } 
         
       enrollment.drop = {
         status: document.getElementById('dropStatus').checked,
