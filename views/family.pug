@@ -6,6 +6,7 @@ block content
 
   if (family)
     include _familyTitle
+    h3.family__title Enrollment Status
     h2.family__title(style="color:red")= family.enrollmentStatus.toUpperCase()
   include _yearSelector
 
