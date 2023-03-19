@@ -1,0 +1,53 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      section 
+        include ../_yearSelector
+      section.report-class-lists
+    
+        .report__title
+          h1.class-lists-title +JMJ+ Homeschool Co-op Class Lists 
+          h1.class-lists-title With Enrollment Order
+
+        -var excludedHours = ['8AM','12PM', 'other'];   
+
+        each [hour, locations] of classMap   
+          if (!excludedHours.includes(hour))
+            .report-class-lists-hour
+              each [location, cl] of locations
+              
+                if (Object.entries(cl)!=0)
+                  
+                  .report-class-lists-box
+                    .report-class-lists-course
+                      .report-class-lists-course-name
+                        -var remainingSlots =cl.maxSize-cl.totalPreliminaryEnrollments- cl.totalFinalEnrollments
+                        -var overSlots = cl.remainingSlots-cl.totalUnsubmittedEnrollments
+                        h2=cl.className
+                        p=`Class Size:  ${cl.maxSize} (${remainingSlots} remaining)`
+                        p='Prelim: ' + cl.totalPreliminaryEnrollments
+                        p='Final: ' + cl.totalFinalEnrollments
+                        p=`Potential waiting: ${overSlots>0?overSlots:'okay'}`
+                      .report-class-lists-course-hour
+                        h2=hour
+                      .report-class-lists-course-location
+                        h2=location
+                    .report-class-lists-enrollments
+                    if (cl.enrollments.length)
+                      for e in cl.enrollments
+                        h3.report-class-lists-enrollment=e.string 
+                    else  
+                        h3.report-class-lists-enrollment NO ENROLLMENTS      
+                //- else  
+                //-   .report-class-lists-box
+                //-       .report-class-lists-course
+                //-         .report-class-lists-course-name
+                //-           h2 Class Not Scheduled for
+                //-         .report-class-lists-course-hour
+                //-           h2=hour
+                //-         .report-class-lists-course-location
+                //-           h2=location          
+          
+          

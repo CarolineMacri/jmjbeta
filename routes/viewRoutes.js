@@ -187,6 +187,12 @@ router.get(
   viewsController.reportChildrenByGrade
 );
 router.get(
+  '/reports/classListsWithEnrollmentOrder/:selectedYear?',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewsController.reportClassListsWithEnrollmentOrder
+);
+router.get(
   '/reports/classLists/:selectedYear?/:teacher?',
   authController.protect,
   authController.restrictTo('admin'),

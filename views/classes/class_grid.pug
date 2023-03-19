@@ -23,18 +23,22 @@ block content
               
 
                     for cl in classes
-                        if (cl.course.name=="Mass")
+                        -var isMass = cl.course.name.search("Mass") + 1
+                        -var isLunch = cl.course.name.search("Lunch") + 1
+
+                        if isMass
                             -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length}; grid-row-start:2`
-                        else if (cl.course.name=="Lunch")
+                        else if isLunch
                             -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length}; grid-row-start:6`
                         else 
                             -var extraStyle = cl.style
                         .div.class-grid__item(style=extraStyle)
                             p.class-grid__course=cl.course.name 
                             p
-                            if (cl.course.name=="Mass")
-                                h3(style='color:red; font-weight:bold')= `(St. Anne's Chapel) - please make every effort to attend this special Mass offered just for our JMJ co-op family`
-                            else if (cl.course.name=="Lunch")
+                            if isMass
+                                h3(style='color:red; font-weight:bold')= `Please make every effort to attend this special Mass offered just for our JMJ co-op family`
+                                p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
+                            else if isLunch
                                 h3(style='color:red; font-weight:bold')= Cafeteria   
                             else 
                                 p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `

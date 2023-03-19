@@ -1,6 +1,6 @@
 //CORE modules
 const fs = require('fs');
-const path = require("path");
+const path = require('path');
 
 const mongoose = require('mongoose');
 const pug = require('pug');
@@ -46,15 +46,21 @@ exports.reportChildrenByGrade = catchAsync(async (req, res, next) => {
   Object.values(gradeLists).forEach((list) => {
     list.sort();
   });
-  console.log(__dirname)
+  console.log(__dirname);
 
-  const html = pug.renderFile (path.join(__dirname,'../../views/reports/childrenByGrade.pug'), {
-    title: 'Children By Grade',
-    gradeLists,
-    years,
-    selectedYear,
-  })
-  fs.writeFileSync(path.join(__dirname,'../../attachments/childrenByGrade.html'),html)
+  const html = pug.renderFile(
+    path.join(__dirname, '../../views/reports/childrenByGrade.pug'),
+    {
+      title: 'Children By Grade',
+      gradeLists,
+      years,
+      selectedYear,
+    }
+  );
+  fs.writeFileSync(
+    path.join(__dirname, '../../attachments/childrenByGrade.html'),
+    html
+  );
 
   res.status(200).render('reports/childrenByGrade', {
     title: 'Children By Grade',
@@ -151,6 +157,126 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
     selectedYear,
   });
 });
+
+exports.reportClassListsWithEnrollmentOrder = catchAsync(
+  async (req, res, next) => {
+    let { selectedYear } = req.params;
+
+    const years = await Year.find();
+
+    if (!selectedYear) {
+      selectedYear = await Year.findOne({ current: true });
+      selectedYear = selectedYear.year;
+    }
+
+    const match = {
+      year: selectedYear,
+    };
+
+    const classes = await Class.find(match)
+      .sort('hour')
+      .populate({
+        path: 'enrollments',
+        populate: {
+          path: 'child',
+          justOne: true,
+          populate: {
+            path: 'family',
+            justOne: true,
+            select: 'parent enrollmentStatus submitDate paymentReceived',
+            populate: {
+              path: 'parent',
+              justOne: true,
+              select: 'lastName',
+            },
+          },
+        },
+      })
+      .populate({
+        path: 'teacher',
+        justOne: true,
+        select: 'firstName lastName',
+      })
+      .populate({
+        path: 'course',
+        justOne: true,
+        select: 'name classSize',
+      });
+    // make the map of times=>locations=>enrollments
+    const classMap = new Map();
+    Object.values(Class.Times).forEach((hour) => {
+      const locations = new Map();
+      Object.values(Class.Locations).forEach((location) => {
+        locations.set(location, {});
+      });
+      classMap.set(hour, locations); // 9AM, locations
+    });
+
+    classes.forEach((cl) => {
+      const hour = cl.hour;
+      const location = cl.location;
+      const teacher = `${cl.teacher.lastName}, ${cl.teacher.firstName}`;
+      const className = cl.course.name;
+      const maxSize = cl.course.classSize.max;
+      const enrollments = cl.enrollments.map((enrollment) => {
+        const child = enrollment.child;
+        const lastName = child.family.parent.lastName;
+        const firstName = child.firstName;
+        const grade = child.grade;
+        const enrollmentStatus = child.family.enrollmentStatus;
+        const subDate = formatDate(child.family.submitDate);
+        const payDate = formatDate(child.family.paymentReceived.date);
+        const enrollmentDate =
+          child.family.enrollmentStatus == 'final'
+            ? payDate
+            : child.family.enrollmentStatus == 'preliminary'
+            ? subDate
+            : '';
+        return {
+          string: `${lastName}, ${firstName} - ${grade} : ${enrollmentStatus} - ${enrollmentDate}`,
+          enrollmentStatus,
+        };
+      });
+      // sort children names in alphabetical order
+      enrollments.sort((enrollment1, enrollment2) => {
+        const statuses = ['final', 'preliminary', 'none'];
+        return (
+          statuses.indexOf(enrollment1.enrollmentStatus) -
+          statuses.indexOf(enrollment2.enrollmentStatus)
+        );
+      });
+
+      enrollments.forEach((enrollment) => {
+        console.log(enrollment.enrollmentStatus);
+      });
+      const totalPreliminaryEnrollments = enrollments.filter((enrollment) => {
+        return enrollment.enrollmentStatus == 'preliminary';
+      }).length;
+      const totalFinalEnrollments = enrollments.filter((enrollment) => {
+        return enrollment.enrollmentStatus == 'final';
+      }).length;
+      const totalUnsubmittedEnrollments = enrollments.filter((enrollment) => {
+        return enrollment.enrollmentStatus == 'none';
+      }).length;
+
+      const junk = classMap.get(hour).set(location, {
+        className: className,
+        totalPreliminaryEnrollments,
+        totalFinalEnrollments,
+        totalUnsubmittedEnrollments,
+        enrollments: enrollments,
+        maxSize,
+      });
+    });
+
+    res.status(200).render('reports/classListsWithEnrollmentOrder', {
+      title: 'ClasslistsWithEnrollmentOrder',
+      classMap,
+      years,
+      selectedYear,
+    });
+  }
+);
 
 exports.reportInvoices = catchAsync(async (req, res, next) => {
   let { selectedYear, parent } = req.params;
@@ -282,3 +408,11 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
     gradeCourseMap,
   });
 });
+
+function formatDate(dateString) {
+  const newDate = new Date(dateString);
+  const mdy = newDate.getMonth() + '-' + newDate.getDay() + '-' + newDate.getFullYear();
+  const hm = newDate.getHours() + ':' + newDate.getMinutes() 
+
+  return mdy + ' ' + hm;
+}
