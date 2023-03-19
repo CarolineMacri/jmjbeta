@@ -27,9 +27,9 @@ block content
                         -var isLunch = cl.course.name.search("Lunch") + 1
 
                         if isMass
-                            -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length}; grid-row-start:2`
+                            -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length + 2}; grid-row-start:2`
                         else if isLunch
-                            -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length}; grid-row-start:6`
+                            -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length + 2}; grid-row-start:6`
                         else 
                             -var extraStyle = cl.style
                         .div.class-grid__item(style=extraStyle)

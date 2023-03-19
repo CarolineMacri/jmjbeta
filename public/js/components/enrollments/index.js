@@ -100,7 +100,7 @@ function index(a) {
         }, 500);
         showAlert('error', 'You have unsaved changes');
       }
-      return 'you are about to leave this page';
+      return 'you are about to leave this page'; 
     });
   }
 
