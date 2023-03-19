@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
     lastName: {
       type: String,
       required: [true, "A last name is required"],
-      validate: [validator.isAlpha, "Last name must be a string"],
+      //validate: [validator.isAlpha, "Last name must be a string"],
     },
     firstName: {
       type: String,
