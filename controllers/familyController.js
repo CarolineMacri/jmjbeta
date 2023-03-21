@@ -40,15 +40,10 @@ exports.validateParentOfFamily = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
   const isAdmin = req.user.currentRoles.includes('admin' || 'sysAdmin');
 
-  console.log('parent of family ' + parentIdOfFamily);
-  console.log('IS Admin ' + isAdmin);
-  console.log('userId' + userId);
-
   if (!(userId == parentIdOfFamily || isAdmin)){
     return next(
       new AppError(`You do not have permission to edit other families`, 403)
     );
   }
   next();
-  //}
 });

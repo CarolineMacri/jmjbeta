@@ -6,16 +6,25 @@ const authController = require("../controllers/authController");
 const router = express.Router();
 
 router.use(authController.protect)
-router.use(authController.restrictTo('sysAdmin', 'admin'))
+//router.use(authController.restrictTo('sysAdmin', 'admin'))
 
 router
   .route("/")
-  .get(enrollmentController.getAllEnrollments)
-  .post(enrollmentController.createEnrollment);
+  .get(authController.restrictTo('sysAdmin', 'admin'), enrollmentController.getAllEnrollments)
+  .post(
+    authController.restrictTo('sysAdmin', 'admin', 'parent'),
+    enrollmentController.validateParentOfEnrollment,
+    enrollmentController.createEnrollment);
 router
   .route("/:id")
-  .get(enrollmentController.getEnrollment)
-  .patch(enrollmentController.updateEnrollment)
-  .delete(enrollmentController.deleteEnrollment);
+  .get(authController.restrictTo('sysAdmin', 'admin'), enrollmentController.getEnrollment)
+  .patch(
+    authController.restrictTo('sysAdmin', 'admin', 'parent'),
+    enrollmentController.validateParentOfEnrollment,
+    enrollmentController.updateEnrollment)
+  .delete(
+    authController.restrictTo('sysAdmin', 'admin', 'parent'),
+    enrollmentController.validateParentOfEnrollment,
+    enrollmentController.deleteEnrollment);
 
 module.exports = router;
