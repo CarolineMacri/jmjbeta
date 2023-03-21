@@ -14,7 +14,7 @@ router
 router
   .route("/:id")
   .get(authController.restrictTo('sysAdmin', 'admin'),teacherController.getTeacher)
-  .patch(authController.restrictTo('sysAdmin', 'admin', 'teacher'), teacherController.updateTeacher)
+  .patch(authController.restrictTo('sysAdmin', 'admin', 'teacher'), teacherController.validateTeacherIsSelf, teacherController.updateTeacher)
   .delete(authController.restrictTo('sysAdmin', 'admin'),teacherController.deleteTeacher);
 
 module.exports = router;
