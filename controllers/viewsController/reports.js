@@ -1,6 +1,4 @@
-//CORE modules
-const fs = require('fs');
-const path = require('path');
+//CORE modulesconst fs = require('fs');const path = require('path');
 
 const mongoose = require('mongoose');
 const pug = require('pug');
@@ -11,6 +9,7 @@ const Child = require('../../models/childModel');
 const Class = require('../../models/classModel');
 const Course = require('../../models/courseModel');
 const Family = require('../../models/familyModel');
+const Teacher = require('../../models/teacherModel');
 const User = require('../../models/userModel');
 const Year = require('../../models/yearModel');
 const { Grades } = require('../../models/courseModel');
@@ -343,6 +342,34 @@ exports.reportPayments = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.reportTeachers = catchAsync(async (req, res, next) => {
+  let { selectedYear, teacher } = req.params;
+  //console.log('in report Pyments-----------------------------------------');
+  const years = await Year.find();
+
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+
+  var teachers = await Teacher.find().populate('teacher');
+
+  teachers = teachers.filter((teacher) => {
+    if (teacher.teacher.yearRoles.get(selectedYear).includes('teacher'))
+      return teacher;
+  });
+
+  teachers = teachers.sort((teacher1, teacher2) => {
+    return teacher1.teacher.lastName.localeCompare(teacher2.teacher.lastName);
+  });
+  res.status(200).render('reports/teachers', {
+    title: 'Teachers',
+    teachers,
+    years,
+    selectedYear,
+  });
+});
+
 exports.reportCourses = catchAsync(async (req, res, next) => {
   let { selectedYear } = req.params;
 
@@ -411,8 +438,9 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
 
 function formatDate(dateString) {
   const newDate = new Date(dateString);
-  const mdy = newDate.getMonth() + '-' + newDate.getDay() + '-' + newDate.getFullYear();
-  const hm = newDate.getHours() + ':' + newDate.getMinutes() 
+  const mdy =
+    newDate.getMonth() + '-' + newDate.getDay() + '-' + newDate.getFullYear();
+  const hm = newDate.getHours() + ':' + newDate.getMinutes();
 
   return mdy + ' ' + hm;
 }

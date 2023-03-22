@@ -211,7 +211,7 @@ router.get(
 router.get(
   '/reports/invoices/:selectedYear/:parent?',
   authController.protect,
-  authController.restrictTo('admin', 'sysAdin','parent'),
+  authController.restrictTo('admin', 'sysAdmin','parent'),
   viewsController.reportInvoices
 );
 
@@ -220,6 +220,11 @@ router.get(
   authController.protect,
   authController.restrictTo('admin'),
   viewsController.reportPayments
+);
+router.get(
+  '/reports/teachers/:selectedYear/:teacher?',
+  authController.protect,
+  viewsController.reportTeachers
 );
 
 router.get(

@@ -1,0 +1,22 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      //- section.page__content-row
+      //-   include ../_yearSelector
+    
+      section.report-teachers
+
+        .report__title(style='text-align:center')
+          h1.teachers-title +JMJ+ Homeschool Co-op Teachers
+          h1.teachers-title= selectedYear 
+
+        for teacher in teachers
+
+          .report-teachers-box
+            .report-teachers-teacher
+              h2= teacher.teacher.lastName + ", " + teacher.teacher.firstName         
+            .report-teachers-record
+              .report-teachers-record-bio
+                p=teacher.bio

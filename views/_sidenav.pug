@@ -27,6 +27,7 @@ nav.side-nav
       if (currentYearDoc.isCoursePreviewOpen)
         a.side-nav__item(href=`/class_grid/${selectedYear}`) Class Grid 
         a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Course Descriptions 
+        a.side-nav__item(href=`/reports/teachers/${selectedYear}` target="_blank" rel="noopener noreferrer") Meet The Teachers
       
       if (currentYearDoc.isEnrollmentOpen)  
         //a.side-nav__item(href=`/reports/signUpSheet/${user.id}`  target="_blank" rel="noopener noreferrer") Sign Up Sheet
