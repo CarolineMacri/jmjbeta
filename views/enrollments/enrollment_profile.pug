@@ -42,8 +42,8 @@ block content
           #unsaved-changes.form__warning YOU HAVE UNSAVED CHANGES
         .form__row
           button.form__button.btn-save-selections(disabled=isDisabled) Save Selections 
-          if (currentYearDoc.isEnrollmentOpen)  
-            input.form__button(type='submit' style="padding:1.5rem;" value='⚠️Submit⚠️') 
+          
+          input.form__button(type='submit' style="padding:1.5rem;" value='⚠️Submit⚠️') 
 
         .enrollment__children
           for child in children

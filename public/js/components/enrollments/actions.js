@@ -45,6 +45,7 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   enrollmentsToAdd.forEach(async (e) => {
     try {
+      alert('adding enrollment' + JSON.stringify(e))
       var url = `/api/v1/enrollments`;
 
       const res = await axios({
@@ -59,6 +60,7 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   enrollmentsToUpdate.forEach(async (e) => {
     try {
+      alert('updating enrollment' + JSON.stringify(e))
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({
@@ -73,6 +75,7 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   enrollmentsToDelete.forEach(async (e) => {
     try {
+      alert('deleting enrollment' + JSON.stringify(e))
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({

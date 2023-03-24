@@ -17271,30 +17271,31 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                     switch (_context2.prev = _context2.next) {
                       case 0:
                         _context2.prev = 0;
+                        alert('adding enrollment' + JSON.stringify(e));
                         url = "/api/v1/enrollments";
-                        _context2.next = 4;
+                        _context2.next = 5;
                         return (0, _axios.default)({
                           method: 'POST',
                           url: url,
                           data: e
                         });
 
-                      case 4:
+                      case 5:
                         res = _context2.sent;
-                        _context2.next = 10;
+                        _context2.next = 11;
                         break;
 
-                      case 7:
-                        _context2.prev = 7;
+                      case 8:
+                        _context2.prev = 8;
                         _context2.t0 = _context2["catch"](0);
                         (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
 
-                      case 10:
+                      case 11:
                       case "end":
                         return _context2.stop();
                     }
                   }
-                }, _callee2, null, [[0, 7]]);
+                }, _callee2, null, [[0, 8]]);
               }));
 
               return function (_x3) {
@@ -17309,30 +17310,31 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                     switch (_context3.prev = _context3.next) {
                       case 0:
                         _context3.prev = 0;
+                        alert('updating enrollment' + JSON.stringify(e));
                         url = "/api/v1/enrollments/".concat(e._id);
-                        _context3.next = 4;
+                        _context3.next = 5;
                         return (0, _axios.default)({
                           method: 'PATCH',
                           url: url,
                           data: e
                         });
 
-                      case 4:
+                      case 5:
                         res = _context3.sent;
-                        _context3.next = 10;
+                        _context3.next = 11;
                         break;
 
-                      case 7:
-                        _context3.prev = 7;
+                      case 8:
+                        _context3.prev = 8;
                         _context3.t0 = _context3["catch"](0);
                         (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
-                      case 10:
+                      case 11:
                       case "end":
                         return _context3.stop();
                     }
                   }
-                }, _callee3, null, [[0, 7]]);
+                }, _callee3, null, [[0, 8]]);
               }));
 
               return function (_x4) {
@@ -17347,30 +17349,31 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                     switch (_context4.prev = _context4.next) {
                       case 0:
                         _context4.prev = 0;
+                        alert('deleting enrollment' + JSON.stringify(e));
                         url = "/api/v1/enrollments/".concat(e._id);
-                        _context4.next = 4;
+                        _context4.next = 5;
                         return (0, _axios.default)({
                           method: 'DELETE',
                           url: url,
                           data: e
                         });
 
-                      case 4:
+                      case 5:
                         res = _context4.sent;
-                        _context4.next = 10;
+                        _context4.next = 11;
                         break;
 
-                      case 7:
-                        _context4.prev = 7;
+                      case 8:
+                        _context4.prev = 8;
                         _context4.t0 = _context4["catch"](0);
                         (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
 
-                      case 10:
+                      case 11:
                       case "end":
                         return _context4.stop();
                     }
                   }
-                }, _callee4, null, [[0, 7]]);
+                }, _callee4, null, [[0, 8]]);
               }));
 
               return function (_x5) {

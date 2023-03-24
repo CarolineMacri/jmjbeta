@@ -58,13 +58,13 @@ nav.side-nav
       a.side-nav__item(href=`/teachers_table/${selectedYear}`) Teachers
       a.side-nav__item(href=`/years_table`) School Years
 
-  .side-nav__section
-    h3.side-nav__heading Reports
-    if (isAdmin)
-      a.side-nav__item(href=`/reports/childrenByGrade/${selectedYear}` target="_blank" rel="noopener noreferrer") Children by Grade
-      a.side-nav__item(href=`/reports/classLists/${selectedYear}` target="_blank" rel="noopener noreferrer") Class Listings
-      a.side-nav__item(href=`/reports/classListsWithEnrollmentOrder/${selectedYear}` target="_blank" rel="noopener noreferrer") Class Listings with Enrollment Order
-      a.side-nav__item(href=`/reports/invoices/${selectedYear}`  target="_blank" rel="noopener noreferrer") Invoices
-      a.side-nav__item(href=`/reports/payments/${selectedYear}`  target="_blank" rel="noopener noreferrer") Payments
-      a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Scheduled Courses
-      a.side-nav__item(href=`/class_grid/${selectedYear}`) Class Grid 
+  if (isAdmin)
+    .side-nav__section
+      h3.side-nav__heading Reports
+        a.side-nav__item(href=`/reports/childrenByGrade/${selectedYear}` target="_blank" rel="noopener noreferrer") Children by Grade
+        a.side-nav__item(href=`/reports/classLists/${selectedYear}` target="_blank" rel="noopener noreferrer") Class Listings
+        a.side-nav__item(href=`/reports/classListsWithEnrollmentOrder/${selectedYear}` target="_blank" rel="noopener noreferrer") Class Listings with Enrollment Order
+        a.side-nav__item(href=`/reports/invoices/${selectedYear}`  target="_blank" rel="noopener noreferrer") Invoices
+        a.side-nav__item(href=`/reports/payments/${selectedYear}`  target="_blank" rel="noopener noreferrer") Payments
+        a.side-nav__item(href=`/reports/courses/${selectedYear}`  target="_blank" rel="noopener noreferrer") Scheduled Courses
+        a.side-nav__item(href=`/class_grid/${selectedYear}`) Class Grid 
