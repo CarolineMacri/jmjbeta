@@ -99,7 +99,7 @@ export const updateEnrollmentAdmin = async (enrollment, enrollmentId) => {
 
   try {
     var url = `/api/v1/enrollments${
-      isNewEnrollment ? '' : '/' + enrollmentId
+      isNewEnrollment ? '' : '/' + enrollmentId  
     } `;
     //alert(url);
     const res = await axios({
