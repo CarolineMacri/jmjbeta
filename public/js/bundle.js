@@ -127382,91 +127382,7 @@ if (reportCourses) {
     var newYear = _yearSelect6.value;
     (0, _reports.changeReportCoursesYear)(newYear);
   });
-} // if (children) {
-//   // year  selector
-//   const yearSelect = document.getElementById('year-select');
-//   if (yearSelect) {
-//     yearSelect.addEventListener('change', (e) => {
-//       const newYear = yearSelect.value;
-//       const id = window.location.pathname.split('/')[2];
-//       changeChildrenYear(id, newYear);
-//     })
-//   }
-//   // add event listners for each child
-//   const childrenRows = document
-//     .querySelector('.children')
-//     .getElementsByTagName('tr');
-//   const numRows = childrenRows.length;
-//   for (var i = 1; i <= numRows - 2; i++) {
-//     const dataRow = childrenRows[i];
-//     const dataCells = dataRow.getElementsByTagName('td');
-//     const numCells = dataCells.length;
-//     const editButton = dataCells.item(numCells - 2);
-//     const deleteButton = dataCells.item(numCells - 1);
-//     editButton.addEventListener('click', function () {
-//         fillChildForm(dataRow);
-//     });
-//     deleteButton.addEventListener('click', function () {
-//       if (yearSelect) { deleteChildModal(dataRow) }
-//       else{alert('you do not have permission to delete this Child')}
-//     });
-//   }
-//   const addNewRow = childrenRows[numRows - 1];
-//   const addNewCells = addNewRow.getElementsByTagName('td');
-//   const addNewButton = addNewCells.item(0);
-//   addNewButton.addEventListener('click', function () {
-//     fillChildForm(addNewRow);
-//   });
-//   const cancel = document.getElementById('cancel');
-//   cancel.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     document
-//       .querySelector('.form-modal__window')
-//       .classList.toggle('form-modal__show');
-//   });
-//   const cancelDelete = document.getElementById('cancelDelete');
-//   cancelDelete.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     document
-//       .querySelector('.delete-modal__window')
-//       .classList.toggle('delete-modal__show');
-//   });
-//   childProfileForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     const fN = document.getElementById('firstName');
-//     const firstName = fN.value;
-//     const id = childProfileForm.id;
-//     const grades = document.getElementsByName('grade');
-//     var g;
-//     var grade = '';
-//     for (g of grades) {
-//       if (g.checked) {
-//         grade = g.value;
-//         break;
-//       }
-//     }
-//     const sexes = document.getElementsByName('sex');
-//     var s;
-//     var sex = '';
-//     for (s of sexes) {
-//       if (s.checked) {
-//         sex = s.value;
-//         break;
-//       }
-//     }
-//     const family = document.querySelector('.family__title').id;
-//     const year = yearSelect.value;
-//     const data = {
-//       firstName,
-//       grade,
-//       sex,
-//       family,
-//       year,
-//     };
-//     updateChild(id, data);
-//   });
-// }
-
+}
 
 if (users) {
   var _yearSelect7 = document.getElementById('year-select');
@@ -127563,25 +127479,34 @@ if (users) {
     }
 
     (0, _users.updateUser)(id, data).then(function (newId) {
+      // Add family to new user, or family to user who didn't have a family role previously
+      alert("FAMILY -- Old id: ".concat(id, ",  New id: ").concat(newId));
+
       if (roles.includes('parent')) {
         if (id == 'new') {
+          alert('adding new parent');
           (0, _family.addFamily)(newId, selectedYear);
         } else {
           (0, _family.existsFamily)(id).then(function (exists) {
             if (!exists) {
+              alert("There was not an existing family for ".concat(id));
               (0, _family.addFamily)(newId, selectedYear);
             }
           });
         }
-      }
+      } // Add teacher to new user, or teacher to user who didn't have a teacher role previously
+
 
       if (roles.includes('teacher')) {
+        alert("TEACHER - Old id: ".concat(id, ",  New id: ").concat(newId));
+
         if (id == 'new') {
-          alert('adding (id=' + id + ' teacher');
+          alert('adding  new teacher');
           (0, _actions.addTeacher)(newId);
         } else {
           (0, _actions.existsTeacher)(id).then(function (exists) {
             if (!exists) {
+              alert('There was not an existing teacher for=' + id);
               (0, _actions.addTeacher)(newId);
             }
           });

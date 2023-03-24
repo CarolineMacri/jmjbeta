@@ -42,7 +42,9 @@ block content
                                 h3(style='color:red; font-weight:bold')= Cafeteria   
                             else 
                                 p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
-                                p.class-grid__grades(style=`background-color:` + `${cl.isFull?'pink':'lightgreen'}`)= cl.isFull?'FULL':`${cl.slotsLeft} open`
+                                - var isAdmin = user.currentRoles.includes('admin' || 'sysadmin')
+                                if (Date.now()>= currentYearDoc.enrollmentOpenDate || isAdmin) 
+                                    p.class-grid__grades(style=`background-color:` + `${cl.isFull?'pink':'lightgreen'}`)= cl.isFull?'FULL':`${cl.slotsLeft} open`
                               
                     
                                 

@@ -22,15 +22,17 @@ block content
               .report-invoices-teacher
                 p= teacher.name+ "  - $" + formatter.format(teacher.total)
               .report-invoices-classes
+                - teacher.classes = teacher.classes.filter((cl)=>{return cl !='Family Registration'})
                 for cl in teacher.classes
-                  .report-invoices-record
-                    .report-invoices-record-student(style='flex:1')
-                      p=cl.student
-                    .report-invoices-record-class(style='flex:4')
-                      p=cl.class
-                    .report-invoices-record-price(style='flex:2')
-                      p="Classes: $" + formatter.format(cl.price)
-                    .report-invoices-record-materials(style='flex:2')
-                      p="Materials: $" + formatter.format(cl.materials) + " " 
+                  if (cl.class!='Family Registration')
+                    .report-invoices-record
+                      .report-invoices-record-student(style='flex:1')
+                        p=cl.student
+                      .report-invoices-record-class(style='flex:4')
+                        p=cl.class
+                      .report-invoices-record-price(style='flex:2')
+                        p="Classes: $" + formatter.format(cl.price)
+                      .report-invoices-record-materials(style='flex:2')
+                        p="Materials: $" + formatter.format(cl.materials) + " " 
             .report-invoices-teacher   
             h2= "Grand Total:  $" + formatter.format(family.grandTotal) 

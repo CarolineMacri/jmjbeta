@@ -344,7 +344,7 @@ exports.reportPayments = catchAsync(async (req, res, next) => {
 
 exports.reportTeachers = catchAsync(async (req, res, next) => {
   let { selectedYear, teacher } = req.params;
-  //console.log('in report Pyments-----------------------------------------');
+  
   const years = await Year.find();
 
   if (!selectedYear) {
@@ -402,7 +402,7 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
   //if (!selectedYear) {
   const selectedYear = await Year.getCurrentYearValue();
   //}
-  const family = await Family.findOne({ parent: parentId });
+  const family = await Family.findOne({ parent: parentId, year: selectedYear }); 
 
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 

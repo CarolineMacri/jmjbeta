@@ -66,6 +66,9 @@ exports.userFamilyChildEnrollmentClassCourseTeacher = (year) => {
     },
     { $unwind: '$course' },
     {
+      $match: { 'course.name': { $ne: 'Family Registration' } },
+    },
+    {
       $lookup: {
         from: 'users',
         localField: 'class.teacher',
@@ -333,10 +336,11 @@ exports.teachersWithFamilyEnrollmentsAndPayments = (year) => {
         foreignField: 'teacher',
         as: 'payments',
       },
-    },]);
-  
-    // final grouping of families under teacher, sorted by teacher name
-    pipeline = pipeline.concat([
+    },
+  ]);
+
+  // final grouping of families under teacher, sorted by teacher name
+  pipeline = pipeline.concat([
     {
       $group: {
         _id: '$teacher._id',
