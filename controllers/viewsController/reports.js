@@ -1,5 +1,5 @@
-//CORE modulesconst fs = require('fs');const path = require('path');
-
+//CORE modulesconst fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 const pug = require('pug');
 
@@ -344,7 +344,7 @@ exports.reportPayments = catchAsync(async (req, res, next) => {
 
 exports.reportTeachers = catchAsync(async (req, res, next) => {
   let { selectedYear, teacher } = req.params;
-  
+
   const years = await Year.find();
 
   if (!selectedYear) {
@@ -355,8 +355,10 @@ exports.reportTeachers = catchAsync(async (req, res, next) => {
   var teachers = await Teacher.find().populate('teacher');
 
   teachers = teachers.filter((teacher) => {
-    if (teacher.teacher.yearRoles.get(selectedYear).includes('teacher'))
-      return teacher;
+    var currentYearRoles = teacher.teacher.yearRoles.get(selectedYear);
+    if (currentYearRoles) {
+      if (currentYearRoles.includes('teacher')) return teacher;
+    }
   });
 
   teachers = teachers.sort((teacher1, teacher2) => {
@@ -402,7 +404,7 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
   //if (!selectedYear) {
   const selectedYear = await Year.getCurrentYearValue();
   //}
-  const family = await Family.findOne({ parent: parentId, year: selectedYear }); 
+  const family = await Family.findOne({ parent: parentId, year: selectedYear });
 
   const gradeCourseMap = await Course.getGradeCourseMap(selectedYear);
 
