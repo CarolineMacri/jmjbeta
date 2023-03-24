@@ -228,7 +228,7 @@ exports.reportClassListsWithEnrollmentOrder = catchAsync(
         const enrollmentDate =
           child.family.enrollmentStatus == 'final'
             ? payDate
-            : child.family.enrollmentStatus == 'preliminary'
+            : child.family.enrollmentStatus == 'pending'
             ? subDate
             : '';
         return {
@@ -238,7 +238,7 @@ exports.reportClassListsWithEnrollmentOrder = catchAsync(
       });
       // sort children names in alphabetical order
       enrollments.sort((enrollment1, enrollment2) => {
-        const statuses = ['final', 'preliminary', 'none'];
+        const statuses = ['final', 'pending', 'none'];
         return (
           statuses.indexOf(enrollment1.enrollmentStatus) -
           statuses.indexOf(enrollment2.enrollmentStatus)
@@ -248,8 +248,8 @@ exports.reportClassListsWithEnrollmentOrder = catchAsync(
       enrollments.forEach((enrollment) => {
         console.log(enrollment.enrollmentStatus);
       });
-      const totalPreliminaryEnrollments = enrollments.filter((enrollment) => {
-        return enrollment.enrollmentStatus == 'preliminary';
+      const totalPendingEnrollments = enrollments.filter((enrollment) => {
+        return enrollment.enrollmentStatus == 'pending';
       }).length;
       const totalFinalEnrollments = enrollments.filter((enrollment) => {
         return enrollment.enrollmentStatus == 'final';
@@ -260,7 +260,7 @@ exports.reportClassListsWithEnrollmentOrder = catchAsync(
 
       const junk = classMap.get(hour).set(location, {
         className: className,
-        totalPreliminaryEnrollments,
+        totalPendingEnrollments,
         totalFinalEnrollments,
         totalUnsubmittedEnrollments,
         enrollments: enrollments,

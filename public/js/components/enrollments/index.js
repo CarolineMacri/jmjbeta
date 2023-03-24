@@ -48,7 +48,7 @@ function index(a) {
         if (ok) {
           alert(
             'Submitting\n ' +
-            'Your enrollment status is PRELIMINARY until payments are received'
+            'Your enrollment status is PENDING until payments are received'  
           );
 
           submitEnrollments(enrollmentProfile.id);

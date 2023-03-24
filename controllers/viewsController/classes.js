@@ -129,22 +129,6 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
       },
     });
 
-  // only final or preliminary count as filling up the class
-  // classes.forEach((cl) => {
-  //   cl.enrollments = cl.enrollments.filter((en) => {
-  //     return en.child.family.enrollmentStatus != 'none';
-  //   });
-  // });
-
-  // const classes = await Class.find({ year: selectedYear })
-  //   .sort({ hour: 1, location: 1 })
-  //   .populate({
-  //     path: 'course',
-  //     justOne: true,
-  //     select: 'name grade classSize',
-  //   })
-  //   .populate('enrollments');
-
   classes.map((cl) => {
     cl.style = `grid-area:${cl.location.replace(/ /g, '')}-${cl.hour.replace(
       /:/g,
@@ -154,9 +138,9 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
     cl.enrollments = cl.enrollments.filter((en) => {
       return en.child.family.enrollmentStatus != 'none';
     });
-    
+
     cl.isFull = cl.enrollments.length >= cl.course.classSize.max;
-    
+
     cl.slotsLeft = cl.course.classSize.max - cl.enrollments.length;
     return cl;
   });

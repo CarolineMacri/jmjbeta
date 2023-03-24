@@ -9,7 +9,7 @@ export const submitEnrollments = async (familyId) => {
   try {
     var url = `/api/v1/families/${familyId}`;
     const family = {
-      enrollmentStatus: 'preliminary',
+      enrollmentStatus: 'pending',
       submitDate: Date.now(),
     };
     const res = await axios({
@@ -45,7 +45,7 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   enrollmentsToAdd.forEach(async (e) => {
     try {
-      alert('adding enrollment' + JSON.stringify(e))
+      //alert('adding enrollment' + JSON.stringify(e))
       var url = `/api/v1/enrollments`;
 
       const res = await axios({
@@ -60,7 +60,7 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   enrollmentsToUpdate.forEach(async (e) => {
     try {
-      alert('updating enrollment' + JSON.stringify(e))
+      //alert('updating enrollment' + JSON.stringify(e))
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({
@@ -75,7 +75,7 @@ export const saveEnrollentSelections = async (enrollments) => {
 
   enrollmentsToDelete.forEach(async (e) => {
     try {
-      alert('deleting enrollment' + JSON.stringify(e))
+      //alert('deleting enrollment' + JSON.stringify(e))
       var url = `/api/v1/enrollments/${e._id}`;
 
       const res = await axios({
@@ -93,7 +93,7 @@ export const saveEnrollentSelections = async (enrollments) => {
 };
 
 export const updateEnrollmentAdmin = async (enrollment, enrollmentId) => {
-  alert('in updateEnrollmentAdmin');
+  //alert('in updateEnrollmentAdmin');
   const isNewEnrollment = enrollment.isNew;
   const method = isNewEnrollment ? 'POST' : 'PATCH';
 
@@ -101,7 +101,7 @@ export const updateEnrollmentAdmin = async (enrollment, enrollmentId) => {
     var url = `/api/v1/enrollments${
       isNewEnrollment ? '' : '/' + enrollmentId
     } `;
-    alert(url);
+    //alert(url);
     const res = await axios({
       method,
       url,

@@ -4,7 +4,7 @@ block content
  
  section.enrollment-profile(id=family.id).page__content
   h1.enrollments__title Enrollments
-  if (family.enrollmentStatus=='preliminary')
+  if (family.enrollmentStatus=='pending')
     h1.enrollments__title(style="color:red; font-weight:bold") If you have not done so, 
     h1.enrollments__title(style="color:red; font-weight:bold") please print your invoice and mail your payments.
   if (family.enrollmentStatus=='none')
@@ -21,7 +21,7 @@ block content
         strong NONE 
         | - classes selected but not submitted,  class selections are editable 
       h3 
-        strong PRELIMINARY  
+        strong PENDING  
         | - class selections have been submitted and are no long editable.  An invoice will be generated
       h3 
         strong FINAL 

@@ -17201,7 +17201,7 @@ var submitEnrollments = /*#__PURE__*/function () {
             _context.prev = 0;
             url = "/api/v1/families/".concat(familyId);
             family = {
-              enrollmentStatus: 'preliminary',
+              enrollmentStatus: 'pending',
               submitDate: Date.now()
             };
             _context.next = 5;
@@ -17271,31 +17271,31 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                     switch (_context2.prev = _context2.next) {
                       case 0:
                         _context2.prev = 0;
-                        alert('adding enrollment' + JSON.stringify(e));
+                        //alert('adding enrollment' + JSON.stringify(e))
                         url = "/api/v1/enrollments";
-                        _context2.next = 5;
+                        _context2.next = 4;
                         return (0, _axios.default)({
                           method: 'POST',
                           url: url,
                           data: e
                         });
 
-                      case 5:
+                      case 4:
                         res = _context2.sent;
-                        _context2.next = 11;
+                        _context2.next = 10;
                         break;
 
-                      case 8:
-                        _context2.prev = 8;
+                      case 7:
+                        _context2.prev = 7;
                         _context2.t0 = _context2["catch"](0);
                         (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
 
-                      case 11:
+                      case 10:
                       case "end":
                         return _context2.stop();
                     }
                   }
-                }, _callee2, null, [[0, 8]]);
+                }, _callee2, null, [[0, 7]]);
               }));
 
               return function (_x3) {
@@ -17310,31 +17310,31 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                     switch (_context3.prev = _context3.next) {
                       case 0:
                         _context3.prev = 0;
-                        alert('updating enrollment' + JSON.stringify(e));
+                        //alert('updating enrollment' + JSON.stringify(e))
                         url = "/api/v1/enrollments/".concat(e._id);
-                        _context3.next = 5;
+                        _context3.next = 4;
                         return (0, _axios.default)({
                           method: 'PATCH',
                           url: url,
                           data: e
                         });
 
-                      case 5:
+                      case 4:
                         res = _context3.sent;
-                        _context3.next = 11;
+                        _context3.next = 10;
                         break;
 
-                      case 8:
-                        _context3.prev = 8;
+                      case 7:
+                        _context3.prev = 7;
                         _context3.t0 = _context3["catch"](0);
                         (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
-                      case 11:
+                      case 10:
                       case "end":
                         return _context3.stop();
                     }
                   }
-                }, _callee3, null, [[0, 8]]);
+                }, _callee3, null, [[0, 7]]);
               }));
 
               return function (_x4) {
@@ -17349,31 +17349,31 @@ var saveEnrollentSelections = /*#__PURE__*/function () {
                     switch (_context4.prev = _context4.next) {
                       case 0:
                         _context4.prev = 0;
-                        alert('deleting enrollment' + JSON.stringify(e));
+                        //alert('deleting enrollment' + JSON.stringify(e))
                         url = "/api/v1/enrollments/".concat(e._id);
-                        _context4.next = 5;
+                        _context4.next = 4;
                         return (0, _axios.default)({
                           method: 'DELETE',
                           url: url,
                           data: e
                         });
 
-                      case 5:
+                      case 4:
                         res = _context4.sent;
-                        _context4.next = 11;
+                        _context4.next = 10;
                         break;
 
-                      case 8:
-                        _context4.prev = 8;
+                      case 7:
+                        _context4.prev = 7;
                         _context4.t0 = _context4["catch"](0);
                         (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
 
-                      case 11:
+                      case 10:
                       case "end":
                         return _context4.stop();
                     }
                   }
-                }, _callee4, null, [[0, 8]]);
+                }, _callee4, null, [[0, 7]]);
               }));
 
               return function (_x5) {
@@ -17406,20 +17406,20 @@ var updateEnrollmentAdmin = /*#__PURE__*/function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            alert('in updateEnrollmentAdmin');
+            //alert('in updateEnrollmentAdmin');
             isNewEnrollment = enrollment.isNew;
             method = isNewEnrollment ? 'POST' : 'PATCH';
-            _context6.prev = 3;
-            url = "/api/v1/enrollments".concat(isNewEnrollment ? '' : '/' + enrollmentId, " ");
-            alert(url);
-            _context6.next = 8;
+            _context6.prev = 2;
+            url = "/api/v1/enrollments".concat(isNewEnrollment ? '' : '/' + enrollmentId, " "); //alert(url);
+
+            _context6.next = 6;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: enrollment
             });
 
-          case 8:
+          case 6:
             res = _context6.sent;
 
             if (res.data.status == 'success') {
@@ -17430,20 +17430,20 @@ var updateEnrollmentAdmin = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context6.next = 15;
+            _context6.next = 13;
             break;
 
-          case 12:
-            _context6.prev = 12;
-            _context6.t0 = _context6["catch"](3);
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6["catch"](2);
             (0, _alerts.showAlert)('error', _context6.t0.response.data.message);
 
-          case 15:
+          case 13:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[3, 12]]);
+    }, _callee6, null, [[2, 10]]);
   }));
 
   return function updateEnrollmentAdmin(_x6, _x7) {
@@ -17498,7 +17498,7 @@ function index(a) {
         var ok = confirm('Are you sure you want to submit your enrollments?\n' + 'You will no long be able to change your selections\n');
 
         if (ok) {
-          alert('Submitting\n ' + 'Your enrollment status is PRELIMINARY until payments are received');
+          alert('Submitting\n ' + 'Your enrollment status is PENDING until payments are received');
           (0, _actions.submitEnrollments)(enrollmentProfile.id);
         }
       }

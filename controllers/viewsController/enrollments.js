@@ -99,7 +99,7 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
       },
     });
 
-  // only final or preliminary count as filling up the class
+  // only final or pending count as filling up the class
   classes.forEach((cl) => {
     cl.enrollments = cl.enrollments.filter((en) => {
       return en.child.family.enrollmentStatus != 'none';

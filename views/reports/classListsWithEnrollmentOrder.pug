@@ -23,11 +23,11 @@ block content
                   .report-class-lists-box
                     .report-class-lists-course
                       .report-class-lists-course-name
-                        -var remainingSlots =cl.maxSize-cl.totalPreliminaryEnrollments- cl.totalFinalEnrollments
+                        -var remainingSlots =cl.maxSize-cl.totalPendingEnrollments- cl.totalFinalEnrollments
                         -var overSlots = cl.remainingSlots-cl.totalUnsubmittedEnrollments
                         h2=cl.className
                         p=`Class Size:  ${cl.maxSize} (${remainingSlots} remaining)`
-                        p='Prelim: ' + cl.totalPreliminaryEnrollments
+                        p='Pending: ' + cl.totalPendingEnrollments
                         p='Final: ' + cl.totalFinalEnrollments
                         p=`Potential waiting: ${overSlots>0?overSlots:'okay'}`
                       .report-class-lists-course-hour

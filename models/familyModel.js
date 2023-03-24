@@ -19,7 +19,7 @@ const familySchema = new mongoose.Schema(
     year: String,
     enrollmentStatus: {
       type: String,
-      enum: ['none', 'preliminary', 'final'],
+      enum: ['none', 'pending', 'final'],
       default: 'none',
       required: true,
     },
