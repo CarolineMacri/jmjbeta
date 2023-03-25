@@ -1,4 +1,5 @@
-/* eslint-disable */ import 'core-js/stable';
+/* eslint-disable */
+import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import { changeFamilyYear, addFamily, existsFamily } from './family';
@@ -213,11 +214,13 @@ if (users) {
       .classList.toggle('delete-modal__show');
   });
 
+  
+  
   userProfileForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const lN = document.getElementById('lastName');
     const lastName = lN.value;
-    const fN = document.getElementById('firstName');
+    const fN = document.getElementById('firstName'); 
     const firstName = fN.value;
     const em = document.getElementById('email');
     const email = em.value;
@@ -252,7 +255,7 @@ if (users) {
     updateUser(id, data).then((newId) => {
 
       // Add family to new user, or family to user who didn't have a family role previously
-      alert(`FAMILY -- Old id: ${id},  New id: ${newId}`) 
+      alert(`FAMILY -- Old id: ${id},  New id: ${newId}`)
       if (roles.includes('parent')) {
         if (id == 'new') {
           alert('adding new parent')
@@ -268,19 +271,19 @@ if (users) {
       }
       // Add teacher to new user, or teacher to user who didn't have a teacher role previously
       if (roles.includes('teacher')) {
-        alert(`TEACHER - Old id: ${id},  New id: ${newId}`) 
+        alert(`TEACHER - Old id: ${id},  New id: ${newId}`)
         if (id == 'new') {
           alert('adding  new teacher');
           addTeacher(newId);
         } else {
           existsTeacher(id).then((exists) => {
             if (!exists) {
-              alert('There was not an existing teacher for=' + id );
+              alert('There was not an existing teacher for=' + id);
               addTeacher(newId);
             }
           });
         }
       }
     });
-  });
+  })
 }

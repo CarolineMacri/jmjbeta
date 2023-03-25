@@ -18990,13 +18990,13 @@ var changeUsersYear = function changeUsersYear(year) {
 exports.changeUsersYear = changeUsersYear;
 
 var toggleModalUser = function toggleModalUser() {
-  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
+  document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
 };
 
 exports.toggleModalUser = toggleModalUser;
 
 var userModalOnClick = function userModalOnClick(event) {
-  if (event.target = document.querySelector(".form-modal__window")) {
+  if (event.target = document.querySelector('.form-modal__window')) {
     toggleModalUser();
   }
 };
@@ -19004,7 +19004,7 @@ var userModalOnClick = function userModalOnClick(event) {
 exports.userModalOnClick = userModalOnClick;
 
 var fillUserForm = function fillUserForm(row) {
-  var userForm = document.querySelector(".user-profile__form");
+  var userForm = document.querySelector('.user-profile__form');
   userForm.id = row.id;
   userForm.dataset.registrationYears = row.dataset.registrationYears;
 
@@ -19022,31 +19022,58 @@ var fillUserForm = function fillUserForm(row) {
         y = _map2[6];
   }
 
-  var newUser = userLastName.includes("<div");
+  var newUser = userLastName.includes('<div');
 
   if (newUser) {
-    userLastName = "";
-    userFirstName = "";
-    userEmail = "";
-    userCellPhone = "";
-    userRoles = "";
+    userLastName = '';
+    userFirstName = '';
+    userEmail = '';
+    userCellPhone = '';
+    userRoles = '';
   }
 
-  document.getElementById("lastName").value = userLastName;
-  document.getElementById("firstName").value = userFirstName;
-  document.getElementById("email").value = userEmail;
-  document.getElementById("cellPhone").value = userCellPhone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-  document.getElementById("update").value = newUser ? "Add" : "Update";
-  var roleCheckBoxes = document.getElementsByName("roles");
+  document.getElementById('lastName').value = userLastName;
+  document.getElementById('firstName').value = userFirstName;
+  document.getElementById('email').value = userEmail;
+  document.getElementById('cellPhone').value = userCellPhone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+  document.getElementById('update').value = newUser ? 'Add' : 'Update';
+  var roleCheckBoxes = document.getElementsByName('roles');
   setChecked(roleCheckBoxes, userRoles);
-  document.querySelector(".form-modal__window").classList.toggle("form-modal__show");
+  document.querySelector('.form-modal__window').classList.toggle('form-modal__show');
 
   function setChecked(checkBoxes, checkedValues) {
     checkBoxes.forEach(function (checkBox) {
       var isChecked = checkedValues.includes(checkBox.value);
       checkBox.checked = isChecked;
+      checkBox.dataset.exists = isChecked;
     });
   }
+
+  var parentCheckbox = document.getElementById('parent');
+  var teacherCheckbox = document.getElementById('teacher');
+  alert('parent: ' + parentCheckbox.dataset.exists + '  teacher:  ' + teacherCheckbox.dataset.exists);
+  parentCheckbox.addEventListener('change', function (e) {
+    e.preventDefault(); // parent exists and was unchecked
+
+    var exists = parentCheckbox.dataset.exists == 'true';
+    var unchecked = !parentCheckbox.checked;
+
+    if (exists && unchecked) {
+      alert('Parent must be deleted using Administration - Families - Delete this family');
+      parentCheckbox.checked = true;
+    }
+  });
+  teacherCheckbox.addEventListener('change', function (e) {
+    e.preventDefault(); // parent exists and was unchecked
+
+    var exists = teacherCheckbox.dataset.exists == 'true';
+    var unchecked = !teacherCheckbox.checked;
+
+    if (exists && unchecked) {
+      alert('teacher must be deleted using Administration - Teachers - Delete this teacher');
+      teacherCheckbox.checked = true;
+    }
+  });
 };
 
 exports.fillUserForm = fillUserForm;
@@ -19059,10 +19086,10 @@ var updateUser = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            url = "/api/v1/users/".concat(userId == "new" ? "" : "/" + userId);
-            method = userId == "new" ? "POST" : "PATCH";
+            url = "/api/v1/users/".concat(userId == 'new' ? '' : '/' + userId);
+            method = userId == 'new' ? 'POST' : 'PATCH';
 
-            if (userId === "new") {
+            if (userId === 'new') {
               randomPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2).toUpperCase();
               data.password = randomPassword;
               data.passwordConfirm = randomPassword;
@@ -19078,8 +19105,8 @@ var updateUser = /*#__PURE__*/function () {
           case 6:
             res = _context.sent;
 
-            if (res.data.status == "success") {
-              (0, _alerts.showAlert)("success", "User ".concat(userId == "new" ? "added" : "updated", " successfully"));
+            if (res.data.status == 'success') {
+              (0, _alerts.showAlert)('success', "User ".concat(userId == 'new' ? 'added' : 'updated', " successfully"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -19090,7 +19117,7 @@ var updateUser = /*#__PURE__*/function () {
           case 11:
             _context.prev = 11;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
           case 14:
           case "end":
@@ -19119,14 +19146,14 @@ var deleteUserModal = /*#__PURE__*/function () {
             _map3 = _toConsumableArray(row.children).map(function (e) {
               return e.innerHTML;
             }), _map4 = _slicedToArray(_map3, 7), userLastName = _map4[0], userFirstName = _map4[1], userEmail = _map4[2], userCellPhone = _map4[3], userRoles = _map4[4], x = _map4[5], y = _map4[6];
-            deleteModal = document.querySelector(".delete-modal__window");
-            paragraphs = deleteModal.getElementsByTagName("p");
-            paragraphs.item(2).innerHTML = userFirstName.toUpperCase() + "   " + userLastName.toUpperCase();
-            deleteUserButton = document.getElementById("deleteUser");
-            deleteUserButton.addEventListener("click", function () {
+            deleteModal = document.querySelector('.delete-modal__window');
+            paragraphs = deleteModal.getElementsByTagName('p');
+            paragraphs.item(2).innerHTML = userFirstName.toUpperCase() + '   ' + userLastName.toUpperCase();
+            deleteUserButton = document.getElementById('deleteUser');
+            deleteUserButton.addEventListener('click', function () {
               deleteUser(userId, userFirstName);
             });
-            deleteModal.classList.toggle("delete-modal__show");
+            deleteModal.classList.toggle('delete-modal__show');
 
           case 8:
           case "end":
@@ -19154,7 +19181,7 @@ var deleteUser = /*#__PURE__*/function () {
             url = "/api/v1/users/".concat(userId);
             _context3.next = 4;
             return (0, _axios.default)({
-              method: "DELETE",
+              method: 'DELETE',
               url: url
             });
 
@@ -19162,7 +19189,7 @@ var deleteUser = /*#__PURE__*/function () {
             res = _context3.sent;
 
             if (res.status == 204) {
-              (0, _alerts.showAlert)("success", "".concat(userFirstName, " deleted"));
+              (0, _alerts.showAlert)('success', "".concat(userFirstName, " deleted"));
               window.setTimeout(function () {
                 location.reload();
               }, 500);
@@ -19174,7 +19201,7 @@ var deleteUser = /*#__PURE__*/function () {
           case 8:
             _context3.prev = 8;
             _context3.t0 = _context3["catch"](0);
-            (0, _alerts.showAlert)("error", _context3.t0.response.data.message);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
           case 11:
           case "end":
