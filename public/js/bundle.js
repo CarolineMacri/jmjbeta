@@ -17562,6 +17562,7 @@ function index(a) {
     enrollmentAdminProfileForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var enrollmentId = enrollmentAdminProfileForm.id;
+      alert(enrollmentId);
       var enrollment = {};
 
       if (enrollmentId == 'new') {
@@ -17579,8 +17580,9 @@ function index(a) {
         date: document.getElementById('addDate').value,
         reason: document.getElementById('addReason').value
       };
-      enrollment.isNew = enrollmentId == 'new';
-      alert('temporarily disabled until DROPPED classes are properly handled.'); //updateEnrollmentAdmin(enrollment, enrollmentId)
+      enrollment.isNew = enrollmentId == 'new'; //alert('temporarily disabled until DROPPED classes are properly handled.');
+
+      (0, _actions.updateEnrollmentAdmin)(enrollment, enrollmentId);
     });
   }
 }

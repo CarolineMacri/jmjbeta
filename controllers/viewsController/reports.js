@@ -87,7 +87,8 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
   const classes = await Class.find(match)
     .sort('hour')
     .populate({
-      path: 'enrollments',
+      path: 'enrollments', 
+      match: { 'drop.status': {$ne: true} } ,
       populate: {
         path: 'child',
         justOne: true,
@@ -176,6 +177,7 @@ exports.reportClassListsWithEnrollmentOrder = catchAsync(
       .sort('hour')
       .populate({
         path: 'enrollments',
+        match: { 'drop.status': {$ne: true} } ,
         populate: {
           path: 'child',
           justOne: true,

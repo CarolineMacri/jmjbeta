@@ -113,6 +113,7 @@ function index(a) {
       e.preventDefault();
       
       const enrollmentId = enrollmentAdminProfileForm.id;   
+      alert(enrollmentId)
       var enrollment = {};
       if (enrollmentId == 'new') {
         enrollment.class = document.getElementById('class').value;
@@ -131,9 +132,9 @@ function index(a) {
       }
       enrollment.isNew = enrollmentId == 'new'
       
-      alert('temporarily disabled until DROPPED classes are properly handled.');
+      //alert('temporarily disabled until DROPPED classes are properly handled.');
      
-      //updateEnrollmentAdmin(enrollment, enrollmentId)
+      updateEnrollmentAdmin(enrollment, enrollmentId)
     });
   
   }

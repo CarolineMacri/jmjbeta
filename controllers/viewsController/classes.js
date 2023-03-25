@@ -118,7 +118,8 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
       select: 'name grade classSize',
     })
     .populate({
-      path: 'enrollments',
+      path: 'enrollments',  
+      match: { 'drop.status': {$ne: true} } ,
       populate: {
         path: 'child',
         justOne: true,

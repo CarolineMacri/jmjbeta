@@ -13,12 +13,15 @@ exports.createEnrollment = factory.createOne(Enrollment);
 
 exports.validateParentOfEnrollment = catchAsync(async (req, res, next) => {
   var childId;
+  
   if (req.body.child) {
     //new and updated enrollments have the child on the request
     childId = req.body.child;
   } else {
     // deleted enrollments have only the enrollment Id, must find the child
-    const enrollment = await Enrollment.findById(req.body._id);
+    let { id } = req.params;
+    // const enrollment = await Enrollment.findById(req.body._id);
+    const enrollment = await Enrollment.findById(id);
     childId = enrollment.child;
   }
   

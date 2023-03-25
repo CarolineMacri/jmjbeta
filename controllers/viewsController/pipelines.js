@@ -300,7 +300,8 @@ exports.teachersWithFamilyEnrollmentsAndPayments = (year) => {
   pipeline = pipeline.concat([
     {
       $lookup: {
-        from: 'enrollments',
+        from: 'enrollments',  
+        
         localField: 'class._id',
         foreignField: 'class',
         as: 'enrollment',

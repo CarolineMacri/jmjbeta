@@ -27,6 +27,7 @@ exports.getFamily = catchAsync(async (req, res, next) => {
         .select('firstName sex grade _id')
         .populate({
           path: 'enrollments',
+          match: { 'drop.status': {$ne: true} } , 
           select: 'class course -child',
           populate: {
             path: 'class',

@@ -88,7 +88,8 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
   var classes = await Class.find({ year: selectedYear })
     .populate('course')
     .populate({
-      path: 'enrollments',
+      path: 'enrollments',  
+     
       populate: {
         path: 'child',
         justOne: true,
@@ -115,6 +116,7 @@ exports.getEnrollmentProfile = catchAsync(async (req, res, next) => {
     .select('firstName sex grade _id')
     .populate({
       path: 'enrollments',
+      match: { 'drop.status': {$ne: true} } ,
       select: 'class course -child',
       populate: {
         path: 'class',
