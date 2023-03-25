@@ -11,11 +11,41 @@ block content
         .report__title
           h1.invoices-title(id=parent) +JMJ+ Homeschool Co-op Invoice
 
-        for family in families
+        for family in familiesFirstSemester
 
           .report-invoices-box
             .report-invoices-family
+              h2(style='text-align:center')=` ${currentYearDoc.year} - SEMESTER 1`
               h2(style="color:red;text-align:center") Please make checks to individual intructors 
+              h2= `${family.parent}`
+
+            for teacher in family.teachers
+              .report-invoices-teacher
+                p= teacher.name+ "  - $" + formatter.format(teacher.total)
+              .report-invoices-classes
+                - teacher.classes = teacher.classes.filter((cl)=>{return cl !='Family Registration'})
+                for cl in teacher.classes
+                  if (cl.class!='Family Registration')
+                    .report-invoices-record
+                      .report-invoices-record-student(style='flex:1')
+                        p=cl.student
+                      .report-invoices-record-class(style='flex:4')
+                        p=cl.class
+                      .report-invoices-record-price(style='flex:2')
+                        p="Classes: $" + formatter.format(cl.price)
+                      .report-invoices-record-materials(style='flex:2')
+                        p="Materials: $" + formatter.format(cl.materials) + " " 
+            .report-invoices-teacher   
+            h3= "Grand Total:  $" + formatter.format(family.grandTotal) 
+
+
+        for family in familiesSecondSemester
+
+          .report-invoices-box
+            .report-invoices-family
+            h2(style='text-align:center')=` ${currentYearDoc.year} - SEMESTER 2`
+              h2(style="color:red;text-align:center") Please make checks to individual intructors 
+             
               h2= family.parent
 
             for teacher in family.teachers
@@ -35,4 +65,4 @@ block content
                       .report-invoices-record-materials(style='flex:2')
                         p="Materials: $" + formatter.format(cl.materials) + " " 
             .report-invoices-teacher   
-            h2= "Grand Total:  $" + formatter.format(family.grandTotal) 
+            h3= "Grand Total:  $" + formatter.format(family.grandTotal)   

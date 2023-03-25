@@ -1,5 +1,5 @@
-//CORE modulesconst fs = require('fs');
-const path = require('path');
+//CORE modules
+const fs = require('fs'); const path = require('path');
 const mongoose = require('mongoose');
 const pug = require('pug');
 
@@ -288,22 +288,41 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
   }
 
   var pipeline1 = [];
+  var invoiceFirstSemesterPipeline = [];
+  var invoiceSecondSemesterPipeline = [];
+  
   if (parent) {
-    pipeline1 = pipeline1.concat([
-      { $match: { _id: mongoose.Types.ObjectId(parent) } },
-    ]);
+    invoiceFirstSemesterPipeline = invoiceFirstSemesterPipeline
+      .concat([
+        {
+          $match:
+            { _id: mongoose.Types.ObjectId(parent) }
+        }
+      ])    
+      invoiceSecondSemesterPipeline = invoiceSecondSemesterPipeline
+      .concat([
+        {
+          $match:
+            { _id: mongoose.Types.ObjectId(parent) }
+        }
+      ])   
   }
 
-  const pipeline =
-    pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear);
+  invoiceFirstSemesterPipeline = invoiceFirstSemesterPipeline.concat(pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear, '1'))
+  invoiceSecondSemesterPipeline = invoiceSecondSemesterPipeline.concat(pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear, '2'))
+  // const pipeline =
+  //   pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear);
 
-  pipeline1 = pipeline1.concat(pipeline);
+  // pipeline1 = pipeline1.concat(pipeline);
 
-  const fams = await User.aggregate(pipeline1);
+  const familiesFirstSemester = await User.aggregate(invoiceFirstSemesterPipeline);
+  const familiesSecondSemester = await User.aggregate(invoiceSecondSemesterPipeline);
+
 
   res.status(200).render('reports/invoices', {
     title: 'Invoices',
-    families: fams,
+    familiesFirstSemester,
+    familiesSecondSemester,
     years,
     selectedYear,
     parent,

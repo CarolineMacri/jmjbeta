@@ -1,7 +1,7 @@
 //  pipelines for use in various queries for
 
 // class records grouped by family, grouped by teacher
-exports.userFamilyChildEnrollmentClassCourseTeacher = (year) => {
+exports.userFamilyChildEnrollmentClassCourseTeacher = (year, semester) => {
   var pipeline = [];
 
   // get family for each parent
@@ -95,72 +95,144 @@ exports.userFamilyChildEnrollmentClassCourseTeacher = (year) => {
     },
   ]);
 
-  pipeline = pipeline.concat([
-    {
-      $group: {
-        _id: {
-          user: '$_id',
-          teacher: '$teacher._id',
-        },
-        classes: {
-          $push: {
-            class: '$course.name',
-            student: '$child.firstName',
-            price: '$costClasses.1',
-            materials: '$costMaterials.1',
+  if (semester == '1') {
+    pipeline = pipeline.concat([
+      {
+        $group: {
+          _id: {
+            user: '$_id',
+            teacher: '$teacher._id',
           },
-        },
-        user: {
-          $first: {
-            $concat: ['$lastName', ', ', '$firstName'],
+          classes: {
+            $push: {
+              class: '$course.name',
+              student: '$child.firstName',
+              price: '$costClasses.1',
+              materials: '$costMaterials.1',
+            },
           },
-        },
-        teacher: {
-          $first: {
-            $concat: ['$teacher.lastName', ', ', '$teacher.firstName'],
+          user: {
+            $first: {
+              $concat: ['$lastName', ', ', '$firstName'],
+            },
           },
-        },
-        classFee: {
-          $sum: '$costClasses.1',
-        },
-        materialsFee: {
-          $sum: '$costMaterials.1',
-        },
-        total: {
-          $sum: {
-            $add: ['$costMaterials.1', '$costClasses.1'],
+          teacher: {
+            $first: {
+              $concat: ['$teacher.lastName', ', ', '$teacher.firstName'],
+            },
           },
-        },
-        numClasses: {
-          $sum: 1,
+          classFee: {
+            $sum: '$costClasses.1',
+          },
+          materialsFee: {
+            $sum: '$costMaterials.1',
+          },
+          total: {
+            $sum: {
+              $add: ['$costMaterials.1', '$costClasses.1'],
+            },
+          },
+          numClasses: {
+            $sum: 1,
+          },
         },
       },
-    },
-    {
-      $sort: {
-        teacher: 1,
+      {
+        $sort: {
+          teacher: 1,
+        },
       },
-    },
-    {
-      $group: {
-        _id: '$_id.user',
-        parent: { $first: '$user' },
-        teachers: {
-          $push: {
-            name: '$teacher',
-            classes: '$classes',
-            total: '$total',
+      {
+        $group: {
+          _id: '$_id.user',
+          parent: { $first: '$user' },
+          teachers: {
+            $push: {
+              name: '$teacher',
+              classes: '$classes',
+              total: '$total',
+            },
+          },
+          grandTotal: { $sum: '$total' },
+        },
+      },
+      {
+        $sort: {
+          parent: 1,
+        },
+      },
+    ]);
+  }
+  
+  if (semester == '2') {
+
+    pipeline = pipeline.concat([
+      {
+        $group: {
+          _id: {
+            user: '$_id',
+            teacher: '$teacher._id',
+          },
+          classes: {
+            $push: {
+              class: '$course.name',
+              student: '$child.firstName',
+              price: '$costClasses.2',
+              materials: '$costMaterials.2',
+            },
+          },
+          user: {
+            $first: {
+              $concat: ['$lastName', ', ', '$firstName'],
+            },
+          },
+          teacher: {
+            $first: {
+              $concat: ['$teacher.lastName', ', ', '$teacher.firstName'],
+            },
+          },
+          classFee: {
+            $sum: '$costClasses.2',
+          },
+          materialsFee: {
+            $sum: '$costMaterials.2',
+          },
+          total: {
+            $sum: {
+              $add: ['$costMaterials.2', '$costClasses.2'],
+            },
+          },
+          numClasses: {
+            $sum: 1,
           },
         },
-        grandTotal: { $sum: '$total' },
       },
-    },
-    {
-      $sort: {
-        parent: 1,
+      {
+        $sort: {
+          teacher: 1,
+        },
       },
-    },
-  ]);
+      {
+        $group: {
+          _id: '$_id.user',
+          parent: { $first: '$user' },
+          teachers: {
+            $push: {
+              name: '$teacher',
+              classes: '$classes',
+              total: '$total',
+            },
+          },
+          grandTotal: { $sum: '$total' },
+        },
+      },
+      {
+        $sort: {
+          parent: 1,
+        },
+      },
+    ]);
+  }
 
   return pipeline;
 };
