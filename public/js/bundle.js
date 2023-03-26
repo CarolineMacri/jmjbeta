@@ -14112,7 +14112,7 @@ exports.showAlert = showAlert;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.existsFamily = exports.addFamily = exports.changeFamilyYear = void 0;
+exports.existsFamilyForYear = exports.addFamily = exports.changeFamilyYear = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -14144,15 +14144,17 @@ var addFamily = /*#__PURE__*/function () {
               parent: parentId,
               year: year
             };
-            _context.next = 6;
+            alert('add family  ' + parentId + ' ' + year);
+            _context.next = 7;
             return (0, _axios.default)({
               method: method,
               url: url,
               data: data
             });
 
-          case 6:
+          case 7:
             res = _context.sent;
+            alert(res);
 
             if (res.data.status == 'success') {
               (0, _alerts.showAlert)('success', "Family added successfully");
@@ -14161,20 +14163,20 @@ var addFamily = /*#__PURE__*/function () {
               }, 500);
             }
 
-            _context.next = 13;
+            _context.next = 15;
             break;
 
-          case 10:
-            _context.prev = 10;
+          case 12:
+            _context.prev = 12;
             _context.t0 = _context["catch"](0);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 13:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 10]]);
+    }, _callee, null, [[0, 12]]);
   }));
 
   return function addFamily(_x, _x2) {
@@ -14184,15 +14186,15 @@ var addFamily = /*#__PURE__*/function () {
 
 exports.addFamily = addFamily;
 
-var existsFamily = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(parentId) {
+var existsFamilyForYear = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(parentId, year) {
     var url, method, data, res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
-            url = "/api/v1/families/?parent=".concat(parentId);
+            url = "/api/v1/families/?parent=".concat(parentId, "&year=").concat(year);
             method = 'GET';
             data = {
               parent: parentId
@@ -14231,12 +14233,12 @@ var existsFamily = /*#__PURE__*/function () {
     }, _callee2, null, [[0, 11]]);
   }));
 
-  return function existsFamily(_x3) {
+  return function existsFamilyForYear(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-exports.existsFamily = existsFamily;
+exports.existsFamilyForYear = existsFamilyForYear;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"families.js":[function(require,module,exports) {
 "use strict";
 
@@ -127519,7 +127521,7 @@ if (users) {
           alert('adding new parent');
           (0, _family.addFamily)(newId, selectedYear);
         } else {
-          (0, _family.existsFamily)(id).then(function (exists) {
+          (0, _family.existsFamilyForYear)(id, selectedYear).then(function (exists) {
             if (!exists) {
               alert("There was not an existing family for ".concat(id));
               (0, _family.addFamily)(newId, selectedYear);

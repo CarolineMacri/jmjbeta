@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');const { Grades } = require('./courseModel');
+const mongoose = require('mongoose');
+const { Grades } = require('./courseModel');
 
 const childSchema = new mongoose.Schema(
   {

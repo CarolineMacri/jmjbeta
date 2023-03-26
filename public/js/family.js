@@ -13,11 +13,13 @@ export const addFamily = async (parentId, year) => {
 
     const data = { parent: parentId, year: year };
 
+    alert ('add family  ' + parentId + ' ' + year )
     const res = await axios({
       method,
       url,
       data,
     });
+    alert(res);
 
     if (res.data.status == 'success') {
       showAlert('success', `Family added successfully`);
@@ -30,9 +32,9 @@ export const addFamily = async (parentId, year) => {
   }
 };
 
-export const existsFamily = async (parentId) => {
+export const existsFamilyForYear = async (parentId, year) => {
   try {
-    const url = `/api/v1/families/?parent=${parentId}`;
+    const url = `/api/v1/families/?parent=${parentId}&year=${year}`;
     const method = 'GET';
     const data = { parent: parentId };
     const res = await axios({

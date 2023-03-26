@@ -2,7 +2,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import { changeFamilyYear, addFamily, existsFamily } from './family';
+import { changeFamilyYear, addFamily, existsFamilyForYear } from './family';
 import { changeFamiliesYear, deleteFamily } from './families';
 
 import { index as children } from './components/children/index';
@@ -261,7 +261,7 @@ if (users) {
           alert('adding new parent')
           addFamily(newId, selectedYear);
         } else {
-          existsFamily(id).then((exists) => {
+          existsFamilyForYear(id,selectedYear).then((exists) => {
             if (!exists) {
               alert(`There was not an existing family for ${id}`)
               addFamily(newId, selectedYear);

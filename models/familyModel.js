@@ -1,5 +1,6 @@
 // npm modules
 const mongoose = require('mongoose');
+const User = require("./userModel");
 
 const EnrollmentStatuses = Object.freeze({
   NONE: 'none',
@@ -82,6 +83,7 @@ familySchema.pre(/^find/, function (next) {
 familySchema.pre('findOneAndDelete', async function (next) {
   const familyToDelete = await this.model.findOne(this.getQuery());
 
+  // don't delete if there are children for this family
   const numChildren = familyToDelete.children.length;
 
   if (numChildren > 0) {
@@ -94,6 +96,27 @@ familySchema.pre('findOneAndDelete', async function (next) {
       ]}`
     );
   }
+
+  // need to remove the role of family, and possibly the whole yearRole entry on the parent user
+  const parentId = familyToDelete.parent._id;
+  const familyYear = familyToDelete.year;
+  
+  var user = await User.findById(parentId)
+  var allYearRoles = user.yearRoles
+  var updatedYearRoles = allYearRoles.get(familyYear)
+
+  updatedYearRoles = updatedYearRoles.filter((role) => { return role != 'parent' })
+  
+  // there were other roles for this year
+  if (updatedYearRoles.length > 0) {
+    allYearRoles.set(familyYear, updatedYearRoles)
+  }
+  // parent was the only role, so delete the entry for that year
+  else { 
+    allYearRoles.delete(familyYear)
+  }
+  user.yearRoles = allYearRoles
+  await user.save()
   next();
 });
 
