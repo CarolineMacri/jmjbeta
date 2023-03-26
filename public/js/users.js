@@ -71,12 +71,6 @@ export const fillUserForm = (row) => {
 
   const parentCheckbox = document.getElementById('parent');
   const teacherCheckbox = document.getElementById('teacher');
-  alert(
-    'parent: ' +
-      parentCheckbox.dataset.exists +
-      '  teacher:  ' +
-      teacherCheckbox.dataset.exists
-  );
 
   parentCheckbox.addEventListener('change', (e) => {
     e.preventDefault();
@@ -85,23 +79,48 @@ export const fillUserForm = (row) => {
     var unchecked = !parentCheckbox.checked;
 
     if (exists && unchecked) {
-      alert('Parent must be deleted using Administration - Families - Delete this family');
+      alert(
+        'Parent must be deleted using Administration - Families - Delete this family'
+      );
       parentCheckbox.checked = true;
     }
   });
 
-  teacherCheckbox.addEventListener('change', (e) => {
-    e.preventDefault();
-    // parent exists and was unchecked
-    var exists = teacherCheckbox.dataset.exists == 'true';
-    var unchecked = !teacherCheckbox.checked;
-
-    if (exists && unchecked) {
-      alert('teacher must be deleted using Administration - Teachers - Delete this teacher');
-      teacherCheckbox.checked = true;
-    }
-  });
+  teacherCheckbox.addEventListener('click', handleTeacherCheckBoxClick);
 };
+
+async function handleTeacherCheckBoxClick(e) {
+  e.preventDefault();
+  // teacher exists and was unchecked
+  const teacherCheckbox = document.getElementById('teacher');
+  var exists = teacherCheckbox.dataset.exists == 'true';
+  var unchecked = !teacherCheckbox.checked;
+  const selectedYear = document.getElementById('year-select').value;
+
+  const url = `/api/v1/classes`;
+  const method = 'GET';
+  const res = await axios({
+    method,
+    url,
+  });
+  var classes = res.data.data.classes;
+  const teacherId = document.querySelector('.user-profile__form').id;
+
+  classes = classes.filter((cl) => {
+    return cl.year == selectedYear && cl.teacher == teacherId;
+  });
+
+  const cantRemoveRole = classes.length > 0 && unchecked && exists;
+  if (cantRemoveRole) {
+    alert(
+      `Teacher role for ${document.getElementById('lastName').value} cannot be removed until ${classes.length} classes are deleted`
+    );
+    teacherCheckbox.checked = true;
+  } else {
+    teacherCheckbox.checked = false;
+  }
+    
+}
 
 export const updateUser = async (userId, data) => {
   try {
