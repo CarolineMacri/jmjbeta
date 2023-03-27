@@ -42,7 +42,7 @@ nav.side-nav
       a.side-nav__item(href=`/teacher_profile/${user.id}`) Profile
       a.side-nav__item(href=`/courses_table/${selectedYear}/${user.id}`) Courses
       //- TEMP
-      if (Date.now()>= currentYearDoc.enrollmentCloseDate) 
+      if (Date.now()>= currentYearDoc.classListingsViewDate) 
         a.side-nav__item(href=`/reports/classLists/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Class List Report
         a.side-nav__item(href=`/reports/payments/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Payments Report
   if isAdmin  

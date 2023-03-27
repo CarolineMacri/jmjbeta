@@ -34,6 +34,18 @@ block content
                     label.form__label(for='enrollmentCloseDate') Enrollment Close Date*
                         input#enrollmentCloseDate.form__input.form__input--inline(type='date', name='enrollmentCloseDate',  value= year.enrollmentCloseDate.toISOString().slice(0,10) )
                 
+                .form__row.form__item    
+                    label.form__label(for='secondInvoiceViewDate') Second Invoice View Date*
+                        input#secondInvoiceViewDate.form__input.form__input--inline(type='date', name='secondInvoiceViewDate',  value= year.secondInvoiceViewDate.toISOString().slice(0,10) )
+                
+                .form__row.form__item    
+                    label.form__label(for='secondInvoiceDueDate') Second Invoice Due Date*
+                        input#secondInvoiceDueDate.form__input.form__input--inline(type='date', name='secondInvoiceDueDate',  value= year.secondInvoiceDueDate.toISOString().slice(0,10) )
+                
+                .form__row.form__item    
+                    label.form__label(for='classListingsViewDate') Class Listing View Date*
+                        input#classListingsViewDate.form__input.form__input--inline(type='date', name='classListingsViewDate',  value= year.classListingsViewDate.toISOString().slice(0,10) )
+                
                 .form__row
                     input.form__button.form__item--center(type='submit' value=year.isNew?"Add":"Update")
                     a.form__button.form__cancel(href=`/years_table`) X

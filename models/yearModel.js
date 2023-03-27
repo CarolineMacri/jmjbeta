@@ -1,7 +1,8 @@
 // npm modules
 const mongoose = require('mongoose');
+const { DateTime } = require('luxon')
 
-const today = Date.now();
+const today = DateTime.now();
 
 const yearSchema = new mongoose.Schema(
   {
@@ -33,6 +34,18 @@ const yearSchema = new mongoose.Schema(
       type: Date,
       default: today,
     },
+    secondInvoiceViewDate: {
+      type: Date,
+      default: today,
+    },
+    secondInvoiceDueDate: {
+      type: Date,
+      default: today,
+    },
+    classListingsViewDate: {
+      type: Date,
+      default: today,
+    }
   },
   {
     toJSON: { virtuals: true },

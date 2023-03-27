@@ -63,6 +63,7 @@ function index(a) {
 
       const yearId = yearProfileForm.id;
       const yearValue = document.getElementById('year').value;
+      
       const registrationCloseDate = document.getElementById(
         'registrationCloseDate'
       ).value;
@@ -70,14 +71,29 @@ function index(a) {
       const courseEditCloseDate = document.getElementById(
         'courseEditCloseDate'
       ).value;
+      
       const coursePreviewOpenDate = document.getElementById(
         'coursePreviewOpenDate'
       ).value;
+      
       const enrollmentOpenDate =
         document.getElementById('enrollmentOpenDate').value;
+      
       const enrollmentCloseDate = document.getElementById(
         'enrollmentCloseDate'
       ).value;
+      
+      const secondInvoiceViewDate =
+        document.getElementById('secondInvoiceViewDate').value;
+      
+      const secondInvoiceDueDate = document.getElementById(
+        'secondInvoiceDueDate'
+      ).value;
+      
+      const classListingsViewDate = document.getElementById(
+        'classListingsViewDate'
+      ).value;
+
 
       const year = {
         id: yearId,
@@ -87,6 +103,9 @@ function index(a) {
         coursePreviewOpenDate,
         enrollmentOpenDate,
         enrollmentCloseDate,
+        secondInvoiceViewDate,
+        secondInvoiceDueDate,
+        classListingsViewDate,
         isNew,
       };
 
