@@ -44,16 +44,16 @@ nav.side-nav
       //- TEMP
       if (Date.now()>= currentYearDoc.classListingsViewDate) 
         a.side-nav__item(href=`/reports/classLists/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Class List Report
-        a.side-nav__item(href=`/reports/payments/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Payments Report
+        //- a.side-nav__item(href=`/reports/payments/${selectedYear}/${user.id}` target="_blank" rel="noopener noreferrer") Payments Report
   if isAdmin  
     .side-nav__section
       h3.side-nav__heading Administration
       a.side-nav__item(href=`/users/${selectedYear}`) Users
       a.side-nav__item(href=`/families/${selectedYear}`) Families
-      //a.side-nav__item(href=`/enrollments_table/${selectedYear}`) Enrollments
+      //- a.side-nav__item(href=`/enrollments_table/${selectedYear}`) Enrollments
       a.side-nav__item(href=`/courses_table/${selectedYear}`) Courses
       a.side-nav__item(href=`/classes_table/${selectedYear}`) Classes
-      //a.side-nav__item(href=`/payments_table/${selectedYear}`) Payments
+      //- a.side-nav__item(href=`/payments_table/${selectedYear}`) Payments
       a.side-nav__item(href=`/registrations_table/${selectedYear}`) Registrations 
       a.side-nav__item(href=`/teachers_table/${selectedYear}`) Teachers
       a.side-nav__item(href=`/years_table`) School Years

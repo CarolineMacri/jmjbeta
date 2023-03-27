@@ -46,7 +46,8 @@ block content
 
             .report-invoices-box
               .report-invoices-family
-              h2(style='text-align:center')=` ${currentYearDoc.year} - 2ND PAYMENT (mailed by ${secondInvoiceDue})`
+                h2(style='text-align:center')=` ${currentYearDoc.year} - 2ND PAYMENT - DUE ${secondInvoiceDue}`
+                h2(style='text-align:center;font-style:italic')=`Allow adequate time for mailing`
                 h2(style="color:red;text-align:center") Please make checks to individual intructors 
               
                 h2= family.parent
