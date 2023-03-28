@@ -44,7 +44,8 @@ block content
                                 p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
                                 - var isAdmin = user.currentRoles.includes('admin' || 'sysadmin')
                                 if (Date.now()>= currentYearDoc.enrollmentOpenDate || isAdmin) 
-                                    p.class-grid__grades(style=`background-color:` + `${cl.isFull?'pink':'lightgreen'}`)= cl.isFull?'FULL':`${cl.slotsLeft} open`
+                                    -var backgroundColor = cl.slotsLeft>2?'lightgreen':'yellow'
+                                    p.class-grid__grades(style=`background-color:` + `${cl.isFull?'pink':backgroundColor}`)= cl.isFull?'FULL':`${cl.slotsLeft} open`
                               
                     
                                 
