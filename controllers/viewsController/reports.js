@@ -462,7 +462,7 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
 function formatDate(dateString) {
   const newDate = new Date(dateString);
   const mdy =
-    newDate.getMonth() + '-' + newDate.getDay() + '-' + newDate.getFullYear();
+    newDate.getMonth()+1 + '-' + newDate.getDate() + '-' + newDate.getFullYear();
   const hm = newDate.getHours() + ':' + newDate.getMinutes();
 
   return mdy + ' ' + hm;
