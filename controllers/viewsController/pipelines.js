@@ -42,6 +42,7 @@ exports.userFamilyChildEnrollmentClassCourseTeacher = (year, semester) => {
       },
     },
     { $unwind: '$enrollment' },
+    { $match: { 'enrollment.drop.status': { $ne: true } } },
     {
       $lookup: {
         from: 'classes',
