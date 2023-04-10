@@ -1,5 +1,5 @@
-//CORE modules
-const fs = require('fs'); const path = require('path');
+//CORE modulesconst fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 const pug = require('pug');
 
@@ -87,8 +87,8 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
   const classes = await Class.find(match)
     .sort('hour')
     .populate({
-      path: 'enrollments', 
-      match: { 'drop.status': {$ne: true} } ,
+      path: 'enrollments',
+      match: { 'drop.status': { $ne: true } },
       populate: {
         path: 'child',
         justOne: true,
@@ -177,7 +177,7 @@ exports.reportClassListsWithEnrollmentOrder = catchAsync(
       .sort('hour')
       .populate({
         path: 'enrollments',
-        match: { 'drop.status': {$ne: true} } ,
+        match: { 'drop.status': { $ne: true } },
         populate: {
           path: 'child',
           justOne: true,
@@ -292,34 +292,37 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
   var pipeline1 = [];
   var invoiceFirstSemesterPipeline = [];
   var invoiceSecondSemesterPipeline = [];
-  
+
   if (parent) {
-    invoiceFirstSemesterPipeline = invoiceFirstSemesterPipeline
-      .concat([
-        {
-          $match:
-            { _id: mongoose.Types.ObjectId(parent) }
-        }
-      ])    
-      invoiceSecondSemesterPipeline = invoiceSecondSemesterPipeline
-      .concat([
-        {
-          $match:
-            { _id: mongoose.Types.ObjectId(parent) }
-        }
-      ])   
+    invoiceFirstSemesterPipeline = invoiceFirstSemesterPipeline.concat([
+      {
+        $match: { _id: mongoose.Types.ObjectId(parent) },
+      },
+    ]);
+    invoiceSecondSemesterPipeline = invoiceSecondSemesterPipeline.concat([
+      {
+        $match: { _id: mongoose.Types.ObjectId(parent) },
+      },
+    ]);
   }
 
-  invoiceFirstSemesterPipeline = invoiceFirstSemesterPipeline.concat(pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear, '1'))
-  invoiceSecondSemesterPipeline = invoiceSecondSemesterPipeline.concat(pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear, '2'))
+  invoiceFirstSemesterPipeline = invoiceFirstSemesterPipeline.concat(
+    pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear, '1')
+  );
+  invoiceSecondSemesterPipeline = invoiceSecondSemesterPipeline.concat(
+    pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear, '2')
+  );
   // const pipeline =
   //   pipelines.userFamilyChildEnrollmentClassCourseTeacher(selectedYear);
 
   // pipeline1 = pipeline1.concat(pipeline);
 
-  const familiesFirstSemester = await User.aggregate(invoiceFirstSemesterPipeline);
-  const familiesSecondSemester = await User.aggregate(invoiceSecondSemesterPipeline);
-
+  const familiesFirstSemester = await User.aggregate(
+    invoiceFirstSemesterPipeline
+  );
+  const familiesSecondSemester = await User.aggregate(
+    invoiceSecondSemesterPipeline
+  );
 
   res.status(200).render('reports/invoices', {
     title: 'Invoices',
@@ -328,6 +331,30 @@ exports.reportInvoices = catchAsync(async (req, res, next) => {
     years,
     selectedYear,
     parent,
+  });
+});
+
+exports.reportInvoicesWithPayments = catchAsync(async (req, res, next) => {
+  let { selectedYear } = req.params;
+
+  const years = await Year.find();
+
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+
+  var invoicesWithPaymentsPipeline =
+    pipelines.invoicesWithPayments(selectedYear);
+
+  const invoices = await User.aggregate(invoicesWithPaymentsPipeline);
+  console.log(JSON.stringify(invoices[0].teachers[0].feesAndPayments))
+
+  res.status(200).render('reports/invoicesWithPayments', {
+    title: 'Balances',
+    invoices,
+    years,
+    selectedYear,
   });
 });
 
@@ -462,7 +489,12 @@ exports.reportSignUpSheet = catchAsync(async (req, res, next) => {
 function formatDate(dateString) {
   const newDate = new Date(dateString);
   const mdy =
-    newDate.getMonth()+1 + '-' + newDate.getDate() + '-' + newDate.getFullYear();
+    newDate.getMonth() +
+    1 +
+    '-' +
+    newDate.getDate() +
+    '-' +
+    newDate.getFullYear();
   const hm = newDate.getHours() + ':' + newDate.getMinutes();
 
   return mdy + ' ' + hm;

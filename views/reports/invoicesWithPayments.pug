@@ -1,0 +1,96 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      -var formatter = new Intl.NumberFormat('en-US', {minimumIntegerDigits: 1,minimumFractionDigits: 2});
+      //- section.page__content-row
+      //-   include ../_yearSelector
+      section
+        //- -var enrollmentClose = currentYearDoc.enrollmentCloseDate.toISOString().slice(5,10)
+        //- -var secondInvoiceDue = currentYearDoc.secondInvoiceDueDate.toISOString().slice(5,10)
+        //- -var secondInvoiceView = currentYearDoc.secondInvoiceViewDate.toISOString().slice(5,10)
+        .report__title
+          h1.invoices-title= `Balances ${selectedYear}`       
+
+        for semester in ["1","2"]
+          for family in invoices
+            .report-invoices-box
+              .report-invoices-family
+                h2= `${family.parent} Semester ${semester}`
+
+              for teacher in family.teachers
+          
+                -var feesAndPayments = teacher.feesAndPayments[semester]
+                -var due = feesAndPayments.total 
+                -var paid = feesAndPayments.payments.total 
+                -var balance = due -paid
+                if balance != 0
+               
+                  .report-invoices-classes
+                    .report-invoices-record 
+                      .report-invoices-record-student
+                        p=`${teacher.name}`  
+                      .report-invoices-record-class
+                        p= `DUE: $${due}`
+                      .report-invoices-record-price
+                        p=`PAID: $${paid}`
+                      .report-invoices-record-materials
+                        p=`BALANCE: ${balance}`
+                        if (balance < 0)
+                          if (due == 0)
+                            p= 'return check'
+                          else 
+                            p= 'get new check' 
+
+            
+                
+
+            
+                  
+                //- p= teacher.name+ "  - $" + formatter.format(teacher.total)
+        //-       .report-invoices-classes
+        //-         - teacher.classes = teacher.classes.filter((cl)=>{return cl !='Family Registration'})
+        //-         for cl in teacher.classes
+        //-           if (cl.class!='Family Registration')
+        //-             .report-invoices-record
+        //-               .report-invoices-record-student(style='flex:1')
+        //-                 p=cl.student
+        //-               .report-invoices-record-class(style='flex:4')
+        //-                 p=cl.class
+        //-               .report-invoices-record-price(style='flex:2')
+        //-                 p="Classes: $" + formatter.format(cl.price)
+        //-               .report-invoices-record-materials(style='flex:2')
+        //-                 p="Materials: $" + formatter.format(cl.materials) + " " 
+        //-     .report-invoices-teacher   
+        //-     h3= "Grand Total:  $" + formatter.format(family.grandTotal) 
+
+        //- if (Date.now()>= currentYearDoc.secondInvoiceViewDate) 
+        //-   for family in familiesSecondSemester
+
+        //-     .report-invoices-box
+        //-       .report-invoices-family
+        //-         h2(style='text-align:center')=` ${currentYearDoc.year} - 2ND PAYMENT - DUE ${secondInvoiceDue}`
+        //-         h2(style='text-align:center;font-style:italic')=`Allow adequate time for mailing`
+        //-         h2(style="color:red;text-align:center") Please make checks to individual intructors 
+              
+        //-         h2= family.parent
+
+        //-       for teacher in family.teachers
+        //-         .report-invoices-teacher
+        //-           p= teacher.name+ "  - $" + formatter.format(teacher.total)
+        //-         .report-invoices-classes
+        //-           - teacher.classes = teacher.classes.filter((cl)=>{return cl !='Family Registration'})
+        //-           for cl in teacher.classes
+        //-             if (cl.class!='Family Registration')
+        //-               .report-invoices-record
+        //-                 .report-invoices-record-student(style='flex:1')
+        //-                   p=cl.student
+        //-                 .report-invoices-record-class(style='flex:4')
+        //-                   p=cl.class
+        //-                 .report-invoices-record-price(style='flex:2')
+        //-                   p="Classes: $" + formatter.format(cl.price)
+        //-                 .report-invoices-record-materials(style='flex:2')
+        //-                   p="Materials: $" + formatter.format(cl.materials) + " " 
+        //-       .report-invoices-teacher   
+        //-       h3= "Grand Total:  $" + formatter.format(family.grandTotal)   

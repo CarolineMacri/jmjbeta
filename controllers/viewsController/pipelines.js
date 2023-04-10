@@ -164,9 +164,8 @@ exports.userFamilyChildEnrollmentClassCourseTeacher = (year, semester) => {
       },
     ]);
   }
-  
-  if (semester == '2') {
 
+  if (semester == '2') {
     pipeline = pipeline.concat([
       {
         $group: {
@@ -301,8 +300,8 @@ exports.teachersWithFamilyEnrollmentsAndPayments = (year) => {
   pipeline = pipeline.concat([
     {
       $lookup: {
-        from: 'enrollments',  
-        
+        from: 'enrollments',
+
         localField: 'class._id',
         foreignField: 'class',
         as: 'enrollment',
@@ -566,6 +565,412 @@ exports.classCourseTeacher = (year) => {
   ]);
   console.log(pipeline);
 
+  return pipeline;
+};
+
+exports.invoicesWithPayments = (year) => {
+  var pipeline = [
+    { $match: JSON.parse(`{"yearRoles.${year}":"parent"}`) },
+    {
+      $lookup: {
+        from: 'families',
+        localField: '_id',
+        foreignField: 'parent',
+        as: 'family',
+      },
+    },
+    { $unwind: { path: '$family' } },
+    {
+      $lookup: {
+        from: 'children',
+        localField: 'family._id',
+        foreignField: 'family',
+        as: 'child',
+      },
+    },
+    { $unwind: '$child' },
+    {
+      $lookup: {
+        from: 'enrollments',
+        localField: 'child._id',
+        foreignField: 'child',
+        as: 'enrollment',
+      },
+    },
+    { $unwind: '$enrollment' },
+    { $match: { 'enrollment.drop.status': { $ne: true } } },
+    {
+      $lookup: {
+        from: 'classes',
+        localField: 'enrollment.class',
+        foreignField: '_id',
+        as: 'class',
+      },
+    },
+    { $unwind: '$class' },
+    { $match: { 'class.year': year } },
+    {
+      $lookup: {
+        from: 'courses',
+        localField: 'class.course',
+        foreignField: '_id',
+        as: 'course',
+      },
+    },
+    { $unwind: '$course' },
+    { $match: { 'course.name': { $ne: 'Family Registration' } } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'class.teacher',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $unwind: '$teacher' },
+    {
+      $set: {
+        'costClasses.1': {
+          $multiply: ['$course.classFee', '$class.semesterSessions.1'],
+        },
+        'costMaterials.1': '$course.semesterMaterialsFee.1',
+        'costClasses.2': {
+          $multiply: ['$course.classFee', '$class.semesterSessions.2'],
+        },
+        'costMaterials.2': '$course.semesterMaterialsFee.2',
+      },
+    },
+    {
+      $group: {
+        _id: {
+          user: '$_id',
+          teacher: '$teacher._id',
+        },
+        classes: {
+          $push: {
+            class: '$course.name',
+            student: '$child.firstName',
+            semester: {
+              1: {
+                price: '$costClasses.1',
+                materials: '$costMaterials.1',
+              },
+              2: {
+                price: '$costClasses.2',
+                materials: '$costMaterials.2',
+              },
+            },
+          },
+        },
+        user: { $first: { $concat: ['$lastName', ', ', '$firstName'] } },
+        teacher: {
+          $first: {
+            $concat: ['$teacher.lastName', ', ', '$teacher.firstName'],
+          },
+        },
+        classFee1: { $sum: '$costClasses.1' },
+        classFee2: { $sum: '$costClasses.2' },
+        materialsFee1: { $sum: '$costMaterials.1' },
+        materialsFee2: { $sum: '$costMaterials.2' },
+        total1: { $sum: { $add: ['$costMaterials.1', '$costClasses.1'] } },
+        total2: { $sum: { $add: ['$costMaterials.2', '$costClasses.2'] } },
+        numClasses: { $sum: 1 },
+      },
+    },
+    {
+      $lookup: {
+        from: 'payments',
+        as: 'payments',
+        let: { idParent: '$_id.user', idTeacher: '$_id.teacher' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ['$parent', '$$idParent'] },
+                  { $eq: ['$teacher', '$$idTeacher'] },
+                  { $eq: ['$year', year] },
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: '$semester',
+              semester: { $first: '$semester' },
+              total: { $sum: '$amount' },
+              checks: {
+                $push: {
+                  checkNumber: '$checkNumber',
+                  amount: '$amount',
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        payments: {
+          $cond: [
+            { $gt: [{ $size: '$payments' }, 0] },
+            '$payments',
+            [{ total: 0 }],
+          ],
+        },
+      },
+    },
+    { $set: { payments: { $first: '$payments' } } },
+    {
+      $addFields: {
+        payments1: {
+          $cond: [
+            { $eq: ['$payments.semester', '1'] },
+            '$payments',
+            {
+              total: 0,
+              checks: [],
+            },
+          ],
+        },
+        payments2: {
+          $cond: [
+            { $eq: ['$payments.semester', '2'] },
+            '$payments',
+            {
+              total: 0,
+              checks: [],
+            },
+          ],
+        },
+      },
+    },
+    { $sort: { teacher: 1 } },
+    {
+      $set: {
+        feesAndPayments: {
+          1: {
+            classFee: '$classFee1',
+            materialsFee: '$materialsFee1',
+            total: '$total1',
+            payments: '$payments1',
+          },
+          2: {
+            classFee: '$classFee2',
+            materialsFee: '$materialsFee2',
+            total: '$total2',
+            payments: '$payments2',
+          },
+        },
+      },
+    },
+    {
+      $unset: [
+        'classFee1',
+        'classFee2',
+        'materialsFee1',
+        'materialsFee2',
+        'total1',
+        'total2',
+        'payments',
+        'payments1',
+        'payments2',
+      ],
+    },
+    {
+      $group: {
+        _id: '$_id.user',
+        parent: { $first: '$user' },
+        teachers: {
+          $push: {
+            name: '$teacher',
+            classes: '$classes',
+            feesAndPayments: '$feesAndPayments',
+          },
+        },
+        grandTotal: { $sum: '$total' },
+      },
+    },
+    {
+      $sort: { parent: 1 },
+    },
+  ];
+  return pipeline;
+};
+exports.invoicesWithPaymentsOld = (year) => {
+  var pipeline = [
+    { $match: JSON.parse(`{"yearRoles.${year}":"parent"}`) },
+    {
+      $lookup: {
+        from: 'families',
+        localField: '_id',
+        foreignField: 'parent',
+        as: 'family',
+      },
+    },
+    { $unwind: { path: '$family' } },
+    {
+      $lookup: {
+        from: 'children',
+        localField: 'family._id',
+        foreignField: 'family',
+        as: 'child',
+      },
+    },
+    { $unwind: '$child' },
+    {
+      $lookup: {
+        from: 'enrollments',
+        localField: 'child._id',
+        foreignField: 'child',
+        as: 'enrollment',
+      },
+    },
+    { $unwind: '$enrollment' },
+    { $match: { 'enrollment.drop.status': { $ne: true } } },
+    {
+      $lookup: {
+        from: 'classes',
+        localField: 'enrollment.class',
+        foreignField: '_id',
+        as: 'class',
+      },
+    },
+    { $unwind: '$class' },
+    { $match: { 'class.year': year } },
+    {
+      $lookup: {
+        from: 'courses',
+        localField: 'class.course',
+        foreignField: '_id',
+        as: 'course',
+      },
+    },
+    { $unwind: '$course' },
+    { $match: { 'course.name': { $ne: 'Family Registration' } } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'class.teacher',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $unwind: '$teacher' },
+    {
+      $set: {
+        'costClasses.1': {
+          $multiply: ['$course.classFee', '$class.semesterSessions.1'],
+        },
+        'costMaterials.1': '$course.semesterMaterialsFee.1',
+        'costClasses.2': {
+          $multiply: ['$course.classFee', '$class.semesterSessions.2'],
+        },
+        'costMaterials.2': '$course.semesterMaterialsFee.2',
+      },
+    },
+    {
+      $group: {
+        _id: {
+          user: '$_id',
+          teacher: '$teacher._id',
+        },
+        classes: {
+          $push: {
+            class: '$course.name',
+            student: '$child.firstName',
+            price: {
+              semester1: '$costClasses.1',
+              semester2: '$costClasses.2',
+            },
+            materials: {
+              semester1: '$costMaterials.1',
+              semester2: '$costMaterials.2',
+            },
+          },
+        },
+        user: { $first: { $concat: ['$lastName', ', ', '$firstName'] } },
+        teacher: {
+          $first: {
+            $concat: ['$teacher.lastName', ', ', '$teacher.firstName'],
+          },
+        },
+
+        classFee1: { $sum: '$costClasses.1' },
+        classFee2: { $sum: '$costClasses.2' },
+        materialsFee1: { $sum: '$costMaterials.1' },
+        materialsFee2: { $sum: '$costMaterials.2' },
+
+        total1: { $sum: { $add: ['$costMaterials.1', '$costClasses.1'] } },
+        total2: { $sum: { $add: ['$costMaterials.2', '$costClasses.2'] } },
+
+        numClasses: { $sum: 1 },
+      },
+    },
+    {
+      $lookup: {
+        from: 'payments',
+        as: 'payments',
+        let: { idParent: '$_id.user', idTeacher: '$_id.teacher' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ['$parent', '$$idParent'] },
+                  { $eq: ['$teacher', '$$idTeacher'] },
+                  // { $eq: ['$semester', semester] }
+                  { $eq: ['$year', year] },
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: 'id',
+              total: { $sum: '$amount' },
+              checks: {
+                $push: { checkNumber: '$checkNumber', amount: '$amount' },
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        payments: {
+          $cond: [
+            { $gt: [{ $size: '$payments' }, 0] },
+            '$payments',
+            [{ total: 0 }],
+          ],
+        },
+      },
+    },
+    { $set: { payments: { $first: '$payments' } } },
+    { $sort: { teacher: 1 } },
+    {
+      $group: {
+        _id: '$_id.user',
+        parent: { $first: '$user' },
+        teachers: {
+          $push: {
+            name: '$teacher',
+            classes: '$classes',
+            total: {
+              semester1: '$total1',
+              semester2: '$total2',
+            },
+            payments: '$payments',
+          },
+        },
+        grandTotal1: { $sum: '$total1' },
+      },
+    },
+    { $sort: { parent: 1 } },
+  ];
   return pipeline;
 };
 
