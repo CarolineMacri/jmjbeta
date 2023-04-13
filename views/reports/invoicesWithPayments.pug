@@ -17,7 +17,7 @@ block content
           for family in invoices
             .report-invoices-box
               .report-invoices-family
-                h2= `${family.parent} Semester ${semester}`
+                h2= `${family.parent} Semester ${semester} - Status: ${family.enrollmentStatus}`
 
               for teacher in family.teachers
           

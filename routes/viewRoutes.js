@@ -222,6 +222,13 @@ router.get(
 );
 
 router.get(
+  '/reports/invoicesWithPaymentsByTeacher/:selectedYear',
+  authController.protect,
+  authController.restrictTo('admin', 'sysAdmin'),
+  viewsController.reportInvoicesWithPaymentsByTeacher
+);
+
+router.get(
   '/reports/payments/:selectedYear/:teacher?',
   authController.protect,
   authController.restrictTo('admin'),

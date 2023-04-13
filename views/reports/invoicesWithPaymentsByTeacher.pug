@@ -1,0 +1,44 @@
+extends baseReport
+
+block content   
+  main
+    .container
+      -var formatter = new Intl.NumberFormat('en-US', {minimumIntegerDigits: 1,minimumFractionDigits: 2});
+      //- section.page__content-row
+      //-   include ../_yearSelector
+      section
+        //- -var enrollmentClose = currentYearDoc.enrollmentCloseDate.toISOString().slice(5,10)
+        //- -var secondInvoiceDue = currentYearDoc.secondInvoiceDueDate.toISOString().slice(5,10)
+        //- -var secondInvoiceView = currentYearDoc.secondInvoiceViewDate.toISOString().slice(5,10)
+        .report__title
+          h1.invoices-title= `Balances ${selectedYear}`       
+
+        for semester in ["1","2"]
+          for teacher in invoices
+            .report-invoices-box
+              .report-invoices-family
+                h2= `${teacher.teacher} Semester ${semester}`
+
+              for parent in teacher.parents
+          
+                -var feesAndPayments = parent.feesAndPayments[semester]
+                -var due = feesAndPayments.total 
+                -var paid = feesAndPayments.payments.total 
+                -var balance = due -paid
+                //- if balance != 0
+               
+                .report-invoices-teacher
+                  -var col= balance<0?'yellow':'lightGreen'
+                  p(style=`color:` + `${balance>0?'red':col}`)= `${parent.name}   DUE: $${formatter.format(due)} PAID: $${formatter.format(paid)}`
+                
+                .report-invoices-classes
+                  for cl in parent.classes
+                    .report-invoices-record 
+                      .report-invoices-record-student     
+                        p= cl.student 
+                        
+                      .report-invoices-record-class     
+                        p= cl.class
+                      .report-invoices-record-price     
+                        p= "$" + formatter.format(cl.semester[semester].price + cl.semester[semester].materials)
+

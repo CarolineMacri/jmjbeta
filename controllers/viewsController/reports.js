@@ -358,6 +358,30 @@ exports.reportInvoicesWithPayments = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.reportInvoicesWithPaymentsByTeacher = catchAsync(async (req, res, next) => {
+  let { selectedYear } = req.params;
+
+  const years = await Year.find();
+
+  if (!selectedYear) {
+    selectedYear = await Year.findOne({ current: true });
+    selectedYear = selectedYear.year;
+  }
+
+  var invoicesWithPaymentsByTeacherPipeline =
+    pipelines.invoicesWithPaymentsByTeacher(selectedYear);
+
+  const invoices = await User.aggregate(invoicesWithPaymentsByTeacherPipeline);
+  
+
+  res.status(200).render('reports/invoicesWithPaymentsByTeacher', {
+    title: 'Invoices With Payments By Teacher',
+    invoices,
+    years,
+    selectedYear,
+  });
+});
+
 exports.reportPayments = catchAsync(async (req, res, next) => {
   let { selectedYear, teacher } = req.params;
   //console.log('in report Pyments-----------------------------------------');
