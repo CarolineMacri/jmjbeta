@@ -1,4 +1,7 @@
-//CORE modulesconst fs = require('fs');
+//CORE modules
+
+
+const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const pug = require('pug');
