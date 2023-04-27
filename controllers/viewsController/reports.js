@@ -1,6 +1,4 @@
 //CORE modules
-
-
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -86,6 +84,7 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
     year: selectedYear,
   };
   if (teacher) match.teacher = teacher;
+  const existsTeacher = teacher!=null
 
   const classes = await Class.find(match)
     .sort('hour')
@@ -102,7 +101,7 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
           populate: {
             path: 'parent',
             justOne: true,
-            select: 'lastName',
+            select: 'lastName email',
           },
         },
       },
@@ -138,7 +137,12 @@ exports.reportClassLists = catchAsync(async (req, res, next) => {
       const lastName = child.family.parent.lastName;
       const firstName = child.firstName;
       const grade = child.grade;
-      return `${lastName}, ${firstName} - ${grade}`;
+      const email =child.family.parent.email
+      if (existsTeacher) {
+        return `${lastName}, ${firstName} - ${grade}  :        ${email}`;
+      } else {
+        return `${lastName}, ${firstName} - ${grade}`;
+      }
     });
     // sort children names in alphabetical order
     enrollments.sort((child1, child2) => {
@@ -351,7 +355,7 @@ exports.reportInvoicesWithPayments = catchAsync(async (req, res, next) => {
     pipelines.invoicesWithPayments(selectedYear);
 
   const invoices = await User.aggregate(invoicesWithPaymentsPipeline);
-  console.log(JSON.stringify(invoices[0].teachers[0].feesAndPayments))
+  console.log(JSON.stringify(invoices[0].teachers[0].feesAndPayments));
 
   res.status(200).render('reports/invoicesWithPayments', {
     title: 'Balances',
@@ -361,29 +365,32 @@ exports.reportInvoicesWithPayments = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.reportInvoicesWithPaymentsByTeacher = catchAsync(async (req, res, next) => {
-  let { selectedYear } = req.params;
+exports.reportInvoicesWithPaymentsByTeacher = catchAsync(
+  async (req, res, next) => {
+    let { selectedYear } = req.params;
 
-  const years = await Year.find();
+    const years = await Year.find();
 
-  if (!selectedYear) {
-    selectedYear = await Year.findOne({ current: true });
-    selectedYear = selectedYear.year;
+    if (!selectedYear) {
+      selectedYear = await Year.findOne({ current: true });
+      selectedYear = selectedYear.year;
+    }
+
+    var invoicesWithPaymentsByTeacherPipeline =
+      pipelines.invoicesWithPaymentsByTeacher(selectedYear);
+
+    const invoices = await User.aggregate(
+      invoicesWithPaymentsByTeacherPipeline
+    );
+
+    res.status(200).render('reports/invoicesWithPaymentsByTeacher', {
+      title: 'Invoices With Payments By Teacher',
+      invoices,
+      years,
+      selectedYear,
+    });
   }
-
-  var invoicesWithPaymentsByTeacherPipeline =
-    pipelines.invoicesWithPaymentsByTeacher(selectedYear);
-
-  const invoices = await User.aggregate(invoicesWithPaymentsByTeacherPipeline);
-  
-
-  res.status(200).render('reports/invoicesWithPaymentsByTeacher', {
-    title: 'Invoices With Payments By Teacher',
-    invoices,
-    years,
-    selectedYear,
-  });
-});
+);
 
 exports.reportPayments = catchAsync(async (req, res, next) => {
   let { selectedYear, teacher } = req.params;
