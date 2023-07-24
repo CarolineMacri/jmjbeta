@@ -195,7 +195,7 @@ router.get(
 router.get(
   '/reports/classLists/:selectedYear?/:teacher?',
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin','teacher'),
   viewsController.reportClassLists
 );
 router.get(
