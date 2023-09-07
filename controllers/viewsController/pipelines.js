@@ -803,6 +803,7 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
 
 exports.invoicesWithPayments = (year) => {
   var pipeline = [
+    // get families for each each parent this year
     { $match: JSON.parse(`{"yearRoles.${year}":"parent"}`) },
     {
       $lookup: {
@@ -813,6 +814,8 @@ exports.invoicesWithPayments = (year) => {
       },
     },
     { $unwind: { path: '$family' } },
+
+    // get children for each family
     {
       $lookup: {
         from: 'children',
@@ -822,6 +825,8 @@ exports.invoicesWithPayments = (year) => {
       },
     },
     { $unwind: '$child' },
+
+    // get enrollments for each child (enrollment merely had child_id, class_id since this is a many-many relationship)
     {
       $lookup: {
         from: 'enrollments',
@@ -831,7 +836,12 @@ exports.invoicesWithPayments = (year) => {
       },
     },
     { $unwind: '$enrollment' },
+
+    // exclude dropped classes
+    // TODO: move this somewhere else,  need to get dropped classes but maybe set the price to zero for cancelled classes
     { $match: { 'enrollment.drop.status': { $ne: true } } },
+
+    // get the class info from the enrollment
     {
       $lookup: {
         from: 'classes',
@@ -841,7 +851,11 @@ exports.invoicesWithPayments = (year) => {
       },
     },
     { $unwind: '$class' },
+
+    // only this years classes
     { $match: { 'class.year': year } },
+
+    // get the course infor from the class, courses have things like name, pricing
     {
       $lookup: {
         from: 'courses',
@@ -851,7 +865,11 @@ exports.invoicesWithPayments = (year) => {
       },
     },
     { $unwind: '$course' },
+
+    // exclude family registration which is paid earlier
     { $match: { 'course.name': { $ne: 'Family Registration' } } },
+
+    // get the teachers from each course
     {
       $lookup: {
         from: 'users',
@@ -861,6 +879,8 @@ exports.invoicesWithPayments = (year) => {
       },
     },
     { $unwind: '$teacher' },
+
+    // calculate the pricing for each semester
     {
       $set: {
         'costClasses.1': {
@@ -873,6 +893,9 @@ exports.invoicesWithPayments = (year) => {
         'costMaterials.2': '$course.semesterMaterialsFee.2',
       },
     },
+
+    // group all of the classes under each teacher
+    // TODO : maybe include drops, but if class is a drop, then set price and materials to cost of zero????
     {
       $group: {
         _id: {
@@ -911,10 +934,15 @@ exports.invoicesWithPayments = (year) => {
         numClasses: { $sum: 1 },
       },
     },
+
+    // now, handle the payments, which have a semester attribute
+
+    // semester 1 payments matched by teacher and parent ie all of the payments from monastra to rudda
+   
     {
       $lookup: {
         from: 'payments',
-        as: 'payments',
+        as: 'payments1',
         let: { idParent: '$_id.user', idTeacher: '$_id.teacher' },
         pipeline: [
           {
@@ -924,6 +952,7 @@ exports.invoicesWithPayments = (year) => {
                   { $eq: ['$parent', '$$idParent'] },
                   { $eq: ['$teacher', '$$idTeacher'] },
                   { $eq: ['$year', year] },
+                  { $eq: ['$semester', "1"]}
                 ],
               },
             },
@@ -944,42 +973,87 @@ exports.invoicesWithPayments = (year) => {
         ],
       },
     },
-    {
-      $addFields: {
-        payments: {
-          $cond: [
-            { $gt: [{ $size: '$payments' }, 0] },
-            '$payments',
-            [{ total: 0 }],
-          ],
-        },
-      },
-    },
-    { $set: { payments: { $first: '$payments' } } },
-    {
-      $addFields: {
-        payments1: {
-          $cond: [
-            { $eq: ['$payments.semester', '1'] },
-            '$payments',
-            {
-              total: 0,
-              checks: [],
+     // semester 2 payments matched by teacher and parent ie all of the payments from monastra to rudda
+     {
+      $lookup: {
+        from: 'payments',
+        as: 'payments2',
+        let: { idParent: '$_id.user', idTeacher: '$_id.teacher' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ['$parent', '$$idParent'] },
+                  { $eq: ['$teacher', '$$idTeacher'] },
+                  { $eq: ['$year', year] },
+                  { $eq: ['$semester', "2"]}
+                ],
+              },
             },
-          ],
-        },
-        payments2: {
-          $cond: [
-            { $eq: ['$payments.semester', '2'] },
-            '$payments',
-            {
-              total: 0,
-              checks: [],
+          },
+          {
+            $group: {
+              _id: '$semester',
+              semester: { $first: '$semester' },
+              total: { $sum: '$amount' },
+              checks: {
+                $push: {
+                  checkNumber: '$checkNumber',
+                  amount: '$amount',
+                },
+              },
             },
-          ],
-        },
+          },
+        ],
       },
-    },
+    }, 
+    { $set: { payments1: { $ifNull:[
+      {$first:"$payments1"},
+      {'total':0, "checks":[]}
+    ]} } },
+    { $set: {  payments2: {
+      $ifNull:[
+        {$first:"$payments2"},
+        {'total':0, "checks":[]}
+      ]
+    }, } },
+    // {
+    //   $addFields: {
+    //     payments: {
+    //       $cond: [
+    //         { $gt: [{ $size: '$payments' }, 0] },
+    //         '$payments',
+    //         [{ total: 0 }],
+    //       ],
+    //     },
+    //   },
+    // },
+    // { $set: { payments: { $first: '$payments' } } },
+    // {
+    //   $addFields: {
+    //     payments1: {
+    //       $cond: [
+    //         { $eq: ['$payments.semester', '1'] },
+    //         '$payments',
+    //         {
+    //           total: 0,
+    //           checks: [],
+    //         },
+    //       ],
+    //     },
+    //     payments2: {
+    //       $cond: [
+    //         { $eq: ['$payments.semester', '2'] },
+    //         '$payments',
+    //         {
+    //           total: 0,
+    //           checks: [],
+    //         },
+    //       ],
+    //     },
+    //   },
+    // },
     { $sort: { teacher: 1 } },
     {
       $set: {
@@ -1031,7 +1105,7 @@ exports.invoicesWithPayments = (year) => {
       $sort: { parent: 1 },
     },
   ];
-  return pipeline;
+return pipeline;
 };
 
 

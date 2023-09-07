@@ -48,7 +48,7 @@ block content
                   
                 .form__column.form__item
                     label.form__label(for=`amount`)= `Amount *`
-                    input#amount.form__input.form__input--inline(type='text', name=`amount`, size='5', pattern='[0-9]{1,4}.[0-9]{2}', value=`${formatter.format(payment.amount)}`) 
+                    input#amount.form__input.form__input--inline(type='text', name=`amount`, size='5', pattern='[-]{1}?[0-9]{1,4}.[0-9]{2}', value=`${formatter.format(payment.amount)}`) 
             
                 .form__row
                     input.form__button.form__item--center(type='submit' value=payment.isNew?"Add":"Update")
