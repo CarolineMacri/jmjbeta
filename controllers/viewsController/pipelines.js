@@ -1,5 +1,4 @@
 //  pipelines for use in various queries for
-
 // class records grouped by family, grouped by teacher
 exports.userFamilyChildEnrollmentClassCourseTeacher = (year, semester) => {
   var pipeline = [];
@@ -570,6 +569,7 @@ exports.classCourseTeacher = (year) => {
 
 exports.invoicesWithPaymentsByTeacher = (year) => {
   var pipeline = [
+    // all parents for year
     { $match: JSON.parse(`{"yearRoles.${year}":"parent"}`) },
     {
       $lookup: {
@@ -580,6 +580,7 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
       },
     },
     { $unwind: { path: '$family' } },
+    // all children in each family
     {
       $lookup: {
         from: 'children',
@@ -589,6 +590,7 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
       },
     },
     { $unwind: '$child' },
+    // all enrollments for each child - many to many child id to class id
     {
       $lookup: {
         from: 'enrollments',
@@ -598,7 +600,11 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
       },
     },
     { $unwind: '$enrollment' },
+
+    // don't include dropped classes
     { $match: { 'enrollment.drop.status': { $ne: true } } },
+
+    // get the class info for this years classes
     {
       $lookup: {
         from: 'classes',
@@ -609,6 +615,8 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
     },
     { $unwind: '$class' },
     { $match: { 'class.year': year } },
+
+    // get course name and teacher id for class
     {
       $lookup: {
         from: 'courses',
@@ -619,6 +627,8 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
     },
     { $unwind: '$course' },
     { $match: { 'course.name': { $ne: 'Family Registration' } } },
+
+    // get the teacher names
     {
       $lookup: {
         from: 'users',
@@ -628,6 +638,8 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
       },
     },
     { $unwind: '$teacher' },
+
+    // calculate costs for each class for each semester
     {
       $set: {
         'costClasses.1': {
@@ -640,6 +652,8 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
         'costMaterials.2': '$course.semesterMaterialsFee.2',
       },
     },
+
+    //group everything under each teacher
     {
       $group: {
         _id: {
@@ -663,7 +677,7 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
           },
         },
         user: { $first: { $concat: ['$lastName', ', ', '$firstName'] } },
-        enrollmentStatus:{ $first: '$family.enrollmentStatus'},
+        enrollmentStatus: { $first: '$family.enrollmentStatus' },
         teacher: {
           $first: {
             $concat: ['$teacher.lastName', ', ', '$teacher.firstName'],
@@ -681,7 +695,7 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
     {
       $lookup: {
         from: 'payments',
-        as: 'payments',
+        as: 'payments1',
         let: { idParent: '$_id.user', idTeacher: '$_id.teacher' },
         pipeline: [
           {
@@ -691,6 +705,7 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
                   { $eq: ['$parent', '$$idParent'] },
                   { $eq: ['$teacher', '$$idTeacher'] },
                   { $eq: ['$year', year] },
+                  { $eq: ['$semester', '1'] },
                 ],
               },
             },
@@ -712,40 +727,81 @@ exports.invoicesWithPaymentsByTeacher = (year) => {
       },
     },
     {
-      $addFields: {
-        payments: {
-          $cond: [
-            { $gt: [{ $size: '$payments' }, 0] },
-            '$payments',
-            [{ total: 0 }],
-          ],
-        },
+      $lookup: {
+        from: 'payments',
+        as: 'payments2',
+        let: { idParent: '$_id.user', idTeacher: '$_id.teacher' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ['$parent', '$$idParent'] },
+                  { $eq: ['$teacher', '$$idTeacher'] },
+                  { $eq: ['$year', year] },
+                  { $eq: ['$semester', '2'] },
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: '$semester',
+              semester: { $first: '$semester' },
+              total: { $sum: '$amount' },
+              checks: {
+                $push: {
+                  checkNumber: '$checkNumber',
+                  amount: '$amount',
+                },
+              },
+            },
+          },
+        ],
       },
     },
-    { $set: { payments: { $first: '$payments' } } },
+    // {
+    //   $addFields: {
+    //     payments: {
+    //       $cond: [
+    //         { $gt: [{ $size: '$payments' }, 0] },
+    //         '$payments',
+    //         [{ total: 0 }],
+    //       ],
+    //     },
+    //   },
+    // },
+    // { $set: { payments: { $first: '$payments' } } },
+    // {
+    //   $addFields: {
+    //     payments1: {
+    //       $cond: [
+    //         { $eq: ['$payments.semester', '1'] },
+    //         '$payments',
+    //         {
+    //           total: 0,
+    //           checks: [],
+    //         },
+    //       ],
+    //     },
+    //     payments2: {
+    //       $cond: [
+    //         { $eq: ['$payments.semester', '2'] },
+    //         '$payments',
+    //         {
+    //           total: 0,
+    //           checks: [],
+    //         },
+    //       ],
+    //     },
+    //   },
+    // },
     {
-      $addFields: {
-        payments1: {
-          $cond: [
-            { $eq: ['$payments.semester', '1'] },
-            '$payments',
-            {
-              total: 0,
-              checks: [],
-            },
-          ],
-        },
-        payments2: {
-          $cond: [
-            { $eq: ['$payments.semester', '2'] },
-            '$payments',
-            {
-              total: 0,
-              checks: [],
-            },
-          ],
-        },
-      },
+      $set:
+      {
+        payments1:{$ifNull: [{$first:'$payments1'}, {total:0, checks:[]}]},
+        payments2:{$ifNull: [{$first:'$payments2'}, {total:0, checks:[]}]}
+      }
     },
     { $sort: { user: 1 } },
     {
@@ -919,7 +975,7 @@ exports.invoicesWithPayments = (year) => {
           },
         },
         user: { $first: { $concat: ['$lastName', ', ', '$firstName'] } },
-        enrollmentStatus:{ $first: '$family.enrollmentStatus'},
+        enrollmentStatus: { $first: '$family.enrollmentStatus' },
         teacher: {
           $first: {
             $concat: ['$teacher.lastName', ', ', '$teacher.firstName'],
@@ -938,7 +994,7 @@ exports.invoicesWithPayments = (year) => {
     // now, handle the payments, which have a semester attribute
 
     // semester 1 payments matched by teacher and parent ie all of the payments from monastra to rudda
-   
+
     {
       $lookup: {
         from: 'payments',
@@ -952,7 +1008,7 @@ exports.invoicesWithPayments = (year) => {
                   { $eq: ['$parent', '$$idParent'] },
                   { $eq: ['$teacher', '$$idTeacher'] },
                   { $eq: ['$year', year] },
-                  { $eq: ['$semester', "1"]}
+                  { $eq: ['$semester', '1'] },
                 ],
               },
             },
@@ -973,8 +1029,8 @@ exports.invoicesWithPayments = (year) => {
         ],
       },
     },
-     // semester 2 payments matched by teacher and parent ie all of the payments from monastra to rudda
-     {
+    // semester 2 payments matched by teacher and parent ie all of the payments from monastra to rudda
+    {
       $lookup: {
         from: 'payments',
         as: 'payments2',
@@ -987,7 +1043,7 @@ exports.invoicesWithPayments = (year) => {
                   { $eq: ['$parent', '$$idParent'] },
                   { $eq: ['$teacher', '$$idTeacher'] },
                   { $eq: ['$year', year] },
-                  { $eq: ['$semester', "2"]}
+                  { $eq: ['$semester', '2'] },
                 ],
               },
             },
@@ -1007,17 +1063,21 @@ exports.invoicesWithPayments = (year) => {
           },
         ],
       },
-    }, 
-    { $set: { payments1: { $ifNull:[
-      {$first:"$payments1"},
-      {'total':0, "checks":[]}
-    ]} } },
-    { $set: {  payments2: {
-      $ifNull:[
-        {$first:"$payments2"},
-        {'total':0, "checks":[]}
-      ]
-    }, } },
+    },
+    {
+      $set: {
+        payments1: {
+          $ifNull: [{ $first: '$payments1' }, { total: 0, checks: [] }],
+        },
+      },
+    },
+    {
+      $set: {
+        payments2: {
+          $ifNull: [{ $first: '$payments2' }, { total: 0, checks: [] }],
+        },
+      },
+    },
     // {
     //   $addFields: {
     //     payments: {
@@ -1090,7 +1150,7 @@ exports.invoicesWithPayments = (year) => {
       $group: {
         _id: '$_id.user',
         parent: { $first: '$user' },
-        enrollmentStatus: {$first: '$enrollmentStatus'},
+        enrollmentStatus: { $first: '$enrollmentStatus' },
         teachers: {
           $push: {
             name: '$teacher',
@@ -1105,9 +1165,8 @@ exports.invoicesWithPayments = (year) => {
       $sort: { parent: 1 },
     },
   ];
-return pipeline;
+  return pipeline;
 };
-
 
 function requireAllModels() {
   const Child = require('../../models/ChildModel');
