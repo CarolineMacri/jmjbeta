@@ -110,7 +110,7 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
     selectedYear = selectedYear.year;
   }
 
-  var classes = await Class.find({ year: selectedYear })
+  var classes = await Class.find({ year: selectedYear, location:{$ne:'none'} })
     .sort({ hour: 1, location: 1 })
     .populate({
       path: 'course',
@@ -146,7 +146,7 @@ exports.getClassGrid = catchAsync(async (req, res, next) => {
     return cl;
   });
 
-  const locations = Object.values(Class.Locations);
+  const locations = Object.values(Class.Locations).filter(loc=>loc != 'none');
   const hours = Object.values(Class.Times);
   //console.log('before calling get Grid Areas')
   const gridStyle = getGridAreas(locations, hours);
