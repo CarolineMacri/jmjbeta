@@ -6,7 +6,7 @@ export const changeFamiliesYear = (year) => {
 };
 export const deleteFamily = async (familyId) => {
   const deleteOk = confirm(
-    'Are you sure you want to delete this family?' + familyId
+    'Are you sure you want to delete this family?' + familyId 
   );
 
   if (deleteOk) {
