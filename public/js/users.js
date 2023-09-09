@@ -86,7 +86,7 @@ export const fillUserForm = (row) => {
     }
   });
 
-  teacherCheckbox.addEventListener('change', handleTeacherCheckBoxChange);
+  teacherCheckbox.addEventListener('change', handleTeacherCheckBoxChange); 
 };
 
 async function handleTeacherCheckBoxChange(e) {

@@ -50,8 +50,8 @@ import {
   changeUsersYear,
   fillUserForm,
   updateUser,
-  deleteUserModal,
-  handleTeacherCheckBoxClick
+  deleteUserModal, 
+  //handleTeacherCheckBoxChange
 } from './users';
 import { ObjectId } from 'mongodb';
 //import { fill } from 'core-js/core/array';
@@ -201,7 +201,7 @@ if (users) {
   const cancel = document.getElementById('cancel');
   cancel.addEventListener('click', (e) => {
     e.preventDefault();
-    userProfileForm.removeEventListener("click", handleTeacherCheckBoxClick);
+    //userProfileForm.removeEventListener("click", handleTeacherCheckBoxChange);
     document
       .querySelector('.form-modal__window')
       .classList.toggle('form-modal__show');
