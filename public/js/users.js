@@ -86,10 +86,10 @@ export const fillUserForm = (row) => {
     }
   });
 
-  teacherCheckbox.addEventListener('click', handleTeacherCheckBoxClick);
+  teacherCheckbox.addEventListener('change', handleTeacherCheckBoxChange);
 };
 
-async function handleTeacherCheckBoxClick(e) {
+async function handleTeacherCheckBoxChange(e) {
   e.preventDefault();
   // teacher exists and was unchecked
   const teacherCheckbox = document.getElementById('teacher');
@@ -107,7 +107,7 @@ async function handleTeacherCheckBoxClick(e) {
   const teacherId = document.querySelector('.user-profile__form').id;
 
   classes = classes.filter((cl) => {
-    return cl.year == selectedYear && cl.teacher == teacherId;
+    return cl.year == selectedYear && cl.teacher == teacherId; 
   });
 
   const cantRemoveRole = classes.length > 0 && unchecked && exists;
@@ -116,9 +116,10 @@ async function handleTeacherCheckBoxClick(e) {
       `Teacher role for ${document.getElementById('lastName').value} cannot be removed until ${classes.length} classes are deleted`
     );
     teacherCheckbox.checked = true;
-  } else {
-    teacherCheckbox.checked = false;
   }
+  // else {
+  //   teacherCheckbox.checked = false;
+  // }
     
 }
 
