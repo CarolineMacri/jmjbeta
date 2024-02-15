@@ -86,7 +86,21 @@ export const fillUserForm = (row) => {
     }
   });
 
-  teacherCheckbox.addEventListener('change', handleTeacherCheckBoxChange); 
+  teacherCheckbox.addEventListener('change', (e) => {
+    e.preventDefault();
+    // teacher exists and was unchecked
+    var exists = teacherCheckbox.dataset.exists == 'true'; 
+    var unchecked = !teacherCheckbox.checked; 
+
+    if (exists && unchecked) {
+      alert(
+        'Teacher must be deleted using Administration - Teacher - Delete this teacher'
+      );
+      teacherCheckbox.checked = true;
+    }
+  });
+
+  //teacherCheckbox.addEventListener('change', handleTeacherCheckBoxChange); 
 };
 
 async function handleTeacherCheckBoxChange(e) {
