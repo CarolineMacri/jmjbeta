@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { showAlert } from '../../alerts';
+import axios from 'axios';import { showAlert } from '../../alerts';
 
 export const changeTeachersYear = (year) => {
   location.assign(`/teachers_table/${year}`);
@@ -59,23 +58,20 @@ export const addTeacher = async (teacherId) => {
 
 export const existsTeacher = async (teacherId) => {
   try {
-    alert('checking for existing teacher record' + teacherId)
-    const url = `/api/v1/teachers`;
+    alert('checking for existing teacher record' + teacherId);
+    const url = `/api/v1/teachers/?teacher=${teacherId}`;  
     const method = 'GET';
-    const data = {
-      teacher: teacherId
-    };
+
     const res = await axios({
       method,
       url,
-      data,
     });
     alert(res.data.results);
-    if (res.data.status == 'success') { 
+    if (res.data.status == 'success') {
       return res.data.results != 0;
     }
   } catch (err) {
-    showAlert('error', err.response.data.message); 
+    showAlert('error', err.response.data.message);
   }
 };
 
@@ -85,7 +81,6 @@ export const deleteTeacher = async (teacherId) => {
   );
 
   if (deleteOk) {
-    
     try {
       const url = `/api/v1/teachers/${teacherId}`;
       const res = await axios({
@@ -104,5 +99,3 @@ export const deleteTeacher = async (teacherId) => {
     }
   }
 };
-
-
