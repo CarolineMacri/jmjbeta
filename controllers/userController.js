@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const mongoose = require('mongoose');
 const Family = require('../models/familyModel');
+const Year = require('../models/yearModel');
 const factory = require('./controllerFactory');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -14,7 +15,7 @@ exports.createUser = factory.createOne(User);
 
 exports.emailRegistrationVerification = catchAsync(async (req, res, next) => {
   const userId = req.params.id;
-  const currentYear = currentYear;
+  const currentYear = await Year.getCurrentYearValue();
   const user = await User.findById(userId);
   const family = await Family.findOne({
     parent: mongoose.Types.ObjectId(userId),
