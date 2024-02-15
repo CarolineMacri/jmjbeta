@@ -2,8 +2,8 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import { changeFamilyYear, addFamily, existsFamilyForYear } from './family';
-import { changeFamiliesYear, deleteFamily } from './families';
+import { addFamily, existsFamilyForYear } from './family';
+//import { changeFamiliesYear, deleteFamily } from './families';
 
 import { index as children } from './components/children/index';
 children();
@@ -19,6 +19,9 @@ sessions();
 
 import { index as enrollments } from './components/enrollments/index';
 enrollments();
+
+import { index as families } from './components/families/index';
+families('index');
 
 import { index as payments } from './components/payments/index';
 payments();
@@ -40,12 +43,7 @@ import { changeReportInvoicesYear } from './reports';
 import { changeReportClassListsYear } from './reports';
 import { changeReportPaymentsYear } from './reports';
 import { changeReportCoursesYear } from './reports';
-// import {
-//   changeChildrenYear,
-//   fillChildForm,
-//   updateChild,
-//   deleteChildModal,
-// } from './children';
+
 import {
   changeUsersYear,
   fillUserForm,
@@ -56,15 +54,11 @@ import {
 import { ObjectId } from 'mongodb';
 //import { fill } from 'core-js/core/array';
 
-const family = document.querySelector('.family');
-const families = document.querySelector('.families');
-
-// const children = document.querySelector('.children');
-// const children = document.querySelector('.children');
-// const childProfileForm = document.querySelector('.child-profile__form');
-
+//const family = document.querySelector('.family');
+//const families = document.querySelector('.families');
 const users = document.querySelector('.users');
 const userProfileForm = document.querySelector('.user-profile__form');
+
 const reportChildren = document.querySelector('.report-children');
 const reportInvoices = document.querySelector('.report-invoices');
 const reportPayments = document.querySelector('.report-payments');
@@ -73,46 +67,46 @@ const reportCourses = document.querySelector('.report-courses');
 
 //values
 
-if (family) {
-  const yearSelect = document.getElementById('year-select');
+// if (family) {
+//   const yearSelect = document.getElementById('year-select');
 
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
-    const id = window.location.pathname.split('/')[2];
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
+//     const id = window.location.pathname.split('/')[2];
 
-    changeFamilyYear(id, newYear);
-  });
-}
+//     changeFamilyYear(id, newYear);
+//   });
+// }
 
-if (families) {
-  const yearSelect = document.getElementById('year-select');
-  const editFamilyButtons = Array.from(
-    document.getElementsByClassName('edit-family')
-  );
-  const deleteFamilyButtons = Array.from(
-    document.getElementsByClassName('delete-family')
-  );
+// if (families) {
+//   const yearSelect = document.getElementById('year-select');
+//   const editFamilyButtons = Array.from(
+//     document.getElementsByClassName('edit-family')
+//   );
+//   const deleteFamilyButtons = Array.from(
+//     document.getElementsByClassName('delete-family')
+//   );
 
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
 
-    changeFamiliesYear(newYear);
-  });
+//     changeFamiliesYear(newYear);
+//   });
 
-  if (editFamilyButtons) {
-    editFamilyButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {});
-    });
-  }
+//   if (editFamilyButtons) {
+//     editFamilyButtons.forEach((btn) => {
+//       btn.addEventListener('click', () => {});
+//     });
+//   }
 
-  if (deleteFamilyButtons) {
-    deleteFamilyButtons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        deleteFamily(btn.dataset.family_id);
-      });
-    });
-  }
-}
+//   if (deleteFamilyButtons) {
+//     deleteFamilyButtons.forEach((btn) => {
+//       btn.addEventListener('click', (e) => {
+//         deleteFamily(btn.dataset.family_id);
+//       });
+//     });
+//   }
+// }
 
 if (reportChildren) {
   const yearSelect = document.getElementById('year-select');

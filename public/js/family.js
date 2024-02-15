@@ -1,4 +1,5 @@
-import axios from 'axios';import { showAlert } from './alerts';
+import axios from 'axios';
+import { showAlert } from './alerts';
 
 export const changeFamilyYear = (id, year) => {
   location.assign(`/family/${id}/${year}`);
