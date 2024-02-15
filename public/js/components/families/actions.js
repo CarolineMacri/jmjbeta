@@ -13,8 +13,7 @@ export const modalOnClick = (event) => {
 
 export const addFamily = async (parentId, year) => {
   try {
-    alert('add family  ' + parentId + ' ' + year);
-
+    
     const url = `/api/v1/families`;
     const method = 'POST';
     const data = { parent: parentId, year: year };

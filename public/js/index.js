@@ -1,9 +1,8 @@
 /* eslint-disable */
+
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
-import { addFamily, existsFamilyForYear } from './family';
-//import { changeFamiliesYear, deleteFamily } from './families';
+//import { ObjectId } from 'mongodb';
 
 import { index as children } from './components/children/index';
 children();
@@ -11,17 +10,14 @@ children();
 import { index as courses } from './components/courses/index';
 courses();
 
-import { index as logins } from './components/logins/index';
-logins();
-
-import { index as sessions } from './components/classes/index';
-sessions();
-
 import { index as enrollments } from './components/enrollments/index';
 enrollments();
 
 import { index as families } from './components/families/index';
 families('index');
+
+import { index as logins } from './components/logins/index';
+logins();
 
 import { index as payments } from './components/payments/index';
 payments();
@@ -29,14 +25,19 @@ payments();
 import { index as registrations } from './components/registrations/index';
 registrations();
 
+import { index as sessions } from './components/classes/index';
+sessions();
+
 import { index as teachers } from './components/teachers/index';
 teachers();
 
 import { index as test } from './components/test/index';
 test();
+
 import { index as years } from './components/years/index';
 years();
 
+import { addFamily, existsFamilyForYear } from './components/families/actions';
 import { addTeacher, existsTeacher } from './components/teachers/actions';
 import { changeReportChildrenYear } from './reports';
 import { changeReportInvoicesYear } from './reports';
@@ -48,14 +49,9 @@ import {
   changeUsersYear,
   fillUserForm,
   updateUser,
-  deleteUserModal, 
-  //handleTeacherCheckBoxChange
+  deleteUserModal,
 } from './users';
-import { ObjectId } from 'mongodb';
-//import { fill } from 'core-js/core/array';
 
-//const family = document.querySelector('.family');
-//const families = document.querySelector('.families');
 const users = document.querySelector('.users');
 const userProfileForm = document.querySelector('.user-profile__form');
 
@@ -65,49 +61,6 @@ const reportPayments = document.querySelector('.report-payments');
 const reportClassLists = document.querySelector('.report-class-lists');
 const reportCourses = document.querySelector('.report-courses');
 
-//values
-
-// if (family) {
-//   const yearSelect = document.getElementById('year-select');
-
-//   yearSelect.addEventListener('change', (e) => {
-//     const newYear = yearSelect.value;
-//     const id = window.location.pathname.split('/')[2];
-
-//     changeFamilyYear(id, newYear);
-//   });
-// }
-
-// if (families) {
-//   const yearSelect = document.getElementById('year-select');
-//   const editFamilyButtons = Array.from(
-//     document.getElementsByClassName('edit-family')
-//   );
-//   const deleteFamilyButtons = Array.from(
-//     document.getElementsByClassName('delete-family')
-//   );
-
-//   yearSelect.addEventListener('change', (e) => {
-//     const newYear = yearSelect.value;
-
-//     changeFamiliesYear(newYear);
-//   });
-
-//   if (editFamilyButtons) {
-//     editFamilyButtons.forEach((btn) => {
-//       btn.addEventListener('click', () => {});
-//     });
-//   }
-
-//   if (deleteFamilyButtons) {
-//     deleteFamilyButtons.forEach((btn) => {
-//       btn.addEventListener('click', (e) => {
-//         deleteFamily(btn.dataset.family_id);
-//       });
-//     });
-//   }
-// }
-
 if (reportChildren) {
   const yearSelect = document.getElementById('year-select');
   yearSelect.addEventListener('change', (e) => {
@@ -116,6 +69,7 @@ if (reportChildren) {
     changeReportChildrenYear(newYear);
   });
 }
+
 if (reportInvoices) {
   const yearSelect = document.getElementById('year-select');
   const parentId = document.querySelector('.invoices-title').id;
@@ -151,7 +105,6 @@ if (reportCourses) {
     changeReportCoursesYear(newYear);
   });
 }
-
 
 if (users) {
   const yearSelect = document.getElementById('year-select');
@@ -195,7 +148,7 @@ if (users) {
   const cancel = document.getElementById('cancel');
   cancel.addEventListener('click', (e) => {
     e.preventDefault();
-    //userProfileForm.removeEventListener("click", handleTeacherCheckBoxChange);
+    
     document
       .querySelector('.form-modal__window')
       .classList.toggle('form-modal__show');
@@ -210,8 +163,6 @@ if (users) {
       .classList.toggle('delete-modal__show');
   });
 
-  
-  
   userProfileForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const lN = document.getElementById('lastName');
@@ -237,49 +188,38 @@ if (users) {
     var yearRoles = {};
     yearRoles[selectedYear] = roles;
 
-    var data = {
-      lastName,
-      firstName,
-      email,
-      cellPhone,
-      yearRoles,
-    };
+    var data = { lastName, firstName, email, cellPhone, yearRoles };
+
     if (id == 'new') {
       data.registrationYears = [selectedYear];
     }
 
     updateUser(id, data).then((newId) => {
-
-      // Add family to new user, or family to user who didn't have a family role previously
-      alert(`FAMILY -- Old id: ${id},  New id: ${newId}`)
+      // Add family to new user, or family to user who didn't have a family role previously for this year
       if (roles.includes('parent')) {
         if (id == 'new') {
-          alert('adding new parent')
           addFamily(newId, selectedYear);
         } else {
-          existsFamilyForYear(id,selectedYear).then((exists) => {
+          existsFamilyForYear(id, selectedYear).then((exists) => {
             if (!exists) {
-              alert(`There was not an existing family for ${id}`)
               addFamily(newId, selectedYear);
             }
           });
         }
       }
+
       // Add teacher to new user, or teacher to user who didn't have a teacher role previously
       if (roles.includes('teacher')) {
-        alert(`TEACHER - Old id: ${id},  New id: ${newId}`)
         if (id == 'new') {
-          alert('adding  new teacher');
           addTeacher(newId);
         } else {
           existsTeacher(id).then((exists) => {
             if (!exists) {
-              alert('There was not an existing teacher for=' + id);
               addTeacher(newId);
             }
           });
         }
       }
     });
-  })
+  });
 }
