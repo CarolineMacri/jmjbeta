@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { showAlert } from './alerts';
+import axios from 'axios';import { showAlert } from './alerts';
 
 export const changeFamilyYear = (id, year) => {
   location.assign(`/family/${id}/${year}`);
@@ -7,19 +6,17 @@ export const changeFamilyYear = (id, year) => {
 
 export const addFamily = async (parentId, year) => {
   try {
+    alert('add family  ' + parentId + ' ' + year);
+
     const url = `/api/v1/families`;
-
     const method = 'POST';
-
     const data = { parent: parentId, year: year };
 
-    alert ('add family  ' + parentId + ' ' + year )
     const res = await axios({
       method,
       url,
       data,
     });
-    alert(res);
 
     if (res.data.status == 'success') {
       showAlert('success', `Family added successfully`);
@@ -46,6 +43,6 @@ export const existsFamilyForYear = async (parentId, year) => {
       return res.data.results != 0;
     }
   } catch (err) {
-    showAlert('error', err.response.data.message); 
+    showAlert('error', err.response.data.message);
   }
 };
