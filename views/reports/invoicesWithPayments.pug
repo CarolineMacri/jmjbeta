@@ -15,33 +15,42 @@ block content
 
         for semester in ["1","2"]
           for family in invoices
-            .report-invoices-box
-              .report-invoices-family
-                h2= `${family.parent} Semester ${semester} - Status: ${family.enrollmentStatus}`
-
+            //- .report-invoices-box
+            -var balanceExists = false;
               for teacher in family.teachers
-          
-                -var feesAndPayments = teacher.feesAndPayments[semester]
-                -var due = feesAndPayments.total 
-                -var paid = feesAndPayments.payments.total 
-                -var balance = due -paid
-                if balance != 0
-               
-                  .report-invoices-classes
-                    .report-invoices-record 
-                      .report-invoices-record-student
-                        p=`${teacher.name}`  
-                      .report-invoices-record-class
-                        p= `DUE: $${due}`
-                      .report-invoices-record-price
-                        p=`PAID: $${paid}`
-                      .report-invoices-record-materials
-                        p=`BALANCE: ${balance}`
-                        if (balance < 0)
-                          if (due == 0)
-                            p= 'return check'
-                          else 
-                            p= 'get new check' 
+                - 
+                  var stuff = teacher.feesAndPayments[semester]
+                  balanceExists = balanceExists || (stuff.total - stuff.payments.total) != 0
+            //- h2= `Balance exists = ${balanceExists}`
+
+            if balanceExists
+              .report-invoices-box
+                .report-invoices-family
+                  h2= `${family.parent} Semester ${semester} - Status: ${family.enrollmentStatus}`
+
+                for teacher in family.teachers
+            
+                  -var feesAndPayments = teacher.feesAndPayments[semester]
+                  -var due = feesAndPayments.total 
+                  -var paid = feesAndPayments.payments.total 
+                  -var balance = due -paid
+                  if balance != 0
+                
+                    .report-invoices-classes
+                      .report-invoices-record 
+                        .report-invoices-record-student
+                          p=`${teacher.name}`  
+                        .report-invoices-record-class
+                          p= `DUE: $${due}`
+                        .report-invoices-record-price
+                          p=`PAID: $${paid}`
+                        .report-invoices-record-materials
+                          p=`BALANCE: ${balance}`
+                          if (balance < 0)
+                            if (due == 0)
+                              p= 'return check'
+                            else 
+                              p= 'get new check' 
 
             
                 
