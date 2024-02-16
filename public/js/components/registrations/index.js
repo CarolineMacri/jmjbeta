@@ -66,5 +66,3 @@ function getChecked(name) {
 
   return selectedItems;
 }
-
-//export { index };

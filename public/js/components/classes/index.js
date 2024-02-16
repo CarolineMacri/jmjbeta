@@ -78,7 +78,6 @@ export function index(a) {
         year: selectedYear,
         isNew,
       };
-      //console.log(cl);
 
       updateClass(classId, cl, selectedYear);
     });
@@ -91,5 +90,3 @@ export function index(a) {
     });
   }
 }
-
-//export { index };

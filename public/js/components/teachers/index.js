@@ -53,5 +53,3 @@ export function index(a) {
     });
   }
 }
-
-//export { index };
