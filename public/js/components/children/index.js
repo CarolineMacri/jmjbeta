@@ -1,9 +1,11 @@
 import { changeChildrenYear, updateChild, deleteChildModal } from './actions';
-function index(a) {
+
+export default function index(a) {
   const children = document.querySelector('.children');
   const childProfile = document.querySelector('.child-profile');
 
   if (children) { 
+    console.log('children component');
     // year  selector
     const yearSelect = document.getElementById('year-select');
     if (yearSelect) {
@@ -116,6 +118,6 @@ function index(a) {
 
       updateChild(childId, child);
     });
-  }
+  } 
 }
-export { index };
+

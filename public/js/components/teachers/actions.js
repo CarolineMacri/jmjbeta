@@ -1,4 +1,5 @@
-import axios from 'axios';import { showAlert } from '../../alerts';
+import axios from 'axios';
+import { showAlert } from '../../alerts';
 
 export const changeTeachersYear = (year) => {
   location.assign(`/teachers_table/${year}`);
