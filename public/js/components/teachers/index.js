@@ -3,7 +3,9 @@
 
 import { changeTeachersYear, updateTeacher, deleteTeacher } from './actions';
 
-function index(a) {
+export function index(a) {
+  
+  console.log('teacher components');
   // DOM
   const teachers = document.querySelector('.teachers');
   const teacherProfile = document.querySelector('.teacher-profile');
@@ -52,4 +54,4 @@ function index(a) {
   }
 }
 
-export { index };
+//export { index };

@@ -7,9 +7,10 @@ import {
   updateEnrollmentAdmin
 } from './actions';
 
-function index(a) {
-  // DOM elements
+export function index(a) {
+  console.log('enrollment components');
 
+  // DOM elements
   const enrollments = document.querySelector('.enrollments');
   const enrollmentProfile = document.querySelector('.enrollment-profile');
   const enrollmentAdminProfile = document.querySelector(
@@ -140,4 +141,4 @@ function index(a) {
   }
 }
 
-export { index };
+//export { index };

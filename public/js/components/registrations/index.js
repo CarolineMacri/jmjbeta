@@ -3,7 +3,9 @@
 
 import { changeRegistrationsYear, updateRegistration } from './actions';
 
-function index(a) {
+export function index(a) {
+
+  console.log('registration components');
   // DOM elements
   const registrations = document.querySelector('.registrations');
   const registrationProfile = document.querySelector('.registration-profile');
@@ -65,4 +67,4 @@ function getChecked(name) {
   return selectedItems;
 }
 
-export { index };
+//export { index };

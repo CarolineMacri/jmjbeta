@@ -4,9 +4,10 @@ import { showAlert } from '../../alerts';
 
 import { changeCurrentYear, updateYear, deleteYearModal } from './actions';
 
-function index(a) {
+export function index(a) {
+  
+  console.log('year components');
   // DOM elements
-
   const years = document.querySelector('.years');
   const yearProfile = document.querySelector('.year-profile');
 
@@ -114,4 +115,4 @@ function index(a) {
   }
 }
 
-export { index };
+//export { index };

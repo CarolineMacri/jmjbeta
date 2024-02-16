@@ -1,7 +1,10 @@
 /* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 
 import { changeCoursesYear, updateCourse, deleteCourseModal } from './actions';
-function index(a) {
+
+export function index(a) {
+  
+  console.log('course components');
   // DOM elements
   const courses = document.querySelector('.courses');
   const courseProfile = document.querySelector('.course-profile');
@@ -125,4 +128,4 @@ function getChecked(name) {
   return selectedItems;
 }
 
-export { index };
+//export { index };

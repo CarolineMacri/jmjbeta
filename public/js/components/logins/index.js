@@ -6,7 +6,10 @@ import {
   updateUserSettings,
 } from "./actions";
 
-function index(a) {
+export function index(a) {
+
+  console.log('login components');  
+  //DOM elements
   const loginForm = document.querySelector(".login__form");
   const logoutItem = document.querySelector(".dropdown__item--logout");
 
@@ -100,4 +103,4 @@ function index(a) {
   }
 }
 
-export { index };
+//export { index };

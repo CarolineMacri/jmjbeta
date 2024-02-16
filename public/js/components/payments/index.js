@@ -6,7 +6,9 @@ import {
   saveFamilyPaymentChanges,
 } from './actions';
 
-function index(a) {
+export function index(a) {
+
+  console.log('payment component');
   // DOM elements=
   const payments = document.querySelector('.payments');
   const paymentProfile = document.querySelector('.payment-profile');
@@ -151,4 +153,4 @@ function index(a) {
   // }
 }
 
-export { index };
+//export { index };

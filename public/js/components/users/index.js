@@ -1,4 +1,5 @@
-/* eslint-disable */ // import 'core-js/stable';
+/* eslint-disable */
+// import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
 
 import { addFamily, existsFamilyForYear } from '../families/actions';
@@ -9,18 +10,20 @@ import {
   fillUserForm,
   updateUser,
   deleteUserModal,
-} from './actions'; 
+} from './actions';
 
-export default function index(a) {
+export function index(a) {
   
-  console.log('in users index'); 
+  console.log('user components');
+
+  //DOM
   const users = document.querySelector('.users');
-  const userProfileForm = document.querySelector('.user-profile__form');  
+  const userProfileForm = document.querySelector('.user-profile__form');
 
   if (users) {
     const yearSelect = document.getElementById('year-select');
 
-    alert('adding event listener to year-select')
+    alert('adding event listener to year-select');
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
       //const id = window.location.pathname.split('/')[2];
@@ -31,7 +34,7 @@ export default function index(a) {
 
     // add event listners for each child
     const usersRows = document
-      .querySelector('.users') 
+      .querySelector('.users')
       .getElementsByTagName('tr');
 
     const numRows = usersRows.length;

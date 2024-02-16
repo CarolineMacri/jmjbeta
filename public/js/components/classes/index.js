@@ -7,7 +7,8 @@ import {
   changeClassGridYear,
 } from "./actions";
 
-function index(a) {
+export function index(a) {
+  console.log('class components');
   // DOM elements
 
   const classes = document.querySelector(".classes");
@@ -91,4 +92,4 @@ function index(a) {
   }
 }
 
-export { index };
+//export { index };

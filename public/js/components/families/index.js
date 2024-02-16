@@ -7,7 +7,9 @@ import {
   deleteFamily,
 } from './actions';
 
-function index(a) {
+export function index(a) {
+
+  console.log('family components');
   // DOM
   const family = document.querySelector('.family');
   const families = document.querySelector('.families');
@@ -54,4 +56,4 @@ function index(a) {
   }
 }
 
-export { index };
+//export { index };

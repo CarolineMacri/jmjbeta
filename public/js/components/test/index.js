@@ -2,8 +2,11 @@ import {  emailReport,
   resetPassword,
   emailRegistrationVerification,
 } from './actions';
-function index(a) {
-  //alert(' in test')
+
+export function index(a) {
+
+  console.log('test components');
+  
   const newPage = document.querySelector('.new_page');
 
   if (newPage) {
@@ -58,4 +61,4 @@ function index(a) {
   }
 }
 
-export { index };
+//export { index };

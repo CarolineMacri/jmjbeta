@@ -1,8 +1,9 @@
 /* eslint-disable */
-
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { ObjectId } from 'mongodb';
+
+console.log('in index');
 
 import { index as children } from './components/children/index';
 children();
@@ -25,6 +26,9 @@ payments();
 import { index as registrations } from './components/registrations/index';
 registrations();
 
+import { index as reports } from './components/reports/index';
+reports();
+
 import { index as sessions } from './components/classes/index';
 sessions();
 
@@ -37,17 +41,17 @@ test();
 import { index as users } from './components/users/index';
 users();
 
-import { index as years } from './components/years/index';  
+import { index as years } from './components/years/index';
 years();
 
 //import { addFamily, existsFamilyForYear } from './components/families/actions';
 //import { addTeacher, existsTeacher } from './components/teachers/actions';
-import { changeReportChildrenYear } from './reports';
-import { changeReportInvoicesYear } from './reports';
-import { changeReportClassListsYear } from './reports';
-import { changeReportPaymentsYear } from './reports';
-import { changeReportCoursesYear } from './reports'; 
- 
+// import { changeReportChildrenYear } from './reports';
+// import { changeReportInvoicesYear } from './reports';
+// import { changeReportClassListsYear } from './reports';
+// import { changeReportPaymentsYear } from './reports';
+// import { changeReportCoursesYear } from './reports';
+
 // import {
 //   changeUsersYear,
 //   fillUserForm,
@@ -58,56 +62,56 @@ import { changeReportCoursesYear } from './reports';
 // const users = document.querySelector('.users');
 // const userProfileForm = document.querySelector('.user-profile__form');
 
-const reportChildren = document.querySelector('.report-children');
-const reportInvoices = document.querySelector('.report-invoices');
-const reportPayments = document.querySelector('.report-payments');
-const reportClassLists = document.querySelector('.report-class-lists');
-const reportCourses = document.querySelector('.report-courses');
+// const reportChildren = document.querySelector('.report-children');
+// const reportInvoices = document.querySelector('.report-invoices');
+// const reportPayments = document.querySelector('.report-payments');
+// const reportClassLists = document.querySelector('.report-class-lists');
+// const reportCourses = document.querySelector('.report-courses');
 
-if (reportChildren) {
-  const yearSelect = document.getElementById('year-select');
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
+// if (reportChildren) {
+//   const yearSelect = document.getElementById('year-select');
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
 
-    changeReportChildrenYear(newYear);
-  });
-}
+//     changeReportChildrenYear(newYear);
+//   });
+// }
 
-if (reportInvoices) {
-  const yearSelect = document.getElementById('year-select');
-  const parentId = document.querySelector('.invoices-title').id;
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
-    changeReportInvoicesYear(newYear, parentId);
-  });
-}
+// if (reportInvoices) {
+//   const yearSelect = document.getElementById('year-select');
+//   const parentId = document.querySelector('.invoices-title').id;
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
+//     changeReportInvoicesYear(newYear, parentId);
+//   });
+// }
 
-if (reportPayments) {
-  const yearSelect = document.getElementById('year-select');
-  const teacherId = document.querySelector('.payments-title').id;
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
-    changeReportPaymentsYear(newYear, teacherId);
-  });
-}
+// if (reportPayments) {
+//   const yearSelect = document.getElementById('year-select');
+//   const teacherId = document.querySelector('.payments-title').id;
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
+//     changeReportPaymentsYear(newYear, teacherId);
+//   });
+// }
 
-if (reportClassLists) {
-  const yearSelect = document.getElementById('year-select');
-  const teacherId = document.querySelector('.class-lists-title').id;
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
-    changeReportClassListsYear(newYear, teacherId);
-  });
-}
+// if (reportClassLists) {
+//   const yearSelect = document.getElementById('year-select');
+//   const teacherId = document.querySelector('.class-lists-title').id;
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
+//     changeReportClassListsYear(newYear, teacherId);
+//   });
+// }
 
-if (reportCourses) {
-  const yearSelect = document.getElementById('year-select');
+// if (reportCourses) {
+//   const yearSelect = document.getElementById('year-select');
 
-  yearSelect.addEventListener('change', (e) => {
-    const newYear = yearSelect.value;
-    changeReportCoursesYear(newYear);
-  });
-} 
+//   yearSelect.addEventListener('change', (e) => {
+//     const newYear = yearSelect.value;
+//     changeReportCoursesYear(newYear);
+//   });
+// }
 
 // if (users) {
 //   const yearSelect = document.getElementById('year-select');
@@ -151,7 +155,7 @@ if (reportCourses) {
 //   const cancel = document.getElementById('cancel');
 //   cancel.addEventListener('click', (e) => {
 //     e.preventDefault();
-    
+
 //     document
 //       .querySelector('.form-modal__window')
 //       .classList.toggle('form-modal__show');
@@ -170,7 +174,7 @@ if (reportCourses) {
 //     e.preventDefault();
 //     const lN = document.getElementById('lastName');
 //     const lastName = lN.value;
-//     const fN = document.getElementById('firstName'); 
+//     const fN = document.getElementById('firstName');
 //     const firstName = fN.value;
 //     const em = document.getElementById('email');
 //     const email = em.value;

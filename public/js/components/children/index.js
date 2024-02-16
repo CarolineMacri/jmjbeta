@@ -1,11 +1,16 @@
+/* eslint-disable */ // import 'core-js/stable';// import 'regenerator-runtime/runtime';
 import { changeChildrenYear, updateChild, deleteChildModal } from './actions';
 
-export default function index(a) {
+export function index(a) {
+
+  console.log('children component');
+  
+  //DOM elements
   const children = document.querySelector('.children');
   const childProfile = document.querySelector('.child-profile');
 
-  if (children) { 
-    console.log('children component');
+  if (children) {
+    
     // year  selector
     const yearSelect = document.getElementById('year-select');
     if (yearSelect) {
@@ -118,6 +123,7 @@ export default function index(a) {
 
       updateChild(childId, child);
     });
-  } 
+  }
 }
 
+//export { index };
