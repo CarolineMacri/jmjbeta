@@ -2,7 +2,7 @@ import axios from 'axios';
 import { showAlert } from '../../alerts';
 
 export const changeUsersYear = (year) => {
-  alert('in change users year');
+  //alert('in change users year');
   location.assign(`/users/${year}`);
 };
 

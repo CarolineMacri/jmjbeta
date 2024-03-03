@@ -88,7 +88,7 @@ export const saveFamilyPaymentChanges = async (family) => {
   //showAlert('error', `function not yet implemented ${JSON.stringify(family)}`);
   try {
     const url = `/api/v1/families/${family.id}`;
-    alert(url);
+    //alert(url);
 
 
     const res = await axios({

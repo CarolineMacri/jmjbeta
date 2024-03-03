@@ -23,7 +23,7 @@ export function index(a) {
   if (users) {
     const yearSelect = document.getElementById('year-select');
 
-    alert('adding event listener to year-select');
+    // alert('adding event listener to year-select');
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
       //const id = window.location.pathname.split('/')[2];

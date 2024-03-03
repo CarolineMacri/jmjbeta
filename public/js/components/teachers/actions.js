@@ -33,7 +33,7 @@ export const updateTeacher = async (teacher) => {
 
 export const addTeacher = async (teacherId) => {
   try {
-    alert('teacher did not exist')
+    //alert('teacher did not exist')
     const url = `/api/v1/teachers`;
 
     const method = 'POST';
@@ -59,7 +59,7 @@ export const addTeacher = async (teacherId) => {
 
 export const existsTeacher = async (teacherId) => {
   try {
-    alert('checking for existing teacher record' + teacherId);
+    // alert('checking for existing teacher record' + teacherId);
     const url = `/api/v1/teachers/?teacher=${teacherId}`;  
     const method = 'GET';
 
@@ -67,7 +67,7 @@ export const existsTeacher = async (teacherId) => {
       method,
       url,
     });
-    alert(res.data.results);
+    //alert(res.data.results);
     if (res.data.status == 'success') {
       return res.data.results != 0;
     }
