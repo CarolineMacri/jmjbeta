@@ -114,7 +114,7 @@ export function index(a) {
       e.preventDefault();
       
       const enrollmentId = enrollmentAdminProfileForm.id;   
-      alert(enrollmentId)
+      //alert(enrollmentId)
       var enrollment = {};
       if (enrollmentId == 'new') {
         enrollment.class = document.getElementById('class').value;

@@ -27,7 +27,7 @@ export function index(a) {
     yearSelect.addEventListener('change', (e) => {
       const newYear = yearSelect.value;
       //const id = window.location.pathname.split('/')[2];
-      alert(newYear);
+      //alert(newYear);
 
       changeUsersYear(newYear);
     });
