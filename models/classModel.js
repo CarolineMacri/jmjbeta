@@ -11,13 +11,13 @@ const Locations = Object.freeze({
   cafe4: 'Cafeteria 4',
   cafe5: 'Cafeteria 5',
   cafe6: 'Cafeteria 6',
-  retreat: 'Reatreat House Basement',
+  retreat: 'Retreat House Basement',
   music: 'Music Room',
   wysz: 'Wysznyski Hall Front',
   wysz2: 'Wysznyski Hall Back',
   stage: 'Stage',
   other: 'Other',
-  none: 'none',
+  none: 'none'
 });
 
 const Times = Object.freeze({

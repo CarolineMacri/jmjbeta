@@ -25,11 +25,14 @@ block content
                     for cl in classes
                         -var isMass = cl.course.name.search("Mass") + 1
                         -var isLunch = cl.course.name.search("Lunch") + 1
+                        -var isAfternoonActivities = cl.course.name.search("Afternoon Activities!") + 1
 
                         if isMass
                             -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length + 2}; grid-row-start:2`
                         else if isLunch
                             -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length + 2}; grid-row-start:6`
+                        else if isAfternoonActivities
+                            -var extraStyle = `grid-column-start:2; grid-column-end:${locations.length + 2}; grid-row-start:7`
                         else 
                             -var extraStyle = cl.style
                         .div.class-grid__item(style=extraStyle)
@@ -39,7 +42,9 @@ block content
                                 h3(style='color:red; font-weight:bold')= `Please make every effort to attend this special Mass offered just for our JMJ co-op family`
                                 p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
                             else if isLunch
-                                h3(style='color:red; font-weight:bold')= Cafeteria   
+                                h3(style='color:red; font-weight:bold')= 'Cafeteria'   
+                            else if isAfternoonActivities
+                                h3(style='color:red; font-weight:bold')= 'Various'   
                             else 
                                 p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
                                 - var isAdmin = user.currentRoles.includes('admin' || 'sysadmin')
