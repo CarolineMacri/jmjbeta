@@ -1,6 +1,40 @@
 // npm modules
 const mongoose = require('mongoose');
 const Locations = Object.freeze({
+  /*100
+101
+102 (lab)
+113
+115
+116
+118
+119
+120
+121
+Cafeteria
+Gym 1
+Gym 2
+Gym 3
+Gym Library
+Main Church
+Church Cry Room*/
+  sh100: 'SH 100',
+  sh101: 'SH 101',
+  sh102: 'SH 102 lab',
+  sh113: 'SH 113',
+  sh115: 'SH 115',
+  sh116: 'SH 116',
+  sh118: 'SH 118',
+  sh119: 'SH 119',
+  sh120: 'SH 120',
+  sh121: 'SH 121',
+  shcafeteria: 'SH Cafeteria',
+  shgym1: 'SH Gym 1',
+  shgym2: 'SH Gym 2',
+  shgym3: 'SH Gym 3',
+  shgymlibrary: 'SH Gym Library',
+  shmainchurch: 'SH Main Church',
+  shchurchcryroom: 'SH Church Cry Room',
   class1: 'Classroom 1',
   class2: 'Classroom 2',
   class3: 'Classroom 3',
