@@ -48,7 +48,7 @@ block content
                             else 
                                 p.class-grid__grades=`${cl.course.grade.min}-${cl.course.grade.max} `
                                 - var isAdmin = user.currentRoles.includes('admin' || 'sysadmin')
-                                if (Date.now()>= currentYearDoc.enrollmentOpenDate || isAdmin) 
+                                if (Date.now()>= currentYearDoc.enrollmentOpenDate && Date.now()<= currentYearDoc.enrollmentCloseDate || isAdmin) 
                                     -var backgroundColor = cl.slotsLeft>2?'lightgreen':'yellow'
                                     p.class-grid__grades(style=`background-color:` + `${cl.isFull?'pink':backgroundColor}`)= cl.isFull?'FULL':`${cl.slotsLeft} open`
                               
