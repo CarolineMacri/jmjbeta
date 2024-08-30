@@ -18,7 +18,7 @@ Gym 3
 Gym Library
 Main Church
 Church Cry Room*/
-  sh100: 'SH 100',
+  sh100: 'SH 100',     // added Sacred Heart classrooms 
   sh101: 'SH 101',
   sh102: 'SH 102 lab',
   sh113: 'SH 113',
@@ -35,21 +35,22 @@ Church Cry Room*/
   shgymlibrary: 'SH Gym Library',
   shmainchurch: 'SH Main Church',
   shchurchcryroom: 'SH Church Cry Room',
-  class1: 'Classroom 1',
-  class2: 'Classroom 2',
-  class3: 'Classroom 3',
-  conf: 'Conference Room',
-  cafe1: 'Cafeteria 1',
-  cafe2: 'Cafeteria 2',
-  cafe3: 'Cafeteria 3',
-  cafe4: 'Cafeteria 4',
-  cafe5: 'Cafeteria 5',
-  cafe6: 'Cafeteria 6',
-  retreat: 'Retreat House Basement',
-  music: 'Music Room',
-  wysz: 'Wysznyski Hall Front',
-  wysz2: 'Wysznyski Hall Back',
-  stage: 'Stage',
+  shchurchlibrary: 'SH Church Library',
+  // class1: 'Classroom 1',     Czestochowa locations, not used in 2024-2025
+  // class2: 'Classroom 2',
+  // class3: 'Classroom 3',
+  // conf: 'Conference Room',
+  // cafe1: 'Cafeteria 1',
+  // cafe2: 'Cafeteria 2',
+  // cafe3: 'Cafeteria 3',
+  // cafe4: 'Cafeteria 4',
+  // cafe5: 'Cafeteria 5',
+  // cafe6: 'Cafeteria 6',
+  // retreat: 'Retreat House Basement',
+  // music: 'Music Room',
+  // wysz: 'Wysznyski Hall Front',
+  // wysz2: 'Wysznyski Hall Back',
+  // stage: 'Stage',
   other: 'Other',
   none: 'none'
 });
