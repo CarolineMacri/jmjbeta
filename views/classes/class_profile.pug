@@ -46,7 +46,7 @@ block content
                         .form__item 
                             label.form__label(for='semesterSessions1') Sessions taught in Semester 1 * 
                             select#semesterSessions1(name='semesterSessions1')
-                                for numSessions in [1,2,3,4,5,6,7,8]
+                                for numSessions in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
                                     option(selected=(numSessions==cl.semesterSessions['1']) value=numSessions)=numSessions
 
                 .form__row                                            
@@ -54,7 +54,7 @@ block content
                         .form__item
                             label.form__label(for='semesterSessions2') Sessions taught in Semester 2 * 
                             select#semesterSessions2(name='semesterSessions2')
-                                for numSessions in [1,2,3,4,5,6,7,8]
+                                for numSessions in [0,1,2,3,4,5,6,7,8]
                                     option(selected=(numSessions==cl.semesterSessions['2']) value=numSessions)=numSessions
 
                 .form__row
