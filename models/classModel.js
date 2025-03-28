@@ -85,8 +85,8 @@ const classSchema = new mongoose.Schema(
     },
     isOwner: { type: Boolean, default: true },
     semesterSessions: {
-      1: { type: Number, default: 8, min: 1, max: 8, required: true },
-      2: { type: Number, default: 8, min: 1, max: 8, required: true },
+      1: { type: Number, default: 16, min: 1, max: 16, required: true },
+      2: { type: Number, default: 0, min: 0, max: 8, required: true },
     },
     // semester: { type: String, enum: ['1', '2'], default: '1', required: true },
     // sessions: { type: Number, default: 8, min: 1, max: 8, required: true },
