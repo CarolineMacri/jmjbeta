@@ -28,7 +28,8 @@ block content
 
                 .form__row.form__item   
                     label.form__label(for='enrollmentOpenDate') Enrollment Open Date*
-                        input#enrollmentOpenDate.form__input.form__input--inline(type='date', name='enrollmentOpenDate',  value= year.enrollmentOpenDate.toISOString().slice(0,10) )
+                     <br> Postdate until actual date and time of enrollment opening!<br>
+                        input#enrollmentOpenDate.form__input.form__input--inline(style="color: red",type='date', name='enrollmentOpenDate',  value= year.enrollmentOpenDate.toISOString().slice(0,10) )
                     
                 .form__row.form__item    
                     label.form__label(for='enrollmentCloseDate') Enrollment Close Date*

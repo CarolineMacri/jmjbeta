@@ -529,7 +529,8 @@ function formatDate(dateString) {
     newDate.getDate() +
     '-' +
     newDate.getFullYear();
-  const hm = newDate.getHours() + ':' + newDate.getMinutes();
+  //const hm = newDate.getHours() + ':' + newDate.getMinutes();
+  const hm = newDate.toTimeString().slice(0, 5);
 
   return mdy + ' ' + hm;
 }

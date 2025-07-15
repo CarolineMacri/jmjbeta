@@ -1,24 +1,35 @@
 // npm modules
 const mongoose = require('mongoose');
 const Locations = Object.freeze({
-  /*100
-101
-102 (lab)
-113
-115
-116
-118
-119
-120
-121
-Cafeteria
-Gym 1
-Gym 2
-Gym 3
-Gym Library
-Main Church
-Church Cry Room*/
-  sh100: 'SH 100',     // added Sacred Heart classrooms 
+  /*
+Conf Room A
+Conf Room B
+Room 1
+Room 2a
+Room 2b
+Room 3
+Room 4
+Room 5
+Room 6
+Room 7
+Room 8
+Room 9
+Room 10
+*/
+  confA: 'Conf Room A',  //added new Shrine Rooms
+  confB: 'Conf Room B',
+  class1: 'Classroom 1',
+  class2A: 'Classroom 2a',
+  class2B: 'Classroom 2b',
+  class3: 'Classroom 3',
+  class4: 'Classroom 4',
+  class5: 'Classroom 5',
+  class6: 'Classroom 6',
+  class7: 'Classroom 7',
+  class8: 'Classroom 8',
+  class9: 'Classroom 9',
+  class10: 'Classroom 10',
+  sh100: 'SH 100', // added Sacred Heart classrooms
   sh101: 'SH 101',
   sh102: 'SH 102 lab',
   sh113: 'SH 113',
@@ -52,7 +63,7 @@ Church Cry Room*/
   // wysz2: 'Wysznyski Hall Back',
   // stage: 'Stage',
   other: 'Other',
-  none: 'none'
+  none: 'none',
 });
 
 const Times = Object.freeze({
