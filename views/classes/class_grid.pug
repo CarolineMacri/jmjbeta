@@ -8,8 +8,10 @@ block content
                 include ../_yearSelector
                 
                 
+                //-var locDescription = {'Classroom 1': 'Farthest down hall', "Classroom 2": 'Middle', "Classroom 3":'Closest to Entry','Wysznyski Hall': 'Front Section'}
+                -var locDescription = {}
                 
-                -var locDescription = {'Classroom 1': 'Farthest down hall', "Classroom 2": 'Middle', "Classroom 3":'Closest to Entry','Wysznyski Hall': 'Front Section'}
+
                 div.grid-container.class-grid(style=gridStyle)
                     for loc in locations
                         h5.class-grid__location(style=`grid-area:${loc.replace(/ /g,'')}`)=`${loc} ${locDescription[loc]?'(' + locDescription[loc] + ')':''}` 

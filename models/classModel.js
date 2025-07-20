@@ -1,21 +1,7 @@
 // npm modules
 const mongoose = require('mongoose');
 const Locations = Object.freeze({
-  /*
-Conf Room A
-Conf Room B
-Room 1
-Room 2a
-Room 2b
-Room 3
-Room 4
-Room 5
-Room 6
-Room 7
-Room 8
-Room 9
-Room 10
-*/
+ 
   confA: 'Conf Room A',  //added new Shrine Rooms
   confB: 'Conf Room B',
   class1: 'Classroom 1',
@@ -29,7 +15,9 @@ Room 10
   class8: 'Classroom 8',
   class9: 'Classroom 9',
   class10: 'Classroom 10',
-  sh100: 'SH 100', // added Sacred Heart classrooms
+  cafe: 'Cafeteria',
+  stanne: 'Saint Anne Chapel',
+  /* sh100: 'SH 100', // added Sacred Heart classrooms
   sh101: 'SH 101',
   sh102: 'SH 102 lab',
   sh113: 'SH 113',
@@ -46,7 +34,7 @@ Room 10
   shgymlibrary: 'SH Gym Library',
   shmainchurch: 'SH Main Church',
   shchurchcryroom: 'SH Church Cry Room',
-  shchurchlibrary: 'SH Church Library',
+  shchurchlibrary: 'SH Church Library',*/
   // class1: 'Classroom 1',     Czestochowa locations, not used in 2024-2025
   // class2: 'Classroom 2',
   // class3: 'Classroom 3',
