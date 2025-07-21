@@ -16,7 +16,7 @@ const Locations = Object.freeze({
   class9: 'Classroom 9',
   class10: 'Classroom 10',
   cafe: 'Cafeteria',
-  stanne: 'Saint Anne Chapel',
+  
   /* sh100: 'SH 100', // added Sacred Heart classrooms
   sh101: 'SH 101',
   sh102: 'SH 102 lab',
