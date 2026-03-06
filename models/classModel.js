@@ -1,12 +1,11 @@
 // npm modules
 const mongoose = require('mongoose');
 const Locations = Object.freeze({
- 
-  confA: 'Conf Room A',  //added new Shrine Rooms
+  confA: 'Conf Room A', //added new Shrine Rooms
   confB: 'Conf Room B',
-  class1: 'Classroom 1',
-  class2A: 'Classroom 2a',
-  class2B: 'Classroom 2b',
+  class0: 'Classroom 1',
+  class1: 'Classroom 2a',
+  class2: 'Classroom 2b',
   class3: 'Classroom 3',
   class4: 'Classroom 4',
   class5: 'Classroom 5',
@@ -14,9 +13,9 @@ const Locations = Object.freeze({
   class7: 'Classroom 7',
   class8: 'Classroom 8',
   class9: 'Classroom 9',
-  class10: 'Classroom 10',
+  chapel: 'St Anne Chapel',
   cafe: 'Cafeteria',
-  
+
   /* sh100: 'SH 100', // added Sacred Heart classrooms
   sh101: 'SH 101',
   sh102: 'SH 102 lab',
@@ -102,7 +101,7 @@ const classSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 classSchema.virtual('enrollments', {
@@ -126,7 +125,7 @@ classSchema.pre('findOneAndDelete', async function (next) {
 
   if (numEnrollments > 0) {
     throw new Error(
-      `Class has ${numEnrollments} enrollments for ${classToDelete.year}`
+      `Class has ${numEnrollments} enrollments for ${classToDelete.year}`,
     );
   }
   next();
