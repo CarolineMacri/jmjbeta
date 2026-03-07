@@ -12,7 +12,7 @@ const Locations = Object.freeze({
   class6: 'Classroom 6',
   class7: 'Classroom 7',
   class8: 'Classroom 8',
-  class9: 'Classroom 9',
+  classP: 'Classroom P',
   chapel: 'St Anne Chapel',
   cafe: 'Cafeteria',
 
